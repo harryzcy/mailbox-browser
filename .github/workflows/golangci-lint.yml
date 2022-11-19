@@ -25,4 +25,4 @@ jobs:
         with:
           version: latest
           working-directory: bff
-          only-new-issues: true
+          # only-new-issues: true
