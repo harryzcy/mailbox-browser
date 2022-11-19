@@ -2,8 +2,8 @@ import './App.css'
 
 function App() {
   return (
-    <div className="App">
-      <h1>Mailbox Browser</h1>
+    <div className="App p-2">
+      <h1 className='text-xl'>Mailbox Browser</h1>
     </div>
   )
 }
