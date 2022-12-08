@@ -10,7 +10,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: scripts
+        working-directory: web
 
     steps:
       - uses: actions/checkout@v3
