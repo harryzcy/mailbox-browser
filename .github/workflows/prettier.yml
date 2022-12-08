@@ -1,4 +1,4 @@
-name: Check Style with Prettier
+name: Prettier
 
 on:
   push:
