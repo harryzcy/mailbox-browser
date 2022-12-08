@@ -1,9 +1,33 @@
 import './App.css'
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  redirect
+} from 'react-router-dom'
+import Sidebar from './components/Sidebar'
+import Inbox from './pages/Inbox'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    loader: () => redirect('/inbox')
+  },
+  {
+    path: '/inbox',
+    element: (
+      <>
+        <Sidebar />
+        <Inbox />
+      </>
+    )
+  }
+])
 
 function App() {
   return (
-    <div className="App p-2">
-      <h1 className='text-xl'>Mailbox Browser</h1>
+    <div className="flex font-sans">
+      <RouterProvider router={router} />
     </div>
   )
 }
