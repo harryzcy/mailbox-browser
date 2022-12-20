@@ -2,6 +2,7 @@ package web
 
 import (
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -10,7 +11,7 @@ import (
 
 func MailboxProxy(ctx *gin.Context) {
 	method := ctx.Request.Method
-	url := config.MAILBOX_URL + ctx.Request.URL.Path
+	url := config.MAILBOX_URL + strings.TrimPrefix(ctx.Request.URL.Path, "/web")
 
 	client := http.Client{
 		Timeout: 10 * time.Second,
