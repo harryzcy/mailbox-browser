@@ -2,6 +2,7 @@ package web
 
 import (
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -11,27 +12,47 @@ import (
 
 func MailboxProxy(ctx *gin.Context) {
 	method := ctx.Request.Method
-	url := config.MAILBOX_URL + strings.TrimPrefix(ctx.Request.URL.Path, "/web")
+	rawUrl := url.URL{
+		Scheme:   "https",
+		Host:     strings.TrimPrefix(config.MAILBOX_URL, "https://"),
+		Path:     strings.TrimPrefix(ctx.Request.URL.Path, "/web"),
+		RawQuery: ctx.Request.URL.RawQuery,
+	}
 
 	client := http.Client{
 		Timeout: 10 * time.Second,
 	}
 
-	req, err := http.NewRequest(method, url, ctx.Request.Body)
+	req, err := http.NewRequest(method, rawUrl.String(), nil)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
+		reqError(ctx, err)
+		return
+	}
+
+	signer := &awsRequestSigner{
+		RegionName: config.AWS_REGION,
+		AwsSecurityCredentials: awsSecurityCredentials{
+			AccessKeyID:     config.AWS_ACCESS_KEY_ID,
+			SecretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+		},
+	}
+	err = signer.SignRequest(req)
+	if err != nil {
+		reqError(ctx, err)
 		return
 	}
 
 	resp, err := client.Do(req)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
+		reqError(ctx, err)
 		return
 	}
 	defer resp.Body.Close()
 	ctx.DataFromReader(http.StatusOK, resp.ContentLength, resp.Header.Get("Content-Type"), resp.Body, nil)
+}
+
+func reqError(ctx *gin.Context, err error) {
+	ctx.JSON(http.StatusInternalServerError, gin.H{
+		"error": err.Error(),
+	})
 }

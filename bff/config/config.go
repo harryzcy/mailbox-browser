@@ -12,4 +12,6 @@ var (
 	MAILBOX_URL           = os.Getenv("MAILBOX_URL")
 	AWS_ACCESS_KEY_ID     = os.Getenv("AWS_ACCESS_KEY_ID")
 	AWS_SECRET_ACCESS_KEY = os.Getenv("AWS_SECRET_ACCESS_KEY")
+	AWS_REGION            = os.Getenv("AWS_REGION")
+	AWS_API_ID            = os.Getenv("AWS_API_ID")
 )
