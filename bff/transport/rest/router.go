@@ -18,12 +18,14 @@ func Init(logger *zap.Logger, mode string) *gin.Engine {
 		zap.String("type", "server-status"),
 	)
 
+	r := gin.New()
+
 	if mode == "prod" {
 		gin.SetMode(gin.ReleaseMode)
+		r.Use(ginzap.Ginzap(logger, time.RFC3339, true), ginzap.RecoveryWithZap(logger, true))
+	} else {
+		r.Use(gin.Logger(), gin.Recovery())
 	}
-
-	r := gin.New()
-	r.Use(ginzap.Ginzap(logger, time.RFC3339, true), ginzap.RecoveryWithZap(logger, true))
 
 	webPath := r.Group("/web")
 	{
