@@ -1,6 +1,8 @@
 package web
 
 import (
+	"bytes"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -23,7 +25,13 @@ func MailboxProxy(ctx *gin.Context) {
 		Timeout: 10 * time.Second,
 	}
 
-	req, err := http.NewRequest(method, rawUrl.String(), nil)
+	bodyBytes, err := io.ReadAll(ctx.Request.Body)
+	if err != nil {
+		reqError(ctx, err)
+		return
+	}
+
+	req, err := http.NewRequest(method, rawUrl.String(), bytes.NewReader(bodyBytes))
 	if err != nil {
 		reqError(ctx, err)
 		return
