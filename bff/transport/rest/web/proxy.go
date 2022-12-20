@@ -16,7 +16,7 @@ func MailboxProxy(ctx *gin.Context) {
 	method := ctx.Request.Method
 	rawUrl := url.URL{
 		Scheme:   "https",
-		Host:     strings.TrimPrefix(config.MAILBOX_URL, "https://"),
+		Host:     strings.TrimPrefix(config.AWS_API_GATEWAY_ENDPOINT, "https://"),
 		Path:     strings.TrimPrefix(ctx.Request.URL.Path, "/web"),
 		RawQuery: ctx.Request.URL.RawQuery,
 	}
