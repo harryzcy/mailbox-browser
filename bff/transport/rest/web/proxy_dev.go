@@ -164,17 +164,15 @@ func fakeCreate(ctx *gin.Context) CreateResult {
 	}
 
 	resp := CreateResult{
-		TimeIndex: TimeIndex{
-			MessageID: gofakeit.UUID(),
-		},
-		Subject: input.Subject,
-		From:    input.From,
-		To:      input.To,
-		Cc:      input.Cc,
-		Bcc:     input.Bcc,
-		ReplyTo: input.ReplyTo,
-		Text:    input.Text,
-		HTML:    input.HTML,
+		MessageID: gofakeit.UUID(),
+		Subject:   input.Subject,
+		From:      input.From,
+		To:        input.To,
+		Cc:        input.Cc,
+		Bcc:       input.Bcc,
+		ReplyTo:   input.ReplyTo,
+		Text:      input.Text,
+		HTML:      input.HTML,
 	}
 	if input.Send {
 		resp.Type = "sent"
@@ -238,17 +236,15 @@ func fakeSave(ctx *gin.Context) SaveResult {
 	}
 
 	resp := SaveResult{
-		TimeIndex: TimeIndex{
-			MessageID: input.MessageID,
-		},
-		Subject: input.Subject,
-		From:    input.From,
-		To:      input.To,
-		Cc:      input.Cc,
-		Bcc:     input.Bcc,
-		ReplyTo: input.ReplyTo,
-		Text:    input.Text,
-		HTML:    input.HTML,
+		MessageID: input.MessageID,
+		Subject:   input.Subject,
+		From:      input.From,
+		To:        input.To,
+		Cc:        input.Cc,
+		Bcc:       input.Bcc,
+		ReplyTo:   input.ReplyTo,
+		Text:      input.Text,
+		HTML:      input.HTML,
 	}
 	if input.Send {
 		resp.Type = "sent"
