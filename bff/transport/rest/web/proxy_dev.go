@@ -16,12 +16,46 @@ func MailboxProxy(ctx *gin.Context) {
 	method := ctx.Request.Method
 	path := strings.TrimPrefix(ctx.Request.URL.Path, "/web")
 
+	// action verbs
+	if method == http.MethodPost && strings.HasPrefix(path, "/emails/") && strings.HasSuffix(path, "/send") {
+		resp := fakeSend(ctx)
+		ctx.JSON(http.StatusOK, resp)
+		return
+	}
+	if method == http.MethodPost && strings.HasPrefix(path, "/emails/") && strings.HasSuffix(path, "/untrash") {
+		resp := fakeUntrash(ctx)
+		ctx.JSON(http.StatusOK, resp)
+		return
+	}
+	if method == http.MethodPost && strings.HasPrefix(path, "/emails/") && strings.HasSuffix(path, "/trash") {
+		resp := fakeTrash(ctx)
+		ctx.JSON(http.StatusOK, resp)
+		return
+	}
+
+	// without action verbs
 	if method == http.MethodGet && path == "/emails" {
 		resp := fakeList(ctx)
 		ctx.JSON(http.StatusOK, resp)
 		return
-	} else if method == http.MethodGet && strings.HasPrefix(path, "/emails/") {
+	}
+	if method == http.MethodGet && strings.HasPrefix(path, "/emails/") {
 		resp := fakeGet(ctx)
+		ctx.JSON(http.StatusOK, resp)
+		return
+	}
+	if method == http.MethodPost && path == "/emails" {
+		resp := fakeCreate(ctx)
+		ctx.JSON(http.StatusOK, resp)
+		return
+	}
+	if method == http.MethodPost && strings.HasPrefix(path, "/emails/") {
+		resp := fakeSave(ctx)
+		ctx.JSON(http.StatusOK, resp)
+		return
+	}
+	if method == http.MethodDelete && strings.HasPrefix(path, "/emails/") {
+		resp := fakeDelete(ctx)
 		ctx.JSON(http.StatusOK, resp)
 		return
 	}
@@ -130,15 +164,17 @@ func fakeCreate(ctx *gin.Context) CreateResult {
 	}
 
 	resp := CreateResult{
-		MessageID: gofakeit.UUID(),
-		Subject:   input.Subject,
-		From:      input.From,
-		To:        input.To,
-		Cc:        input.Cc,
-		Bcc:       input.Bcc,
-		ReplyTo:   input.ReplyTo,
-		Text:      input.Text,
-		HTML:      input.HTML,
+		TimeIndex: TimeIndex{
+			MessageID: gofakeit.UUID(),
+		},
+		Subject: input.Subject,
+		From:    input.From,
+		To:      input.To,
+		Cc:      input.Cc,
+		Bcc:     input.Bcc,
+		ReplyTo: input.ReplyTo,
+		Text:    input.Text,
+		HTML:    input.HTML,
 	}
 	if input.Send {
 		resp.Type = "sent"
@@ -152,6 +188,20 @@ func fakeCreate(ctx *gin.Context) CreateResult {
 	}
 
 	return resp
+}
+
+type TimeIndex struct {
+	MessageID string `json:"messageID"`
+	Type      string `json:"type"`
+
+	// TimeReceived is used by inbox emails
+	TimeReceived string `json:"timeReceived,omitempty"`
+
+	// TimeUpdated is used by draft emails
+	TimeUpdated string `json:"timeUpdated,omitempty"`
+
+	// TimeSent is used by sent emails
+	TimeSent string `json:"timeSent,omitempty"`
 }
 
 type EmailInput struct {
@@ -173,14 +223,7 @@ type CreateInput struct {
 }
 
 type CreateResult struct {
-	MessageID string `json:"messageID"`
-	Type      string `json:"type"`
-
-	// TimeUpdated is used by draft emails
-	TimeUpdated string `json:"timeUpdated,omitempty"`
-	// TimeSent is used by sent emails
-	TimeSent string `json:"timeSent,omitempty"`
-
+	TimeIndex
 	Subject string   `json:"subject"`
 	From    []string `json:"from"`
 	To      []string `json:"to"`
@@ -189,6 +232,89 @@ type CreateResult struct {
 	ReplyTo []string `json:"replyTo"`
 	Text    string   `json:"text"`
 	HTML    string   `json:"html"`
+}
+
+func fakeSave(ctx *gin.Context) SaveResult {
+	var input SaveInput
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		reqBadInput(ctx)
+	}
+
+	resp := SaveResult{
+		TimeIndex: TimeIndex{
+			MessageID: input.MessageID,
+		},
+		Subject: input.Subject,
+		From:    input.From,
+		To:      input.To,
+		Cc:      input.Cc,
+		Bcc:     input.Bcc,
+		ReplyTo: input.ReplyTo,
+		Text:    input.Text,
+		HTML:    input.HTML,
+	}
+	if input.Send {
+		resp.Type = "sent"
+		resp.TimeSent = gofakeit.Date().Format(time.RFC3339)
+	} else {
+		resp.Type = "draft"
+		resp.TimeUpdated = gofakeit.Date().Format(time.RFC3339)
+	}
+	if (input.GenerateText == "on") || (input.GenerateText == "auto" && input.Text == "") {
+		resp.Text = gofakeit.Sentence(50)
+	}
+
+	return resp
+}
+
+type SaveInput struct {
+	EmailInput
+	GenerateText string `json:"generateText"` // on, off, or auto (default)
+	Send         bool   `json:"send"`         // send email immediately
+}
+
+type SaveResult struct {
+	TimeIndex
+	Subject string   `json:"subject"`
+	From    []string `json:"from"`
+	To      []string `json:"to"`
+	Cc      []string `json:"cc"`
+	Bcc     []string `json:"bcc"`
+	ReplyTo []string `json:"replyTo"`
+	Text    string   `json:"text"`
+	HTML    string   `json:"html"`
+}
+
+func fakeDelete(ctx *gin.Context) StatusResponse {
+	return StatusResponse{
+		Status: "success",
+	}
+}
+
+func fakeTrash(ctx *gin.Context) StatusResponse {
+	return StatusResponse{
+		Status: "success",
+	}
+}
+
+func fakeUntrash(ctx *gin.Context) StatusResponse {
+	return StatusResponse{
+		Status: "success",
+	}
+}
+
+func fakeSend(ctx *gin.Context) SendResult {
+	return SendResult{
+		MessageID: gofakeit.UUID(),
+	}
+}
+
+type SendResult struct {
+	MessageID string
+}
+
+type StatusResponse struct {
+	Status string `json:"status"`
 }
 
 func reqBadInput(ctx *gin.Context) {
