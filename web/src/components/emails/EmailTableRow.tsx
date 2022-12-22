@@ -32,10 +32,14 @@ function formatDate(date: string): string {
   const now = new Date()
 
   // If the date is today, show the time
-  if (dateObj.getFullYear() == now.getFullYear() && dateObj.getMonth() == now.getMonth() && dateObj.getDate() == now.getDate()) {
+  if (
+    dateObj.getFullYear() == now.getFullYear() &&
+    dateObj.getMonth() == now.getMonth() &&
+    dateObj.getDate() == now.getDate()
+  ) {
     const hour = dateObj.getHours()
     const minutesStr = dateObj.getMinutes().toString().padStart(2, '0')
-    const meridian = hour >= 12 ? "PM" : "AM";
+    const meridian = hour >= 12 ? 'PM' : 'AM'
     return `${hour % 12 || 12}:${minutesStr} ${meridian}`
   }
 
