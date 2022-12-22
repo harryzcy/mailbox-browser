@@ -97,8 +97,8 @@ type GetEmailResponse struct {
 	Subject   string   `json:"subject" fake:"{sentence:10}"`
 	From      []string `json:"from" fakesize:"1" fake:"{email}"`
 	To        []string `json:"to" fakesize:"1" fake:"{email}"`
-	Text      string   `json:"text" fake:"{sentence: 100}"`
-	HTML      string   `json:"html" fake:"{sentence: 100}"`
+	Text      string   `json:"text" fake:"{sentence: 50}"`
+	HTML      string   `json:"html" fake:"{sentence: 50}"`
 
 	// Inbox email attributes
 	TimeReceived string        `json:"timeReceived,omitempty" fake:"skip"`
