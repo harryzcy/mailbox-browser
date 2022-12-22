@@ -9,7 +9,10 @@ export default function EmailTableView(props: EmailTableViewProps) {
   const { emails = [] } = props
 
   return (
-    <div className="grid">
+    <div className="grid"
+    style={{
+      gridTemplateColumns: '1fr 4fr 1fr',
+    }}>
       {emails.map((email) => {
         return <EmailTableRow key={email.messageID} email={email} />
       })}
