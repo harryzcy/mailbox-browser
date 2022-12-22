@@ -3,7 +3,9 @@
 package web
 
 import (
+	"math/rand"
 	"net/http"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -11,6 +13,19 @@ import (
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/gin-gonic/gin"
 )
+
+func init() {
+	// named email: FirstName LastName <email>
+	gofakeit.AddFuncLookup("namedemail", gofakeit.Info{
+		Category: "person",
+		Display:  "Named email",
+		Example:  "John Doe <john@example.com>",
+		Output:   "string",
+		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+			return gofakeit.Name() + " <" + gofakeit.Email() + ">", nil
+		},
+	})
+}
 
 func MailboxProxy(ctx *gin.Context) {
 	method := ctx.Request.Method
@@ -72,6 +87,25 @@ func fakeList(ctx *gin.Context) ListEmailsResponse {
 		pageSize, _ = strconv.Atoi(pageSizeStr)
 	}
 
+	yearStr := ctx.Query("year")
+	monthStr := ctx.Query("month")
+	var year int
+	if yearStr != "" {
+		year, _ = strconv.Atoi(yearStr)
+	} else {
+		year = time.Now().Year()
+	}
+	var month time.Month
+	if monthStr != "" {
+		monthInt, _ := strconv.Atoi(monthStr)
+		month = time.Month(monthInt)
+	} else {
+		month = time.Now().Month()
+	}
+
+	startTime := time.Date(year, month, 0, 0, 0, 0, 0, time.UTC)
+	endTime := startTime.AddDate(0, 1, -1)
+
 	resp := ListEmailsResponse{
 		Count: pageSize,
 		Items: make([]ListEmailsItem, pageSize),
@@ -81,8 +115,17 @@ func fakeList(ctx *gin.Context) ListEmailsResponse {
 		var item ListEmailsItem
 		gofakeit.Struct(&item)
 		item.Type = ctx.Query("type")
+		item.TimeReceived = gofakeit.DateRange(startTime, endTime).Format(time.RFC3339)
 		resp.Items[i] = item
 	}
+
+	sort.Slice(resp.Items, func(i, j int) bool {
+		return resp.Items[i].TimeReceived > resp.Items[j].TimeReceived
+	})
+	// sometime in the same day
+	resp.Items[0].TimeReceived = time.Now().Format(time.RFC3339)
+	// last year
+	resp.Items[len(resp.Items)-1].TimeReceived = gofakeit.DateRange(startTime.AddDate(-1, 0, 0), endTime.AddDate(-1, 0, 0)).Format(time.RFC3339)
 
 	return resp
 }
@@ -93,11 +136,12 @@ type ListEmailsResponse struct {
 }
 
 type ListEmailsItem struct {
-	MessageID string   `json:"messageID" fake:"{uuid}"`
-	Type      string   `json:"type" fake:"skip"`
-	Subject   string   `json:"subject" fake:"{sentence:10}"`
-	From      []string `json:"from" fakesize:"1" fake:"{email}"`
-	To        []string `json:"to" fakesize:"1" fake:"{email}"`
+	MessageID    string   `json:"messageID" fake:"{uuid}"`
+	Type         string   `json:"type" fake:"skip"`
+	Subject      string   `json:"subject" fake:"{sentence:10}"`
+	From         []string `json:"from" fakesize:"1" fake:"{namedemail}"`
+	To           []string `json:"to" fakesize:"1" fake:"{namedemail}"`
+	TimeReceived string   `json:"timeReceived" fake:"{date}"`
 }
 
 func fakeGet(ctx *gin.Context) GetEmailResponse {
@@ -129,8 +173,8 @@ type GetEmailResponse struct {
 	MessageID string   `json:"messageID" fake:"skip"`
 	Type      string   `json:"type" fake:"skip"`
 	Subject   string   `json:"subject" fake:"{sentence:10}"`
-	From      []string `json:"from" fakesize:"1" fake:"{email}"`
-	To        []string `json:"to" fakesize:"1" fake:"{email}"`
+	From      []string `json:"from" fakesize:"1" fake:"{namedemail}"`
+	To        []string `json:"to" fakesize:"1" fake:"{namedemail}"`
 	Text      string   `json:"text" fake:"{sentence: 50}"`
 	HTML      string   `json:"html" fake:"{sentence: 50}"`
 
