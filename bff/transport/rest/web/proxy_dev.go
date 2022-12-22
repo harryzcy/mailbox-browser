@@ -3,6 +3,7 @@
 package web
 
 import (
+	"math/rand"
 	"net/http"
 	"sort"
 	"strconv"
@@ -12,6 +13,19 @@ import (
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/gin-gonic/gin"
 )
+
+func init() {
+	// named email: FirstName LastName <email>
+	gofakeit.AddFuncLookup("namedemail", gofakeit.Info{
+		Category: "person",
+		Display:  "Named email",
+		Example:  "John Doe <john@example.com>",
+		Output:   "string",
+		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+			return gofakeit.Name() + " <" + gofakeit.Email() + ">", nil
+		},
+	})
+}
 
 func MailboxProxy(ctx *gin.Context) {
 	method := ctx.Request.Method
@@ -125,8 +139,8 @@ type ListEmailsItem struct {
 	MessageID    string   `json:"messageID" fake:"{uuid}"`
 	Type         string   `json:"type" fake:"skip"`
 	Subject      string   `json:"subject" fake:"{sentence:10}"`
-	From         []string `json:"from" fakesize:"1" fake:"{email}"`
-	To           []string `json:"to" fakesize:"1" fake:"{email}"`
+	From         []string `json:"from" fakesize:"1" fake:"{namedemail}"`
+	To           []string `json:"to" fakesize:"1" fake:"{namedemail}"`
 	TimeReceived string   `json:"timeReceived" fake:"{date}"`
 }
 
@@ -159,8 +173,8 @@ type GetEmailResponse struct {
 	MessageID string   `json:"messageID" fake:"skip"`
 	Type      string   `json:"type" fake:"skip"`
 	Subject   string   `json:"subject" fake:"{sentence:10}"`
-	From      []string `json:"from" fakesize:"1" fake:"{email}"`
-	To        []string `json:"to" fakesize:"1" fake:"{email}"`
+	From      []string `json:"from" fakesize:"1" fake:"{namedemail}"`
+	To        []string `json:"to" fakesize:"1" fake:"{namedemail}"`
 	Text      string   `json:"text" fake:"{sentence: 50}"`
 	HTML      string   `json:"html" fake:"{sentence: 50}"`
 
