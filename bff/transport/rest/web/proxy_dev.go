@@ -123,6 +123,80 @@ type EmailVerdict struct {
 	Virus bool `json:"virus" fake:"{bool}"`
 }
 
+func fakeCreate(ctx *gin.Context) CreateResult {
+	var input CreateInput
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		reqBadInput(ctx)
+	}
+
+	resp := CreateResult{
+		MessageID: gofakeit.UUID(),
+		Subject:   input.Subject,
+		From:      input.From,
+		To:        input.To,
+		Cc:        input.Cc,
+		Bcc:       input.Bcc,
+		ReplyTo:   input.ReplyTo,
+		Text:      input.Text,
+		HTML:      input.HTML,
+	}
+	if input.Send {
+		resp.Type = "sent"
+		resp.TimeSent = gofakeit.Date().Format(time.RFC3339)
+	} else {
+		resp.Type = "draft"
+		resp.TimeUpdated = gofakeit.Date().Format(time.RFC3339)
+	}
+	if (input.GenerateText == "on") || (input.GenerateText == "auto" && input.Text == "") {
+		resp.Text = gofakeit.Sentence(50)
+	}
+
+	return resp
+}
+
+type EmailInput struct {
+	MessageID string   `json:"messageID"`
+	Subject   string   `json:"subject"`
+	From      []string `json:"from"`
+	To        []string `json:"to"`
+	Cc        []string `json:"cc"`
+	Bcc       []string `json:"bcc"`
+	ReplyTo   []string `json:"replyTo"`
+	Text      string   `json:"text"`
+	HTML      string   `json:"html"`
+}
+
+type CreateInput struct {
+	EmailInput
+	GenerateText string `json:"generateText"`
+	Send         bool   `json:"send"`
+}
+
+type CreateResult struct {
+	MessageID string `json:"messageID"`
+	Type      string `json:"type"`
+
+	// TimeUpdated is used by draft emails
+	TimeUpdated string `json:"timeUpdated,omitempty"`
+	// TimeSent is used by sent emails
+	TimeSent string `json:"timeSent,omitempty"`
+
+	Subject string   `json:"subject"`
+	From    []string `json:"from"`
+	To      []string `json:"to"`
+	Cc      []string `json:"cc"`
+	Bcc     []string `json:"bcc"`
+	ReplyTo []string `json:"replyTo"`
+	Text    string   `json:"text"`
+	HTML    string   `json:"html"`
+}
+
+func reqBadInput(ctx *gin.Context) {
+	ctx.JSON(http.StatusBadRequest, gin.H{
+		"error": "bad input",
+	})
+}
+
 func reqError(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusInternalServerError, gin.H{
 		"error": err.Error(),
