@@ -3,6 +3,7 @@ module github.com/harryzcy/mailbox-browser/bff
 go 1.19
 
 require (
+	github.com/brianvoe/gofakeit/v6 v6.20.1
 	github.com/gin-contrib/zap v0.1.0
 	github.com/gin-gonic/gin v1.8.1
 	go.uber.org/zap v1.24.0
