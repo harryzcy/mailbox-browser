@@ -190,20 +190,6 @@ func fakeCreate(ctx *gin.Context) CreateResult {
 	return resp
 }
 
-type TimeIndex struct {
-	MessageID string `json:"messageID"`
-	Type      string `json:"type"`
-
-	// TimeReceived is used by inbox emails
-	TimeReceived string `json:"timeReceived,omitempty"`
-
-	// TimeUpdated is used by draft emails
-	TimeUpdated string `json:"timeUpdated,omitempty"`
-
-	// TimeSent is used by sent emails
-	TimeSent string `json:"timeSent,omitempty"`
-}
-
 type EmailInput struct {
 	MessageID string   `json:"messageID"`
 	Subject   string   `json:"subject"`
@@ -222,8 +208,17 @@ type CreateInput struct {
 	Send         bool   `json:"send"`
 }
 
-type CreateResult struct {
-	TimeIndex
+type EmailResult struct {
+	MessageID string `json:"messageID"`
+	Type      string `json:"type"`
+
+	// TimeReceived is used by inbox emails
+	TimeReceived string `json:"timeReceived,omitempty"`
+	// TimeUpdated is used by draft emails
+	TimeUpdated string `json:"timeUpdated,omitempty"`
+	// TimeSent is used by sent emails
+	TimeSent string `json:"timeSent,omitempty"`
+
 	Subject string   `json:"subject"`
 	From    []string `json:"from"`
 	To      []string `json:"to"`
@@ -233,6 +228,8 @@ type CreateResult struct {
 	Text    string   `json:"text"`
 	HTML    string   `json:"html"`
 }
+
+type CreateResult = EmailResult
 
 func fakeSave(ctx *gin.Context) SaveResult {
 	var input SaveInput
@@ -273,17 +270,7 @@ type SaveInput struct {
 	Send         bool   `json:"send"`         // send email immediately
 }
 
-type SaveResult struct {
-	TimeIndex
-	Subject string   `json:"subject"`
-	From    []string `json:"from"`
-	To      []string `json:"to"`
-	Cc      []string `json:"cc"`
-	Bcc     []string `json:"bcc"`
-	ReplyTo []string `json:"replyTo"`
-	Text    string   `json:"text"`
-	HTML    string   `json:"html"`
-}
+type SaveResult = EmailResult
 
 func fakeDelete(ctx *gin.Context) StatusResponse {
 	return StatusResponse{
