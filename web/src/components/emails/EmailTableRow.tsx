@@ -9,7 +9,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
   return (
     <>
       <div className="mr-4 truncate">
-        <span>{getFromText(email.from)}</span>
+        <span title={email.from[0]}>{getFromText(email.from)}</span>
       </div>
       <div className="truncate">{email.subject}</div>
       <div>{formatDate(email.timeReceived)}</div>
