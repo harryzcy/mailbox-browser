@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { EmailInfo } from '../../services/emails'
 
 interface EmailTableRowProps {
@@ -10,11 +11,16 @@ export default function EmailTableRow(props: EmailTableRowProps) {
   const { email, onClick } = props
   const backgroundClassName = props.selected ? ' bg-blue-100' : ''
 
+  const navigate = useNavigate();
+
   return (
     <div
       className="contents"
       onClick={(event) => {
         onClick(event.metaKey ? 'add' : 'replace')
+      }}
+      onDoubleClick={() => {
+        navigate(`/inbox/${email.messageID}`)
       }}
     >
       <div className={'truncate px-4 py-2 border-b' + backgroundClassName}>
