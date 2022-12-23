@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@heroicons/react': ^2.0.13
   '@types/react': ^18.0.24
   '@types/react-dom': ^18.0.8
   '@typescript-eslint/eslint-plugin': ^5.0.0
@@ -28,6 +29,7 @@ dependencies:
   react-router-dom: 6.4.5_biqbaboplfbrettd7655fr4n2y
 
 devDependencies:
+  '@heroicons/react': 2.0.13_react@18.2.0
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.9
   '@typescript-eslint/eslint-plugin': 5.43.0_nqj4bdx4ekws7aecttskpih4py
@@ -487,6 +489,14 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@heroicons/react/2.0.13_react@18.2.0:
+    resolution: {integrity: sha512-iSN5XwmagrnirWlYEWNPdCDj9aRYVD/lnK3JlsC9/+fqGF80k8C7rl+1HCvBX0dBoagKqOFBs6fMhJJ1hOg1EQ==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
     dev: true
 
   /@humanwhocodes/config-array/0.11.7:
@@ -2316,7 +2326,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
 
   /read-cache/1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}

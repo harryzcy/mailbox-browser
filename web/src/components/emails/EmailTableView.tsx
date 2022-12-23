@@ -17,6 +17,8 @@ export default function EmailTableView(props: EmailTableViewProps) {
         gridTemplateColumns: '1fr 4fr 1fr'
       }}
     >
+      <div className="col-span-full h-1"></div>
+
       {emails.map((email) => {
         return (
           <EmailTableRow
@@ -29,6 +31,8 @@ export default function EmailTableView(props: EmailTableViewProps) {
           />
         )
       })}
+
+      <div className="col-span-full h-1"></div>
     </div>
   )
 }
