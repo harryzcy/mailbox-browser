@@ -1,9 +1,24 @@
-import { useEffect, useRef, useState } from 'react'
-import { Outlet } from 'react-router-dom'
-import EmailMenuBar from '../components/emails/EmailMenuBar'
-import EmailTableView from '../components/emails/EmailTableView'
-import { useOutsideClick } from '../hooks/useOutsideClick'
+import { useEffect, useState } from 'react'
+import { Outlet, useOutletContext } from 'react-router-dom'
 import { EmailInfo, listEmails, ListEmailsResponse } from '../services/emails'
+
+type InboxContext = {
+  count: number
+  setCount: (count: number) => void
+  hasMore: boolean
+  setHasMore: (hasMore: boolean) => void
+  nextCursor: string | undefined
+  setNextCursor: (nextCursor: string | undefined) => void
+  emails: EmailInfo[]
+  setEmails: (emails: EmailInfo[]) => void
+  loadingState: 'idle' | 'loading' | 'loaded' | 'error'
+  setLoadingState: (
+    loadingState: 'idle' | 'loading' | 'loaded' | 'error'
+  ) => void
+  loadEmails: (nextCursor?: string) => Promise<ListEmailsResponse>
+  previousPages: string[]
+  setPreviousPages: (previousPages: string[]) => void
+}
 
 export default function Inbox() {
   const [count, setCount] = useState<number>(0)
@@ -11,17 +26,9 @@ export default function Inbox() {
   const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
   const [emails, setEmails] = useState<EmailInfo[]>([])
 
-  const [selected, setSelected] = useState<string[]>([])
-
   const [loadingState, setLoadingState] = useState<
     'idle' | 'loading' | 'loaded' | 'error'
   >('idle')
-
-  const menuRef = useRef<HTMLDivElement>(null)
-  const emailViewRef = useRef<HTMLDivElement>(null)
-  useOutsideClick([menuRef, emailViewRef], () => {
-    setSelected([])
-  })
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -56,75 +63,31 @@ export default function Inbox() {
 
   const [previousPages, setPreviousPages] = useState<string[]>([])
 
-  const toggleSelected = (messageID: string, action: 'add' | 'replace') => {
-    if (action === 'replace') {
-      setSelected([messageID])
-      return
-    }
-
-    if (selected.includes(messageID)) {
-      setSelected(selected.filter((s) => s !== messageID))
-    } else {
-      setSelected([...selected, messageID])
-    }
-  }
-
-  const goPrevious = async () => {
-    if (previousPages.length === 0) {
-      return
-    }
-
-    let data: ListEmailsResponse
-    if (previousPages.length === 1) {
-      data = await loadEmails()
-    } else {
-      // the last cursor is for the current page
-      // the second last cursor is for the previous page
-      data = await loadEmails(previousPages[previousPages.length - 2])
-    }
-
-    setEmails(data.items)
-    setCount(data.count)
-    setHasMore(data.hasMore)
-    setNextCursor(data.nextCursor)
-    setPreviousPages(previousPages.slice(0, previousPages.length - 1))
-  }
-
-  const goNext = async () => {
-    if (!nextCursor) {
-      return
-    }
-
-    const data = await loadEmails(nextCursor)
-    setPreviousPages([...previousPages, nextCursor])
-    setEmails(data.items)
-    setCount(data.count)
-    setHasMore(data.hasMore)
-    setNextCursor(data.nextCursor)
+  const outletContext: InboxContext = {
+    count,
+    setCount,
+    hasMore,
+    setHasMore,
+    nextCursor,
+    setNextCursor,
+    emails,
+    setEmails,
+    loadingState,
+    setLoadingState,
+    loadEmails,
+    previousPages,
+    setPreviousPages
   }
 
   return (
     <div className="flex-1 max-h-screen overflow-scroll md:px-8 md:pb-8">
       <h1 className="text-2xl font-bold md:pt-8 md:pb-4 md:px-2">Inbox</h1>
 
-      <div ref={menuRef} className="mb-4">
-        <EmailMenuBar
-          hasPrevious={previousPages.length === 0}
-          hasNext={!nextCursor}
-          goPrevious={goPrevious}
-          goNext={goNext}
-        />
-      </div>
-
-      <div ref={emailViewRef}>
-        <EmailTableView
-          emails={emails}
-          selected={selected}
-          toggleSelected={toggleSelected}
-        />
-      </div>
-
-      <Outlet />
+      <Outlet context={outletContext} />
     </div>
   )
+}
+
+export function useInboxContext() {
+  return useOutletContext<InboxContext>()
 }
