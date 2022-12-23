@@ -33,12 +33,13 @@ export default function Inbox() {
     return () => abortController.abort()
   }, [])
 
-  const loadEmails = async () => {
+  const loadEmails = async (nextCursor?: string) => {
     const data = await listEmails({
       type: 'inbox',
       year: 2022,
       month: 12,
-      order: 'desc'
+      order: 'desc',
+      nextCursor
     })
     setEmails(data.items)
     setCount(data.count)
@@ -61,15 +62,39 @@ export default function Inbox() {
     }
   }
 
-  const goPrevious = () => {}
-  const goNext = () => {}
+  const [previousPages, setPreviousPages] = useState<string[]>([])
+
+  const goPrevious = async () => {
+    if (previousPages.length === 0) {
+      return
+    }
+
+    if (previousPages.length === 1) {
+      await loadEmails()
+      setPreviousPages([])
+      return
+    }
+
+    const previousPage = previousPages[previousPages.length - 2]
+    await loadEmails(previousPage)
+    setPreviousPages(previousPages.slice(0, previousPages.length - 1))
+  }
+  const goNext = async () => {
+    const nextCursor = 'nextCursor'
+    if (!nextCursor) {
+      return
+    }
+
+    await loadEmails(nextCursor)
+    setPreviousPages([...previousPages, nextCursor])
+  }
 
   return (
     <div className="flex-1 max-h-screen overflow-scroll md:px-8 md:pb-8">
       <h1 className="text-2xl font-bold md:pt-8 md:pb-4 md:px-2">Inbox</h1>
 
       <div ref={menuRef} className="mb-4">
-        <EmailMenuBar goPrevious={goPrevious} goNext={goNext} />
+        <EmailMenuBar hasPrevious={previousPages.length === 0} hasNext={!!nextCursor} goPrevious={goPrevious} goNext={goNext} />
       </div>
 
       <div ref={emailViewRef}>
