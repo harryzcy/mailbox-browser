@@ -2,25 +2,32 @@ import './App.css'
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  redirect
+  redirect,
 } from 'react-router-dom'
-import Sidebar from './components/Sidebar'
 import Inbox from './pages/Inbox'
+import EmailView from './pages/EmailView'
+import Root from './pages/Root'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    loader: () => redirect('/inbox')
-  },
-  {
-    path: '/inbox',
-    element: (
-      <>
-        <Sidebar />
-        <Inbox />
-      </>
-    )
+    element: <Root />,
+    children: [
+      {
+        path: '/',
+        loader: () => redirect('inbox'),
+      },
+      {
+        path: 'inbox',
+        element: <Inbox />,
+        children: [
+          {
+            path: ':messageID',
+            element: <EmailView />,
+          }
+        ]
+      },
+    ],
   }
 ])
 

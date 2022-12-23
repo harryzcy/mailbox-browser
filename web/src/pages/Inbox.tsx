@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Outlet } from 'react-router-dom'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import EmailTableView from '../components/emails/EmailTableView'
 import { useOutsideClick } from '../hooks/useOutsideClick'
@@ -122,6 +123,8 @@ export default function Inbox() {
           toggleSelected={toggleSelected}
         />
       </div>
+
+      <Outlet />
     </div>
   )
 }
