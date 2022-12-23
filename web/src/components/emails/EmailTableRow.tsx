@@ -17,11 +17,13 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         onClick(event.metaKey ? 'add' : 'replace')
       }}
     >
-      <div className={"truncate px-4 py-2 border-b" + backgroundClassName}>
+      <div className={'truncate px-4 py-2 border-b' + backgroundClassName}>
         <span title={email.from[0]}>{getFromText(email.from)}</span>
       </div>
-      <div className={"truncate px-4 py-2 border-b" + backgroundClassName}>{email.subject}</div>
-      <div className={"px-4 py-2 border-b text-right" + backgroundClassName}>
+      <div className={'truncate px-4 py-2 border-b' + backgroundClassName}>
+        {email.subject}
+      </div>
+      <div className={'px-4 py-2 border-b text-right' + backgroundClassName}>
         {formatDate(email.timeReceived)}
       </div>
     </div>
