@@ -90,7 +90,6 @@ export default function Inbox() {
   }
 
   const goNext = async () => {
-    const nextCursor = previousPages.length.toString()
     if (!nextCursor) {
       return
     }
