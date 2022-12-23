@@ -10,7 +10,7 @@ export default function EmailTableView(props: EmailTableViewProps) {
 
   return (
     <div
-      className="grid"
+      className="grid bg-gray-50 rounded md:rounded-md"
       style={{
         gridTemplateColumns: '1fr 4fr 1fr'
       }}

@@ -8,11 +8,11 @@ export default function EmailTableRow(props: EmailTableRowProps) {
   const { email } = props
   return (
     <>
-      <div className="mr-4 truncate">
+      <div className="truncate px-4 py-2 border-b">
         <span title={email.from[0]}>{getFromText(email.from)}</span>
       </div>
-      <div className="truncate">{email.subject}</div>
-      <div>{formatDate(email.timeReceived)}</div>
+      <div className="truncate px-4 py-2 border-b">{email.subject}</div>
+      <div className="px-4 py-2 border-b text-right">{formatDate(email.timeReceived)}</div>
     </>
   )
 }
