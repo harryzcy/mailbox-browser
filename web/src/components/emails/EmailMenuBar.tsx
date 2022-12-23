@@ -21,7 +21,9 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
         <span
           className={
             'inline-flex p-2 border rounded-l-md ' +
-            (hasPrevious ? 'cursor-not-allowed text-gray-400' : 'cursor-pointer')
+            (hasPrevious
+              ? 'cursor-not-allowed text-gray-400'
+              : 'cursor-pointer')
           }
           onClick={goPrevious}
         >

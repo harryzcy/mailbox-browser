@@ -94,7 +94,12 @@ export default function Inbox() {
       <h1 className="text-2xl font-bold md:pt-8 md:pb-4 md:px-2">Inbox</h1>
 
       <div ref={menuRef} className="mb-4">
-        <EmailMenuBar hasPrevious={previousPages.length === 0} hasNext={!!nextCursor} goPrevious={goPrevious} goNext={goNext} />
+        <EmailMenuBar
+          hasPrevious={previousPages.length === 0}
+          hasNext={!!nextCursor}
+          goPrevious={goPrevious}
+          goNext={goNext}
+        />
       </div>
 
       <div ref={emailViewRef}>
