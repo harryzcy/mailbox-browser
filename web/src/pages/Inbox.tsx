@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import EmailTableView from '../components/emails/EmailTableView'
 import { useOutsideClick } from '../hooks/useOutsideClick'
-import { EmailInfo, listEmails } from '../services/emails'
+import { EmailInfo, listEmails, ListEmailsResponse } from '../services/emails'
 
 export default function Inbox() {
   const [count, setCount] = useState<number>(0)
@@ -24,12 +24,10 @@ export default function Inbox() {
 
   useEffect(() => {
     const abortController = new AbortController()
-
     if (loadingState === 'idle') {
       setLoadingState('loading')
-      loadEmails()
+      loadAndSetEmails()
     }
-
     return () => abortController.abort()
   }, [])
 
@@ -41,13 +39,21 @@ export default function Inbox() {
       order: 'desc',
       nextCursor
     })
+
+    setLoadingState('loaded')
+    return data
+  }
+
+  const loadAndSetEmails = async (nextCursor?: string) => {
+    setLoadingState('loading')
+    const data = await loadEmails(nextCursor)
     setEmails(data.items)
     setCount(data.count)
     setHasMore(data.hasMore)
     setNextCursor(data.nextCursor)
-
-    setLoadingState('loaded')
   }
+
+  const [previousPages, setPreviousPages] = useState<string[]>([])
 
   const toggleSelected = (messageID: string, action: 'add' | 'replace') => {
     if (action === 'replace') {
@@ -62,31 +68,39 @@ export default function Inbox() {
     }
   }
 
-  const [previousPages, setPreviousPages] = useState<string[]>([])
-
   const goPrevious = async () => {
     if (previousPages.length === 0) {
       return
     }
 
+    let data: ListEmailsResponse
     if (previousPages.length === 1) {
-      await loadEmails()
-      setPreviousPages([])
-      return
+      data = await loadEmails()
+    } else {
+      // the last cursor is for the current page
+      // the second last cursor is for the previous page
+      data = await loadEmails(previousPages[previousPages.length - 2])
     }
 
-    const previousPage = previousPages[previousPages.length - 2]
-    await loadEmails(previousPage)
+    setEmails(data.items)
+    setCount(data.count)
+    setHasMore(data.hasMore)
+    setNextCursor(data.nextCursor)
     setPreviousPages(previousPages.slice(0, previousPages.length - 1))
   }
+
   const goNext = async () => {
-    const nextCursor = 'nextCursor'
+    const nextCursor = previousPages.length.toString()
     if (!nextCursor) {
       return
     }
 
-    await loadEmails(nextCursor)
+    const data = await loadEmails(nextCursor)
     setPreviousPages([...previousPages, nextCursor])
+    setEmails(data.items)
+    setCount(data.count)
+    setHasMore(data.hasMore)
+    setNextCursor(data.nextCursor)
   }
 
   return (
@@ -96,7 +110,7 @@ export default function Inbox() {
       <div ref={menuRef} className="mb-4">
         <EmailMenuBar
           hasPrevious={previousPages.length === 0}
-          hasNext={!!nextCursor}
+          hasNext={!nextCursor}
           goPrevious={goPrevious}
           goNext={goNext}
         />

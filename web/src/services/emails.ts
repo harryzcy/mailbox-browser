@@ -7,7 +7,7 @@ export interface EmailInfo {
   to: string[]
 }
 
-type ListEmailsProps = {
+export type ListEmailsProps = {
   type: 'inbox' | 'draft' | 'sent'
   year?: number
   month?: number
@@ -16,7 +16,7 @@ type ListEmailsProps = {
   nextCursor?: string
 }
 
-type ListEmailsResponse = {
+export type ListEmailsResponse = {
   count: number
   items: EmailInfo[]
   hasMore: boolean
