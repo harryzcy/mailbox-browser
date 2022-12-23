@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import EmailTableView from '../components/emails/EmailTableView'
+import { useOutsideClick } from '../hooks/useOutsideClick'
 import { EmailInfo, listEmails } from '../services/emails'
 
 export default function Inbox() {
@@ -8,9 +9,16 @@ export default function Inbox() {
   const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
   const [emails, setEmails] = useState<EmailInfo[]>([])
 
+  const [selected, setSelected] = useState<string[]>([])
+
   const [loadingState, setLoadingState] = useState<
     'idle' | 'loading' | 'loaded' | 'error'
   >('idle')
+
+  const emailViewRef = useRef<HTMLDivElement>(null)
+  useOutsideClick([emailViewRef], () => {
+    setSelected([])
+  })
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -38,11 +46,30 @@ export default function Inbox() {
     setLoadingState('loaded')
   }
 
+  const toggleSelected = (messageID: string, action: 'add' | 'replace') => {
+    if (action === 'replace') {
+      setSelected([messageID])
+      return
+    }
+
+    if (selected.includes(messageID)) {
+      setSelected(selected.filter((s) => s !== messageID))
+    } else {
+      setSelected([...selected, messageID])
+    }
+  }
+
   return (
     <div className="flex-1 max-h-screen overflow-scroll md:px-8 md:pb-8">
       <h1 className="text-2xl font-bold md:pt-8 md:pb-4 md:px-2">Inbox</h1>
 
-      <EmailTableView emails={emails} />
+      <div ref={emailViewRef}>
+        <EmailTableView
+          emails={emails}
+          selected={selected}
+          toggleSelected={toggleSelected}
+        />
+      </div>
     </div>
   )
 }

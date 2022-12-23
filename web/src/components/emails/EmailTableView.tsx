@@ -3,10 +3,12 @@ import EmailTableRow from './EmailTableRow'
 
 interface EmailTableViewProps {
   emails: EmailInfo[]
+  selected: string[]
+  toggleSelected: (messageID: string, action: 'add' | 'replace') => void
 }
 
 export default function EmailTableView(props: EmailTableViewProps) {
-  const { emails = [] } = props
+  const { emails = [], toggleSelected } = props
 
   return (
     <div
@@ -16,7 +18,16 @@ export default function EmailTableView(props: EmailTableViewProps) {
       }}
     >
       {emails.map((email) => {
-        return <EmailTableRow key={email.messageID} email={email} />
+        return (
+          <EmailTableRow
+            key={email.messageID}
+            email={email}
+            selected={props.selected.includes(email.messageID)}
+            onClick={(action) => {
+              toggleSelected(email.messageID, action)
+            }}
+          />
+        )
       })}
     </div>
   )
