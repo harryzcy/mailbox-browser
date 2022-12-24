@@ -12,7 +12,7 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.5"
+    "react-router-dom": "^6.6.0"
   },
   "devDependencies": {
     "@heroicons/react": "^2.0.13",
@@ -22,12 +22,14 @@
     "@typescript-eslint/parser": "^5.0.0",
     "@vitejs/plugin-react": "^3.0.0",
     "autoprefixer": "^10.4.13",
+    "domhandler": "^5.0.3",
     "eslint": "^8.0.1",
     "eslint-config-standard-with-typescript": "^24.0.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.31.11",
+    "html-react-parser": "^3.0.4",
     "postcss": "^8.4.19",
     "prettier": "^2.8.1",
     "tailwindcss": "^3.2.4",

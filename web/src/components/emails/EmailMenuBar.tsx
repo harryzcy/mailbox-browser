@@ -21,7 +21,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
         <span
           className={
             'inline-flex p-2 border rounded-l-md ' +
-            (hasPrevious
+            (!hasPrevious
               ? 'cursor-not-allowed text-gray-400'
               : 'cursor-pointer')
           }
@@ -34,7 +34,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
         <span
           className={
             'inline-flex p-2 border-r border-t border-b rounded-r-md ' +
-            (hasNext ? 'cursor-not-allowed text-gray-400' : 'cursor-pointer')
+            (!hasNext ? 'cursor-not-allowed text-gray-400' : 'cursor-pointer')
           }
           onClick={goNext}
         >
