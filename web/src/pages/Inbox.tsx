@@ -15,13 +15,15 @@ type InboxContext = {
   setLoadingState: (
     loadingState: 'idle' | 'loading' | 'loaded' | 'error'
   ) => void
+  year: number
+  setYear: (year: number) => void
+  month: number
+  setMonth: (month: number) => void
   loadEmails: (input: {
     year: number
     month: number
     nextCursor?: string
   }) => Promise<ListEmailsResponse>
-  previousPages: string[]
-  setPreviousPages: (previousPages: string[]) => void
 }
 
 export default function Inbox() {
@@ -43,23 +45,29 @@ export default function Inbox() {
     return () => abortController.abort()
   }, [])
 
+  const [year, setYear] = useState<number>(new Date().getFullYear())
+  const [month, setMonth] = useState<number>(new Date().getMonth() + 1)
+
   const loadEmails = async (input: {
     year?: number
     month?: number
     nextCursor?: string
   }) => {
-    const now = new Date()
-    const year = input.year || now.getFullYear()
-    const month = input.month || now.getMonth() + 1
-
     const { nextCursor } = input
     const data = await listEmails({
       type: 'inbox',
-      year,
-      month,
+      year: input.year || year,
+      month: input.month || month,
       order: 'desc',
       nextCursor
     })
+
+    if (input.year) {
+      setYear(input.year)
+    }
+    if (input.month) {
+      setMonth(input.month)
+    }
 
     setLoadingState('loaded')
     return data
@@ -76,8 +84,6 @@ export default function Inbox() {
     setNextCursor(data.nextCursor)
   }
 
-  const [previousPages, setPreviousPages] = useState<string[]>([])
-
   const outletContext: InboxContext = {
     count,
     setCount,
@@ -89,9 +95,11 @@ export default function Inbox() {
     setEmails,
     loadingState,
     setLoadingState,
-    loadEmails,
-    previousPages,
-    setPreviousPages
+    year,
+    setYear,
+    month,
+    setMonth,
+    loadEmails
   }
 
   return (
