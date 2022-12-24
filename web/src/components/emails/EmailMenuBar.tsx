@@ -12,7 +12,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
   return (
     <div className="flex justify-between items-stretch">
       <div>
-        <span className="inline-flex items-center px-4 h-full border rounded-md cursor-pointer bg-blue-200">
+        <span className="inline-flex items-center px-4 h-full rounded-md cursor-pointer bg-blue-200">
           Create
         </span>
       </div>
@@ -20,10 +20,10 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
       <nav className="inline-flex" aria-label="pagination">
         <span
           className={
-            'inline-flex p-2 border rounded-l-md ' +
+            'inline-flex p-2 border dark:border-0 bg-cyan-900 rounded-l-md ' +
             (!hasPrevious
               ? 'cursor-not-allowed text-gray-400'
-              : 'cursor-pointer')
+              : 'cursor-pointer dark:text-gray-200')
           }
           onClick={goPrevious}
         >
@@ -33,8 +33,10 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
         </span>
         <span
           className={
-            'inline-flex p-2 border-r border-t border-b rounded-r-md ' +
-            (!hasNext ? 'cursor-not-allowed text-gray-400' : 'cursor-pointer')
+            'inline-flex p-2 border border-l-0 dark:border-0 bg-cyan-900 rounded-r-md ' +
+            (!hasNext
+              ? 'cursor-not-allowed text-gray-400'
+              : 'cursor-pointer dark:text-gray-200')
           }
           onClick={goNext}
         >

@@ -35,13 +35,15 @@ export default function EmailView(props: EmailViewProps) {
       </div>
 
       <div className="mb-2 px-3">
-        <span className="text-xl font-normal">{email.subject}</span>
+        <span className="text-xl font-normal dark:text-gray-200">
+          {email.subject}
+        </span>
       </div>
 
-      <div className="bg-gray-50 rounded md:rounded-md border p-3">
+      <div className="bg-gray-50 rounded md:rounded-md bg-gray-50 dark:bg-gray-800 p-3">
         {/* header info for emails */}
         <div className="flex justify-between items-start">
-          <div>
+          <div className="dark:text-gray-300">
             <div>
               <span>{getNameFromEmails(email.from)}</span>
             </div>
@@ -50,14 +52,14 @@ export default function EmailView(props: EmailViewProps) {
             </div>
           </div>
 
-          <div className="text-sm text-gray-500 items-center flex">
+          <div className="flex items-center text-sm text-gray-500 dark:text-gray-300">
             <span className="p-1">{formatDate(email.timeReceived)}</span>
             <span className="inline-flex ml-4">
               {/* TODO: implement reply and forward actions */}
-              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-gray-200">
+              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-gray-200">
                 <ArrowUturnLeftIcon />
               </span>
-              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-gray-200">
+              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-gray-200">
                 <ArrowUturnRightIcon />
               </span>
             </span>
