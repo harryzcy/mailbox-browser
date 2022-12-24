@@ -39,7 +39,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className="flex font-sans">
+    <div className="flex font-sans bg-white dark:bg-gray-900">
       <RouterProvider router={router} />
     </div>
   )

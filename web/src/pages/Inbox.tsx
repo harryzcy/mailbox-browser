@@ -81,7 +81,7 @@ export default function Inbox() {
 
   return (
     <div className="flex-1 max-h-screen overflow-scroll md:px-8 md:pb-8">
-      <h1 className="text-2xl font-bold md:pt-8 md:pb-4 md:px-2">Inbox</h1>
+      <h1 className="text-2xl font-bold md:pt-8 md:pb-4 md:px-2 dark:text-white">Inbox</h1>
 
       <Outlet context={outletContext} />
     </div>

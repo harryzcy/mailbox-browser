@@ -12,13 +12,11 @@ export default function EmailTableView(props: EmailTableViewProps) {
 
   return (
     <div
-      className="grid bg-gray-50 rounded md:rounded-md"
+      className="grid rounded md:rounded-md bg-gray-50 dark:bg-gray-800 dark:text-gray-300 py-1"
       style={{
         gridTemplateColumns: '1fr 4fr 1fr'
       }}
     >
-      <div className="col-span-full h-1"></div>
-
       {emails.map((email) => {
         return (
           <EmailTableRow
@@ -31,8 +29,6 @@ export default function EmailTableView(props: EmailTableViewProps) {
           />
         )
       })}
-
-      <div className="col-span-full h-1"></div>
     </div>
   )
 }

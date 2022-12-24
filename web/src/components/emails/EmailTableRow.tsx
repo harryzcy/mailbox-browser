@@ -11,13 +11,13 @@ interface EmailTableRowProps {
 
 export default function EmailTableRow(props: EmailTableRowProps) {
   const { email, onClick } = props
-  const backgroundClassName = props.selected ? ' bg-blue-100' : ''
+  const backgroundClassName = props.selected ? ' bg-blue-100 dark:bg-gray-700' : ''
 
   const navigate = useNavigate()
 
   return (
     <div
-      className="contents"
+      className="contents group"
       onClick={(event) => {
         onClick(event.metaKey ? 'add' : 'replace')
       }}
@@ -25,13 +25,13 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         navigate(`/inbox/${email.messageID}`)
       }}
     >
-      <div className={'truncate px-4 py-2 border-b' + backgroundClassName}>
+      <div className={'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-900' + backgroundClassName}>
         <span title={email.from[0]}>{getNameFromEmails(email.from)}</span>
       </div>
-      <div className={'truncate px-4 py-2 border-b' + backgroundClassName}>
+      <div className={'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-900' + backgroundClassName}>
         {email.subject}
       </div>
-      <div className={'px-4 py-2 border-b text-right' + backgroundClassName}>
+      <div className={'px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-900 text-right' + backgroundClassName}>
         {formatDate(email.timeReceived, true)}
       </div>
     </div>
