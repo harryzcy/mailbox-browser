@@ -8,6 +8,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.0.0
   '@vitejs/plugin-react': ^3.0.0
   autoprefixer: ^10.4.13
+  domhandler: ^5.0.3
   eslint: ^8.0.1
   eslint-config-standard-with-typescript: ^24.0.0
   eslint-plugin-import: ^2.25.2
@@ -37,6 +38,7 @@ devDependencies:
   '@typescript-eslint/parser': 5.43.0_hsf322ms6xhhd4b5ne6lb74y4a
   '@vitejs/plugin-react': 3.0.0_vite@4.0.0
   autoprefixer: 10.4.13_postcss@8.4.19
+  domhandler: 5.0.3
   eslint: 8.28.0
   eslint-config-standard-with-typescript: 24.0.0_5m63f54tpknw3gl57os5t33d4a
   eslint-plugin-import: 2.26.0_ivdjtymx6ubvknadox4oh4qsue

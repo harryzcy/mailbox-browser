@@ -13,7 +13,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
   const { email, onClick } = props
   const backgroundClassName = props.selected ? ' bg-blue-100' : ''
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <div

@@ -5,6 +5,7 @@ import parse, {
   DOMNode,
   domToReact
 } from 'html-react-parser'
+import { Text } from 'domhandler'
 import {
   ArrowUturnLeftIcon,
   ArrowUturnRightIcon
@@ -64,7 +65,9 @@ export default function EmailView(props: EmailViewProps) {
         </div>
 
         {/* email body */}
-        <div className="mt-4">{parseEmailContent(email)}</div>
+        <div className="mt-4">
+          <div className="email-sandbox">{parseEmailContent(email)}</div>
+        </div>
       </div>
     </>
   )
@@ -81,17 +84,33 @@ function parseEmailContent(email: Email) {
         domNode.attribs.rel = 'noopener noreferrer'
         return domNode
       }
-      if (domNode.name === 'html') {
+      if (['html', 'head', 'body'].includes(domNode.name)) {
         return <>{domToReact(domNode.children, options)}</>
       }
-      if (domNode.name === 'head') {
-        return <></>
-      }
-      if (domNode.name === 'body') {
-        return <>{domToReact(domNode.children, options)}</>
+      if (['meta', 'link'].includes(domNode.name)) return <></>
+      if (domNode.name === 'style') {
+        if (domNode.children[0].nodeType !== 3) return
+        domNode.children = domNode.children
+          .map((child) => {
+            // nodeType 3 is text in domhandler package
+            if (child.nodeType !== 3) return null
+            return new Text(transformCss(child.data))
+          })
+          .filter((child) => child !== null) as Text[]
       }
     }
   }
   const element = parse(email.html, options)
   return element
+}
+
+function transformCss(css: string) {
+  const rules = css.replace(/[\n\r\t\s]+/g, ' ').matchAll(/(.*?)({.*?})/g)
+
+  return Array.from(rules)
+    .map((rule) => {
+      const [_, selector, properties] = rule
+      return `.email-sandbox ${selector.trim()}${properties}`
+    })
+    .join(' ')
 }
