@@ -52,6 +52,38 @@ export async function listEmails(
   return response.json()
 }
 
+export type Email = {
+  messageID: string
+  type: 'inbox' | 'draft' | 'sent'
+  subject: string
+  from: string[]
+  to: string[]
+  text: string
+  html: string
+
+  // inbox only
+  timeReceived: string
+  dateSent: string
+  source: string
+  destination: string[]
+  returnPath: string
+  verdict: EmailVerdict
+
+  // draft only
+  timeUpdated: string
+  Cc: string[]
+  Bcc: string[]
+  ReplyTo: string[]
+}
+
+export type EmailVerdict = {
+  spam: boolean
+  dkim: boolean
+  dmarc: boolean
+  spf: boolean
+  virus: boolean
+}
+
 export async function getEmail(id: string) {
   const response = await fetch(`/web/emails/${id}`)
   return response.json()

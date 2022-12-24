@@ -78,7 +78,7 @@ export default function EmailList() {
     <>
       <div ref={menuRef} className="mb-4">
         <EmailMenuBar
-          hasPrevious={previousPages.length === 0}
+          hasPrevious={previousPages.length !== 0}
           hasNext={hasMore}
           goPrevious={goPrevious}
           goNext={goNext}
