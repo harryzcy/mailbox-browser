@@ -10,15 +10,12 @@ export default function EmailList() {
     setCount,
     hasMore,
     setHasMore,
-    nextCursor,
     setNextCursor,
     emails,
     setEmails,
     year,
-    setYear,
     month,
-    setMonth,
-    loadEmails,
+    loadEmails
   } = useInboxContext()
 
   const [selected, setSelected] = useState<string[]>([])
@@ -56,7 +53,7 @@ export default function EmailList() {
 
     let data = await loadEmails({
       year: newYear,
-      month: newMonth,
+      month: newMonth
     })
     setEmails(data.items)
     setCount(data.count)
@@ -74,7 +71,7 @@ export default function EmailList() {
 
     const data = await loadEmails({
       year: newYear,
-      month: newMonth,
+      month: newMonth
     })
     setEmails(data.items)
     setCount(data.count)
@@ -89,7 +86,7 @@ export default function EmailList() {
   const checkHasPrevious = () => {
     const currentYear = new Date().getFullYear()
     const currentMonth = new Date().getMonth() + 1
-    return (currentYear > year || (currentYear === year && currentMonth > month))
+    return currentYear > year || (currentYear === year && currentMonth > month)
   }
 
   return (
@@ -100,7 +97,11 @@ export default function EmailList() {
           hasNext={hasMore}
           goPrevious={goPrevious}
           goNext={goNext}
-        />
+        >
+          <span>
+            {year}-{month}
+          </span>
+        </EmailMenuBar>
       </div>
       <div ref={emailViewRef}>
         <EmailTableView
