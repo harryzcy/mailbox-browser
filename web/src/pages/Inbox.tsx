@@ -15,7 +15,11 @@ type InboxContext = {
   setLoadingState: (
     loadingState: 'idle' | 'loading' | 'loaded' | 'error'
   ) => void
-  loadEmails: (nextCursor?: string) => Promise<ListEmailsResponse>
+  loadEmails: (input: {
+    year: number
+    month: number
+    nextCursor?: string
+  }) => Promise<ListEmailsResponse>
   previousPages: string[]
   setPreviousPages: (previousPages: string[]) => void
 }
@@ -39,11 +43,20 @@ export default function Inbox() {
     return () => abortController.abort()
   }, [])
 
-  const loadEmails = async (nextCursor?: string) => {
+  const loadEmails = async (input: {
+    year?: number
+    month?: number
+    nextCursor?: string
+  }) => {
+    const now = new Date()
+    const year = input.year || now.getFullYear()
+    const month = input.month || now.getMonth() + 1
+
+    const { nextCursor } = input
     const data = await listEmails({
       type: 'inbox',
-      year: 2022,
-      month: 12,
+      year,
+      month,
       order: 'desc',
       nextCursor
     })
@@ -54,7 +67,9 @@ export default function Inbox() {
 
   const loadAndSetEmails = async (nextCursor?: string) => {
     setLoadingState('loading')
-    const data = await loadEmails(nextCursor)
+    const data = await loadEmails({
+      nextCursor
+    })
     setEmails(data.items)
     setCount(data.count)
     setHasMore(data.hasMore)
