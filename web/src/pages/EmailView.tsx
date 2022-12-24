@@ -1,5 +1,10 @@
 import { useLoaderData } from 'react-router-dom'
-import parse, {Element} from 'html-react-parser'
+import parse, {
+  Element,
+  HTMLReactParserOptions,
+  DOMNode,
+  domToReact
+} from 'html-react-parser'
 import {
   ArrowUturnLeftIcon,
   ArrowUturnRightIcon
@@ -67,14 +72,26 @@ export default function EmailView(props: EmailViewProps) {
 
 function parseEmailContent(email: Email) {
   if (!email.html) return email.text
-  return parse(email.html, {
-    replace: (domNode) => {
+
+  const options: HTMLReactParserOptions = {
+    replace: (domNode: DOMNode) => {
       if (!(domNode instanceof Element)) return
       if (domNode.name === 'a') {
         domNode.attribs.target = '_blank'
         domNode.attribs.rel = 'noopener noreferrer'
         return domNode
       }
+      if (domNode.name === 'html') {
+        return <>{domToReact(domNode.children, options)}</>
+      }
+      if (domNode.name === 'head') {
+        return <></>
+      }
+      if (domNode.name === 'body') {
+        return <>{domToReact(domNode.children, options)}</>
+      }
     }
-  })
+  }
+  const element = parse(email.html, options)
+  return element
 }
