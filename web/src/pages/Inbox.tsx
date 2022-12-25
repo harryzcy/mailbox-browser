@@ -15,9 +15,15 @@ type InboxContext = {
   setLoadingState: (
     loadingState: 'idle' | 'loading' | 'loaded' | 'error'
   ) => void
-  loadEmails: (nextCursor?: string) => Promise<ListEmailsResponse>
-  previousPages: string[]
-  setPreviousPages: (previousPages: string[]) => void
+  year: number
+  setYear: (year: number) => void
+  month: number
+  setMonth: (month: number) => void
+  loadEmails: (input: {
+    year: number
+    month: number
+    nextCursor?: string
+  }) => Promise<ListEmailsResponse>
 }
 
 export default function Inbox() {
@@ -39,14 +45,29 @@ export default function Inbox() {
     return () => abortController.abort()
   }, [])
 
-  const loadEmails = async (nextCursor?: string) => {
+  const [year, setYear] = useState<number>(new Date().getFullYear())
+  const [month, setMonth] = useState<number>(new Date().getMonth() + 1)
+
+  const loadEmails = async (input: {
+    year?: number
+    month?: number
+    nextCursor?: string
+  }) => {
+    const { nextCursor } = input
     const data = await listEmails({
       type: 'inbox',
-      year: 2022,
-      month: 12,
+      year: input.year || year,
+      month: input.month || month,
       order: 'desc',
       nextCursor
     })
+
+    if (input.year) {
+      setYear(input.year)
+    }
+    if (input.month) {
+      setMonth(input.month)
+    }
 
     setLoadingState('loaded')
     return data
@@ -54,14 +75,14 @@ export default function Inbox() {
 
   const loadAndSetEmails = async (nextCursor?: string) => {
     setLoadingState('loading')
-    const data = await loadEmails(nextCursor)
+    const data = await loadEmails({
+      nextCursor
+    })
     setEmails(data.items)
     setCount(data.count)
     setHasMore(data.hasMore)
     setNextCursor(data.nextCursor)
   }
-
-  const [previousPages, setPreviousPages] = useState<string[]>([])
 
   const outletContext: InboxContext = {
     count,
@@ -74,9 +95,11 @@ export default function Inbox() {
     setEmails,
     loadingState,
     setLoadingState,
-    loadEmails,
-    previousPages,
-    setPreviousPages
+    year,
+    setYear,
+    month,
+    setMonth,
+    loadEmails
   }
 
   return (
