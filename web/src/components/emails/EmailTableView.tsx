@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react'
+import useIsInViewport from '../../hooks/useIsInViewport'
 import { EmailInfo } from '../../services/emails'
 import EmailTableRow from './EmailTableRow'
 
@@ -5,10 +7,20 @@ interface EmailTableViewProps {
   emails: EmailInfo[]
   selected: string[]
   toggleSelected: (messageID: string, action: 'add' | 'replace') => void
+  hasMore: boolean
+  loadMoreEmails: () => void
 }
 
 export default function EmailTableView(props: EmailTableViewProps) {
-  const { emails = [], toggleSelected } = props
+  const { emails = [], toggleSelected, loadMoreEmails } = props
+
+  const loadMoreRef = useRef<HTMLDivElement>(null)
+  const shouldLoadMore = useIsInViewport(loadMoreRef)
+  useEffect(() => {
+    if (shouldLoadMore) {
+      loadMoreEmails()
+    }
+  }, [shouldLoadMore])
 
   return (
     <div
@@ -29,6 +41,13 @@ export default function EmailTableView(props: EmailTableViewProps) {
           />
         )
       })}
+
+      <div
+        ref={loadMoreRef}
+        className="col-span-3 px-4 pt-2 pb-1 border-t dark:border-gray-900 dark:text-gray-500 text-sm text-center"
+      >
+        {props.hasMore ? 'Loading...' : 'No more emails'}
+      </div>
     </div>
   )
 }

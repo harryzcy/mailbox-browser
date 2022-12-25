@@ -7,9 +7,11 @@ import { useInboxContext } from './Inbox'
 
 export default function EmailList() {
   const {
+    count,
     setCount,
     hasMore,
     setHasMore,
+    nextCursor,
     setNextCursor,
     emails,
     setEmails,
@@ -89,6 +91,19 @@ export default function EmailList() {
     return currentYear > year || (currentYear === year && currentMonth > month)
   }
 
+  const loadMoreEmails = async () => {
+    if (!hasMore) return
+    const data = await loadEmails({
+      year,
+      month,
+      nextCursor
+    })
+    setEmails([...emails, ...data.items])
+    setCount(data.count + count)
+    setHasMore(data.hasMore)
+    setNextCursor(data.nextCursor)
+  }
+
   return (
     <>
       <div ref={menuRef} className="mb-4">
@@ -108,6 +123,8 @@ export default function EmailList() {
           emails={emails}
           selected={selected}
           toggleSelected={toggleSelected}
+          hasMore={hasMore}
+          loadMoreEmails={loadMoreEmails}
         />
       </div>
     </>
