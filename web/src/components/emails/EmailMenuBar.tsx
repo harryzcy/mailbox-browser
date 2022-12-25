@@ -18,7 +18,10 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
         </span>
       </div>
 
-      <nav className="inline-flex rounded-md divide-x dark:divide-x-0 border dark:border-0" aria-label="pagination">
+      <nav
+        className="inline-flex rounded-md divide-x dark:divide-x-0 border dark:border-0"
+        aria-label="pagination"
+      >
         <span
           className={
             'inline-flex p-2 items-center dark:bg-cyan-900 rounded-l-md ' +
