@@ -1,3 +1,8 @@
+/*
+ * EmailRoot.tsx
+ * This is the root component for inbox, draft, and sent pages.
+ */
+
 import { useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router-dom'
 import { EmailInfo, listEmails, ListEmailsResponse } from '../services/emails'
