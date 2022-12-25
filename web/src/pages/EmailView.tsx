@@ -68,7 +68,7 @@ export default function EmailView(props: EmailViewProps) {
 
         {/* email body */}
         <div className="mt-4">
-          <div className="email-sandbox">{parseEmailContent(email)}</div>
+          <div className="email-sandbox dark:text-gray-300">{parseEmailContent(email)}</div>
         </div>
       </div>
     </>

@@ -18,10 +18,10 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
         </span>
       </div>
 
-      <nav className="inline-flex" aria-label="pagination">
+      <nav className="inline-flex rounded-md divide-x dark:divide-x-0 border dark:border-0" aria-label="pagination">
         <span
           className={
-            'inline-flex p-2 border items-center dark:border-0 bg-cyan-900 rounded-l-md ' +
+            'inline-flex p-2 items-center dark:bg-cyan-900 rounded-l-md ' +
             (!hasPrevious
               ? 'cursor-not-allowed text-gray-400'
               : 'cursor-pointer dark:text-gray-200')
@@ -33,13 +33,13 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
           </span>
         </span>
         {children && (
-          <span className="inline-flex py-2 px-3 border dark:border-0 mx-px bg-cyan-900 select-none dark:text-gray-200">
+          <span className="inline-flex py-2 px-3 mx-px dark:bg-cyan-900 select-none dark:text-gray-200">
             {children}
           </span>
         )}
         <span
           className={
-            'inline-flex p-2 border items-center border-l-0 dark:border-0 bg-cyan-900 rounded-r-md ' +
+            'inline-flex p-2 items-center dark:bg-cyan-900 rounded-r-md ' +
             (!hasNext
               ? 'cursor-not-allowed text-gray-400'
               : 'cursor-pointer dark:text-gray-200')
