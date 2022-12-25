@@ -1,6 +1,6 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
-import Inbox from './pages/Inbox'
+import EmailRoot from './pages/EmailRoot'
 import EmailView from './pages/EmailView'
 import Root from './pages/Root'
 import EmailList from './pages/EmailList'
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'inbox',
-        element: <Inbox />,
+        element: <EmailRoot type="inbox" />,
         children: [
           {
             path: '',

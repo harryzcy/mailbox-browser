@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import EmailTableView from '../components/emails/EmailTableView'
 import { useOutsideClick } from '../hooks/useOutsideClick'
-import { ListEmailsResponse } from '../services/emails'
-import { useInboxContext } from './Inbox'
+import { useInboxContext } from './EmailRoot'
 
 export default function EmailList() {
   const {
