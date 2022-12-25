@@ -47,12 +47,10 @@ export default function EmailRoot(props: EmailRootProps) {
 
   useEffect(() => {
     const abortController = new AbortController()
-    if (loadingState === 'idle') {
-      setLoadingState('loading')
-      loadAndSetEmails()
-    }
+    setLoadingState('loading')
+    loadAndSetEmails()
     return () => abortController.abort()
-  }, [])
+  }, [props.type])
 
   const [year, setYear] = useState<number>(new Date().getFullYear())
   const [month, setMonth] = useState<number>(new Date().getMonth() + 1)
