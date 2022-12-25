@@ -32,6 +32,42 @@ const router = createBrowserRouter([
             }
           }
         ]
+      },
+      {
+        path: 'drafts',
+        element: <EmailRoot type="draft" />,
+        children: [
+          {
+            path: '',
+            element: <EmailList />
+          },
+          {
+            path: ':messageID',
+            element: <EmailView />,
+            loader: async ({ params }) => {
+              if (!params.messageID) return redirect('/drafts')
+              return await getEmail(params.messageID)
+            }
+          }
+        ]
+      },
+      {
+        path: 'sent',
+        element: <EmailRoot type="sent" />,
+        children: [
+          {
+            path: '',
+            element: <EmailList />
+          },
+          {
+            path: ':messageID',
+            element: <EmailView />,
+            loader: async ({ params }) => {
+              if (!params.messageID) return redirect('/sent')
+              return await getEmail(params.messageID)
+            }
+          }
+        ]
       }
     ]
   }
