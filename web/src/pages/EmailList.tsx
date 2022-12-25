@@ -109,12 +109,12 @@ export default function EmailList() {
       <div ref={menuRef} className="mb-4">
         <EmailMenuBar
           hasPrevious={hasPrevious}
-          hasNext={hasMore}
+          hasNext={true}
           goPrevious={goPrevious}
           goNext={goNext}
         >
           <span>
-            {year}-{month}
+            {year}-{month.toString().padStart(2, '0')}
           </span>
         </EmailMenuBar>
       </div>
