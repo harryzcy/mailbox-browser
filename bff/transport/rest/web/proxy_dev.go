@@ -149,23 +149,28 @@ func fakeGet(ctx *gin.Context) GetEmailResponse {
 	gofakeit.Struct(&resp)
 
 	resp.MessageID = ctx.Param("id")
-	resp.Type = gofakeit.RandomString([]string{"inbox", "draft"})
-	if resp.Type == "inbox" {
-		resp.TimeReceived = gofakeit.Date().Format(time.RFC3339)
-		resp.DateSent = gofakeit.Date().Format(time.RFC3339)
-		resp.Source = gofakeit.Email()
-		resp.Destination = []string{gofakeit.Email()}
-		resp.ReturnPath = gofakeit.Email()
+	// resp.Type = gofakeit.RandomString([]string{"inbox", "draft"})
+	resp.Type = "inbox"
 
-		var verdict EmailVerdict
-		gofakeit.Struct(&verdict)
-		resp.Verdict = &verdict
-	} else {
-		resp.TimeUpdated = gofakeit.Date().Format(time.RFC3339)
-		resp.Cc = []string{gofakeit.Email()}
-		resp.Bcc = []string{gofakeit.Email()}
-		resp.ReplyTo = []string{gofakeit.Email()}
-	}
+	// sometime in the last month
+	randomTime := gofakeit.DateRange(time.Now().AddDate(0, -1, 0), time.Now())
+
+	// inbox
+	resp.TimeReceived = randomTime.Format(time.RFC3339)
+	resp.DateSent = randomTime.Format(time.RFC3339)
+	resp.Source = gofakeit.Email()
+	resp.Destination = []string{gofakeit.Email()}
+	resp.ReturnPath = gofakeit.Email()
+
+	var verdict EmailVerdict
+	gofakeit.Struct(&verdict)
+	resp.Verdict = &verdict
+	// draft
+	resp.TimeUpdated = randomTime.Format(time.RFC3339)
+	resp.Cc = []string{gofakeit.Email()}
+	resp.Bcc = []string{gofakeit.Email()}
+	resp.ReplyTo = []string{gofakeit.Email()}
+
 	return resp
 }
 
