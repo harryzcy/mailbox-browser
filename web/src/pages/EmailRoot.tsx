@@ -1,3 +1,8 @@
+/*
+ * EmailRoot.tsx
+ * This is the root component for inbox, draft, and sent pages.
+ */
+
 import { useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router-dom'
 import { EmailInfo, listEmails, ListEmailsResponse } from '../services/emails'
@@ -26,7 +31,11 @@ type InboxContext = {
   }) => Promise<ListEmailsResponse>
 }
 
-export default function Inbox() {
+interface EmailRootProps {
+  type: 'inbox' | 'draft' | 'sent'
+}
+
+export default function EmailRoot(props: EmailRootProps) {
   const [count, setCount] = useState<number>(0)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
@@ -38,12 +47,10 @@ export default function Inbox() {
 
   useEffect(() => {
     const abortController = new AbortController()
-    if (loadingState === 'idle') {
-      setLoadingState('loading')
-      loadAndSetEmails()
-    }
+    setLoadingState('loading')
+    loadAndSetEmails()
     return () => abortController.abort()
-  }, [])
+  }, [props.type])
 
   const [year, setYear] = useState<number>(new Date().getFullYear())
   const [month, setMonth] = useState<number>(new Date().getMonth() + 1)
@@ -55,7 +62,7 @@ export default function Inbox() {
   }) => {
     const { nextCursor } = input
     const data = await listEmails({
-      type: 'inbox',
+      type: props.type,
       year: input.year || year,
       month: input.month || month,
       order: 'desc',
@@ -105,7 +112,11 @@ export default function Inbox() {
   return (
     <div className="flex-1 max-h-screen overflow-scroll md:px-8 md:pb-8">
       <h1 className="text-2xl font-bold md:pt-8 md:pb-4 md:px-2 dark:text-white">
-        Inbox
+        {props.type === 'inbox'
+          ? 'Inbox'
+          : props.type === 'draft'
+          ? 'Drafts'
+          : 'Sent'}
       </h1>
 
       <Outlet context={outletContext} />

@@ -84,7 +84,7 @@ export type EmailVerdict = {
   virus: boolean
 }
 
-export async function getEmail(id: string) {
+export async function getEmail(id: string): Promise<Email> {
   const response = await fetch(`/web/emails/${id}`)
   return response.json()
 }

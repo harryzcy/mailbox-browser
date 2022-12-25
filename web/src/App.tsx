@@ -1,6 +1,6 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
-import Inbox from './pages/Inbox'
+import EmailRoot from './pages/EmailRoot'
 import EmailView from './pages/EmailView'
 import Root from './pages/Root'
 import EmailList from './pages/EmailList'
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'inbox',
-        element: <Inbox />,
+        element: <EmailRoot type="inbox" />,
         children: [
           {
             path: '',
@@ -28,6 +28,42 @@ const router = createBrowserRouter([
             element: <EmailView />,
             loader: async ({ params }) => {
               if (!params.messageID) return redirect('/inbox')
+              return await getEmail(params.messageID)
+            }
+          }
+        ]
+      },
+      {
+        path: 'drafts',
+        element: <EmailRoot type="draft" />,
+        children: [
+          {
+            path: '',
+            element: <EmailList />
+          },
+          {
+            path: ':messageID',
+            element: <EmailView />,
+            loader: async ({ params }) => {
+              if (!params.messageID) return redirect('/drafts')
+              return await getEmail(params.messageID)
+            }
+          }
+        ]
+      },
+      {
+        path: 'sent',
+        element: <EmailRoot type="sent" />,
+        children: [
+          {
+            path: '',
+            element: <EmailList />
+          },
+          {
+            path: ':messageID',
+            element: <EmailView />,
+            loader: async ({ params }) => {
+              if (!params.messageID) return redirect('/sent')
               return await getEmail(params.messageID)
             }
           }
