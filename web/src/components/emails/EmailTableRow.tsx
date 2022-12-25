@@ -29,7 +29,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     >
       <div
         className={
-          'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-900' +
+          'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-200 dark:border-gray-900' +
           backgroundClassName
         }
       >
@@ -37,7 +37,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-900' +
+          'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-200 dark:border-gray-900' +
           backgroundClassName
         }
       >
@@ -45,7 +45,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-900 text-right' +
+          'px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-200 dark:border-gray-900 text-right' +
           backgroundClassName
         }
       >
