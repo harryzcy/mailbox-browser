@@ -1,4 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+import { useContext } from 'react'
+import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
 
 interface EmailMenuBarProps {
   hasPrevious: boolean
@@ -10,10 +12,16 @@ interface EmailMenuBarProps {
 
 export default function EmailMenuBar(props: EmailMenuBarProps) {
   const { hasPrevious, hasNext, goPrevious, goNext, children } = props
+  const { dispatch: dispatchDraftEmail } = useContext(DraftEmailsContext)
+
   return (
     <div className="flex justify-between items-stretch">
       <div>
-        <span className="inline-flex items-center px-4 h-full rounded-md cursor-pointer bg-blue-200">
+        <span className="inline-flex items-center px-4 h-full rounded-md cursor-pointer bg-blue-200"
+        onClick={() => {dispatchDraftEmail({
+          type: 'add',
+        })}}
+        >
           Create
         </span>
       </div>
