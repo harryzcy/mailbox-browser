@@ -17,10 +17,13 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
   return (
     <div className="flex justify-between items-stretch">
       <div>
-        <span className="inline-flex items-center px-4 h-full rounded-md cursor-pointer bg-blue-200"
-        onClick={() => {dispatchDraftEmail({
-          type: 'add',
-        })}}
+        <span
+          className="inline-flex items-center px-4 h-full rounded-md cursor-pointer bg-blue-200"
+          onClick={() => {
+            dispatchDraftEmail({
+              type: 'add'
+            })
+          }}
         >
           Create
         </span>
