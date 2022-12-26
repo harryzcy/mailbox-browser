@@ -8,14 +8,13 @@ specifiers:
   '@typescript-eslint/parser': 5.47.0
   '@vitejs/plugin-react': 3.0.0
   autoprefixer: 10.4.13
-  domhandler: 5.0.3
   eslint: 8.30.0
   eslint-config-standard-with-typescript: 24.0.0
   eslint-plugin-import: 2.26.0
   eslint-plugin-n: 15.6.0
   eslint-plugin-promise: 6.1.1
   eslint-plugin-react: 7.31.11
-  html-react-parser: 3.0.4
+  html-react-parser: 3.0.6
   postcss: 8.4.20
   prettier: 2.8.1
   react: 18.2.0
@@ -38,14 +37,13 @@ devDependencies:
   '@typescript-eslint/parser': 5.47.0_lzzuuodtsqwxnvqeq4g4likcqa
   '@vitejs/plugin-react': 3.0.0_vite@4.0.3
   autoprefixer: 10.4.13_postcss@8.4.20
-  domhandler: 5.0.3
   eslint: 8.30.0
   eslint-config-standard-with-typescript: 24.0.0_y3po2t3plcnlrpwr7abxczdcoa
   eslint-plugin-import: 2.26.0_tqyj5ytb5g6r5ett7xxedhk6eq
   eslint-plugin-n: 15.6.0_eslint@8.30.0
   eslint-plugin-promise: 6.1.1_eslint@8.30.0
   eslint-plugin-react: 7.31.11_eslint@8.30.0
-  html-react-parser: 3.0.4_react@18.2.0
+  html-react-parser: 3.0.6_react@18.2.0
   postcss: 8.4.20
   prettier: 2.8.1
   tailwindcss: 3.2.4_postcss@8.4.20
@@ -1786,8 +1784,8 @@ packages:
       htmlparser2: 8.0.1
     dev: true
 
-  /html-react-parser/3.0.4_react@18.2.0:
-    resolution: {integrity: sha512-va68PSmC7uA6PbOEc9yuw5Mu3OHPXmFKUpkLGvUPdTuNrZ0CJZk1s/8X/FaHjswK/6uZghu2U02tJjussT8+uw==}
+  /html-react-parser/3.0.6_react@18.2.0:
+    resolution: {integrity: sha512-kFh/qJkz4KJudCcILfI1hQKXTheRyMREXuL/WbWYUAsMsu0EOwV4nO5jA3ecu1LUNpCcebkNcBECxqpswBDlLw==}
     peerDependencies:
       react: 0.14 || 15 || 16 || 17 || 18
     dependencies:
@@ -1795,7 +1793,7 @@ packages:
       html-dom-parser: 3.1.2
       react: 18.2.0
       react-property: 2.0.0
-      style-to-js: 1.1.1
+      style-to-js: 1.1.2
     dev: true
 
   /htmlparser2/8.0.1:
@@ -2596,14 +2594,14 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /style-to-js/1.1.1:
-    resolution: {integrity: sha512-RJ18Z9t2B02sYhZtfWKQq5uplVctgvjTfLWT7+Eb1zjUjIrWzX5SdlkwLGQozrqarTmEzJJ/YmdNJCUNI47elg==}
+  /style-to-js/1.1.2:
+    resolution: {integrity: sha512-aMG8jJpEF0SCGbQFY8W8CT+EjQ9ubp35FOZG3prWkNjxW/a1bEeSod0tkWiP+6iiOCDIIrQykUDkPY5LbNF87g==}
     dependencies:
-      style-to-object: 0.3.0
+      style-to-object: 0.4.0
     dev: true
 
-  /style-to-object/0.3.0:
-    resolution: {integrity: sha512-CzFnRRXhzWIdItT3OmF8SQfWyahHhjq3HwcMNCNLn+N7klOOqPjMeG/4JSu77D7ypZdGvSzvkrbyeTMizz2VrA==}
+  /style-to-object/0.4.0:
+    resolution: {integrity: sha512-dAjq2m87tPn/TcYTeqMhXJRhu96WYWcxMFQxs3Y9jfYpq2jG+38u4tj0Lst6DOiYXmDuNxVJ2b1Z2uPC6wTEeg==}
     dependencies:
       inline-style-parser: 0.1.1
     dev: true

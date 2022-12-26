@@ -1,11 +1,11 @@
 import { useLoaderData } from 'react-router-dom'
 import parse, {
   Element,
+  Text,
   HTMLReactParserOptions,
   DOMNode,
   domToReact
 } from 'html-react-parser'
-import { Text } from 'domhandler'
 import {
   ArrowUturnLeftIcon,
   ArrowUturnRightIcon
