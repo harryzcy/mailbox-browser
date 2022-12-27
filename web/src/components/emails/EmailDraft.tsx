@@ -25,13 +25,13 @@ export function EmailDraft(props: EmailDraftProps) {
         <span>{email.subject || 'New Email'}</span>
         <span className="inline-flex">
           <span
-            className="-my-2 -mr-1 p-1.5 rounded-full hover:bg-gray-600 cursor-pointer"
+            className="-my-2 -mr-1 p-1.5 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer"
             onClick={handleMinimize}
           >
             <MinusIcon className="w-4 h-4" />
           </span>
           <span
-            className="-my-2 -mr-1 p-1.5 rounded-full hover:bg-gray-600 cursor-pointer"
+            className="-my-2 -mr-1 p-1.5 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer"
             onClick={handleClose}
           >
             <XMarkIcon className="w-4 h-4" />
@@ -40,7 +40,7 @@ export function EmailDraft(props: EmailDraftProps) {
       </div>
 
       <div className="flex px-2 pt-2">
-        <span className="ml-2 px-3 py-1 w-16 text-center dark:bg-gray-900 rounded md:rounded-md">
+        <span className="ml-2 px-3 py-1 w-16 text-center bg-gray-200 dark:bg-gray-900 rounded md:rounded-md">
           From
         </span>
         <span className="flex-1 border-b dark:border-gray-500 mx-2">
@@ -53,7 +53,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
       </div>
       <div className="flex px-2 pt-2">
-        <span className="ml-2 px-3 py-1 w-16 text-center dark:bg-gray-900 rounded md:rounded-md">
+        <span className="ml-2 px-3 py-1 w-16 text-center bg-gray-200 dark:bg-gray-900 rounded md:rounded-md">
           To
         </span>
         <span className="flex-1 border-b dark:border-gray-500 mx-2">
@@ -66,7 +66,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
       </div>
       <div className="flex px-2 pt-2">
-        <span className="ml-2 px-3 py-1 w-16 text-center dark:bg-gray-900 rounded md:rounded-md">
+        <span className="ml-2 px-3 py-1 w-16 text-center bg-gray-200 dark:bg-gray-900 rounded md:rounded-md">
           Cc
         </span>
         <span className="flex-1 border-b dark:border-gray-500 mx-2">
@@ -79,7 +79,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
       </div>
       <div className="flex px-2 pt-2">
-        <span className="ml-2 px-3 py-1 w-16 text-center dark:bg-gray-900 rounded md:rounded-md">
+        <span className="ml-2 px-3 py-1 w-16 text-center bg-gray-200 dark:bg-gray-900 rounded md:rounded-md">
           Bcc
         </span>
         <span className="flex-1 border-b dark:border-gray-500 mx-2">

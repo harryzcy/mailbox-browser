@@ -40,7 +40,7 @@ export default function EmailAddressInput(props: EmailAddressInputProps) {
         return (
           <span
             key={address}
-            className="inline-flex items-center rounded dark:bg-gray-700 pl-2 pr-1 py-px"
+            className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-700 pl-2 pr-1 py-px ml-1 first:ml-0"
           >
             <span>{address}</span>
             <span

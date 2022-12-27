@@ -113,7 +113,7 @@ export default function EmailRoot(props: EmailRootProps) {
 
   return (
     <div className="flex-1 max-h-screen overflow-scroll md:px-8">
-      <div className="h-[calc(100%-2.5rem)]">
+      <div className="h-[calc(100%-3rem)]">
         <h1 className="text-2xl font-bold md:pt-8 md:pb-4 md:px-2 dark:text-white">
           {props.type === 'inbox'
             ? 'Inbox'
