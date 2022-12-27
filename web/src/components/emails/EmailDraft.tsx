@@ -7,6 +7,7 @@ import { MinusIcon, XMarkIcon } from '@heroicons/react/20/solid'
 
 import { DraftEmail } from '../../contexts/DraftEmailContext'
 import EmailAddressInput from '../inputs/EmailAddressInput'
+import RichTextEditor from '../inputs/RichTextEditor'
 import TextInput from '../inputs/TextInput'
 
 interface EmailDraftProps {
@@ -101,6 +102,10 @@ export function EmailDraft(props: EmailDraftProps) {
             }}
           />
         </span>
+      </div>
+
+      <div className="flex px-2 pt-3">
+        <RichTextEditor />
       </div>
     </div>
   )

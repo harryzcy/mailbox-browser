@@ -10,9 +10,21 @@
     "prettier": "prettier --config .prettierrc 'src/**/*.{ts,tsx}' --write"
   },
   "dependencies": {
+    "@lexical/clipboard": "0.7.5",
+    "@lexical/code": "0.7.5",
+    "@lexical/link": "0.7.5",
+    "@lexical/list": "0.7.5",
+    "@lexical/markdown": "0.7.5",
+    "@lexical/react": "0.7.5",
+    "@lexical/rich-text": "0.7.5",
+    "@lexical/selection": "0.7.5",
+    "@lexical/table": "0.7.5",
+    "@lexical/utils": "0.7.5",
+    "lexical": "0.7.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.6.1"
+    "react-router-dom": "6.6.1",
+    "yjs": "13.5.43"
   },
   "devDependencies": {
     "@heroicons/react": "2.0.13",
