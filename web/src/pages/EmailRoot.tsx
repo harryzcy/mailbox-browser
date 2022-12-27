@@ -126,9 +126,7 @@ export default function EmailRoot(props: EmailRootProps) {
 
       <FullScreenContent />
 
-      <div className="fixed w-full h-[2.5rem] -mx-8 px-8 pt-2 border-t dark:border-gray-700 bg-gray-900">
-        <DraftEmailsTabs />
-      </div>
+      <DraftEmailsTabs />
     </div>
   )
 }
