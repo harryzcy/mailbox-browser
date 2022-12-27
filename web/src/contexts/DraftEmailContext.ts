@@ -22,6 +22,7 @@ export type Action =
   | { type: 'open'; id: string }
   | { type: 'close' }
   | { type: 'minimize' }
+  | { type: 'update'; email: DraftEmail }
 export const initialState: State = {
   activeEmail: null,
   emails: []
@@ -31,7 +32,12 @@ export function draftEmailReducer(state: State, action: Action): State {
   switch (action.type) {
     case 'add':
       const newEmail = {
-        messageID: Date.now().toString()
+        messageID: Date.now().toString(),
+        subject: '',
+        from: [] as string[],
+        to: [] as string[],
+        cc: [] as string[],
+        bcc: [] as string[]
       } as DraftEmail
       return {
         activeEmail: newEmail,
@@ -55,6 +61,20 @@ export function draftEmailReducer(state: State, action: Action): State {
       return {
         activeEmail: null,
         emails
+      }
+    case 'update':
+      const updatedEmails = state.emails.map((email) => {
+        if (email.messageID === action.email.messageID) {
+          return action.email
+        }
+        return email
+      })
+      return {
+        activeEmail:
+          state.activeEmail?.messageID === action.email.messageID
+            ? action.email
+            : state.activeEmail,
+        emails: updatedEmails
       }
   }
 }

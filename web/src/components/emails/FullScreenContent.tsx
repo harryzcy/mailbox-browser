@@ -1,5 +1,8 @@
 import { useContext } from 'react'
-import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
+import {
+  DraftEmail,
+  DraftEmailsContext
+} from '../../contexts/DraftEmailContext'
 import { EmailDraft } from './EmailDraft'
 
 export default function FullScreenContent() {
@@ -7,6 +10,13 @@ export default function FullScreenContent() {
 
   if (draftEmailsContext.activeEmail === null) {
     return null
+  }
+
+  const handleEmailChange = (email: DraftEmail) => {
+    draftEmailsContext.dispatch({
+      type: 'update',
+      email
+    })
   }
 
   const handleClose = () => {
@@ -21,9 +31,10 @@ export default function FullScreenContent() {
   }
 
   return (
-    <div className="absolute left-0 top-0 right-0 bottom-0 backdrop-blur p-24">
+    <div className="absolute left-0 top-0 right-0 bottom-0 backdrop-blur px-36 py-20">
       <EmailDraft
         email={draftEmailsContext.activeEmail}
+        handleEmailChange={handleEmailChange}
         handleClose={handleClose}
         handleMinimize={handleMinimize}
       />

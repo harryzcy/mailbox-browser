@@ -6,15 +6,18 @@
 import { MinusIcon, XMarkIcon } from '@heroicons/react/20/solid'
 
 import { DraftEmail } from '../../contexts/DraftEmailContext'
+import EmailAddressInput from '../inputs/EmailAddressInput'
+import TextInput from '../inputs/TextInput'
 
 interface EmailDraftProps {
   email: DraftEmail
+  handleEmailChange: (email: DraftEmail) => void
   handleClose: () => void
   handleMinimize: () => void
 }
 
 export function EmailDraft(props: EmailDraftProps) {
-  const { email, handleClose, handleMinimize } = props
+  const { email, handleEmailChange, handleClose, handleMinimize } = props
 
   return (
     <div className="w-full h-full rounded md:rounded-md bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-300">
@@ -33,6 +36,70 @@ export function EmailDraft(props: EmailDraftProps) {
           >
             <XMarkIcon className="w-4 h-4" />
           </span>
+        </span>
+      </div>
+
+      <div className="flex px-2 pt-2">
+        <span className="ml-2 px-3 py-1 w-16 text-center dark:bg-gray-900 rounded md:rounded-md">
+          From
+        </span>
+        <span className="flex-1 border-b dark:border-gray-500 mx-2">
+          <EmailAddressInput
+            addresses={email.from}
+            handleChange={(emails) => {
+              handleEmailChange({ ...email, from: emails })
+            }}
+          />
+        </span>
+      </div>
+      <div className="flex px-2 pt-2">
+        <span className="ml-2 px-3 py-1 w-16 text-center dark:bg-gray-900 rounded md:rounded-md">
+          To
+        </span>
+        <span className="flex-1 border-b dark:border-gray-500 mx-2">
+          <EmailAddressInput
+            addresses={email.to}
+            handleChange={(emails) => {
+              handleEmailChange({ ...email, to: emails })
+            }}
+          />
+        </span>
+      </div>
+      <div className="flex px-2 pt-2">
+        <span className="ml-2 px-3 py-1 w-16 text-center dark:bg-gray-900 rounded md:rounded-md">
+          Cc
+        </span>
+        <span className="flex-1 border-b dark:border-gray-500 mx-2">
+          <EmailAddressInput
+            addresses={email.cc}
+            handleChange={(emails) => {
+              handleEmailChange({ ...email, cc: emails })
+            }}
+          />
+        </span>
+      </div>
+      <div className="flex px-2 pt-2">
+        <span className="ml-2 px-3 py-1 w-16 text-center dark:bg-gray-900 rounded md:rounded-md">
+          Bcc
+        </span>
+        <span className="flex-1 border-b dark:border-gray-500 mx-2">
+          <EmailAddressInput
+            addresses={email.bcc}
+            handleChange={(emails) => {
+              handleEmailChange({ ...email, bcc: emails })
+            }}
+          />
+        </span>
+      </div>
+
+      <div className="flex px-2 pt-3">
+        <span className="flex-1 border-b dark:border-gray-500 mx-2">
+          <TextInput
+            placeholder="Subject"
+            handleChange={(subject) => {
+              handleEmailChange({ ...email, subject })
+            }}
+          />
         </span>
       </div>
     </div>
