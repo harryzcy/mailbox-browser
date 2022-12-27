@@ -6,6 +6,7 @@
 import { useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router-dom'
 import DraftEmailsTabs from '../components/emails/DraftEmailsTabs'
+import FullScreenContent from '../components/emails/FullScreenContent'
 import { EmailInfo, listEmails, ListEmailsResponse } from '../services/emails'
 
 type InboxContext = {
@@ -122,6 +123,8 @@ export default function EmailRoot(props: EmailRootProps) {
         </h1>
         <Outlet context={outletContext} />
       </div>
+
+      <FullScreenContent />
 
       <div className="fixed w-full h-[2.5rem] -mx-8 px-8 pt-2 border-t dark:border-gray-700 bg-gray-900">
         <DraftEmailsTabs />
