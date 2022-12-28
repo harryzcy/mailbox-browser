@@ -62,6 +62,7 @@ import {
   LinkIcon,
   ListBulletIcon
 } from '@heroicons/react/20/solid'
+import { PaperAirplaneIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Bars3BottomCenterIcon from '../icons/Bars3BottomCenterIcon'
 import ListNumberIcon from '../icons/ListNumberIcon'
 
@@ -581,9 +582,22 @@ export default function ToolbarPlugin() {
 
   return (
     <div
-      className="toolbar flex py-1 px-3 mt-2 -mx-2 rounded-b md:rounded-b-md bg-white dark:bg-gray-700 align-middle text-gray-700 dark:text-gray-200"
+      className="toolbar flex py-1 px-1 mt-2 -mx-2 rounded-b md:rounded-b-md bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200"
       ref={toolbarRef}
     >
+      <button
+        onClick={() => {}}
+        className="inline-flex bg-blue-200 text-black pl-5 pr-4 space-x-2 rounded-md items-center cursor-pointer border-none"
+        aria-label="Send"
+      >
+        <span>Send</span>
+        <span>
+          <PaperAirplaneIcon className="w-4 h-4 self-center" />
+        </span>
+      </button>
+
+      <Divider />
+
       <button
         disabled={!canUndo}
         onClick={() => {
@@ -757,6 +771,14 @@ export default function ToolbarPlugin() {
           </button>{' '}
         </>
       )}
+
+      <button
+        onClick={() => {}}
+        className="p-2.5 ml-auto rounded md:rounded-md align-middle cursor-pointer appearance-none truncate hover:bg-red-300 dark:hover:bg-red-600"
+        aria-label="Trash"
+      >
+        <TrashIcon className="w-4 h-4 self-center" />
+      </button>
     </div>
   )
 }
