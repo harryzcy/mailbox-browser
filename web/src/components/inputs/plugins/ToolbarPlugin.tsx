@@ -446,7 +446,7 @@ function BlockOptionsDropdownList({
                 blockClass
               }
             /> */}
-            <span className='mr-2 self-center w-4 h-4'>{element}</span>
+            <span className="mr-2 self-center w-4 h-4">{element}</span>
             <span className="text">{blockName}</span>
           </button>
         )

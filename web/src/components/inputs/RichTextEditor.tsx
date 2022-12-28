@@ -21,7 +21,11 @@ import AutoLinkPlugin from './plugins/AutoLinkPlugin'
 import './RichTextEditor.css'
 
 function Placeholder() {
-  return <div className="inline-block text-gray-500 dark:text-gray-400 truncate absolute left-3 top-3 select-none pointer-events-none">Email body...</div>
+  return (
+    <div className="inline-block text-gray-500 dark:text-gray-400 truncate absolute left-3 top-3 select-none pointer-events-none">
+      Email body...
+    </div>
+  )
 }
 
 const editorConfig = {
