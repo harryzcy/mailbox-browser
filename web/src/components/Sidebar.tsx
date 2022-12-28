@@ -10,7 +10,7 @@ export default function Sidebar() {
   return (
     <aside className="sidebar flex-none h-screen md:w-56 text-base border-r dark:border-gray-700">
       <div className="title-group flex flex-col content-center md:p-6">
-        <h1 className="text-center font-bold dark:text-white">
+        <h1 className="text-center font-light tracking-wide dark:text-gray-100">
           Mailbox Browser
         </h1>
       </div>
@@ -21,10 +21,10 @@ export default function Sidebar() {
               key={path}
               to={path}
               className={({ isActive }) =>
-                `flex content-center px-4 py-2 mb-1 cursor-pointer rounded dark:bg-gray-800 dark:hover:bg-gray-600 ${
+                `flex content-center px-4 py-2 mb-1 cursor-pointer rounded dark:hover:bg-gray-700 dark:hover:text-gray-100 ${
                   isActive
-                    ? 'text-gray-900 dark:text-gray-200 bg-gray-300 dark:bg-gray-700'
-                    : 'text-gray-700 dark:text-gray-400 bg-gray-100'
+                    ? 'text-gray-900 dark:text-gray-200 bg-gray-300 dark:bg-gray-800'
+                    : 'text-gray-700 dark:text-gray-400 bg-gray-100 dark:bg-transparent'
                 }`
               }
             >
