@@ -2,16 +2,16 @@ lockfileVersion: 5.4
 
 specifiers:
   '@heroicons/react': 2.0.13
-  '@lexical/clipboard': ^0.7.5
-  '@lexical/code': ^0.7.5
-  '@lexical/link': ^0.7.5
-  '@lexical/list': ^0.7.5
-  '@lexical/markdown': ^0.7.5
+  '@lexical/clipboard': 0.7.5
+  '@lexical/code': 0.7.5
+  '@lexical/link': 0.7.5
+  '@lexical/list': 0.7.5
+  '@lexical/markdown': 0.7.5
   '@lexical/react': 0.7.5
-  '@lexical/rich-text': ^0.7.5
-  '@lexical/selection': ^0.7.5
-  '@lexical/table': ^0.7.5
-  '@lexical/utils': ^0.7.5
+  '@lexical/rich-text': 0.7.5
+  '@lexical/selection': 0.7.5
+  '@lexical/table': 0.7.5
+  '@lexical/utils': 0.7.5
   '@types/react': 18.0.26
   '@types/react-dom': 18.0.10
   '@typescript-eslint/eslint-plugin': 5.47.1
