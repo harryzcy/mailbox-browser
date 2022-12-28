@@ -1,3 +1,4 @@
+import { $getRoot, EditorState, LexicalEditor } from 'lexical'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
@@ -21,8 +22,6 @@ import CodeHighlightPlugin from './plugins/CodeHighlightPlugin'
 import AutoLinkPlugin from './plugins/AutoLinkPlugin'
 
 import './RichTextEditor.css'
-import { $getRoot, EditorState, LexicalEditor } from 'lexical'
-import { useState } from 'react'
 
 function Placeholder() {
   return (

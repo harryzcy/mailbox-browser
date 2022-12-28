@@ -60,7 +60,8 @@ import {
   ChevronDownIcon,
   CodeBracketIcon,
   LinkIcon,
-  ListBulletIcon
+  ListBulletIcon,
+  PencilSquareIcon
 } from '@heroicons/react/20/solid'
 import { PaperAirplaneIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Bars3BottomCenterIcon from '../icons/Bars3BottomCenterIcon'
@@ -184,7 +185,10 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
         positionEditorElement(editorElem, rect)
       }
       setLastSelection(selection)
-    } else if (!activeElement || activeElement.className !== 'link-input') {
+    } else if (
+      !activeElement ||
+      !activeElement.className.includes('link-input')
+    ) {
       positionEditorElement(editorElem, null)
       setLastSelection(null)
       setEditMode(false)
@@ -227,11 +231,14 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
   }, [isEditMode])
 
   return (
-    <div ref={editorRef} className="link-editor">
+    <div
+      ref={editorRef}
+      className="absolute z-50 -mt-[6px] max-w-[300px] w-full opacity-0 bg-white shadow rounded-md transition-opacity duration-300 p-2"
+    >
       {isEditMode ? (
         <input
           ref={inputRef}
-          className="link-input"
+          className="link-input block w-full outline-none"
           value={linkUrl}
           onChange={(event) => {
             setLinkUrl(event.target.value)
@@ -253,19 +260,26 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
         />
       ) : (
         <>
-          <div className="link-input">
-            <a href={linkUrl} target="_blank" rel="noopener noreferrer">
+          <div className="link-input block w-full">
+            <a
+              href={linkUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 no-underline hover:underline block whitespace-nowrap overflow-hidden truncate mr-4"
+            >
               {linkUrl}
             </a>
             <div
-              className="link-edit"
+              className="absolute right-0 top-0 bottom-0 px-2 flex items-center justify-center cursor-pointer"
               role="button"
               tabIndex={0}
               onMouseDown={(event) => event.preventDefault()}
               onClick={() => {
                 setEditMode(true)
               }}
-            />
+            >
+              <PencilSquareIcon className="w-4 h-4 text-gray-500" />
+            </div>
           </div>
         </>
       )}
@@ -450,18 +464,18 @@ function BlockOptionsDropdownList({
 
   return (
     <div
-      className="dropdown z-10 block absolute rounded md:rounded-md min-w-32 min-h-10 shadow-md bg-white dark:bg-gray-600 text-slate-800 dark:text-slate-200"
+      className="z-10 block absolute rounded md:rounded-md cursor-pointer min-w-32 min-h-10 shadow-md bg-white dark:bg-gray-600 text-slate-800 dark:text-slate-200"
       ref={dropDownRef}
     >
       {blockTypeList.map(([blockClass, blockName, format, element]) => {
         return (
           <button
             key={blockClass}
-            className="item p-2 flex flex-row shrink-0 content-center rounded md:rounded-md min-w-32 hover:bg-gray-200 dark:hover:bg-gray-500"
+            className="p-2 flex flex-row shrink-0 content-center rounded md:rounded-md min-w-32 hover:bg-gray-200 dark:hover:bg-gray-500"
             onClick={format}
           >
             <span className="mr-2 self-center w-4 h-4">{element}</span>
-            <span className="text">{blockName}</span>
+            <span className="flex flex-1 leading-5 w-48">{blockName}</span>
           </button>
         )
       })}
