@@ -1,8 +1,6 @@
-import { IconProps } from "./IconProps";
+import { IconProps } from './IconProps'
 
-export default function Bars3BottomCenterIcon({
-  className
-}: IconProps) {
+export default function Bars3BottomCenterIcon({ className }: IconProps) {
   return (
     <svg
       className={className}

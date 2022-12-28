@@ -95,6 +95,21 @@ const blockTypeToBlockName = {
   ul: 'Bulleted List'
 }
 
+const blockTypeToIcon = {
+  code: <CodeBracketIcon />,
+  h1: <Bars2Icon />,
+  h2: <Bars3Icon />,
+  h3: <Bars4Icon />,
+  h4: <Bars4Icon />,
+  h5: <Bars4Icon />,
+  ol: <ListNumberIcon />,
+  paragraph: <Bars4Icon />,
+  quote: <ChatBubbleBottomCenterTextIcon />,
+  ul: <ListBulletIcon />
+}
+
+type BlockType = 'code' | 'h1' | 'h2' | 'ol' | 'paragraph' | 'quote' | 'ul'
+
 function Divider() {
   return <div className="w-px mx-2 my-1 bg-gray-200 dark:bg-gray-600" />
 }
@@ -316,7 +331,7 @@ function BlockOptionsDropdownList({
     if (toolbar !== null && dropDown !== null) {
       const { left } = toolbar.getBoundingClientRect()
       dropDown.style.bottom = `${120}px`
-      dropDown.style.left = `${left}px`
+      dropDown.style.left = `${left + 112}px`
     }
   }, [dropDownRef, toolbarRef])
 
@@ -445,12 +460,6 @@ function BlockOptionsDropdownList({
             className="item p-2 flex flex-row shrink-0 content-center rounded md:rounded-md min-w-32 hover:bg-gray-200 dark:hover:bg-gray-500"
             onClick={format}
           >
-            {/* <i
-              className={
-                'icon w-5 h-5 select-none mr-3 leading-5 bg-contain ' +
-                blockClass
-              }
-            /> */}
             <span className="mr-2 self-center w-4 h-4">{element}</span>
             <span className="text">{blockName}</span>
           </button>
@@ -459,8 +468,6 @@ function BlockOptionsDropdownList({
     </div>
   )
 }
-
-type BlockType = 'code' | 'h1' | 'h2' | 'ol' | 'paragraph' | 'quote' | 'ul'
 
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
@@ -633,8 +640,10 @@ export default function ToolbarPlugin() {
             aria-label="Formatting Options"
           >
             {/* icon still depend on css */}
-            <span className={'icon block-type ' + blockType} />
-            <span className="flex-1 text-sm text-inherit  w-16 truncate h-5 leading-5 align-middle text-left">
+            <span className="w-4 h-4 self-center">
+              {blockTypeToIcon[blockType as BlockType]}
+            </span>
+            <span className="flex-1 ml-2 text-sm text-inherit w-16 truncate h-5 leading-5 align-middle text-left">
               {blockTypeToBlockName[blockType as BlockType]}
             </span>
             <ChevronDownIcon className="w-4 h-4 self-center" />

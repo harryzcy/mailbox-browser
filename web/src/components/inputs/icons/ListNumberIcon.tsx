@@ -1,4 +1,4 @@
-import { IconProps } from "./IconProps";
+import { IconProps } from './IconProps'
 
 export default function ListNumberIcon({ className }: IconProps) {
   return (
