@@ -2,6 +2,7 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import ToolbarPlugin from './plugins/ToolbarPlugin'
@@ -14,11 +15,14 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin'
 import { TRANSFORMERS } from '@lexical/markdown'
+import { $generateHtmlFromNodes } from '@lexical/html'
 import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin'
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin'
 import AutoLinkPlugin from './plugins/AutoLinkPlugin'
 
 import './RichTextEditor.css'
+import { $getRoot, EditorState, LexicalEditor } from 'lexical'
+import { useState } from 'react'
 
 function Placeholder() {
   return (
@@ -49,7 +53,23 @@ const editorConfig = {
   ]
 }
 
-export default function Editor() {
+interface RichTextEditorProps {
+  initialHtml?: string
+  handleChange: ({ html, text }: { html: string; text: string }) => void
+}
+
+export default function RichTextEditor(props: RichTextEditorProps) {
+  const onChange = (_: EditorState, editor: LexicalEditor) => {
+    editor.update(() => {
+      const html = $generateHtmlFromNodes(editor, null)
+      const text = $getRoot().getTextContent()
+      props.handleChange({
+        html,
+        text
+      })
+    })
+  }
+
   return (
     <LexicalComposer initialConfig={editorConfig}>
       <div className="flex flex-col w-full h-full relative rounded md:rounded-md font-normal text-slate-900 dark:text-gray-200 leading-5 text-left">
@@ -67,6 +87,7 @@ export default function Editor() {
             ErrorBoundary={LexicalErrorBoundary}
           />
           <HistoryPlugin />
+          <OnChangePlugin onChange={onChange} ignoreSelectionChange />
           <AutoFocusPlugin />
           <CodeHighlightPlugin />
           <ListPlugin />

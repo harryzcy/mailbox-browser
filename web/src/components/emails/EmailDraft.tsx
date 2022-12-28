@@ -105,7 +105,11 @@ export function EmailDraft(props: EmailDraftProps) {
       </div>
 
       <div className="flex-1 flex px-2 pt-3 overscroll-contain overflow-scroll">
-        <RichTextEditor />
+        <RichTextEditor
+          handleChange={({ html, text }) => {
+            handleEmailChange({ ...email, html, text })
+          }}
+        />
       </div>
     </div>
   )
