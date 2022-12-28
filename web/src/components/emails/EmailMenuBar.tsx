@@ -28,7 +28,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
       >
         <span
           className={
-            'inline-flex p-2 items-center dark:bg-cyan-900 rounded-l-md ' +
+            'inline-flex p-2 items-center dark:bg-sky-900 rounded-l-md ' +
             (!hasPrevious
               ? 'cursor-not-allowed text-gray-400'
               : 'cursor-pointer dark:text-gray-200')
@@ -40,13 +40,13 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
           </span>
         </span>
         {children && (
-          <span className="inline-flex py-2 px-3 mx-px dark:bg-cyan-900 select-none dark:text-gray-200">
+          <span className="inline-flex py-2 px-3 mx-px dark:bg-sky-900 select-none dark:text-gray-200">
             {children}
           </span>
         )}
         <span
           className={
-            'inline-flex p-2 items-center dark:bg-cyan-900 rounded-r-md ' +
+            'inline-flex p-2 items-center dark:bg-sky-900 rounded-r-md ' +
             (!hasNext
               ? 'cursor-not-allowed text-gray-400'
               : 'cursor-pointer dark:text-gray-200')
