@@ -1,5 +1,12 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
 import {
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
@@ -41,6 +48,22 @@ import {
   getDefaultCodeLanguage,
   getCodeLanguages
 } from '@lexical/code'
+import {
+  ArrowUturnLeftIcon,
+  ArrowUturnRightIcon,
+  Bars2Icon,
+  Bars3BottomLeftIcon,
+  Bars3BottomRightIcon,
+  Bars3Icon,
+  Bars4Icon,
+  ChatBubbleBottomCenterTextIcon,
+  ChevronDownIcon,
+  CodeBracketIcon,
+  LinkIcon,
+  ListBulletIcon
+} from '@heroicons/react/20/solid'
+import Bars3BottomCenterIcon from '../icons/Bars3BottomCenterIcon'
+import ListNumberIcon from '../icons/ListNumberIcon'
 
 const LowPriority = 1
 
@@ -68,7 +91,7 @@ const blockTypeToBlockName = {
 }
 
 function Divider() {
-  return <div className="divider" />
+  return <div className="w-px mx-1 my-1 bg-gray-200 dark:bg-gray-600" />
 }
 
 function positionEditorElement(editor: any, rect: any) {
@@ -286,8 +309,8 @@ function BlockOptionsDropdownList({
     const dropDown: any = dropDownRef.current
 
     if (toolbar !== null && dropDown !== null) {
-      const { top, left } = toolbar.getBoundingClientRect()
-      dropDown.style.top = `${top + 40}px`
+      const { left } = toolbar.getBoundingClientRect()
+      dropDown.style.bottom = `${120}px`
       dropDown.style.left = `${left}px`
     }
   }, [dropDownRef, toolbarRef])
@@ -395,43 +418,39 @@ function BlockOptionsDropdownList({
     setShowBlockOptionsDropDown(false)
   }
 
+  const blockTypeList: [string, string, () => void, ReactElement][] = [
+    ['paragraph', 'Normal', formatParagraph, <Bars4Icon />],
+    ['large-heading', 'Large Heading', formatLargeHeading, <Bars2Icon />],
+    ['small-heading', 'Small Heading', formatSmallHeading, <Bars3Icon />],
+    ['bullet-list', 'Bullet List', formatBulletList, <ListBulletIcon />],
+    ['numbered-list', 'Numbered List', formatNumberedList, <ListNumberIcon />],
+    ['quote', 'Quote', formatQuote, <ChatBubbleBottomCenterTextIcon />],
+    ['code', 'Code', formatCode, <CodeBracketIcon />]
+  ]
+
   return (
-    <div className="dropdown" ref={dropDownRef}>
-      <button className="item" onClick={formatParagraph}>
-        <span className="icon paragraph" />
-        <span className="text">Normal</span>
-        {blockType === 'paragraph' && <span className="active" />}
-      </button>
-      <button className="item" onClick={formatLargeHeading}>
-        <span className="icon large-heading" />
-        <span className="text">Large Heading</span>
-        {blockType === 'h1' && <span className="active" />}
-      </button>
-      <button className="item" onClick={formatSmallHeading}>
-        <span className="icon small-heading" />
-        <span className="text">Small Heading</span>
-        {blockType === 'h2' && <span className="active" />}
-      </button>
-      <button className="item" onClick={formatBulletList}>
-        <span className="icon bullet-list" />
-        <span className="text">Bullet List</span>
-        {blockType === 'ul' && <span className="active" />}
-      </button>
-      <button className="item" onClick={formatNumberedList}>
-        <span className="icon numbered-list" />
-        <span className="text">Numbered List</span>
-        {blockType === 'ol' && <span className="active" />}
-      </button>
-      <button className="item" onClick={formatQuote}>
-        <span className="icon quote" />
-        <span className="text">Quote</span>
-        {blockType === 'quote' && <span className="active" />}
-      </button>
-      <button className="item" onClick={formatCode}>
-        <span className="icon code" />
-        <span className="text">Code Block</span>
-        {blockType === 'code' && <span className="active" />}
-      </button>
+    <div
+      className="dropdown z-10 block absolute rounded md:rounded-md min-w-32 min-h-10 shadow-md bg-white dark:bg-gray-600 text-slate-800 dark:text-slate-200"
+      ref={dropDownRef}
+    >
+      {blockTypeList.map(([blockClass, blockName, format, element]) => {
+        return (
+          <button
+            key={blockClass}
+            className="item p-2 flex flex-row shrink-0 content-center rounded md:rounded-md min-w-32 hover:bg-gray-200 dark:hover:bg-gray-500"
+            onClick={format}
+          >
+            {/* <i
+              className={
+                'icon w-5 h-5 select-none mr-3 leading-5 bg-contain ' +
+                blockClass
+              }
+            /> */}
+            <span className='mr-2 self-center w-4 h-4'>{element}</span>
+            <span className="text">{blockName}</span>
+          </button>
+        )
+      })}
     </div>
   )
 }
@@ -561,42 +580,46 @@ export default function ToolbarPlugin() {
   }, [editor, isLink])
 
   return (
-    <div className="toolbar" ref={toolbarRef}>
+    <div
+      className="toolbar flex py-1 px-3 -mx-2 rounded-b md:rounded-b-md bg-white dark:bg-gray-700 align-middle text-gray-700 dark:text-gray-200"
+      ref={toolbarRef}
+    >
       <button
         disabled={!canUndo}
         onClick={() => {
           editor.dispatchCommand(UNDO_COMMAND, undefined)
         }}
-        className="toolbar-item spaced"
+        className="toolbar-item flex border-none bg-none p-2.5 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
         aria-label="Undo"
       >
-        <i className="format undo" />
+        <ArrowUturnLeftIcon className="w-4 h-4 self-center" />
       </button>
       <button
         disabled={!canRedo}
         onClick={() => {
           editor.dispatchCommand(REDO_COMMAND, undefined)
         }}
-        className="toolbar-item"
+        className="toolbar-item flex border-none bg-none p-2.5 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
         aria-label="Redo"
       >
-        <i className="format redo" />
+        <ArrowUturnRightIcon className="w-4 h-4 self-center" />
       </button>
       <Divider />
       {supportedBlockTypes.has(blockType) && (
         <>
           <button
-            className="toolbar-item block-controls"
+            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate w-36 enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 block-controls"
             onClick={() =>
               setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
             }
             aria-label="Formatting Options"
           >
+            {/* icon still depend on css */}
             <span className={'icon block-type ' + blockType} />
-            <span className="text">
+            <span className="flex-1 text-sm text-inherit  w-16 truncate h-5 leading-5 align-middle text-left">
               {blockTypeToBlockName[blockType as BlockType]}
             </span>
-            <i className="chevron-down" />
+            <ChevronDownIcon className="w-4 h-4 self-center" />
           </button>
           {showBlockOptionsDropDown &&
             createPortal(
@@ -614,12 +637,12 @@ export default function ToolbarPlugin() {
       {blockType === 'code' ? (
         <>
           <Select
-            className="toolbar-item code-language"
+            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none select-none outline-none text-gray-500 bg-transparent dark:hover:bg-gray-600 dark:text-gray-200 text-sm capitalize w-32"
             onChange={onCodeLanguageSelect}
             options={codeLanguges}
             value={codeLanguage}
           />
-          <i className="chevron-down inside" />
+          <ChevronDownIcon className="w-4 h-4 -ml-5 self-center" />
         </>
       ) : (
         <>
@@ -627,7 +650,10 @@ export default function ToolbarPlugin() {
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
             }}
-            className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
+            className={
+              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              (isBold ? 'bg-gray-200 dark:bg-gray-600' : '')
+            }
             aria-label="Format Bold"
           >
             <i className="format bold" />
@@ -636,7 +662,10 @@ export default function ToolbarPlugin() {
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
             }}
-            className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
+            className={
+              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              (isItalic ? 'bg-gray-200 dark:bg-gray-600' : '')
+            }
             aria-label="Format Italics"
           >
             <i className="format italic" />
@@ -645,7 +674,10 @@ export default function ToolbarPlugin() {
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
             }}
-            className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
+            className={
+              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              (isUnderline ? 'bg-gray-200 dark:bg-gray-600' : '')
+            }
             aria-label="Format Underline"
           >
             <i className="format underline" />
@@ -655,7 +687,8 @@ export default function ToolbarPlugin() {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
             }}
             className={
-              'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')
+              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              (isStrikethrough ? 'bg-gray-200 dark:bg-gray-600' : '')
             }
             aria-label="Format Strikethrough"
           >
@@ -665,17 +698,23 @@ export default function ToolbarPlugin() {
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
             }}
-            className={'toolbar-item spaced ' + (isCode ? 'active' : '')}
+            className={
+              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              (isCode ? 'bg-gray-200 dark:bg-gray-600' : '')
+            }
             aria-label="Insert Code"
           >
-            <i className="format code" />
+            <CodeBracketIcon className="w-4 h-4 self-center" />
           </button>
           <button
             onClick={insertLink}
-            className={'toolbar-item spaced ' + (isLink ? 'active' : '')}
+            className={
+              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              (isLink ? 'bg-gray-200 dark:bg-gray-600' : '')
+            }
             aria-label="Insert Link"
           >
-            <i className="format link" />
+            <LinkIcon className="w-4 h-4 self-center" />
           </button>
           {isLink &&
             createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
@@ -684,37 +723,37 @@ export default function ToolbarPlugin() {
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
             }}
-            className="toolbar-item spaced"
+            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
             aria-label="Left Align"
           >
-            <i className="format left-align" />
+            <Bars3BottomLeftIcon className="w-4 h-4 self-center" />
           </button>
           <button
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
             }}
-            className="toolbar-item spaced"
+            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
             aria-label="Center Align"
           >
-            <i className="format center-align" />
+            <Bars3BottomCenterIcon className="w-4 h-4 self-center" />
           </button>
           <button
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
             }}
-            className="toolbar-item spaced"
+            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
             aria-label="Right Align"
           >
-            <i className="format right-align" />
+            <Bars3BottomRightIcon className="w-4 h-4 self-center" />
           </button>
           <button
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')
             }}
-            className="toolbar-item"
+            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
             aria-label="Justify Align"
           >
-            <i className="format justify-align" />
+            <Bars3Icon className="w-4 h-4 self-center" />
           </button>{' '}
         </>
       )}

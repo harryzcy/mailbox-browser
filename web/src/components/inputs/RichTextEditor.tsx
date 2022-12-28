@@ -21,7 +21,7 @@ import AutoLinkPlugin from './plugins/AutoLinkPlugin'
 import './RichTextEditor.css'
 
 function Placeholder() {
-  return <div className="editor-placeholder">Enter some rich text...</div>
+  return <div className="inline-block text-gray-500 dark:text-gray-400 truncate absolute left-3 top-3 select-none pointer-events-none">Email body...</div>
 }
 
 const editorConfig = {
@@ -48,11 +48,17 @@ const editorConfig = {
 export default function Editor() {
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className="editor-container">
-        <ToolbarPlugin />
-        <div className="editor-inner">
+      <div className="flex flex-col w-full h-full relative rounded md:rounded-md font-normal text-slate-900 dark:text-gray-200 leading-5 text-left">
+        <div className="relative flex-1">
           <RichTextPlugin
-            contentEditable={<ContentEditable className="editor-input" />}
+            contentEditable={
+              <ContentEditable
+                className="relative min-height-full resize-none outline-none p-3 caret-inherit"
+                style={{
+                  tabSize: 1
+                }}
+              />
+            }
             placeholder={<Placeholder />}
             ErrorBoundary={LexicalErrorBoundary}
           />
@@ -65,6 +71,7 @@ export default function Editor() {
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         </div>
+        <ToolbarPlugin />
       </div>
     </LexicalComposer>
   )

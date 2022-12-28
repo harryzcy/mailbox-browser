@@ -21,7 +21,7 @@ export function EmailDraft(props: EmailDraftProps) {
   const { email, handleEmailChange, handleClose, handleMinimize } = props
 
   return (
-    <div className="w-full h-full rounded md:rounded-md bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-300">
+    <div className="flex flex-col w-full h-full rounded md:rounded-md bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-300">
       <div className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-2 rounded-t md:rounded-t-md">
         <span>{email.subject || 'New Email'}</span>
         <span className="inline-flex">
@@ -104,7 +104,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
       </div>
 
-      <div className="flex px-2 pt-3">
+      <div className="flex-1 flex px-2 pt-3">
         <RichTextEditor />
       </div>
     </div>
