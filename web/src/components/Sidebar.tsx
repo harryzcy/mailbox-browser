@@ -8,7 +8,7 @@ export default function Sidebar() {
   ]
 
   return (
-    <aside className="sidebar flex-none h-screen md:w-56 text-base border-r dark:border-gray-700">
+    <aside className="sidebar flex-none h-screen md:w-56 text-base border-r dark:border-gray-700 select-none">
       <div className="title-group flex flex-col content-center md:p-6">
         <h1 className="text-center font-light tracking-wide dark:text-gray-100">
           Mailbox Browser

@@ -1,4 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+import { EnvelopeIcon } from '@heroicons/react/24/outline'
 
 interface EmailMenuBarProps {
   hasPrevious: boolean
@@ -13,8 +14,11 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
   return (
     <div className="flex justify-between items-stretch">
       <div>
-        <span className="inline-flex items-center px-4 h-full rounded-md cursor-pointer bg-blue-200">
-          Create
+        <span className="inline-flex items-center h-full space-x-2 px-3 rounded-md cursor-pointer bg-blue-200">
+          <span>
+            <EnvelopeIcon className="h-5 w-5 text-sky-800" />
+          </span>
+          <span className="text-bold text-black">Create</span>
         </span>
       </div>
 
