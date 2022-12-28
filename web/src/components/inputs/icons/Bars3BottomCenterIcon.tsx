@@ -1,8 +1,8 @@
+import { IconProps } from "./IconProps";
+
 export default function Bars3BottomCenterIcon({
   className
-}: {
-  className?: string
-}) {
+}: IconProps) {
   return (
     <svg
       className={className}

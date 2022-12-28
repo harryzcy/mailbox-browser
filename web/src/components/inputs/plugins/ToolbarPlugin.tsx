@@ -65,6 +65,10 @@ import {
 import { PaperAirplaneIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Bars3BottomCenterIcon from '../icons/Bars3BottomCenterIcon'
 import ListNumberIcon from '../icons/ListNumberIcon'
+import StrikeThroughIcon from '../icons/StrikeThrough'
+import BoldIcon from '../icons/BoldIcon'
+import ItalicIcon from '../icons/ItalicIcon'
+import UnderlineIcon from '../icons/Underline'
 
 const LowPriority = 1
 
@@ -670,7 +674,7 @@ export default function ToolbarPlugin() {
             }
             aria-label="Format Bold"
           >
-            <i className="format bold" />
+            <BoldIcon className="w-4 h-4 self-center" />
           </button>
           <button
             onClick={() => {
@@ -682,7 +686,7 @@ export default function ToolbarPlugin() {
             }
             aria-label="Format Italics"
           >
-            <i className="format italic" />
+            <ItalicIcon className="w-4 h-4 self-center" />
           </button>
           <button
             onClick={() => {
@@ -694,7 +698,7 @@ export default function ToolbarPlugin() {
             }
             aria-label="Format Underline"
           >
-            <i className="format underline" />
+            <UnderlineIcon className="w-4 h-4 self-center" />
           </button>
           <button
             onClick={() => {
@@ -706,7 +710,7 @@ export default function ToolbarPlugin() {
             }
             aria-label="Format Strikethrough"
           >
-            <i className="format strikethrough" />
+            <StrikeThroughIcon className="w-4 h-4 self-center" />
           </button>
           <button
             onClick={() => {

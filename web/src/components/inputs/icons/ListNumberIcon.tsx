@@ -1,4 +1,6 @@
-export default function ListNumberIcon({ className }: { className?: string }) {
+import { IconProps } from "./IconProps";
+
+export default function ListNumberIcon({ className }: IconProps) {
   return (
     <svg
       className={className}
