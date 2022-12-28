@@ -581,7 +581,7 @@ export default function ToolbarPlugin() {
 
   return (
     <div
-      className="toolbar flex py-1 px-3 -mx-2 rounded-b md:rounded-b-md bg-white dark:bg-gray-700 align-middle text-gray-700 dark:text-gray-200"
+      className="toolbar flex py-1 px-3 mt-2 -mx-2 rounded-b md:rounded-b-md bg-white dark:bg-gray-700 align-middle text-gray-700 dark:text-gray-200"
       ref={toolbarRef}
     >
       <button

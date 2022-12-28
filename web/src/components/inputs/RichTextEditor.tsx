@@ -53,7 +53,7 @@ export default function Editor() {
   return (
     <LexicalComposer initialConfig={editorConfig}>
       <div className="flex flex-col w-full h-full relative rounded md:rounded-md font-normal text-slate-900 dark:text-gray-200 leading-5 text-left">
-        <div className="relative flex-1">
+        <div className="relative flex-1 overflow-scroll">
           <RichTextPlugin
             contentEditable={
               <ContentEditable
