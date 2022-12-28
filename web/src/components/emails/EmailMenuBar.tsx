@@ -18,7 +18,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
           <span>
             <EnvelopeIcon className="h-5 w-5 text-sky-800" />
           </span>
-          <span className="text-bold text-black">Create</span>
+          <span className="text-bold text-black">Compose</span>
         </span>
       </div>
 
