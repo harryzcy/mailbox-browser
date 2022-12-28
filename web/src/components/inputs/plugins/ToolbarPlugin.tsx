@@ -91,7 +91,7 @@ const blockTypeToBlockName = {
 }
 
 function Divider() {
-  return <div className="w-px mx-1 my-1 bg-gray-200 dark:bg-gray-600" />
+  return <div className="w-px mx-2 my-1 bg-gray-200 dark:bg-gray-600" />
 }
 
 function positionEditorElement(editor: any, rect: any) {
