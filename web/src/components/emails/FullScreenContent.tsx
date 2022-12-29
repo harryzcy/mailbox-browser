@@ -15,7 +15,9 @@ export default function FullScreenContent() {
   const handleEmailChange = (email: DraftEmail) => {
     draftEmailsContext.dispatch({
       type: 'update',
-      email
+      messageID: email.messageID,
+      email,
+      excludeInWaitlist: false
     })
   }
 

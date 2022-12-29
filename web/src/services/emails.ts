@@ -71,9 +71,9 @@ export type Email = {
 
   // draft only
   timeUpdated: string
-  Cc: string[]
-  Bcc: string[]
-  ReplyTo: string[]
+  cc: string[]
+  bcc: string[]
+  replyTo: string[]
 }
 
 export type EmailVerdict = {
@@ -135,4 +135,12 @@ export async function saveEmail(email: SaveEmailProps): Promise<Email> {
     })
   })
   return response.json()
+}
+
+export function generateLocalDraftID(): string {
+  return `local-${Date.now().toString()}`
+}
+
+export function isLocalDraftID(id: string): boolean {
+  return id.startsWith('local-')
 }

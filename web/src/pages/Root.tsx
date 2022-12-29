@@ -18,6 +18,7 @@ export default function Root() {
       value={{
         emails: draftEmailsState.emails,
         activeEmail: draftEmailsState.activeEmail,
+        updateWaitlist: draftEmailsState.updateWaitlist,
         dispatch: draftEmailsDispatch
       }}
     >

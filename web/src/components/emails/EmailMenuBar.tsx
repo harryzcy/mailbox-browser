@@ -1,6 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import { useContext } from 'react'
 import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
+import { generateLocalDraftID } from '../../services/emails'
 
 interface EmailMenuBarProps {
   hasPrevious: boolean
@@ -21,7 +22,8 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
           className="inline-flex items-center px-4 h-full rounded-md cursor-pointer bg-blue-200"
           onClick={() => {
             dispatchDraftEmail({
-              type: 'add'
+              type: 'add',
+              messageID: generateLocalDraftID()
             })
           }}
         >
