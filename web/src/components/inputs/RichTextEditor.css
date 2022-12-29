@@ -26,7 +26,7 @@
 }
 
 .editor-link {
-  color: rgb(33, 111, 219);
+  color: rgb(8 145 178);
   text-decoration: none;
 }
 
@@ -138,13 +138,12 @@
 }
 
 .editor-heading-h2 {
-  font-size: 15px;
+  font-size: 16px;
   color: rgb(101, 103, 107);
   font-weight: 700;
   margin: 0;
   margin-top: 10px;
   padding: 0;
-  text-transform: uppercase;
 }
 
 .editor-quote {
@@ -162,20 +161,51 @@
   padding: 0;
   margin: 0;
   margin-left: 16px;
+  list-style: decimal outside;
 }
 
 .editor-list-ul {
   padding: 0;
   margin: 0;
   margin-left: 16px;
+  list-style: disc outside;
 }
 
 .editor-listitem {
   margin: 8px 32px 8px 32px;
+  display: list-item;
 }
 
 .editor-nested-listitem {
   list-style-type: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .editor-heading-h1 {
+    color: rgb(240, 242, 245);
+  }
+  .editor-heading-h2 {
+    color: rgb(223, 225, 228);
+  }
+  .editor-text-code {
+    background-color: rgb(40, 42, 45);
+    color: rgb(240, 242, 245);
+  }
+  .editor-link {
+    color: rgb(6, 182, 212);
+  }
+  .editor-code {
+    background-color: rgb(40, 42, 45);
+    color: rgb(240, 242, 245);
+  }
+  .editor-code:before {
+    background-color: #333;
+    border-right: 1px solid #444;
+    color: #999;
+  }
+  .editor-code:after {
+    color: #848687;
+  }
 }
 
 pre::-webkit-scrollbar {

@@ -21,6 +21,7 @@ import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin'
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin'
 import AutoLinkPlugin from './plugins/AutoLinkPlugin'
 
+import theme from './themes/LexicalTheme'
 import './RichTextEditor.css'
 
 function Placeholder() {
@@ -32,7 +33,7 @@ function Placeholder() {
 }
 
 const editorConfig = {
-  theme: {},
+  theme,
   namespace: 'email-editor',
   onError(error: Error) {
     throw error
@@ -60,7 +61,10 @@ interface RichTextEditorProps {
 export default function RichTextEditor(props: RichTextEditorProps) {
   const onChange = (_: EditorState, editor: LexicalEditor) => {
     editor.update(() => {
-      const html = $generateHtmlFromNodes(editor, null)
+      const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>${$generateHtmlFromNodes(
+        editor,
+        null
+      )}</body></html>`
       const text = $getRoot().getTextContent()
       props.handleChange({
         html,
