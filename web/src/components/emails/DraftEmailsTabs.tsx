@@ -47,34 +47,29 @@ export default function DraftEmailsTabs() {
     let data: Email
     const oldMessageID = email.messageID
     if (isLocalDraftID(email.messageID)) {
-      // data = await createEmail(body)
-      console.log('createEmail', body)
+      data = await createEmail(body)
     } else {
-      // data = await saveEmail({
-      //   ...body,
-      //   messageID: email.messageID
-      // })
-      console.log('saveEmail', {
+      data = await saveEmail({
         ...body,
         messageID: email.messageID
       })
     }
-    // draftEmailsContext.dispatch({
-    //   type: 'update',
-    //   messageID: oldMessageID,
-    //   email: {
-    //     messageID: data.messageID,
-    //     subject: data.subject,
-    //     from: data.from,
-    //     to: data.to,
-    //     cc: data.cc,
-    //     bcc: data.bcc,
-    //     replyTo: data.replyTo,
-    //     html: data.html,
-    //     text: data.text
-    //   },
-    //   excludeInWaitlist: true
-    // })
+    draftEmailsContext.dispatch({
+      type: 'update',
+      messageID: oldMessageID,
+      email: {
+        messageID: data.messageID,
+        subject: data.subject,
+        from: data.from,
+        to: data.to,
+        cc: data.cc,
+        bcc: data.bcc,
+        replyTo: data.replyTo,
+        html: data.html,
+        text: data.text
+      },
+      excludeInWaitlist: true
+    })
   }
 
   if (draftEmailsContext.emails.length === 0) {

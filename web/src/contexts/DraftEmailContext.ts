@@ -86,9 +86,11 @@ export function draftEmailReducer(state: State, action: Action): State {
           state.activeEmail?.messageID === action.messageID
             ? action.email
             : state.activeEmail,
-        updateWaitlist: action.excludeInWaitlist
-          ? state.updateWaitlist
-          : [...state.updateWaitlist, action.messageID],
+        updateWaitlist:
+          action.excludeInWaitlist ||
+          state.updateWaitlist.includes(action.messageID)
+            ? state.updateWaitlist
+            : [...state.updateWaitlist, action.messageID],
         emails: updatedEmails
       }
     case 'clear-waitlist':

@@ -1,4 +1,5 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
+import { useDebounce } from 'react-use'
 import {
   DraftEmail,
   DraftEmailsContext
@@ -8,17 +9,25 @@ import { EmailDraft } from './EmailDraft'
 export default function FullScreenContent() {
   const draftEmailsContext = useContext(DraftEmailsContext)
 
-  if (draftEmailsContext.activeEmail === null) {
-    return null
-  }
+  const [cachedEmail, setCachedEmail] = useState<DraftEmail | null>(null)
+
+  useDebounce(
+    () => {
+      if (cachedEmail) {
+        draftEmailsContext.dispatch({
+          type: 'update',
+          messageID: cachedEmail.messageID,
+          email: cachedEmail,
+          excludeInWaitlist: false
+        })
+      }
+    },
+    500,
+    [cachedEmail]
+  )
 
   const handleEmailChange = (email: DraftEmail) => {
-    draftEmailsContext.dispatch({
-      type: 'update',
-      messageID: email.messageID,
-      email,
-      excludeInWaitlist: false
-    })
+    setCachedEmail(email)
   }
 
   const handleClose = () => {
@@ -30,6 +39,10 @@ export default function FullScreenContent() {
     draftEmailsContext.dispatch({
       type: 'minimize'
     })
+  }
+
+  if (draftEmailsContext.activeEmail === null) {
+    return null
   }
 
   return (
