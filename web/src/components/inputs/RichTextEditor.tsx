@@ -76,7 +76,7 @@ export default function RichTextEditor(props: RichTextEditorProps) {
           <RichTextPlugin
             contentEditable={
               <ContentEditable
-                className="relative min-height-full resize-none outline-none p-3 caret-inherit"
+                className="relative min-h-full resize-none outline-none p-3 caret-inherit"
                 style={{
                   tabSize: 1
                 }}
