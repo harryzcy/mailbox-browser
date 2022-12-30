@@ -1,5 +1,8 @@
+import { useContext } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import { EnvelopeIcon } from '@heroicons/react/24/outline'
+import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
+import { generateLocalDraftID } from '../../services/emails'
 
 interface EmailMenuBarProps {
   hasPrevious: boolean
@@ -11,14 +14,21 @@ interface EmailMenuBarProps {
 
 export default function EmailMenuBar(props: EmailMenuBarProps) {
   const { hasPrevious, hasNext, goPrevious, goNext, children } = props
+  const { dispatch: dispatchDraftEmail } = useContext(DraftEmailsContext)
+
   return (
     <div className="flex justify-between items-stretch">
       <div>
-        <span className="inline-flex items-center h-full space-x-2 px-3 rounded-md cursor-pointer bg-blue-200">
-          <span>
-            <EnvelopeIcon className="h-5 w-5 text-sky-800" />
-          </span>
-          <span className="text-bold text-black">Compose</span>
+        <span
+          className="inline-flex items-center h-full space-x-2 px-3 rounded-md cursor-pointer bg-blue-200"
+          onClick={() => {
+            dispatchDraftEmail({
+              type: 'add',
+              messageID: generateLocalDraftID()
+            })
+          }}
+        >
+          Compose
         </span>
       </div>
 

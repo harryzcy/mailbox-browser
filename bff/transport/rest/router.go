@@ -33,7 +33,7 @@ func Init(logger *zap.Logger, mode string) *gin.Engine {
 		emails.GET("", web.MailboxProxy)              // list
 		emails.GET("/:id", web.MailboxProxy)          // get
 		emails.POST("", web.MailboxProxy)             // create
-		emails.POST("/:id", web.MailboxProxy)         // save
+		emails.PUT("/:id", web.MailboxProxy)          // save
 		emails.DELETE("/:id", web.MailboxProxy)       // delete
 		emails.POST("/:id/trash", web.MailboxProxy)   // trash
 		emails.POST("/:id/untrash", web.MailboxProxy) // untrash
