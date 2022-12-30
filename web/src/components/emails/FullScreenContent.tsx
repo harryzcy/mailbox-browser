@@ -22,7 +22,7 @@ export default function FullScreenContent() {
         })
       }
     },
-    500,
+    200,
     [cachedEmail]
   )
 
