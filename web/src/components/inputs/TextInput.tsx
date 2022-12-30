@@ -10,7 +10,7 @@ export default function EmailAddressInput(props: EmailAddressInputProps) {
     <span>
       <input
         type="text"
-        className="outline-none bg-transparent w-full p-1 dark:placeholder:text-slate-400"
+        className="outline-none bg-transparent w-full p-1 dark:placeholder:text-neutral-400"
         placeholder={placeholder}
         onChange={(e) => {
           handleChange(e.target.value)

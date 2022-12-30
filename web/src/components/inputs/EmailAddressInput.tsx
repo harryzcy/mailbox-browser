@@ -57,7 +57,7 @@ export default function EmailAddressInput(props: EmailAddressInputProps) {
 
       <input
         type="text"
-        className="outline-none bg-transparent w-full p-1 dark:placeholder:text-slate-400"
+        className="outline-none bg-transparent w-full p-1 dark:placeholder:text-neutral-400"
         placeholder={placeholder}
         value={stash}
         onChange={(e) => {

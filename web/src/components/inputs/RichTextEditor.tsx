@@ -26,7 +26,7 @@ import './RichTextEditor.css'
 
 function Placeholder() {
   return (
-    <div className="inline-block text-slate-400 dark:text-slate-400 truncate absolute left-3 top-3 select-none pointer-events-none">
+    <div className="inline-block text-slate-400 dark:text-neutral-400 truncate absolute left-3 top-3 select-none pointer-events-none">
       Email body...
     </div>
   )
