@@ -1,7 +1,9 @@
 export interface EmailInfo {
   messageID: string
   type: 'inbox' | 'draft' | 'sent'
-  timeReceived: string
+  timeReceived: string | null
+  timeUpdated: string | null
+  timeSent: string | null
   subject: string
   from: string[]
   to: string[]
