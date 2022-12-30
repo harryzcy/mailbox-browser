@@ -20,7 +20,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
     <div className="flex justify-between items-stretch">
       <div>
         <span
-          className="inline-flex items-center h-full space-x-2 px-3 rounded-md cursor-pointer bg-blue-200"
+          className="inline-flex items-center h-full space-x-2 px-3 rounded-md cursor-pointer bg-sky-200"
           onClick={() => {
             dispatchDraftEmail({
               type: 'add',
@@ -36,7 +36,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
       </div>
 
       <nav
-        className="inline-flex rounded-md divide-x dark:divide-x-0 border dark:border-0"
+        className="inline-flex rounded-md divide-x dark:divide-x-0 border dark:border-sky-900"
         aria-label="pagination"
       >
         <span
@@ -44,16 +44,16 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
             'inline-flex p-2 items-center dark:bg-sky-900 rounded-l-md ' +
             (!hasPrevious
               ? 'cursor-not-allowed text-gray-400'
-              : 'cursor-pointer dark:text-gray-200')
+              : 'cursor-pointer dark:text-sky-100')
           }
           onClick={goPrevious}
         >
-          <span className="h-[20px] w-[20px]">
+          <span className="h-5 w-5">
             <ChevronLeftIcon />
           </span>
         </span>
         {children && (
-          <span className="inline-flex py-2 px-3 mx-px dark:bg-sky-900 select-none dark:text-gray-200">
+          <span className="inline-flex py-2 px-3 mx-px dark:bg-sky-900 select-none dark:text-sky-100">
             {children}
           </span>
         )}
@@ -62,11 +62,11 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
             'inline-flex p-2 items-center dark:bg-sky-900 rounded-r-md ' +
             (!hasNext
               ? 'cursor-not-allowed text-gray-400'
-              : 'cursor-pointer dark:text-gray-200')
+              : 'cursor-pointer dark:text-sky-100')
           }
           onClick={goNext}
         >
-          <span className="h-[20px] w-[20px]">
+          <span className="h-5 w-5">
             <ChevronRightIcon />
           </span>
         </span>

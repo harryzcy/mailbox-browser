@@ -265,7 +265,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
               href={linkUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 no-underline hover:underline block whitespace-nowrap overflow-hidden truncate mr-4"
+              className="text-blue-600 no-underline hover:underline block whitespace-nowrap overflow-hidden mr-4"
             >
               {linkUrl}
             </a>
@@ -464,14 +464,14 @@ function BlockOptionsDropdownList({
 
   return (
     <div
-      className="z-10 block absolute rounded md:rounded-md cursor-pointer min-w-32 min-h-10 shadow-md bg-white dark:bg-gray-600 text-slate-800 dark:text-slate-200"
+      className="z-10 block absolute rounded-md cursor-pointer min-w-32 min-h-10 shadow-md bg-white dark:bg-gray-600 text-slate-800 dark:text-slate-200"
       ref={dropDownRef}
     >
       {blockTypeList.map(([blockClass, blockName, format, element]) => {
         return (
           <button
             key={blockClass}
-            className="p-2 flex flex-row shrink-0 content-center rounded md:rounded-md min-w-32 hover:bg-gray-200 dark:hover:bg-gray-500"
+            className="p-2 flex flex-row shrink-0 content-center rounded-md min-w-32 hover:bg-gray-200 dark:hover:bg-gray-500"
             onClick={format}
           >
             <span className="mr-2 self-center w-4 h-4">{element}</span>
@@ -619,7 +619,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         onClick={() => {
           props.handleSend()
         }}
-        className="inline-flex bg-blue-200 text-black pl-5 pr-4 space-x-2 rounded-md items-center cursor-pointer border-none"
+        className="inline-flex bg-blue-200 text-black pl-5 pr-4 space-x-2 rounded-md items-center cursor-pointer border-0"
         aria-label="Send"
       >
         <span>Send</span>
@@ -635,7 +635,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         onClick={() => {
           editor.dispatchCommand(UNDO_COMMAND, undefined)
         }}
-        className="toolbar-item flex border-none bg-none p-2.5 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
         aria-label="Undo"
       >
         <ArrowUturnLeftIcon className="w-4 h-4 self-center" />
@@ -645,7 +645,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         onClick={() => {
           editor.dispatchCommand(REDO_COMMAND, undefined)
         }}
-        className="toolbar-item flex border-none bg-none p-2.5 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
         aria-label="Redo"
       >
         <ArrowUturnRightIcon className="w-4 h-4 self-center" />
@@ -654,20 +654,19 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
       {supportedBlockTypes.has(blockType) && (
         <>
           <button
-            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate w-36 enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 block-controls"
+            className="flex px-2.5 items-center rounded-md cursor-pointer w-36 enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 block-controls"
             onClick={() =>
               setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
             }
             aria-label="Formatting Options"
           >
-            {/* icon still depend on css */}
-            <span className="w-4 h-4 self-center">
+            <span className="w-4 h-4">
               {blockTypeToIcon[blockType as BlockType]}
             </span>
-            <span className="flex-1 ml-2 text-sm text-inherit w-16 truncate h-5 leading-5 align-middle text-left">
+            <span className="flex-1 ml-2 text-sm text-inherit w-16 h-5 leading-5 text-left">
               {blockTypeToBlockName[blockType as BlockType]}
             </span>
-            <ChevronDownIcon className="w-4 h-4 self-center" />
+            <ChevronDownIcon className="w-4 h-4" />
           </button>
           {showBlockOptionsDropDown &&
             createPortal(
@@ -683,15 +682,15 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         </>
       )}
       {blockType === 'code' ? (
-        <>
+        <span className='flex'>
           <Select
-            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none select-none outline-none text-gray-500 bg-transparent dark:hover:bg-gray-600 dark:text-gray-200 text-sm capitalize w-32"
+            className="p-2 rounded-md align-middle cursor-pointer select-none outline-none text-gray-500 bg-transparent dark:hover:bg-gray-600 dark:text-gray-200 text-sm capitalize w-32"
             onChange={onCodeLanguageSelect}
             options={codeLanguges}
             value={codeLanguage}
           />
           <ChevronDownIcon className="w-4 h-4 -ml-5 self-center" />
-        </>
+        </span>
       ) : (
         <>
           <button
@@ -699,7 +698,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
             }}
             className={
-              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
               (isBold ? 'bg-gray-200 dark:bg-gray-600' : '')
             }
             aria-label="Format Bold"
@@ -711,7 +710,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
             }}
             className={
-              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
               (isItalic ? 'bg-gray-200 dark:bg-gray-600' : '')
             }
             aria-label="Format Italics"
@@ -723,7 +722,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
             }}
             className={
-              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
               (isUnderline ? 'bg-gray-200 dark:bg-gray-600' : '')
             }
             aria-label="Format Underline"
@@ -735,7 +734,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
             }}
             className={
-              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
               (isStrikethrough ? 'bg-gray-200 dark:bg-gray-600' : '')
             }
             aria-label="Format Strikethrough"
@@ -747,7 +746,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
             }}
             className={
-              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
               (isCode ? 'bg-gray-200 dark:bg-gray-600' : '')
             }
             aria-label="Insert Code"
@@ -757,7 +756,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
           <button
             onClick={insertLink}
             className={
-              'toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
+              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
               (isLink ? 'bg-gray-200 dark:bg-gray-600' : '')
             }
             aria-label="Insert Link"
@@ -771,7 +770,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
             }}
-            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
+            className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
             aria-label="Left Align"
           >
             <Bars3BottomLeftIcon className="w-4 h-4 self-center" />
@@ -780,7 +779,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
             }}
-            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
+            className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
             aria-label="Center Align"
           >
             <Bars3BottomCenterIcon className="w-4 h-4 self-center" />
@@ -789,7 +788,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
             }}
-            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
+            className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
             aria-label="Right Align"
           >
             <Bars3BottomRightIcon className="w-4 h-4 self-center" />
@@ -798,7 +797,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')
             }}
-            className="toolbar-item flex border-none bg-none p-2 rounded md:rounded-md align-middle cursor-pointer appearance-none truncate enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
+            className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
             aria-label="Justify Align"
           >
             <Bars3Icon className="w-4 h-4 self-center" />
@@ -810,7 +809,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         onClick={() => {
           props.handleDelete && props.handleDelete()
         }}
-        className="p-2.5 ml-auto rounded md:rounded-md align-middle cursor-pointer appearance-none truncate hover:bg-red-300 dark:hover:bg-red-600"
+        className="p-2.5 ml-auto rounded-md align-middle cursor-pointer hover:bg-red-300 dark:hover:bg-red-600"
         aria-label="Trash"
       >
         <TrashIcon className="w-4 h-4 self-center" />
