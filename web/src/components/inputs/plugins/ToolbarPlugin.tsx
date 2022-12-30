@@ -112,7 +112,7 @@ const blockTypeToIcon = {
 type BlockType = 'code' | 'h1' | 'h2' | 'ol' | 'paragraph' | 'quote' | 'ul'
 
 function Divider() {
-  return <div className="w-px mx-2 my-1 bg-gray-200 dark:bg-gray-600" />
+  return <div className="w-px mx-2 my-1 bg-neutral-200 dark:bg-neutral-600" />
 }
 
 function positionEditorElement(editor: any, rect: any) {
@@ -278,7 +278,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
                 setEditMode(true)
               }}
             >
-              <PencilSquareIcon className="w-4 h-4 text-gray-500" />
+              <PencilSquareIcon className="w-4 h-4 text-neutral-500" />
             </div>
           </div>
         </>
@@ -464,14 +464,14 @@ function BlockOptionsDropdownList({
 
   return (
     <div
-      className="z-10 block absolute rounded-md cursor-pointer min-w-32 min-h-10 shadow-md bg-white dark:bg-gray-600 text-slate-800 dark:text-slate-200"
+      className="z-10 block absolute rounded-md cursor-pointer min-w-32 min-h-10 shadow-md bg-white dark:bg-neutral-600 text-slate-800 dark:text-slate-200"
       ref={dropDownRef}
     >
       {blockTypeList.map(([blockClass, blockName, format, element]) => {
         return (
           <button
             key={blockClass}
-            className="p-2 flex flex-row shrink-0 content-center rounded-md min-w-32 hover:bg-gray-200 dark:hover:bg-gray-500"
+            className="p-2 flex flex-row shrink-0 content-center rounded-md min-w-32 hover:bg-neutral-200 dark:hover:bg-neutral-500"
             onClick={format}
           >
             <span className="mr-2 self-center w-4 h-4">{element}</span>
@@ -612,7 +612,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
 
   return (
     <div
-      className="toolbar flex py-1 px-1 mt-2 -mx-2 rounded-b md:rounded-b-md bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200"
+      className="toolbar flex py-1 px-1 mt-2 -mx-2 rounded-b md:rounded-b-md bg-white dark:bg-neutral-700 text-neutral-700 dark:text-neutral-200"
       ref={toolbarRef}
     >
       <button
@@ -635,7 +635,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         onClick={() => {
           editor.dispatchCommand(UNDO_COMMAND, undefined)
         }}
-        className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 disabled:cursor-not-allowed disabled:opacity-40"
         aria-label="Undo"
       >
         <ArrowUturnLeftIcon className="w-4 h-4 self-center" />
@@ -645,7 +645,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         onClick={() => {
           editor.dispatchCommand(REDO_COMMAND, undefined)
         }}
-        className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 disabled:cursor-not-allowed disabled:opacity-40"
         aria-label="Redo"
       >
         <ArrowUturnRightIcon className="w-4 h-4 self-center" />
@@ -654,7 +654,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
       {supportedBlockTypes.has(blockType) && (
         <>
           <button
-            className="flex px-2.5 items-center rounded-md cursor-pointer w-36 enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 block-controls"
+            className="flex px-2.5 items-center rounded-md cursor-pointer w-36 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 block-controls"
             onClick={() =>
               setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
             }
@@ -684,7 +684,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
       {blockType === 'code' ? (
         <span className="flex">
           <Select
-            className="p-2 rounded-md align-middle cursor-pointer select-none outline-none text-gray-500 bg-transparent dark:hover:bg-gray-600 dark:text-gray-200 text-sm capitalize w-32"
+            className="p-2 rounded-md align-middle cursor-pointer select-none outline-none text-neutral-500 bg-transparent dark:hover:bg-neutral-600 dark:text-neutral-200 text-sm capitalize w-32"
             onChange={onCodeLanguageSelect}
             options={codeLanguges}
             value={codeLanguage}
@@ -698,8 +698,8 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
             }}
             className={
-              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
-              (isBold ? 'bg-gray-200 dark:bg-gray-600' : '')
+              'flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
+              (isBold ? 'bg-neutral-200 dark:bg-neutral-600' : '')
             }
             aria-label="Format Bold"
           >
@@ -710,8 +710,8 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
             }}
             className={
-              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
-              (isItalic ? 'bg-gray-200 dark:bg-gray-600' : '')
+              'flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
+              (isItalic ? 'bg-neutral-200 dark:bg-neutral-600' : '')
             }
             aria-label="Format Italics"
           >
@@ -722,8 +722,8 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
             }}
             className={
-              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
-              (isUnderline ? 'bg-gray-200 dark:bg-gray-600' : '')
+              'flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
+              (isUnderline ? 'bg-neutral-200 dark:bg-neutral-600' : '')
             }
             aria-label="Format Underline"
           >
@@ -734,8 +734,8 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
             }}
             className={
-              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
-              (isStrikethrough ? 'bg-gray-200 dark:bg-gray-600' : '')
+              'flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
+              (isStrikethrough ? 'bg-neutral-200 dark:bg-neutral-600' : '')
             }
             aria-label="Format Strikethrough"
           >
@@ -746,8 +746,8 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
             }}
             className={
-              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
-              (isCode ? 'bg-gray-200 dark:bg-gray-600' : '')
+              'flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
+              (isCode ? 'bg-neutral-200 dark:bg-neutral-600' : '')
             }
             aria-label="Insert Code"
           >
@@ -756,8 +756,8 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
           <button
             onClick={insertLink}
             className={
-              'flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600 ' +
-              (isLink ? 'bg-gray-200 dark:bg-gray-600' : '')
+              'flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
+              (isLink ? 'bg-neutral-200 dark:bg-neutral-600' : '')
             }
             aria-label="Insert Link"
           >
@@ -770,7 +770,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
             }}
-            className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
+            className="flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600"
             aria-label="Left Align"
           >
             <Bars3BottomLeftIcon className="w-4 h-4 self-center" />
@@ -779,7 +779,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
             }}
-            className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
+            className="flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600"
             aria-label="Center Align"
           >
             <Bars3BottomCenterIcon className="w-4 h-4 self-center" />
@@ -788,7 +788,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
             }}
-            className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
+            className="flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600"
             aria-label="Right Align"
           >
             <Bars3BottomRightIcon className="w-4 h-4 self-center" />
@@ -797,7 +797,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')
             }}
-            className="flex p-2.5 rounded-md enabled:hover:bg-gray-300 dark:enabled:hover:bg-gray-600"
+            className="flex p-2.5 rounded-md enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600"
             aria-label="Justify Align"
           >
             <Bars3Icon className="w-4 h-4 self-center" />

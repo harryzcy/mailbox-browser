@@ -81,7 +81,7 @@ export default function DraftEmailsTabs() {
       className={
         'fixed w-full h-[3rem] -mx-8 px-8 pt-2' +
         (draftEmailsContext.activeEmail === null
-          ? ' border-t dark:border-gray-700 bg-gray-50 dark:bg-gray-900'
+          ? ' bg-neutral-50 dark:bg-neutral-900'
           : '')
       }
     >
@@ -90,7 +90,7 @@ export default function DraftEmailsTabs() {
           return (
             <div
               key={email.messageID}
-              className="rounded-t md:rounded-t-md bg-gray-200 dark:bg-gray-800 flex p-1 px-5 items-center cursor-pointer"
+              className="rounded-t md:rounded-t-md bg-neutral-200 dark:bg-neutral-800 flex p-1 px-5 items-center cursor-pointer"
               onClick={() => {
                 draftEmailsContext.dispatch({
                   type: 'open',

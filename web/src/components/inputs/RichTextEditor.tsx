@@ -26,7 +26,7 @@ import './RichTextEditor.css'
 
 function Placeholder() {
   return (
-    <div className="inline-block text-slate-400 dark:text-slate-400 truncate absolute left-3 top-3 select-none pointer-events-none">
+    <div className="inline-block text-slate-400 dark:text-neutral-400 truncate absolute left-3 top-3 select-none pointer-events-none">
       Email body...
     </div>
   )
@@ -77,7 +77,7 @@ export default function RichTextEditor(props: RichTextEditorProps) {
 
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className="flex flex-col w-full h-full relative rounded md:rounded-md font-normal text-slate-900 dark:text-gray-200 leading-5 text-left">
+      <div className="flex flex-col w-full h-full relative rounded md:rounded-md font-normal leading-5 text-left">
         <div className="relative flex-1 overflow-scroll">
           <RichTextPlugin
             contentEditable={
