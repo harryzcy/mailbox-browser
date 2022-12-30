@@ -44,7 +44,7 @@ export default function EmailTableView(props: EmailTableViewProps) {
 
       <div
         ref={loadMoreRef}
-        className="col-span-3 px-4 pt-2 pb-1 border-t dark:border-gray-900 dark:text-gray-500 text-sm text-center"
+        className="col-span-3 px-4 pt-2 pb-1 pr-16 border-t dark:border-gray-900 dark:text-gray-500 text-sm text-center"
       >
         {props.hasMore ? 'Loading...' : 'No more emails'}
       </div>
