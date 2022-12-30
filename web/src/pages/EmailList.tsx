@@ -117,7 +117,7 @@ export default function EmailList() {
           </span>
         </EmailMenuBar>
       </div>
-      <div ref={emailViewRef}>
+      <div ref={emailViewRef} className='mb-4 overflow-scroll rounded-md'>
         <EmailTableView
           emails={emails}
           selected={selected}

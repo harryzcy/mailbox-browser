@@ -40,7 +40,7 @@ export default function EmailView(props: EmailViewProps) {
         </span>
       </div>
 
-      <div className="bg-gray-50 rounded md:rounded-md bg-gray-50 dark:bg-gray-800 p-3">
+      <div className="bg-gray-50 rounded-md bg-gray-50 dark:bg-gray-800 p-3 overflow-scroll mb-4">
         {/* header info for emails */}
         <div className="flex justify-between items-start">
           <div className="dark:text-gray-300">
