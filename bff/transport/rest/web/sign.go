@@ -16,36 +16,21 @@ var (
 	ErrMissingCredentials = errors.New("no credentials provided")
 )
 
-type SignSDKRequestOptions struct {
+type signSDKRequestOptions struct {
 	Credentials aws.CredentialsProvider
 	Payload     []byte
 	Region      string
-	Verbose     bool
 }
 
-func SignSDKRequest(ctx context.Context, req *http.Request, options *SignSDKRequestOptions) error {
+func signSDKRequest(ctx context.Context, req *http.Request, options *signSDKRequestOptions) error {
 	payloadHash := hashPayload(options.Payload)
 	if options.Credentials == nil {
-		if options.Verbose {
-			fmt.Printf("[DEBUG] No credentials provided\n")
-		}
 		return ErrMissingCredentials
-	}
-
-	if options.Verbose {
-		fmt.Printf("[DEBUG] Credential Function: %T\n", options.Credentials)
 	}
 
 	credentials, err := options.Credentials.Retrieve(ctx)
 	if err != nil {
-		if options.Verbose {
-			fmt.Printf("[DEBUG] Error retrieving credentials: %s\n", err)
-		}
 		return err
-	}
-
-	if options.Verbose {
-		fmt.Printf("[DEBUG] Signing request\n")
 	}
 
 	signer := v4.NewSigner()
@@ -53,9 +38,6 @@ func SignSDKRequest(ctx context.Context, req *http.Request, options *SignSDKRequ
 		credentials, req, payloadHash, "execute-api", options.Region, time.Now(),
 	)
 	if err != nil {
-		if options.Verbose {
-			fmt.Printf("[DEBUG] Error signing request: %s\n", err)
-		}
 		return err
 	}
 

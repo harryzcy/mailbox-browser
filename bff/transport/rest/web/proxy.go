@@ -4,11 +4,11 @@ package web
 
 import (
 	"bytes"
-	"context"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/credentials"
@@ -25,7 +25,7 @@ func MailboxProxy(ctx *gin.Context) {
 		return
 	}
 
-	content, err := request(ctx, RequestOptions{
+	resp, err := request(ctx, RequestOptions{
 		Method:   method,
 		Endpoint: config.AWS_API_GATEWAY_ENDPOINT,
 		Path:     strings.TrimPrefix(ctx.Request.URL.Path, "/web"),
@@ -44,7 +44,7 @@ func MailboxProxy(ctx *gin.Context) {
 		return
 	}
 
-	ctx.Data(http.StatusOK, "application/json", []byte(content))
+	ctx.DataFromReader(resp.StatusCode, resp.ContentLength, resp.Header.Get("Content-Type"), resp.Body, nil)
 }
 
 type RequestOptions struct {
@@ -57,11 +57,11 @@ type RequestOptions struct {
 	Credentials aws.CredentialsProvider
 }
 
-func request(ctx context.Context, options RequestOptions) (string, error) {
+func request(ctx *gin.Context, options RequestOptions) (*http.Response, error) {
 	body := bytes.NewReader(options.Payload)
 	req, err := http.NewRequestWithContext(ctx, options.Method, options.Endpoint+options.Path, body)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	req.URL.RawQuery = options.Query.Encode()
@@ -71,29 +71,20 @@ func request(ctx context.Context, options RequestOptions) (string, error) {
 
 	req.Header.Set("Accept", "application/json")
 
-	err = SignSDKRequest(ctx, req, &SignSDKRequestOptions{
+	err = signSDKRequest(ctx, req, &signSDKRequestOptions{
 		Credentials: options.Credentials,
 		Payload:     options.Payload,
 		Region:      options.Region,
-		Verbose:     false,
 	})
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	httpClient := &http.Client{}
+	httpClient := &http.Client{
+		Timeout: 10 * time.Second,
+	}
 	resp, err := httpClient.Do(req)
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
-
-	data, err := ioReadall(resp.Body)
-	if err != nil {
-		return "", err
-	}
-
-	return string(data), nil
+	return resp, err
 }
 
 var (
