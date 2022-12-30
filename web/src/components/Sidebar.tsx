@@ -8,13 +8,13 @@ export default function Sidebar() {
   ]
 
   return (
-    <aside className="sidebar flex-none h-screen md:w-56 text-base border-r dark:border-gray-700 select-none">
+    <aside className="sidebar flex-none h-screen md:w-60 text-base border-r dark:border-gray-700 select-none">
       <div className="title-group flex flex-col content-center md:p-6">
         <h1 className="text-center font-light tracking-wide dark:text-gray-100">
           Mailbox Browser
         </h1>
       </div>
-      <nav className="p-3 pt-1">
+      <nav className="pl-6 pr-8 pt-1">
         {navItems.map(([name, path]) => {
           return (
             <NavLink
