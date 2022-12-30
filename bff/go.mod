@@ -3,6 +3,8 @@ module github.com/harryzcy/mailbox-browser/bff
 go 1.19
 
 require (
+	github.com/aws/aws-sdk-go-v2 v1.17.3
+	github.com/aws/aws-sdk-go-v2/credentials v1.13.7
 	github.com/brianvoe/gofakeit/v6 v6.20.1
 	github.com/gin-contrib/zap v0.1.0
 	github.com/gin-gonic/gin v1.8.2
@@ -10,6 +12,7 @@ require (
 )
 
 require (
+	github.com/aws/smithy-go v1.13.5 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect

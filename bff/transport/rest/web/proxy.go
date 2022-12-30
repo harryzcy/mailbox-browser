@@ -4,62 +4,101 @@ package web
 
 import (
 	"bytes"
+	"context"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
-	"time"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/gin-gonic/gin"
 	"github.com/harryzcy/mailbox-browser/bff/config"
 )
 
 func MailboxProxy(ctx *gin.Context) {
 	method := ctx.Request.Method
-	rawUrl := url.URL{
-		Scheme:   "https",
-		Host:     strings.TrimPrefix(config.AWS_API_GATEWAY_ENDPOINT, "https://"),
+
+	payload, err := io.ReadAll(ctx.Request.Body)
+	if err != nil {
+		reqError(ctx, err)
+		return
+	}
+
+	content, err := request(ctx, RequestOptions{
+		Method:   method,
+		Endpoint: config.AWS_API_GATEWAY_ENDPOINT,
 		Path:     strings.TrimPrefix(ctx.Request.URL.Path, "/web"),
-		RawQuery: ctx.Request.URL.RawQuery,
-	}
-
-	client := http.Client{
-		Timeout: 10 * time.Second,
-	}
-
-	bodyBytes, err := io.ReadAll(ctx.Request.Body)
-	if err != nil {
-		reqError(ctx, err)
-		return
-	}
-
-	req, err := http.NewRequest(method, rawUrl.String(), bytes.NewReader(bodyBytes))
-	if err != nil {
-		reqError(ctx, err)
-		return
-	}
-
-	signer := &awsRequestSigner{
-		RegionName: config.AWS_REGION,
-		AwsSecurityCredentials: awsSecurityCredentials{
-			AccessKeyID:     config.AWS_ACCESS_KEY_ID,
-			SecretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+		Query:    ctx.Request.URL.Query(),
+		Payload:  payload,
+		Region:   config.AWS_REGION,
+		Credentials: credentials.StaticCredentialsProvider{
+			Value: aws.Credentials{
+				AccessKeyID:     config.AWS_ACCESS_KEY_ID,
+				SecretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+			},
 		},
-	}
-	err = signer.SignRequest(req)
+	})
 	if err != nil {
 		reqError(ctx, err)
 		return
 	}
 
-	resp, err := client.Do(req)
+	ctx.Data(http.StatusOK, "application/json", []byte(content))
+}
+
+type RequestOptions struct {
+	Method      string
+	Endpoint    string
+	Path        string
+	Query       url.Values
+	Payload     []byte
+	Region      string
+	Credentials aws.CredentialsProvider
+}
+
+func request(ctx context.Context, options RequestOptions) (string, error) {
+	body := bytes.NewReader(options.Payload)
+	req, err := http.NewRequestWithContext(ctx, options.Method, options.Endpoint+options.Path, body)
 	if err != nil {
-		reqError(ctx, err)
-		return
+		return "", err
+	}
+
+	req.URL.RawQuery = options.Query.Encode()
+	if options.Method == http.MethodPost || options.Method == http.MethodPut {
+		req.Header.Add("Content-Type", "application/json")
+	}
+
+	req.Header.Set("Accept", "application/json")
+
+	err = SignSDKRequest(ctx, req, &SignSDKRequestOptions{
+		Credentials: options.Credentials,
+		Payload:     options.Payload,
+		Region:      options.Region,
+		Verbose:     false,
+	})
+	if err != nil {
+		return "", err
+	}
+
+	httpClient := &http.Client{}
+	resp, err := httpClient.Do(req)
+	if err != nil {
+		return "", err
 	}
 	defer resp.Body.Close()
-	ctx.DataFromReader(http.StatusOK, resp.ContentLength, resp.Header.Get("Content-Type"), resp.Body, nil)
+
+	data, err := ioReadall(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(data), nil
 }
+
+var (
+	ioReadall = io.ReadAll
+)
 
 func reqError(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusInternalServerError, gin.H{
