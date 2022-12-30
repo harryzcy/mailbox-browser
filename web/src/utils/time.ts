@@ -1,4 +1,5 @@
 export function formatDate(date: string, short: boolean = false): string {
+  if (!date) return ''
   if (short) return formatDateShort(date)
   return formatDateLong(date)
 }
