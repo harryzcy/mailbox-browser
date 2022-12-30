@@ -52,7 +52,7 @@ export function EmailDraft(props: EmailDraftProps) {
         <span className="ml-2 px-3 py-1 w-16 text-center bg-gray-200 dark:bg-gray-900 rounded md:rounded-md">
           From
         </span>
-        <span className="flex-1 border-b dark:border-gray-500 mx-2">
+        <span className="flex-1 border-b dark:border-gray-600 mx-2">
           <EmailAddressInput
             addresses={email.from}
             handleChange={(emails) => {
@@ -65,7 +65,7 @@ export function EmailDraft(props: EmailDraftProps) {
         <span className="ml-2 px-3 py-1 w-16 text-center bg-gray-200 dark:bg-gray-900 rounded md:rounded-md">
           To
         </span>
-        <span className="flex-1 border-b dark:border-gray-500 mx-2">
+        <span className="flex-1 border-b dark:border-gray-600 mx-2">
           <EmailAddressInput
             addresses={email.to}
             handleChange={(emails) => {
@@ -78,7 +78,7 @@ export function EmailDraft(props: EmailDraftProps) {
         <span className="ml-2 px-3 py-1 w-16 text-center bg-gray-200 dark:bg-gray-900 rounded md:rounded-md">
           Cc
         </span>
-        <span className="flex-1 border-b dark:border-gray-500 mx-2">
+        <span className="flex-1 border-b dark:border-gray-600 mx-2">
           <EmailAddressInput
             addresses={email.cc}
             handleChange={(emails) => {
@@ -91,7 +91,7 @@ export function EmailDraft(props: EmailDraftProps) {
         <span className="ml-2 px-3 py-1 w-16 text-center bg-gray-200 dark:bg-gray-900 rounded md:rounded-md">
           Bcc
         </span>
-        <span className="flex-1 border-b dark:border-gray-500 mx-2">
+        <span className="flex-1 border-b dark:border-gray-600 mx-2">
           <EmailAddressInput
             addresses={email.bcc}
             handleChange={(emails) => {
@@ -102,7 +102,7 @@ export function EmailDraft(props: EmailDraftProps) {
       </div>
 
       <div className="flex px-2 pt-3">
-        <span className="flex-1 border-b dark:border-gray-500 mx-2">
+        <span className="flex-1 border-b dark:border-gray-600 mx-2">
           <TextInput
             placeholder="Subject"
             handleChange={(subject) => {
