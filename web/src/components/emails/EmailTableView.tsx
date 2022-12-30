@@ -24,7 +24,7 @@ export default function EmailTableView(props: EmailTableViewProps) {
 
   return (
     <div
-      className="grid py-1 rounded md:rounded-md bg-gray-50 dark:bg-gray-800 dark:text-gray-300 select-none"
+      className="grid py-1 rounded md:rounded-md bg-gray-50 dark:bg-gray-800 dark:text-gray-300 select-none shadow-md"
       style={{
         gridTemplateColumns: '1fr 4fr 1fr'
       }}
@@ -44,7 +44,10 @@ export default function EmailTableView(props: EmailTableViewProps) {
 
       <div
         ref={loadMoreRef}
-        className="col-span-3 px-4 pt-2 pb-1 border-t dark:border-gray-900 dark:text-gray-500 text-sm text-center"
+        className={
+          'col-span-3 px-4 py-1 pb-1 pr-[4%] dark:border-gray-900 dark:text-gray-500 font-bold text-sm text-center' +
+          (emails.length === 0 ? '' : ' pt-2 border-t')
+        }
       >
         {props.hasMore ? 'Loading...' : 'No more emails'}
       </div>
