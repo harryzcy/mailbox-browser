@@ -21,10 +21,10 @@ export default function Sidebar() {
               key={path}
               to={path}
               className={({ isActive }) =>
-                `flex content-center px-4 py-2 mb-1 cursor-pointer rounded dark:hover:bg-gray-700 dark:hover:text-gray-100 ${
+                `flex content-center px-4 py-2 mb-1 cursor-pointer rounded hover:bg-gray-300 hover:text-black dark:hover:bg-gray-700 dark:hover:text-gray-100 ${
                   isActive
-                    ? 'text-gray-900 dark:text-gray-200 bg-gray-300 dark:bg-gray-800'
-                    : 'text-gray-700 dark:text-gray-400 bg-gray-100 dark:bg-transparent'
+                    ? 'text-gray-900 dark:text-gray-200 bg-gray-200 dark:bg-gray-800'
+                    : 'text-gray-700 dark:text-gray-400 bg-transparent'
                 }`
               }
             >
