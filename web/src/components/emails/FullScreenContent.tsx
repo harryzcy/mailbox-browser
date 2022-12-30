@@ -64,7 +64,7 @@ export default function FullScreenContent() {
   }
 
   return (
-    <div className="absolute left-0 top-0 right-0 bottom-0 bg-gray-800/40 dark:bg-zinc-900/90 px-36 py-20">
+    <div className="absolute left-0 top-0 right-0 bottom-0 bg-neutral-800/40 dark:bg-zinc-900/90 px-36 py-20">
       <EmailDraft
         email={draftEmailsContext.activeEmail}
         handleEmailChange={handleEmailChange}

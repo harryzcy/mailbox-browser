@@ -31,7 +31,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
           <span>
             <EnvelopeIcon className="h-5 w-5 text-sky-800" />
           </span>
-          <span className="text-bold text-black">Compose</span>
+          <span className="text-bold text-sky-900 font-medium">Compose</span>
         </span>
       </div>
 
@@ -41,10 +41,10 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
       >
         <span
           className={
-            'inline-flex p-2 items-center dark:bg-sky-900 rounded-l-md ' +
+            'inline-flex p-2 items-center dark:bg-cyan-900 rounded-l-md ' +
             (!hasPrevious
               ? 'cursor-not-allowed text-gray-400'
-              : 'cursor-pointer dark:text-sky-100')
+              : 'cursor-pointer dark:text-cyan-50')
           }
           onClick={goPrevious}
         >
@@ -53,16 +53,16 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
           </span>
         </span>
         {children && (
-          <span className="inline-flex py-2 px-3 mx-px dark:bg-sky-900 select-none dark:text-sky-100">
+          <span className="inline-flex py-2 px-3 mx-px dark:bg-cyan-900 select-none dark:text-cyan-50 text-sm text-center">
             {children}
           </span>
         )}
         <span
           className={
-            'inline-flex p-2 items-center dark:bg-sky-900 rounded-r-md ' +
+            'inline-flex p-2 items-center dark:bg-cyan-900 rounded-r-md ' +
             (!hasNext
               ? 'cursor-not-allowed text-gray-400'
-              : 'cursor-pointer dark:text-sky-100')
+              : 'cursor-pointer dark:text-cyan-50')
           }
           onClick={goNext}
         >

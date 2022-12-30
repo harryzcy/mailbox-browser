@@ -112,7 +112,7 @@ export default function EmailList() {
           goPrevious={goPrevious}
           goNext={goNext}
         >
-          <span>
+          <span className='w-16'>
             {year}-{month.toString().padStart(2, '0')}
           </span>
         </EmailMenuBar>

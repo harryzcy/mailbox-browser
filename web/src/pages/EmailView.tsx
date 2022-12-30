@@ -35,15 +35,15 @@ export default function EmailView(props: EmailViewProps) {
       </div>
 
       <div className="mb-2 px-3">
-        <span className="text-xl font-normal dark:text-gray-200">
+        <span className="text-xl font-normal dark:text-neutral-200">
           {email.subject}
         </span>
       </div>
 
-      <div className="bg-gray-50 rounded-md bg-gray-50 dark:bg-gray-800 p-3 overflow-scroll mb-4">
+      <div className="bg-neutral-50 rounded-md bg-neutral-50 dark:bg-neutral-800 p-3 overflow-scroll mb-4">
         {/* header info for emails */}
         <div className="flex justify-between items-start">
-          <div className="dark:text-gray-300">
+          <div className="dark:text-neutral-300">
             <div>
               <span>{getNameFromEmails(email.from)}</span>
             </div>
@@ -52,14 +52,14 @@ export default function EmailView(props: EmailViewProps) {
             </div>
           </div>
 
-          <div className="flex items-center text-sm text-gray-500 dark:text-gray-300">
+          <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-300">
             <span className="p-1">{formatDate(email.timeReceived)}</span>
             <span className="inline-flex ml-4">
               {/* TODO: implement reply and forward actions */}
-              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-gray-200">
+              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200">
                 <ArrowUturnLeftIcon />
               </span>
-              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-gray-200">
+              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200">
                 <ArrowUturnRightIcon />
               </span>
             </span>
@@ -68,7 +68,7 @@ export default function EmailView(props: EmailViewProps) {
 
         {/* email body */}
         <div className="mt-4">
-          <div className="email-sandbox dark:text-gray-300">
+          <div className="email-sandbox dark:text-neutral-300">
             {parseEmailContent(email)}
           </div>
         </div>

@@ -12,7 +12,7 @@ interface EmailTableRowProps {
 export default function EmailTableRow(props: EmailTableRowProps) {
   const { email, onClick } = props
   const backgroundClassName = props.selected
-    ? ' bg-blue-100 dark:bg-gray-700'
+    ? ' bg-blue-100 dark:bg-neutral-700'
     : ''
 
   const navigate = useNavigate()
@@ -29,7 +29,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     >
       <div
         className={
-          'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-200 dark:border-gray-900' +
+          'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-neutral-200 dark:border-neutral-900' +
           backgroundClassName
         }
       >
@@ -39,7 +39,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-200 dark:border-gray-900' +
+          'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-neutral-200 dark:border-neutral-900' +
           backgroundClassName
         }
       >
@@ -47,7 +47,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'px-4 py-2 cursor-pointer border-t group-first:border-0 border-gray-200 dark:border-gray-900 text-right' +
+          'px-4 py-2 cursor-pointer border-t group-first:border-0 border-neutral-200 dark:border-neutral-900 text-right' +
           backgroundClassName
         }
       >
