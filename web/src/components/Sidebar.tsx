@@ -1,10 +1,12 @@
+import { ReactElement } from 'react'
 import { NavLink } from 'react-router-dom'
+import { DocumentTextIcon, InboxIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 
 export default function Sidebar() {
-  const navItems = [
-    ['Inbox', '/inbox'],
-    ['Drafts', '/drafts'],
-    ['Sent', '/sent']
+  const navItems: [string, string, ReactElement][] = [
+    ['Inbox', '/inbox', <InboxIcon />],
+    ['Drafts', '/drafts', <DocumentTextIcon />],
+    ['Sent', '/sent', <PaperAirplaneIcon />]
   ]
 
   return (
@@ -15,20 +17,21 @@ export default function Sidebar() {
         </h1>
       </div>
       <nav className="pl-6 pr-8 pt-1">
-        {navItems.map(([name, path]) => {
+        {navItems.map(([name, path, icon]) => {
           return (
             <NavLink
               key={path}
               to={path}
               className={({ isActive }) =>
-                `flex content-center px-4 py-2 mb-1 cursor-pointer rounded hover:bg-gray-300 hover:text-black dark:hover:bg-gray-700 dark:hover:text-gray-100 ${
+                `flex items-center px-4 py-2 mb-1 space-x-2 cursor-pointer rounded hover:bg-gray-300 hover:text-black dark:hover:bg-gray-700 dark:hover:text-gray-100 ${
                   isActive
                     ? 'text-gray-900 dark:text-gray-200 bg-gray-200 dark:bg-gray-800'
                     : 'text-gray-700 dark:text-gray-400 bg-transparent'
                 }`
               }
             >
-              {name}
+              <span className="h-4 w-4">{icon}</span>
+              <span>{name}</span>
             </NavLink>
           )
         })}
