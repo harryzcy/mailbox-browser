@@ -107,7 +107,10 @@ export async function createEmail(email: CreateEmailProps): Promise<Email> {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(email)
+    body: JSON.stringify({
+      ...email,
+      generateText: 'off'
+    })
   })
   return response.json()
 }
