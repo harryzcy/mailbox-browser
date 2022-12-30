@@ -24,7 +24,7 @@ export default function EmailTableView(props: EmailTableViewProps) {
 
   return (
     <div
-      className="grid py-1 rounded md:rounded-md bg-gray-50 dark:bg-gray-800 dark:text-gray-300 select-none"
+      className="grid py-1 rounded md:rounded-md bg-gray-50 dark:bg-gray-800 dark:text-gray-300 select-none shadow-md"
       style={{
         gridTemplateColumns: '1fr 4fr 1fr'
       }}
