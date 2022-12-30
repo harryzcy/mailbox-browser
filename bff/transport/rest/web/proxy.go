@@ -87,10 +87,6 @@ func request(ctx *gin.Context, options RequestOptions) (*http.Response, error) {
 	return resp, err
 }
 
-var (
-	ioReadall = io.ReadAll
-)
-
 func reqError(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusInternalServerError, gin.H{
 		"error": err.Error(),
