@@ -6,7 +6,10 @@
 import { MinusIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { useContext } from 'react'
 
-import { DraftEmail, DraftEmailsContext } from '../../contexts/DraftEmailContext'
+import {
+  DraftEmail,
+  DraftEmailsContext
+} from '../../contexts/DraftEmailContext'
 import EmailAddressInput from '../inputs/EmailAddressInput'
 import RichTextEditor from '../inputs/RichTextEditor'
 import TextInput from '../inputs/TextInput'
@@ -20,7 +23,8 @@ interface EmailDraftProps {
 }
 
 export function EmailDraft(props: EmailDraftProps) {
-  const { email, handleEmailChange, handleClose, handleMinimize, handleSend } = props
+  const { email, handleEmailChange, handleClose, handleMinimize, handleSend } =
+    props
 
   const draftEmailsContext = useContext(DraftEmailsContext)
 
