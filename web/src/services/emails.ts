@@ -73,9 +73,9 @@ export type Email = {
 
   // draft only
   timeUpdated: string
-  Cc: string[]
-  Bcc: string[]
-  ReplyTo: string[]
+  cc: string[]
+  bcc: string[]
+  replyTo: string[]
 }
 
 export type EmailVerdict = {
@@ -89,4 +89,63 @@ export type EmailVerdict = {
 export async function getEmail(id: string): Promise<Email> {
   const response = await fetch(`/web/emails/${id}`)
   return response.json()
+}
+
+export type CreateEmailProps = {
+  subject: string
+  from: string[]
+  to: string[]
+  cc: string[]
+  bcc: string[]
+  replyTo: string[]
+  text: string
+  html: string
+  send: boolean
+}
+
+export async function createEmail(email: CreateEmailProps): Promise<Email> {
+  const response = await fetch('/web/emails', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      ...email,
+      generateText: 'off'
+    })
+  })
+  return response.json()
+}
+
+export type SaveEmailProps = CreateEmailProps & {
+  messageID: string
+}
+
+export async function saveEmail(email: SaveEmailProps): Promise<Email> {
+  const response = await fetch(`/web/emails/${email.messageID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      subject: email.subject,
+      from: email.from,
+      to: email.to,
+      cc: email.cc,
+      bcc: email.bcc,
+      replyTo: email.replyTo,
+      text: email.text,
+      html: email.html,
+      send: email.send
+    })
+  })
+  return response.json()
+}
+
+export function generateLocalDraftID(): string {
+  return `local-${Date.now().toString()}`
+}
+
+export function isLocalDraftID(id: string): boolean {
+  return id.startsWith('local-')
 }

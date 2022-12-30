@@ -5,6 +5,8 @@
 
 import { useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router-dom'
+import DraftEmailsTabs from '../components/emails/DraftEmailsTabs'
+import FullScreenContent from '../components/emails/FullScreenContent'
 import { EmailInfo, listEmails, ListEmailsResponse } from '../services/emails'
 
 type InboxContext = {
@@ -110,16 +112,21 @@ export default function EmailRoot(props: EmailRootProps) {
   }
 
   return (
-    <div className="flex-1 max-h-screen overflow-scroll md:px-8 md:pb-8">
-      <h1 className="text-2xl font-bold md:pt-8 md:pb-4 md:px-2 dark:text-white">
-        {props.type === 'inbox'
-          ? 'Inbox'
-          : props.type === 'draft'
-          ? 'Drafts'
-          : 'Sent'}
-      </h1>
+    <div className="flex-1 max-h-screen overflow-scroll md:px-8">
+      <div className="h-[calc(100%-3rem)]">
+        <h1 className="text-2xl font-bold md:pt-8 md:pb-4 md:px-2 dark:text-white">
+          {props.type === 'inbox'
+            ? 'Inbox'
+            : props.type === 'draft'
+            ? 'Drafts'
+            : 'Sent'}
+        </h1>
+        <Outlet context={outletContext} />
+      </div>
 
-      <Outlet context={outletContext} />
+      <FullScreenContent />
+
+      <DraftEmailsTabs />
     </div>
   )
 }
