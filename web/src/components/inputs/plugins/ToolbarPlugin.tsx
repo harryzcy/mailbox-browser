@@ -483,7 +483,12 @@ function BlockOptionsDropdownList({
   )
 }
 
-export default function ToolbarPlugin() {
+interface ToolbarPluginProps {
+  handleSend: () => void
+  handleDelete?: () => void
+}
+
+export default function ToolbarPlugin(props: ToolbarPluginProps) {
   const [editor] = useLexicalComposerContext()
   const toolbarRef = useRef(null)
   const [canUndo, setCanUndo] = useState(false)
@@ -611,7 +616,7 @@ export default function ToolbarPlugin() {
       ref={toolbarRef}
     >
       <button
-        onClick={() => {}}
+        onClick={() => {props.handleSend()}}
         className="inline-flex bg-blue-200 text-black pl-5 pr-4 space-x-2 rounded-md items-center cursor-pointer border-none"
         aria-label="Send"
       >
@@ -800,7 +805,7 @@ export default function ToolbarPlugin() {
       )}
 
       <button
-        onClick={() => {}}
+        onClick={() => {props.handleDelete && props.handleDelete()}}
         className="p-2.5 ml-auto rounded md:rounded-md align-middle cursor-pointer appearance-none truncate hover:bg-red-300 dark:hover:bg-red-600"
         aria-label="Trash"
       >

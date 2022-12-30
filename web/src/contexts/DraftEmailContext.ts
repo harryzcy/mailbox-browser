@@ -29,6 +29,7 @@ export type Action =
       email: DraftEmail
       excludeInWaitlist: boolean
     }
+  | { type: 'remove-waitlist' }
   | { type: 'clear-waitlist' }
 export const initialState: State = {
   activeEmail: null,
@@ -92,6 +93,14 @@ export function draftEmailReducer(state: State, action: Action): State {
             ? state.updateWaitlist
             : [...state.updateWaitlist, action.messageID],
         emails: updatedEmails
+      }
+    case 'remove-waitlist':
+      return {
+        activeEmail: state.activeEmail,
+        updateWaitlist: state.updateWaitlist.filter(
+          (messageID) => messageID !== state.activeEmail?.messageID
+        ),
+        emails: state.emails
       }
     case 'clear-waitlist':
       return {

@@ -4,8 +4,9 @@
  */
 
 import { MinusIcon, XMarkIcon } from '@heroicons/react/20/solid'
+import { useContext } from 'react'
 
-import { DraftEmail } from '../../contexts/DraftEmailContext'
+import { DraftEmail, DraftEmailsContext } from '../../contexts/DraftEmailContext'
 import EmailAddressInput from '../inputs/EmailAddressInput'
 import RichTextEditor from '../inputs/RichTextEditor'
 import TextInput from '../inputs/TextInput'
@@ -15,10 +16,13 @@ interface EmailDraftProps {
   handleEmailChange: (email: DraftEmail) => void
   handleClose: () => void
   handleMinimize: () => void
+  handleSend: () => void
 }
 
 export function EmailDraft(props: EmailDraftProps) {
-  const { email, handleEmailChange, handleClose, handleMinimize } = props
+  const { email, handleEmailChange, handleClose, handleMinimize, handleSend } = props
+
+  const draftEmailsContext = useContext(DraftEmailsContext)
 
   return (
     <div className="flex flex-col w-full h-full max-h-full rounded md:rounded-md bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 shadow-md">
@@ -109,6 +113,7 @@ export function EmailDraft(props: EmailDraftProps) {
           handleChange={({ html, text }) => {
             handleEmailChange({ ...email, html, text })
           }}
+          handleSend={handleSend}
         />
       </div>
     </div>

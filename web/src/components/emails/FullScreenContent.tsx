@@ -4,6 +4,7 @@ import {
   DraftEmail,
   DraftEmailsContext
 } from '../../contexts/DraftEmailContext'
+import { saveEmail } from '../../services/emails'
 import { EmailDraft } from './EmailDraft'
 
 export default function FullScreenContent() {
@@ -41,6 +42,36 @@ export default function FullScreenContent() {
     })
   }
 
+  const handleSend = () => {
+    // prevent still saving emails
+    draftEmailsContext.dispatch({
+      type: 'remove-waitlist'
+    })
+
+    const sendRequest = async () => {
+      const email = draftEmailsContext.activeEmail
+      if (!email) return
+      await saveEmail({
+        messageID: email.messageID,
+        subject: email.subject,
+        from: email.from,
+        to: email.to,
+        cc: email.cc,
+        bcc: email.bcc,
+        replyTo: email.from,
+        html: email.html,
+        text: email.text,
+        send: true // save and send
+      })
+
+      draftEmailsContext.dispatch({
+        type: 'close'
+      })
+    }
+
+    sendRequest()
+  }
+
   if (draftEmailsContext.activeEmail === null) {
     return null
   }
@@ -52,6 +83,7 @@ export default function FullScreenContent() {
         handleEmailChange={handleEmailChange}
         handleClose={handleClose}
         handleMinimize={handleMinimize}
+        handleSend={handleSend}
       />
     </div>
   )

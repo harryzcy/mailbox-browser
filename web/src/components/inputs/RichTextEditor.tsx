@@ -56,6 +56,8 @@ const editorConfig = {
 interface RichTextEditorProps {
   initialHtml?: string
   handleChange: ({ html, text }: { html: string; text: string }) => void
+  handleSend: () => void
+  handleDelete?: () => void
 }
 
 export default function RichTextEditor(props: RichTextEditorProps) {
@@ -99,7 +101,10 @@ export default function RichTextEditor(props: RichTextEditorProps) {
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         </div>
-        <ToolbarPlugin />
+        <ToolbarPlugin
+          handleSend={props.handleSend}
+          handleDelete={props.handleDelete}
+        />
       </div>
     </LexicalComposer>
   )
