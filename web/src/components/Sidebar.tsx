@@ -1,6 +1,10 @@
 import { ReactElement } from 'react'
 import { NavLink } from 'react-router-dom'
-import { DocumentTextIcon, InboxIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
+import {
+  DocumentTextIcon,
+  InboxIcon,
+  PaperAirplaneIcon
+} from '@heroicons/react/24/outline'
 
 export default function Sidebar() {
   const navItems: [string, string, ReactElement][] = [
