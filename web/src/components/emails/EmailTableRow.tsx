@@ -33,7 +33,9 @@ export default function EmailTableRow(props: EmailTableRowProps) {
           backgroundClassName
         }
       >
-        <span title={email.from[0]}>{getNameFromEmails(email.from)}</span>
+        <span title={email.from && email.from.length > 0 ? email.from[0] : ''}>
+          {getNameFromEmails(email.from)}
+        </span>
       </div>
       <div
         className={
@@ -49,7 +51,10 @@ export default function EmailTableRow(props: EmailTableRowProps) {
           backgroundClassName
         }
       >
-        {formatDate(email.timeReceived, true)}
+        {formatDate(
+          email.timeReceived || email.timeUpdated || email.timeSent || '',
+          true
+        )}
       </div>
     </div>
   )
