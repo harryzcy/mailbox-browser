@@ -682,7 +682,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         </>
       )}
       {blockType === 'code' ? (
-        <span className='flex'>
+        <span className="flex">
           <Select
             className="p-2 rounded-md align-middle cursor-pointer select-none outline-none text-gray-500 bg-transparent dark:hover:bg-gray-600 dark:text-gray-200 text-sm capitalize w-32"
             onChange={onCodeLanguageSelect}
