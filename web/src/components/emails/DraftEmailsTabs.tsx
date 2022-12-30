@@ -81,7 +81,7 @@ export default function DraftEmailsTabs() {
       className={
         'fixed w-full h-[3rem] -mx-8 px-8 pt-2' +
         (draftEmailsContext.activeEmail === null
-          ? ' border-t dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900'
+          ? ' bg-neutral-50 dark:bg-neutral-900'
           : '')
       }
     >

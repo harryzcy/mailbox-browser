@@ -3,10 +3,11 @@
  * This is the root component for inbox, draft, and sent pages.
  */
 
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router-dom'
 import DraftEmailsTabs from '../components/emails/DraftEmailsTabs'
 import FullScreenContent from '../components/emails/FullScreenContent'
+import { DraftEmailsContext } from '../contexts/DraftEmailContext'
 import { EmailInfo, listEmails, ListEmailsResponse } from '../services/emails'
 
 type InboxContext = {
@@ -111,9 +112,11 @@ export default function EmailRoot(props: EmailRootProps) {
     loadEmails
   }
 
+  const draftEmailsContext = useContext(DraftEmailsContext)
+
   return (
     <div className="flex-1 max-h-screen md:px-8 pt-2 md:pt-5">
-      <div className="h-[calc(100%-3rem)] flex flex-col">
+      <div className={"flex flex-col " + (draftEmailsContext.emails.length > 0 ? 'h-[calc(100%-3rem)]' : 'h-full')}>
         <h1 className="text-lg font-light tracking-wider md:pb-4 md:px-2 dark:text-white">
           {props.type === 'inbox'
             ? 'Inbox'
