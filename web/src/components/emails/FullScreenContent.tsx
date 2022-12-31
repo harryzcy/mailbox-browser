@@ -6,7 +6,11 @@ import {
 import { deleteEmail, saveEmail } from '../../services/emails'
 import { EmailDraft } from './EmailDraft'
 
-export default function FullScreenContent() {
+interface FullScreenContentProps {
+  handleDelete: (messageID: string) => void
+}
+
+export default function FullScreenContent(props: FullScreenContentProps) {
   const draftEmailsContext = useContext(DraftEmailsContext)
 
   const handleEmailChange = (email: DraftEmail) => {
@@ -72,6 +76,7 @@ export default function FullScreenContent() {
       draftEmailsContext.dispatch({
         type: 'close'
       })
+      props.handleDelete(email.messageID)
     }
 
     deleteRequest()

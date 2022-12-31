@@ -94,6 +94,10 @@ export default function EmailRoot(props: EmailRootProps) {
     setNextCursor(data.nextCursor)
   }
 
+  const removeEmailFromList = (messageID: string) => {
+    setEmails(emails.filter((email) => email.messageID !== messageID))
+  }
+
   const outletContext: InboxContext = {
     count,
     setCount,
@@ -134,7 +138,11 @@ export default function EmailRoot(props: EmailRootProps) {
         <Outlet context={outletContext} />
       </div>
 
-      <FullScreenContent />
+      <FullScreenContent
+        handleDelete={(messageID) => {
+          removeEmailFromList(messageID)
+        }}
+      />
 
       <DraftEmailsTabs />
     </div>
