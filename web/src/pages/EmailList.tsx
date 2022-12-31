@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import EmailTableView from '../components/emails/EmailTableView'
 import { useOutsideClick } from '../hooks/useOutsideClick'
+import { deleteEmail, trashEmail } from '../services/emails'
 import { useInboxContext } from './EmailRoot'
 
 export default function EmailList() {
@@ -103,12 +104,25 @@ export default function EmailList() {
     setNextCursor(data.nextCursor)
   }
 
+  const handleDelete = async () => {
+    const emailsToBeDeleted = emails.filter((e) => selected.includes(e.messageID))
+    for (const email of emailsToBeDeleted) {
+      if (email.type === 'draft') {
+        await deleteEmail(email.messageID)
+      } else {
+        await trashEmail(email.messageID)
+      }
+    }
+    setEmails(emails.filter((e) => !selected.includes(e.messageID)))
+    setSelected([])
+  }
+
   return (
     <>
       <div ref={menuRef} className="mb-4">
         <EmailMenuBar
           showOperations={selected.length > 0}
-          handleDelete={() => {}}
+          handleDelete={handleDelete}
           hasPrevious={hasPrevious}
           hasNext={true}
           goPrevious={goPrevious}
