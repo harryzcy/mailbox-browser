@@ -5,6 +5,7 @@ import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
 import { generateLocalDraftID } from '../../services/emails'
 
 interface EmailMenuBarProps {
+  showOperations: boolean
   hasPrevious: boolean
   hasNext: boolean
   goPrevious: () => void
@@ -13,12 +14,13 @@ interface EmailMenuBarProps {
 }
 
 export default function EmailMenuBar(props: EmailMenuBarProps) {
-  const { hasPrevious, hasNext, goPrevious, goNext, children } = props
+  const { showOperations, hasPrevious, hasNext, goPrevious, goNext, children } =
+    props
   const { dispatch: dispatchDraftEmail } = useContext(DraftEmailsContext)
 
   return (
     <div className="flex justify-between items-stretch">
-      <div className='flex items-center space-x-2'>
+      <div className="flex items-center space-x-2">
         <span
           className="inline-flex items-center h-full space-x-2 px-3 rounded-md cursor-pointer bg-sky-200 border border-sky-200"
           onClick={() => {
@@ -34,9 +36,13 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
           <span className="text-bold text-sky-900 font-medium">Compose</span>
         </span>
 
-        <span className='inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100'>
-          <TrashIcon className="h-5 w-5 text-sky-800" />
-        </span>
+        {showOperations && (
+          <>
+            <span className="inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100">
+              <TrashIcon className="h-5 w-5 text-sky-800" />
+            </span>
+          </>
+        )}
       </div>
 
       <nav

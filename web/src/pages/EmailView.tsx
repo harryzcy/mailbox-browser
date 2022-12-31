@@ -28,6 +28,7 @@ export default function EmailView(props: EmailViewProps) {
     <>
       <div className="mb-4">
         <EmailMenuBar
+          showOperations={true}
           hasPrevious={false}
           hasNext={false}
           goPrevious={goPrevious}
