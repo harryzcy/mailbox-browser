@@ -105,7 +105,9 @@ export default function EmailList() {
   }
 
   const handleDelete = async () => {
-    const emailsToBeDeleted = emails.filter((e) => selected.includes(e.messageID))
+    const emailsToBeDeleted = emails.filter((e) =>
+      selected.includes(e.messageID)
+    )
     for (const email of emailsToBeDeleted) {
       if (email.type === 'draft') {
         await deleteEmail(email.messageID)

@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react'
-import { Await, useAsyncValue, useLoaderData, useNavigate } from 'react-router-dom'
+import {
+  Await,
+  useAsyncValue,
+  useLoaderData,
+  useNavigate
+} from 'react-router-dom'
 import parse, {
   Element,
   Text,
@@ -19,7 +24,7 @@ import { formatDate } from '../utils/time'
 interface EmailViewProps {}
 
 export default function EmailView(props: EmailViewProps) {
-  const data = useLoaderData() as { messageID: string, email: Email }
+  const data = useLoaderData() as { messageID: string; email: Email }
 
   const navigate = useNavigate()
 
