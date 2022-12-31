@@ -1,5 +1,7 @@
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { EmailInfo } from '../../services/emails'
+import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
+import { EmailInfo, getEmail } from '../../services/emails'
 import { getNameFromEmails } from '../../utils/emails'
 import { formatDate } from '../../utils/time'
 
@@ -15,7 +17,19 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     ? ' bg-blue-100 dark:bg-neutral-700'
     : ''
 
+  const draftEmailsContext = useContext(DraftEmailsContext)
+
   const navigate = useNavigate()
+
+  const openDraftEmail = async (messageID: string) => {
+    const emailDetail = await getEmail(messageID)
+    console.log(emailDetail)
+
+    draftEmailsContext.dispatch({
+      type: 'load',
+      email: emailDetail
+    })
+  }
 
   return (
     <div
@@ -24,7 +38,11 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         onClick(event.metaKey ? 'add' : 'replace')
       }}
       onDoubleClick={() => {
-        navigate(`/inbox/${email.messageID}`)
+        if (email.type === 'draft') {
+          openDraftEmail(email.messageID)
+        } else if (email.type === 'inbox' || email.type === 'sent') {
+          navigate(`/inbox/${email.messageID}`)
+        }
       }}
     >
       <div

@@ -20,6 +20,7 @@ export type State = {
 
 export type Action =
   | { type: 'add'; messageID: string }
+  | { type: 'load'; email: DraftEmail }
   | { type: 'open'; id: string }
   | { type: 'close' }
   | { type: 'minimize' }
@@ -52,6 +53,26 @@ export function draftEmailReducer(state: State, action: Action): State {
         activeEmail: newEmail,
         updateWaitlist: state.updateWaitlist,
         emails: [...state.emails, newEmail]
+      }
+    case 'load':
+      const foundEmail = state.emails.find(
+        (email) => email.messageID === action.email.messageID
+      )
+      if (foundEmail) {
+        return {
+          activeEmail: foundEmail,
+          updateWaitlist: state.updateWaitlist,
+          emails: state.emails
+        }
+      }
+      const email = {
+        ...action.email,
+        html: extractEmailBody(action.email.html)
+      }
+      return {
+        activeEmail: email,
+        updateWaitlist: state.updateWaitlist,
+        emails: [...state.emails, email]
       }
     case 'open':
       return {
@@ -122,3 +143,8 @@ export const DraftEmailsContext = createContext<{
   updateWaitlist: [],
   dispatch: () => null
 })
+
+const extractEmailBody = (html: string) => {
+  const body = /<body>(.*?)<\/body>/g.exec(html)?.[1] || ''
+  return body
+}
