@@ -20,11 +20,18 @@ interface EmailDraftProps {
   handleClose: () => void
   handleMinimize: () => void
   handleSend: () => void
+  handleDelete: () => void
 }
 
 export function EmailDraft(props: EmailDraftProps) {
-  const { email, handleEmailChange, handleClose, handleMinimize, handleSend } =
-    props
+  const {
+    email,
+    handleEmailChange,
+    handleClose,
+    handleMinimize,
+    handleSend,
+    handleDelete
+  } = props
 
   const draftEmailsContext = useContext(DraftEmailsContext)
 
@@ -120,6 +127,7 @@ export function EmailDraft(props: EmailDraftProps) {
             handleEmailChange({ ...email, html, text })
           }}
           handleSend={handleSend}
+          handleDelete={handleDelete}
         />
       </div>
     </div>
