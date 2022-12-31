@@ -146,6 +146,5 @@ export const DraftEmailsContext = createContext<{
 
 const extractEmailBody = (html: string) => {
   const body = /<body>(.*?)<\/body>/g.exec(html)?.[1] || ''
-  console.log(body)
   return body
 }
