@@ -148,6 +148,12 @@ export async function deleteEmail(messageID: string): Promise<void> {
   })
 }
 
+export async function trashEmail(messageID: string): Promise<void> {
+  await fetch(`/web/emails/${messageID}/trash`, {
+    method: 'POST'
+  })
+}
+
 export function generateLocalDraftID(): string {
   return `local-${Date.now().toString()}`
 }

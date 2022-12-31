@@ -34,6 +34,7 @@ const router = createBrowserRouter([
             loader: ({ params }) => {
               if (!params.messageID) return redirect('/inbox')
               return defer({
+                messageID: params.messageID,
                 email: getEmail(params.messageID)
               })
             }
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
             loader: ({ params }) => {
               if (!params.messageID) return redirect('/drafts')
               return defer({
+                messageID: params.messageID,
                 email: getEmail(params.messageID)
               })
             }
@@ -74,6 +76,7 @@ const router = createBrowserRouter([
             loader: ({ params }) => {
               if (!params.messageID) return redirect('/sent')
               return defer({
+                messageID: params.messageID,
                 email: getEmail(params.messageID)
               })
             }
