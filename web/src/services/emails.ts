@@ -142,6 +142,12 @@ export async function saveEmail(email: SaveEmailProps): Promise<Email> {
   return response.json()
 }
 
+export async function deleteEmail(messageID: string): Promise<void> {
+  await fetch(`/web/emails/${messageID}`, {
+    method: 'DELETE'
+  })
+}
+
 export function generateLocalDraftID(): string {
   return `local-${Date.now().toString()}`
 }

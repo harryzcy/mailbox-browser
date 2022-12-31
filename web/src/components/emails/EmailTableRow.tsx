@@ -23,8 +23,6 @@ export default function EmailTableRow(props: EmailTableRowProps) {
 
   const openDraftEmail = async (messageID: string) => {
     const emailDetail = await getEmail(messageID)
-    console.log(emailDetail)
-
     draftEmailsContext.dispatch({
       type: 'load',
       email: emailDetail

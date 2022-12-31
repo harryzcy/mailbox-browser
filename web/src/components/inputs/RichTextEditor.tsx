@@ -41,7 +41,7 @@ interface RichTextEditorProps {
   initialHtml: string
   handleChange: ({ html, text }: { html: string; text: string }) => void
   handleSend: () => void
-  handleDelete?: () => void
+  handleDelete: () => void
 }
 
 export default function RichTextEditor(props: RichTextEditorProps) {

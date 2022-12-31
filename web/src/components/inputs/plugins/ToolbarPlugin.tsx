@@ -485,7 +485,7 @@ function BlockOptionsDropdownList({
 
 interface ToolbarPluginProps {
   handleSend: () => void
-  handleDelete?: () => void
+  handleDelete: () => void
 }
 
 export default function ToolbarPlugin(props: ToolbarPluginProps) {
@@ -807,7 +807,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
 
       <button
         onClick={() => {
-          props.handleDelete && props.handleDelete()
+          props.handleDelete()
         }}
         className="p-2.5 ml-auto rounded-md align-middle cursor-pointer hover:bg-red-300 dark:hover:bg-red-600"
         aria-label="Trash"

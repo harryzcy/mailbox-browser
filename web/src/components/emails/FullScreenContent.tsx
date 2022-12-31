@@ -3,10 +3,14 @@ import {
   DraftEmail,
   DraftEmailsContext
 } from '../../contexts/DraftEmailContext'
-import { saveEmail } from '../../services/emails'
+import { deleteEmail, saveEmail } from '../../services/emails'
 import { EmailDraft } from './EmailDraft'
 
-export default function FullScreenContent() {
+interface FullScreenContentProps {
+  handleDelete: (messageID: string) => void
+}
+
+export default function FullScreenContent(props: FullScreenContentProps) {
   const draftEmailsContext = useContext(DraftEmailsContext)
 
   const handleEmailChange = (email: DraftEmail) => {
@@ -59,6 +63,25 @@ export default function FullScreenContent() {
     sendRequest()
   }
 
+  const handleDelete = () => {
+    draftEmailsContext.dispatch({
+      type: 'remove-waitlist'
+    })
+
+    const deleteRequest = async () => {
+      const email = draftEmailsContext.activeEmail
+      if (!email) return
+      await deleteEmail(email.messageID)
+
+      draftEmailsContext.dispatch({
+        type: 'close'
+      })
+      props.handleDelete(email.messageID)
+    }
+
+    deleteRequest()
+  }
+
   if (draftEmailsContext.activeEmail === null) {
     return null
   }
@@ -71,6 +94,7 @@ export default function FullScreenContent() {
         handleClose={handleClose}
         handleMinimize={handleMinimize}
         handleSend={handleSend}
+        handleDelete={handleDelete}
       />
     </div>
   )
