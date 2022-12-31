@@ -1,0 +1,14 @@
+name: Docker Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build docker image
+        run: docker build -t ${{ github.repository }} .
