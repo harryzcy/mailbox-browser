@@ -28,7 +28,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
 
   return (
     <div className="flex justify-between items-stretch">
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-3">
         <span
           className="inline-flex items-center h-full space-x-2 px-3 rounded-md cursor-pointer bg-sky-200 border border-sky-200"
           onClick={() => {
@@ -47,12 +47,12 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
         {showOperations && (
           <>
             <span
-              className="inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100"
+              className="inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:text-sky-900 dark:hover:text-gray-100"
               onClick={() => {
                 handleDelete && handleDelete()
               }}
             >
-              <TrashIcon className="h-5 w-5 text-sky-800" />
+              <TrashIcon className="h-5 w-5" />
             </span>
           </>
         )}
