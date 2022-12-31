@@ -10,6 +10,7 @@
     "prettier": "prettier --config .prettierrc 'src/**/*.{ts,tsx}' --write"
   },
   "dependencies": {
+    "@heroicons/react": "2.0.13",
     "@lexical/clipboard": "0.7.5",
     "@lexical/code": "0.7.5",
     "@lexical/html": "0.7.5",
@@ -21,15 +22,16 @@
     "@lexical/selection": "0.7.5",
     "@lexical/table": "0.7.5",
     "@lexical/utils": "0.7.5",
+    "html-react-parser": "3.0.6",
     "lexical": "0.7.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.6.1",
     "react-use": "17.4.0",
+    "tailwindcss": "3.2.4",
     "yjs": "13.5.43"
   },
   "devDependencies": {
-    "@heroicons/react": "2.0.13",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.10",
     "@typescript-eslint/eslint-plugin": "5.47.1",
@@ -42,10 +44,8 @@
     "eslint-plugin-n": "15.6.0",
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-react": "7.31.11",
-    "html-react-parser": "3.0.6",
     "postcss": "8.4.20",
     "prettier": "2.8.1",
-    "tailwindcss": "3.2.4",
     "typescript": "4.9.4",
     "vite": "4.0.3"
   }
