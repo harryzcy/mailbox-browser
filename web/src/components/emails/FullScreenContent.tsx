@@ -3,10 +3,14 @@ import {
   DraftEmail,
   DraftEmailsContext
 } from '../../contexts/DraftEmailContext'
-import { saveEmail } from '../../services/emails'
+import { deleteEmail, saveEmail } from '../../services/emails'
 import { EmailDraft } from './EmailDraft'
 
-export default function FullScreenContent() {
+interface FullScreenContentProps {
+  handleDelete: (messageID: string) => void
+}
+
+export default function FullScreenContent(props: FullScreenContentProps) {
   const draftEmailsContext = useContext(DraftEmailsContext)
 
   const handleEmailChange = (email: DraftEmail) => {
@@ -59,18 +63,38 @@ export default function FullScreenContent() {
     sendRequest()
   }
 
+  const handleDelete = () => {
+    draftEmailsContext.dispatch({
+      type: 'remove-waitlist'
+    })
+
+    const deleteRequest = async () => {
+      const email = draftEmailsContext.activeEmail
+      if (!email) return
+      await deleteEmail(email.messageID)
+
+      draftEmailsContext.dispatch({
+        type: 'close'
+      })
+      props.handleDelete(email.messageID)
+    }
+
+    deleteRequest()
+  }
+
   if (draftEmailsContext.activeEmail === null) {
     return null
   }
 
   return (
-    <div className="absolute left-0 top-0 right-0 bottom-0 bg-gray-800/40 dark:bg-zinc-900/90 px-36 py-20">
+    <div className="absolute left-0 top-0 right-0 bottom-0 bg-neutral-800/40 dark:bg-zinc-900/90 px-36 py-20">
       <EmailDraft
         email={draftEmailsContext.activeEmail}
         handleEmailChange={handleEmailChange}
         handleClose={handleClose}
         handleMinimize={handleMinimize}
         handleSend={handleSend}
+        handleDelete={handleDelete}
       />
     </div>
   )

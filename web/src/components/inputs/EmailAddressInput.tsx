@@ -40,11 +40,11 @@ export default function EmailAddressInput(props: EmailAddressInputProps) {
         return (
           <span
             key={address}
-            className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-700 pl-2 pr-1 py-px ml-1 first:ml-0"
+            className="inline-flex items-center rounded bg-gray-100 dark:bg-neutral-700 pl-2 pr-1 py-px ml-1 first:ml-0"
           >
             <span>{address}</span>
             <span
-              className="p-0.5 cursor-pointer dark:hover:bg-gray-800 rounded-full ml-1 first-of-type:ml-0"
+              className="p-0.5 cursor-pointer dark:hover:bg-neutral-800 rounded-full ml-1 first-of-type:ml-0"
               onClick={() => {
                 removeEmail(address)
               }}
@@ -57,7 +57,7 @@ export default function EmailAddressInput(props: EmailAddressInputProps) {
 
       <input
         type="text"
-        className="outline-none bg-transparent w-full p-1 dark:placeholder:text-slate-400"
+        className="outline-none bg-transparent w-full p-1 dark:placeholder:text-neutral-400"
         placeholder={placeholder}
         value={stash}
         onChange={(e) => {

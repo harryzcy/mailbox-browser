@@ -14,9 +14,9 @@ export default function Sidebar() {
   ]
 
   return (
-    <aside className="sidebar flex-none h-screen md:w-60 text-base border-r dark:border-gray-700 select-none">
+    <aside className="sidebar flex-none h-screen md:w-60 text-base select-none">
       <div className="title-group flex flex-col content-center md:p-6">
-        <h1 className="text-center font-light tracking-wide dark:text-gray-100">
+        <h1 className="text-center font-light tracking-wide dark:text-neutral-100">
           Mailbox Browser
         </h1>
       </div>
@@ -27,10 +27,10 @@ export default function Sidebar() {
               key={path}
               to={path}
               className={({ isActive }) =>
-                `flex items-center px-4 py-2 mb-1 space-x-2 cursor-pointer rounded hover:bg-gray-300 hover:text-black dark:hover:bg-gray-700 dark:hover:text-gray-100 ${
+                `flex items-center px-4 py-2 mb-1 space-x-2 cursor-pointer rounded hover:bg-neutral-300 hover:text-black dark:hover:bg-neutral-700 dark:hover:text-neutral-100 ${
                   isActive
-                    ? 'text-gray-900 dark:text-gray-200 bg-gray-200 dark:bg-gray-800'
-                    : 'text-gray-700 dark:text-gray-400 bg-transparent'
+                    ? 'text-neutral-900 dark:text-neutral-200 bg-neutral-200 dark:bg-neutral-800'
+                    : 'text-neutral-700 dark:text-neutral-400 bg-transparent'
                 }`
               }
             >
