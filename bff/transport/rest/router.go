@@ -18,10 +18,12 @@ func Init(logger *zap.Logger, mode string) *gin.Engine {
 		zap.String("type", "server-status"),
 	)
 
-	r := gin.New()
-
 	if mode == "prod" {
 		gin.SetMode(gin.ReleaseMode)
+	}
+
+	r := gin.New()
+	if mode == "prod" {
 		r.Use(ginzap.Ginzap(logger, time.RFC3339, true), ginzap.RecoveryWithZap(logger, true))
 	} else {
 		r.Use(gin.Logger(), gin.Recovery())
@@ -41,10 +43,10 @@ func Init(logger *zap.Logger, mode string) *gin.Engine {
 	}
 
 	r.NoRoute(func(c *gin.Context) {
-		if (c.Request.URL.Path == "/") || (c.Request.URL.Path == "/index.html") {
-			c.File(config.INDEX_HTML)
-		} else if strings.HasPrefix(c.Request.URL.Path, "/assets/") {
+		if strings.HasPrefix(c.Request.URL.Path, "/assets/") {
 			c.File(filepath.Join(config.STATIC_DIR, c.Request.URL.Path))
+		} else {
+			c.File(config.INDEX_HTML)
 		}
 	})
 
