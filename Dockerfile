@@ -16,7 +16,7 @@ RUN npm install -g npm@${NPM_VERSION} && npm -g install pnpm@${PNPM_VERSION}
 
 COPY web ./
 RUN pnpm fetch && \
-  pnpm install -r -P --offline && \
+  pnpm install -r --offline && \
   pnpm run build
 
 FROM alpine:3.17.0
