@@ -1,4 +1,5 @@
-import { useLoaderData } from 'react-router-dom'
+import React from 'react'
+import { Await, useLoaderData } from 'react-router-dom'
 import parse, {
   Element,
   Text,
@@ -18,7 +19,7 @@ import { formatDate } from '../utils/time'
 interface EmailViewProps {}
 
 export default function EmailView(props: EmailViewProps) {
-  const email = useLoaderData() as Email
+  const data = useLoaderData() as { email: Email }
 
   const goPrevious = () => {}
   const goNext = () => {}
@@ -34,45 +35,60 @@ export default function EmailView(props: EmailViewProps) {
         />
       </div>
 
-      <div className="mb-2 px-3">
-        <span className="text-xl font-normal dark:text-neutral-200">
-          {email.subject}
-        </span>
-      </div>
-
-      <div className="bg-neutral-50 rounded-md bg-neutral-50 dark:bg-neutral-800 p-3 overflow-scroll mb-4">
-        {/* header info for emails */}
-        <div className="flex justify-between items-start">
-          <div className="dark:text-neutral-300">
-            <div>
-              <span>{getNameFromEmails(email.from)}</span>
-            </div>
-            <div className="text-sm">
-              <span>To: {getNameFromEmails(email.to)}</span>
-            </div>
+      <React.Suspense
+        fallback={
+          <div className="bg-neutral-50 rounded-md bg-neutral-50 dark:bg-neutral-800 p-3 overflow-scroll mb-4 dark:text-neutral-200">
+            <span>Loading...</span>
           </div>
+        }
+      >
+        <Await resolve={data.email}>
+          {(email: Email) => (
+            <>
+              <div className="mb-2 px-3">
+                <span className="text-xl font-normal dark:text-neutral-200">
+                  {email.subject}
+                </span>
+              </div>
+              <div className="bg-neutral-50 rounded-md bg-neutral-50 dark:bg-neutral-800 p-3 overflow-scroll mb-4">
+                {/* header info for emails */}
+                <div className="flex justify-between items-start">
+                  <div className="dark:text-neutral-300">
+                    <div>
+                      <span>{getNameFromEmails(email.from)}</span>
+                    </div>
+                    <div className="text-sm">
+                      <span>To: {getNameFromEmails(email.to)}</span>
+                    </div>
+                  </div>
 
-          <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-300">
-            <span className="p-1">{formatDate(email.timeReceived)}</span>
-            <span className="inline-flex ml-4">
-              {/* TODO: implement reply and forward actions */}
-              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200">
-                <ArrowUturnLeftIcon />
-              </span>
-              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200">
-                <ArrowUturnRightIcon />
-              </span>
-            </span>
-          </div>
-        </div>
+                  <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-300">
+                    <span className="p-1">
+                      {formatDate(email.timeReceived)}
+                    </span>
+                    <span className="inline-flex ml-4">
+                      {/* TODO: implement reply and forward actions */}
+                      <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200">
+                        <ArrowUturnLeftIcon />
+                      </span>
+                      <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200">
+                        <ArrowUturnRightIcon />
+                      </span>
+                    </span>
+                  </div>
+                </div>
 
-        {/* email body */}
-        <div className="mt-4">
-          <div className="email-sandbox dark:text-neutral-300">
-            {parseEmailContent(email)}
-          </div>
-        </div>
-      </div>
+                {/* email body */}
+                <div className="mt-4">
+                  <div className="email-sandbox dark:text-neutral-300">
+                    {parseEmailContent(email)}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </Await>
+      </React.Suspense>
     </>
   )
 }
