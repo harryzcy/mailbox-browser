@@ -54,7 +54,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
         <span className="flex-1 border-b dark:border-neutral-600 mx-2">
           <EmailAddressInput
-            addresses={email.from}
+            addresses={email.from || []}
             handleChange={(emails) => {
               handleEmailChange({ ...email, from: emails })
             }}
@@ -67,7 +67,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
         <span className="flex-1 border-b dark:border-neutral-600 mx-2">
           <EmailAddressInput
-            addresses={email.to}
+            addresses={email.to || []}
             handleChange={(emails) => {
               handleEmailChange({ ...email, to: emails })
             }}
@@ -80,7 +80,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
         <span className="flex-1 border-b dark:border-neutral-600 mx-2">
           <EmailAddressInput
-            addresses={email.cc}
+            addresses={email.cc || []}
             handleChange={(emails) => {
               handleEmailChange({ ...email, cc: emails })
             }}
@@ -93,7 +93,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
         <span className="flex-1 border-b dark:border-neutral-600 mx-2">
           <EmailAddressInput
-            addresses={email.bcc}
+            addresses={email.bcc || []}
             handleChange={(emails) => {
               handleEmailChange({ ...email, bcc: emails })
             }}
@@ -104,6 +104,7 @@ export function EmailDraft(props: EmailDraftProps) {
       <div className="flex px-2 pt-3">
         <span className="flex-1 border-b dark:border-neutral-600 mx-2">
           <TextInput
+            value={email.subject || ''}
             placeholder="Subject"
             handleChange={(subject) => {
               handleEmailChange({ ...email, subject })

@@ -20,6 +20,7 @@ export type State = {
 
 export type Action =
   | { type: 'add'; messageID: string }
+  | { type: 'load'; email: DraftEmail }
   | { type: 'open'; id: string }
   | { type: 'close' }
   | { type: 'minimize' }
@@ -52,6 +53,22 @@ export function draftEmailReducer(state: State, action: Action): State {
         activeEmail: newEmail,
         updateWaitlist: state.updateWaitlist,
         emails: [...state.emails, newEmail]
+      }
+    case 'load':
+      const foundEmail = state.emails.find(
+        (email) => email.messageID === action.email.messageID
+      )
+      if (foundEmail) {
+        return {
+          activeEmail: foundEmail,
+          updateWaitlist: state.updateWaitlist,
+          emails: state.emails
+        }
+      }
+      return {
+        activeEmail: action.email,
+        updateWaitlist: state.updateWaitlist,
+        emails: [...state.emails, action.email]
       }
     case 'open':
       return {
