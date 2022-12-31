@@ -1,5 +1,5 @@
-import React from 'react'
-import { Await, useLoaderData } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Await, useAsyncValue, useLoaderData, useNavigate } from 'react-router-dom'
 import parse, {
   Element,
   Text,
@@ -12,14 +12,16 @@ import {
   ArrowUturnRightIcon
 } from '@heroicons/react/20/solid'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
-import { Email } from '../services/emails'
+import { Email, trashEmail } from '../services/emails'
 import { getNameFromEmails } from '../utils/emails'
 import { formatDate } from '../utils/time'
 
 interface EmailViewProps {}
 
 export default function EmailView(props: EmailViewProps) {
-  const data = useLoaderData() as { email: Email }
+  const data = useLoaderData() as { messageID: string, email: Email }
+
+  const navigate = useNavigate()
 
   const goPrevious = () => {}
   const goNext = () => {}
@@ -29,6 +31,10 @@ export default function EmailView(props: EmailViewProps) {
       <div className="mb-4">
         <EmailMenuBar
           showOperations={true}
+          handleDelete={async () => {
+            await trashEmail(data.messageID)
+            navigate(-1)
+          }}
           hasPrevious={false}
           hasNext={false}
           goPrevious={goPrevious}

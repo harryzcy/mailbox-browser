@@ -6,6 +6,7 @@ import { generateLocalDraftID } from '../../services/emails'
 
 interface EmailMenuBarProps {
   showOperations: boolean
+  handleDelete?: () => void
   hasPrevious: boolean
   hasNext: boolean
   goPrevious: () => void
@@ -14,8 +15,15 @@ interface EmailMenuBarProps {
 }
 
 export default function EmailMenuBar(props: EmailMenuBarProps) {
-  const { showOperations, hasPrevious, hasNext, goPrevious, goNext, children } =
-    props
+  const {
+    showOperations,
+    handleDelete,
+    hasPrevious,
+    hasNext,
+    goPrevious,
+    goNext,
+    children
+  } = props
   const { dispatch: dispatchDraftEmail } = useContext(DraftEmailsContext)
 
   return (
@@ -38,7 +46,12 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
 
         {showOperations && (
           <>
-            <span className="inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100">
+            <span
+              className="inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100"
+              onClick={() => {
+                handleDelete && handleDelete()
+              }}
+            >
               <TrashIcon className="h-5 w-5 text-sky-800" />
             </span>
           </>

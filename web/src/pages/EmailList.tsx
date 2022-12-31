@@ -108,6 +108,7 @@ export default function EmailList() {
       <div ref={menuRef} className="mb-4">
         <EmailMenuBar
           showOperations={selected.length > 0}
+          handleDelete={() => {}}
           hasPrevious={hasPrevious}
           hasNext={true}
           goPrevious={goPrevious}
