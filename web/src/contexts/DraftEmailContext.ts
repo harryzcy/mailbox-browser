@@ -65,10 +65,14 @@ export function draftEmailReducer(state: State, action: Action): State {
           emails: state.emails
         }
       }
+      const email = {
+        ...action.email,
+        html: extractEmailBody(action.email.html)
+      }
       return {
-        activeEmail: action.email,
+        activeEmail: email,
         updateWaitlist: state.updateWaitlist,
-        emails: [...state.emails, action.email]
+        emails: [...state.emails, email]
       }
     case 'open':
       return {
@@ -139,3 +143,9 @@ export const DraftEmailsContext = createContext<{
   updateWaitlist: [],
   dispatch: () => null
 })
+
+const extractEmailBody = (html: string) => {
+  const body = /<body>(.*?)<\/body>/g.exec(html)?.[1] || ''
+  console.log(body)
+  return body
+}
