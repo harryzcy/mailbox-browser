@@ -35,7 +35,13 @@ export default function EmailView(props: EmailViewProps) {
         />
       </div>
 
-      <React.Suspense fallback={<div>Loading...</div>}>
+      <React.Suspense
+        fallback={
+          <div className="bg-neutral-50 rounded-md bg-neutral-50 dark:bg-neutral-800 p-3 overflow-scroll mb-4 dark:text-neutral-200">
+            <span>Loading...</span>
+          </div>
+        }
+      >
         <Await resolve={data.email}>
           {(email: Email) => (
             <>
