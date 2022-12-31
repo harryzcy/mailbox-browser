@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import { EnvelopeIcon } from '@heroicons/react/24/outline'
+import { EnvelopeIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
 import { generateLocalDraftID } from '../../services/emails'
 
@@ -18,7 +18,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
 
   return (
     <div className="flex justify-between items-stretch">
-      <div>
+      <div className='flex items-center space-x-2'>
         <span
           className="inline-flex items-center h-full space-x-2 px-3 rounded-md cursor-pointer bg-sky-200 border border-sky-200"
           onClick={() => {
@@ -32,6 +32,10 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
             <EnvelopeIcon className="h-5 w-5 text-sky-800" />
           </span>
           <span className="text-bold text-sky-900 font-medium">Compose</span>
+        </span>
+
+        <span className='inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100'>
+          <TrashIcon className="h-5 w-5 text-sky-800" />
         </span>
       </div>
 
