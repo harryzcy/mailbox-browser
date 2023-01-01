@@ -36,7 +36,7 @@ specifiers:
   tailwindcss: 3.2.4
   typescript: 4.9.4
   vite: 4.0.3
-  yjs: 13.5.43
+  yjs: 13.5.44
 
 dependencies:
   '@heroicons/react': 2.0.13_react@18.2.0
@@ -46,7 +46,7 @@ dependencies:
   '@lexical/link': 0.7.5_lexical@0.7.5
   '@lexical/list': 0.7.5_lexical@0.7.5
   '@lexical/markdown': 0.7.5_nqe6stoylcvrfyjflfs4lzuwge
-  '@lexical/react': 0.7.5_ohqi52amunwyvttt7hchpxjjra
+  '@lexical/react': 0.7.5_mmimdf22a3gwmuele2mhwu2jxq
   '@lexical/rich-text': 0.7.5_td25apgcju2jtkef6oiyer7sje
   '@lexical/selection': 0.7.5_lexical@0.7.5
   '@lexical/table': 0.7.5_lexical@0.7.5
@@ -58,7 +58,7 @@ dependencies:
   react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
   tailwindcss: 3.2.4_postcss@8.4.20
-  yjs: 13.5.43
+  yjs: 13.5.44
 
 devDependencies:
   '@types/react': 18.0.26
@@ -726,7 +726,7 @@ packages:
       lexical: 0.7.5
     dev: false
 
-  /@lexical/react/0.7.5_ohqi52amunwyvttt7hchpxjjra:
+  /@lexical/react/0.7.5_mmimdf22a3gwmuele2mhwu2jxq:
     resolution: {integrity: sha512-Lk51Y514kOfUMF3+92dKKVuPlFrL1r19hOTGhvdi71DF1ewUzTVbbS9oyMFzNAA+rsuKqLKn0zILT43CHRk22w==}
     peerDependencies:
       lexical: 0.7.5
@@ -749,7 +749,7 @@ packages:
       '@lexical/table': 0.7.5_lexical@0.7.5
       '@lexical/text': 0.7.5_lexical@0.7.5
       '@lexical/utils': 0.7.5_lexical@0.7.5
-      '@lexical/yjs': 0.7.5_lexical@0.7.5+yjs@13.5.43
+      '@lexical/yjs': 0.7.5_lexical@0.7.5+yjs@13.5.44
       lexical: 0.7.5
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -807,7 +807,7 @@ packages:
       lexical: 0.7.5
     dev: false
 
-  /@lexical/yjs/0.7.5_lexical@0.7.5+yjs@13.5.43:
+  /@lexical/yjs/0.7.5_lexical@0.7.5+yjs@13.5.44:
     resolution: {integrity: sha512-pNyw175VfWhJQj4pnvXgddfjyZhF/lotn7/4MTKbtGxyAI61LrjV7Z3M7v76003v4SEIyQ3WqWOU4TCjNt+alQ==}
     peerDependencies:
       lexical: 0.7.5
@@ -815,7 +815,7 @@ packages:
     dependencies:
       '@lexical/offset': 0.7.5_lexical@0.7.5
       lexical: 0.7.5
-      yjs: 13.5.43
+      yjs: 13.5.44
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
@@ -3280,8 +3280,8 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /yjs/13.5.43:
-    resolution: {integrity: sha512-NJqWuiDOseYjkhnSVo55z+FZD6TsOJBZfMbH2I4OCm5vsgY7TESUjUGb7Pt1lljvvdSfBVj8CxQqZAnVxe5Iyg==}
+  /yjs/13.5.44:
+    resolution: {integrity: sha512-UL+abIh2lQonqXfaJ+en7z9eGshpY11j1zNLc2kDYs0vrTjee4gZJUXC3ZsuhP6geQt0IRU04epCGRaVPQAVCA==}
     dependencies:
       lib0: 0.2.58
     dev: false
