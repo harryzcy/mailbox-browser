@@ -6,7 +6,7 @@ RUN go mod download
 
 RUN go build -o /bin/bff
 
-FROM node:19.3.0-alpine3.17 as web-builder
+FROM node:18.21.1-alpine3.17 as web-builder
 
 WORKDIR /app
 
