@@ -49,7 +49,7 @@ jobs:
         run: |
           echo "$(git rev-parse --short "$GITHUB_SHA")" >> $env:BUILD_COMMIT
           echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $env:BUILD_DATE
-          echo "$(git describe --tags)" >> $env:BUILD_VERSION
+          echo "$(git describe --tags --always)" >> $env:BUILD_VERSION
 
       - name: Check build variables
         run: |
