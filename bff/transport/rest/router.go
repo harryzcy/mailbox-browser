@@ -45,6 +45,7 @@ func Init(logger *zap.Logger, mode string) *gin.Engine {
 
 	// misc routes
 	r.GET("/ping", misc.Ping)
+	r.GET("/info", misc.Info)
 
 	r.NoRoute(func(c *gin.Context) {
 		if strings.HasPrefix(c.Request.URL.Path, "/assets/") {
