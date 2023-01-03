@@ -11,7 +11,8 @@ const theme: EditorThemeClasses = {
     h2: 'editor-heading-h2',
     h3: 'editor-heading-h3',
     h4: 'editor-heading-h4',
-    h5: 'editor-heading-h5'
+    h5: 'editor-heading-h5',
+    h6: 'editor-heading-h6'
   },
   list: {
     nested: {
@@ -19,20 +20,22 @@ const theme: EditorThemeClasses = {
     },
     ol: 'editor-list-ol',
     ul: 'editor-list-ul',
-    listitem: 'editor-listitem'
+    listitem: 'editor-listItem',
+    listitemChecked: 'editor-listItemChecked',
+    listitemUnchecked: 'editor-listItemUnchecked'
   },
+  hashtag: 'editor-hashtag',
   image: 'editor-image',
   link: 'editor-link',
-  hashtag: 'editor-text-hashtag',
   text: {
-    bold: 'editor-text-bold',
-    italic: 'editor-text-italic',
-    // overflowed: 'editor-text-overflowed',
-    // hashtag: 'editor-text-hashtag',
-    underline: 'editor-text-underline',
-    strikethrough: 'editor-text-strikethrough',
-    underlineStrikethrough: 'editor-text-underlineStrikethrough',
-    code: 'editor-text-code'
+    bold: 'editor-textBold',
+    code: 'editor-textCode',
+    italic: 'editor-textItalic',
+    strikethrough: 'editor-textStrikethrough',
+    subscript: 'editor-textSubscript',
+    superscript: 'editor-textSuperscript',
+    underline: 'editor-textUnderline',
+    underlineStrikethrough: 'editor-textUnderlineStrikethrough'
   },
   code: 'editor-code',
   codeHighlight: {
