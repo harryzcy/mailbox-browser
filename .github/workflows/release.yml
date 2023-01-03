@@ -56,6 +56,10 @@ jobs:
           echo $BUILD_COMMIT
           echo $BUILD_DATE
           echo $BUILD_VERSION
+        env:
+          BUILD_COMMIT: ${{ env.BUILD_COMMIT }}
+          BUILD_DATE: ${{ env.BUILD_DATE }}
+          BUILD_VERSION: ${{ env.BUILD_VERSION }}
 
       - name: Docker meta
         id: meta
