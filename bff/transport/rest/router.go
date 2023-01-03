@@ -10,6 +10,7 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/harryzcy/mailbox-browser/bff/config"
+	"github.com/harryzcy/mailbox-browser/bff/transport/rest/misc"
 	"github.com/harryzcy/mailbox-browser/bff/transport/rest/web"
 )
 
@@ -41,6 +42,9 @@ func Init(logger *zap.Logger, mode string) *gin.Engine {
 		emails.POST("/:id/untrash", web.MailboxProxy) // untrash
 		emails.POST("/:id/send", web.MailboxProxy)    // send
 	}
+
+	// misc routes
+	r.GET("/ping", misc.Ping)
 
 	r.NoRoute(func(c *gin.Context) {
 		if strings.HasPrefix(c.Request.URL.Path, "/assets/") {
