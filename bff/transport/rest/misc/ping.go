@@ -7,7 +7,7 @@ import (
 var (
 	version   = "dev"
 	commit    = "n/a"
-	buildTime = "n/a"
+	buildDate = "n/a"
 )
 
 func Ping(c *gin.Context) {
@@ -20,6 +20,6 @@ func Info(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"version": version,
 		"commit":  commit,
-		"build":   buildTime,
+		"build":   buildDate,
 	})
 }
