@@ -45,6 +45,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Get build variables
+        run: |
+          echo "BUILD_COMMIT=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_ENV
+          echo "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+          echo "BUILD_VERSION=$(git describe --tags --always)" >> $GITHUB_ENV
+
+      - name: Check build variables
+        run: |
+          echo $BUILD_COMMIT
+          echo $BUILD_DATE
+          echo $BUILD_VERSION
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
@@ -72,6 +84,10 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
+          build-args: |
+            BUILD_DATE=${{ env.BUILD_DATE }}
+            BUILD_COMMIT=${{ env.BUILD_COMMIT }}
+            BUILD_VERSION=${{ env.BUILD_VERSION }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: ${{ steps.meta.outputs.tags }}

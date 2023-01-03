@@ -1,10 +1,21 @@
 FROM golang:1.19.4-alpine3.17 as bff-builder
 
+ARG BUILD_VERSION
+ARG BUILD_COMMIT
+ARG BUILD_DATE
+
 WORKDIR /go/src/bff
 COPY ./bff ./
-RUN go mod download
 
-RUN go build -o /bin/bff
+RUN set -ex && \
+    go mod download && \
+    go build \
+      -ldflags=" \
+        -X 'github.com/harryzcy/mailbox-browser/bff/transport/rest/misc.version=${BUILD_VERSION}' \
+        -X 'github.com/harryzcy/mailbox-browser/bff/transport/rest/misc.commit=${BUILD_COMMIT}' \
+        -X 'github.com/harryzcy/mailbox-browser/bff/transport/rest/misc.buildDate=${BUILD_DATE}' \
+      " \
+      -o /bin/bff
 
 FROM node:18.12.1-alpine3.17 as web-builder
 
