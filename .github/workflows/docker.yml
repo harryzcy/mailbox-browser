@@ -10,27 +10,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Get commit
+      - name: Get build variables
         run: |
-          echo "$(git rev-parse --short "$GITHUB_SHA")" >> $env:BUILD_COMMIT
-
-      - name: Get date
-        run: |
-          echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $env:BUILD_DATE
-
-      - name: Get version
-        run: |
-          echo "$(git describe --tags --always)" >> $env:BUILD_VERSION
+          echo "BUILD_COMMIT=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_ENV
+          echo "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+          echo "BUILD_VERSION=$(git describe --tags --always)" >> $GITHUB_ENV
 
       - name: Check build variables
         run: |
           echo $BUILD_COMMIT
           echo $BUILD_DATE
           echo $BUILD_VERSION
-        env:
-          BUILD_COMMIT: ${{ env.BUILD_COMMIT }}
-          BUILD_DATE: ${{ env.BUILD_DATE }}
-          BUILD_VERSION: ${{ env.BUILD_VERSION }}
 
       - name: Build docker image
         uses: docker/build-push-action@v3
