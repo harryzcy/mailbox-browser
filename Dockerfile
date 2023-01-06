@@ -17,7 +17,7 @@ RUN set -ex && \
       " \
       -o /bin/bff
 
-FROM node:18.12.1-alpine3.17 as web-builder
+FROM node:18.13.0-alpine3.17 as web-builder
 
 WORKDIR /app
 
