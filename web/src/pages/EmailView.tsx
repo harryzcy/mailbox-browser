@@ -133,12 +133,16 @@ function parseEmailContent(email: Email) {
       if (domNode.name === 'img') {
         if (domNode.attribs.src.startsWith('cid:')) {
           const cid = domNode.attribs.src.replace('cid:', '')
-          const isInline = email.inlines.some((inline) => inline.contentID === cid)
+          const isInline = email.inlines.some(
+            (inline) => inline.contentID === cid
+          )
           if (isInline) {
             domNode.attribs.src = `${window.location.origin}/web/emails/${email.messageID}/inlines/${cid}`
           }
 
-          const isAttachment = email.attachments.some((inline) => inline.contentID === cid)
+          const isAttachment = email.attachments.some(
+            (inline) => inline.contentID === cid
+          )
           if (isAttachment) {
             domNode.attribs.src = `${window.location.origin}/web/emails/${email.messageID}/attachments/${cid}`
           }
