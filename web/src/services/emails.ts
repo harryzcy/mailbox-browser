@@ -54,6 +54,13 @@ export async function listEmails(
   return response.json()
 }
 
+export type File = {
+  contentID: string
+  contentType: string
+  contentTypeParams: Record<string, string>
+  filename: string
+}
+
 export type Email = {
   messageID: string
   type: 'inbox' | 'draft' | 'sent'
@@ -76,6 +83,9 @@ export type Email = {
   cc: string[]
   bcc: string[]
   replyTo: string[]
+
+  attachments: File[]
+  inlines: File[]
 }
 
 export type EmailVerdict = {
