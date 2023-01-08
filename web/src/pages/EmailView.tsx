@@ -7,7 +7,7 @@ import parse, {
   DOMNode,
   domToReact
 } from 'html-react-parser'
-import css from 'css'
+import * as css from '@adobe/css-tools'
 import {
   ArrowUturnLeftIcon,
   ArrowUturnRightIcon
@@ -153,14 +153,14 @@ function parseEmailContent(email: Email) {
 // transformCss transforms css to be scoped to the email-sandbox class
 function transformCss(code: string) {
   const obj = css.parse(code, { silent: true })
-  if (!obj.stylesheet) return ''
 
   obj.stylesheet.rules = transformCssRules(obj.stylesheet.rules)
   const result = css.stringify(obj, { compress: false })
+
   return result
 }
 
-function transformCssRules(rules: Array<css.Rule | css.Comment | css.AtRule>) {
+function transformCssRules(rules: Array<css.CssAtRuleAST>) {
   return rules.map((rule) => {
     if (isCssRule(rule)) {
       rule.selectors = rule.selectors?.map((selector) => {
@@ -168,14 +168,14 @@ function transformCssRules(rules: Array<css.Rule | css.Comment | css.AtRule>) {
         return `.email-sandbox ${selector}`
       })
     } else if ('rules' in rule) {
-      rule.rules = rule.rules ? transformCssRules(rule.rules) : undefined
+      rule.rules = transformCssRules(rule.rules)
     }
     return rule
   })
 }
 
 function isCssRule(
-  rule: css.Rule | css.Comment | css.AtRule
-): rule is css.Rule {
-  return rule.type === 'rule'
+  rule: css.CssAtRuleAST
+): rule is css.CssRuleAST {
+  return rule.type === css.CssTypes.rule
 }
