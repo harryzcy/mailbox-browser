@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Await, useLoaderData, useNavigate } from 'react-router-dom'
 import parse, {
   Element,
@@ -10,12 +10,14 @@ import parse, {
 import * as css from '@adobe/css-tools'
 import {
   ArrowUturnLeftIcon,
-  ArrowUturnRightIcon
-} from '@heroicons/react/20/solid'
+  ArrowUturnRightIcon,
+  EllipsisVerticalIcon
+} from '@heroicons/react/24/outline'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import { Email, trashEmail } from '../services/emails'
 import { getNameFromEmails } from '../utils/emails'
 import { formatDate } from '../utils/time'
+import { useOutsideClick } from '../hooks/useOutsideClick'
 
 interface EmailViewProps {}
 
@@ -26,6 +28,11 @@ export default function EmailView(props: EmailViewProps) {
 
   const goPrevious = () => {}
   const goNext = () => {}
+
+  const [showMoreActions, setShowMoreActions] = React.useState(false)
+  const showMoreActionsRef = useRef(null)
+
+  useOutsideClick(showMoreActionsRef, () => setShowMoreActions(false))
 
   return (
     <>
@@ -74,7 +81,7 @@ export default function EmailView(props: EmailViewProps) {
                     <span className="p-1">
                       {formatDate(email.timeReceived)}
                     </span>
-                    <span className="inline-flex ml-4">
+                    <span className="inline-flex ml-4 relative">
                       {/* TODO: implement reply and forward actions */}
                       <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200">
                         <ArrowUturnLeftIcon />
@@ -82,6 +89,23 @@ export default function EmailView(props: EmailViewProps) {
                       <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200">
                         <ArrowUturnRightIcon />
                       </span>
+                      <span
+                        className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                        onClick={() => setShowMoreActions(!showMoreActions)}
+                      >
+                        <EllipsisVerticalIcon />
+                      </span>
+
+                      {showMoreActions && (
+                        <span
+                          ref={showMoreActionsRef}
+                          className="absolute right-0 top-8 w-28 rounded-md bg-white py-1 border select-none"
+                        >
+                          <div className="px-2 py-1 w-full cursor-pointer hover:bg-gray-100">
+                            View original
+                          </div>
+                        </span>
+                      )}
                     </span>
                   </div>
                 </div>
