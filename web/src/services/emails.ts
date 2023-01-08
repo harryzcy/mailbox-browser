@@ -113,6 +113,11 @@ export type CreateEmailProps = {
   send: boolean
 }
 
+export async function getEmailRaw(messageID: string): Promise<string> {
+  const response = await fetch(`/web/emails/${messageID}/raw`)
+  return response.text()
+}
+
 export async function createEmail(email: CreateEmailProps): Promise<Email> {
   const response = await fetch('/web/emails', {
     method: 'POST',
