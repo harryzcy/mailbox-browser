@@ -44,7 +44,15 @@ func MailboxProxy(ctx *gin.Context) {
 		return
 	}
 
-	ctx.DataFromReader(resp.StatusCode, resp.ContentLength, resp.Header.Get("Content-Type"), resp.Body, nil)
+	headers := make(map[string]string)
+	for k, v := range resp.Header {
+		if k == "Content-Type" {
+			continue
+		}
+		headers[k] = v[0]
+	}
+
+	ctx.DataFromReader(resp.StatusCode, resp.ContentLength, resp.Header.Get("Content-Type"), resp.Body, headers)
 }
 
 type RequestOptions struct {
