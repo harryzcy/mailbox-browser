@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  Await,
-  useLoaderData,
-  useNavigate
-} from 'react-router-dom'
+import { Await, useLoaderData, useNavigate } from 'react-router-dom'
 import parse, {
   Element,
   Text,
@@ -172,12 +168,14 @@ function transformCssRules(rules: Array<css.Rule | css.Comment | css.AtRule>) {
         return `.email-sandbox ${selector}`
       })
     } else if ('rules' in rule) {
-      rule.rules = rule.rules ?  transformCssRules(rule.rules) : undefined
+      rule.rules = rule.rules ? transformCssRules(rule.rules) : undefined
     }
     return rule
   })
 }
 
-function isCssRule(rule: css.Rule | css.Comment | css.AtRule): rule is css.Rule {
+function isCssRule(
+  rule: css.Rule | css.Comment | css.AtRule
+): rule is css.Rule {
   return rule.type === 'rule'
 }
