@@ -101,7 +101,11 @@ export default function EmailView(props: EmailViewProps) {
                           ref={showMoreActionsRef}
                           className="absolute right-0 top-8 w-28 rounded-md bg-white py-1 border select-none"
                         >
-                          <div className="px-2 py-1 w-full cursor-pointer hover:bg-gray-100">
+                          <div className="px-2 py-1 w-full cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            setShowMoreActions(false)
+                            window.open(`/raw/${email.messageID}`, '_blank')
+                          }}>
                             View original
                           </div>
                         </span>
