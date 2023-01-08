@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   Await,
-  useAsyncValue,
   useLoaderData,
   useNavigate
 } from 'react-router-dom'
@@ -12,6 +11,7 @@ import parse, {
   DOMNode,
   domToReact
 } from 'html-react-parser'
+import css from 'css'
 import {
   ArrowUturnLeftIcon,
   ArrowUturnRightIcon
@@ -154,13 +154,30 @@ function parseEmailContent(email: Email) {
   return element
 }
 
-function transformCss(css: string) {
-  const rules = css.replace(/[\n\r\t\s]+/g, ' ').matchAll(/(.*?)({.*?})/g)
+// transformCss transforms css to be scoped to the email-sandbox class
+function transformCss(code: string) {
+  const obj = css.parse(code, { silent: true })
+  if (!obj.stylesheet) return ''
 
-  return Array.from(rules)
-    .map((rule) => {
-      const [_, selector, properties] = rule
-      return `.email-sandbox ${selector.trim()}${properties}`
-    })
-    .join(' ')
+  obj.stylesheet.rules = transformCssRules(obj.stylesheet.rules)
+  const result = css.stringify(obj, { compress: false })
+  return result
+}
+
+function transformCssRules(rules: Array<css.Rule | css.Comment | css.AtRule>) {
+  return rules.map((rule) => {
+    if (isCssRule(rule)) {
+      rule.selectors = rule.selectors?.map((selector) => {
+        if (selector.startsWith('@')) return selector
+        return `.email-sandbox ${selector}`
+      })
+    } else if ('rules' in rule) {
+      rule.rules = rule.rules ?  transformCssRules(rule.rules) : undefined
+    }
+    return rule
+  })
+}
+
+function isCssRule(rule: css.Rule | css.Comment | css.AtRule): rule is css.Rule {
+  return rule.type === 'rule'
 }
