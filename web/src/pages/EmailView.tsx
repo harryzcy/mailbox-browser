@@ -19,9 +19,7 @@ import { getNameFromEmails } from '../utils/emails'
 import { formatDate } from '../utils/time'
 import { useOutsideClick } from '../hooks/useOutsideClick'
 
-interface EmailViewProps {}
-
-export default function EmailView(props: EmailViewProps) {
+export default function EmailView() {
   const data = useLoaderData() as { messageID: string; email: Email }
 
   const navigate = useNavigate()
@@ -99,10 +97,10 @@ export default function EmailView(props: EmailViewProps) {
                       {showMoreActions && (
                         <span
                           ref={showMoreActionsRef}
-                          className="absolute right-0 top-8 w-28 rounded-md bg-white py-1 border select-none"
+                          className="absolute right-0 top-8 w-28 rounded-md py-1 border select-none bg-white dark:border-neutral-600 dark:bg-neutral-800"
                         >
                           <div
-                            className="px-2 py-1 w-full cursor-pointer hover:bg-gray-100"
+                            className="px-2 py-1 w-full cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-600"
                             onClick={() => {
                               setShowMoreActions(false)
                               window.open(`/raw/${email.messageID}`, '_blank')
