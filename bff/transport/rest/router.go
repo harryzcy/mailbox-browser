@@ -31,19 +31,7 @@ func Init(logger *zap.Logger, mode string) *gin.Engine {
 	}
 
 	webPath := r.Group("/web")
-	{
-		emails := webPath.Group("/emails")
-		emails.GET("", web.MailboxProxy)                            // list
-		emails.GET("/:id", web.MailboxProxy)                        // get
-		emails.GET("/:id/attachments/:contentID", web.MailboxProxy) // get attachment
-		emails.GET("/:id/inlines/:contentID", web.MailboxProxy)     // get inline file
-		emails.POST("", web.MailboxProxy)                           // create
-		emails.PUT("/:id", web.MailboxProxy)                        // save
-		emails.DELETE("/:id", web.MailboxProxy)                     // delete
-		emails.POST("/:id/trash", web.MailboxProxy)                 // trash
-		emails.POST("/:id/untrash", web.MailboxProxy)               // untrash
-		emails.POST("/:id/send", web.MailboxProxy)                  // send
-	}
+	webPath.Any("/*any", web.MailboxProxy)
 
 	// misc routes
 	r.GET("/ping", misc.Ping)
