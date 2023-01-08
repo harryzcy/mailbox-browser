@@ -9,7 +9,8 @@ import EmailRoot from './pages/EmailRoot'
 import EmailView from './pages/EmailView'
 import Root from './pages/Root'
 import EmailList from './pages/EmailList'
-import { getEmail } from './services/emails'
+import { getEmail, getEmailRaw } from './services/emails'
+import EmailRawView from './pages/EmailRawView'
 
 const router = createBrowserRouter([
   {
@@ -53,7 +54,7 @@ const router = createBrowserRouter([
             path: ':messageID',
             element: <EmailView />,
             loader: ({ params }) => {
-              if (!params.messageID) return redirect('/drafts')
+              if (!params.messageID) return null
               return defer({
                 messageID: params.messageID,
                 email: getEmail(params.messageID)
@@ -84,6 +85,17 @@ const router = createBrowserRouter([
         ]
       }
     ]
+  },
+  {
+    path: '/raw/:messageID',
+    element: <EmailRawView />,
+    loader: ({ params }) => {
+      if (!params.messageID) return redirect('/inbox')
+      return defer({
+        messageID: params.messageID,
+        raw: getEmailRaw(params.messageID)
+      })
+    }
   }
 ])
 
