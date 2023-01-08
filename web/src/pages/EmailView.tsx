@@ -174,8 +174,6 @@ function transformCssRules(rules: Array<css.CssAtRuleAST>) {
   })
 }
 
-function isCssRule(
-  rule: css.CssAtRuleAST
-): rule is css.CssRuleAST {
+function isCssRule(rule: css.CssAtRuleAST): rule is css.CssRuleAST {
   return rule.type === css.CssTypes.rule
 }
