@@ -46,15 +46,11 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      <div className="flex flex-col items-center justify-center text-gray-400 dark:text-neutral-500 text-xs py-2 md:py-6">
-        <div className="space-x-2">
-          <span>Mailbox version</span>
+      <div className="grid grid-cols-2 space-x-1 items-center justify-center text-gray-400 dark:text-neutral-500 text-xs py-2 md:py-6">
+          <span className='justify-self-end'>Mailbox</span>
           <span>{mailboxVersion}</span>
-        </div>
-        <div className="space-x-2">
-          <span>Browser version</span>
+          <span className='justify-self-end'>Browser</span>
           <span>{browserVersion}</span>
-        </div>
       </div>
     </aside>
   )
