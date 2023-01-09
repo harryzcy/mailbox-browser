@@ -30,7 +30,7 @@ RUN pnpm fetch && \
   pnpm install -r --offline && \
   pnpm run build
 
-FROM alpine:3.17.0
+FROM alpine:3.17.1
 
 COPY --from=bff-builder /bin/bff /bin/bff
 COPY --from=web-builder /app/dist /bin/dist
