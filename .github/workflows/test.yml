@@ -1,4 +1,4 @@
-name: Go Tests
+name: Tests
 
 on:
   push:
@@ -6,13 +6,5 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        # go-version: [1.18, 1.19]
-    runs-on: ${{ matrix.os }}
-    steps:
-    - uses: harryzcy/github-actions/.github/workflows/go.yml@main
-      with:
-        working-directory: bff
+  go-test:
+    uses: harryzcy/github-actions/.github/workflows/go.yml@main
