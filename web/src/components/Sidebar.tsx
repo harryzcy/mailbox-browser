@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import {
   DocumentTextIcon,
@@ -6,15 +6,19 @@ import {
   PaperAirplaneIcon
 } from '@heroicons/react/24/outline'
 import { browserVersion } from '../utils/info'
+import { getInfo } from '../services/info'
 
 export default function Sidebar() {
-  const mailboxVersion = 'v1.4.0'
-
   const navItems: [string, string, ReactElement][] = [
     ['Inbox', '/inbox', <InboxIcon />],
     ['Drafts', '/drafts', <DocumentTextIcon />],
     ['Sent', '/sent', <PaperAirplaneIcon />]
   ]
+
+  const [mailboxVersion, setMailboxVersion] = useState('')
+  useEffect(() => {
+    getInfo().then((info) => setMailboxVersion(info.version))
+  }, [])
 
   return (
     <aside className="flex-none flex flex-col justify-between h-screen md:w-60 text-base select-none">
@@ -47,10 +51,10 @@ export default function Sidebar() {
       </div>
 
       <div className="grid grid-cols-2 space-x-1 items-center justify-center text-gray-400 dark:text-neutral-500 text-xs py-2 md:py-6">
-          <span className='justify-self-end'>Mailbox</span>
-          <span>{mailboxVersion}</span>
-          <span className='justify-self-end'>Browser</span>
-          <span>{browserVersion}</span>
+        <span className="justify-self-end">Mailbox</span>
+        <span>{mailboxVersion}</span>
+        <span className="justify-self-end">Browser</span>
+        <span>{browserVersion}</span>
       </div>
     </aside>
   )
