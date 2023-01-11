@@ -7,6 +7,7 @@ on:
 
 jobs:
   go-test:
+    name: Go Tests
     uses: harryzcy/github-actions/.github/workflows/go.yml@main
     with:
       working-directory: bff
