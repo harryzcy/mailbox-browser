@@ -8,3 +8,5 @@ on:
 jobs:
   go-test:
     uses: harryzcy/github-actions/.github/workflows/go.yml@main
+    with:
+      working-directory: bff
