@@ -145,7 +145,6 @@ function parseEmailContent(email: Email) {
       }
       if (['meta', 'link'].includes(domNode.name)) return <></>
       if (domNode.name === 'style') {
-        if (domNode.children[0].nodeType !== 3) return
         domNode.children = domNode.children
           .map((child) => {
             // nodeType 3 is text in domhandler package
