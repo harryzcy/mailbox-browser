@@ -21,7 +21,7 @@ specifiers:
   '@vitejs/plugin-react': 3.0.1
   autoprefixer: 10.4.13
   eslint: 8.31.0
-  eslint-config-standard-with-typescript: 26.0.0
+  eslint-config-standard-with-typescript: 27.0.1
   eslint-plugin-import: 2.27.4
   eslint-plugin-n: 15.6.1
   eslint-plugin-promise: 6.1.1
@@ -70,7 +70,7 @@ devDependencies:
   '@vitejs/plugin-react': 3.0.1_vite@4.0.4
   autoprefixer: 10.4.13_postcss@8.4.21
   eslint: 8.31.0
-  eslint-config-standard-with-typescript: 26.0.0_bsztp35j7lqeke42wtzqy3nczy
+  eslint-config-standard-with-typescript: 27.0.1_bsztp35j7lqeke42wtzqy3nczy
   eslint-plugin-import: 2.27.4_qdjeohovcytra7xto5vgmxssaq
   eslint-plugin-n: 15.6.1_eslint@8.31.0
   eslint-plugin-promise: 6.1.1_eslint@8.31.0
@@ -1563,8 +1563,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-config-standard-with-typescript/26.0.0_bsztp35j7lqeke42wtzqy3nczy:
-    resolution: {integrity: sha512-TluIWunQo76qp4MHyYIaTT+sN2q2v/jTeE3Dj4rXsSbx27GOUEOujhJaAL3v9dHVQelAK13gZ5Jy9IWnWCyFrg==}
+  /eslint-config-standard-with-typescript/27.0.1_bsztp35j7lqeke42wtzqy3nczy:
+    resolution: {integrity: sha512-jJVyJldqqiCu3uSA/FP0x9jCDMG+Bbl73twTSnp0aysumJrz4iaVqLl+tGgmPrv0R829GVs117Nmn47M1DDDXA==}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^5.0.0
       eslint: ^8.0.1
