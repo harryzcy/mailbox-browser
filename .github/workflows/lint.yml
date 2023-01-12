@@ -1,0 +1,21 @@
+name: Lint
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  go-lint:
+    uses: harryzcy/github-actions/.github/workflows/golangci-lint.yml@main
+    with:
+      working-directory: bff
+
+  prettier:
+    uses: harryzcy/github-actions/.github/workflows/prettier.yml@main
+    with:
+      working-directory: web

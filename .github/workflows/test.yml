@@ -1,11 +1,19 @@
-name: Docker Build
+name: Tests
 
 on:
   push:
   pull_request:
+    branches: [ main ]
 
 jobs:
+  go-test:
+    name: Go Tests
+    uses: harryzcy/github-actions/.github/workflows/go.yml@main
+    with:
+      working-directory: bff
+
   docker:
+    name: Docker Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
