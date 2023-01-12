@@ -10,7 +10,7 @@
     "prettier": "prettier --config .prettierrc 'src/**/*.{ts,tsx}' --write"
   },
   "dependencies": {
-    "@adobe/css-tools": "4.0.1",
+    "@adobe/css-tools": "4.0.2",
     "@heroicons/react": "2.0.13",
     "@lexical/clipboard": "0.7.6",
     "@lexical/code": "0.7.6",
