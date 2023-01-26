@@ -1,8 +1,8 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@adobe/css-tools': 4.0.2
-  '@heroicons/react': 2.0.13
+  '@adobe/css-tools': 4.1.0
+  '@heroicons/react': 2.0.14
   '@lexical/clipboard': 0.7.6
   '@lexical/code': 0.7.6
   '@lexical/html': 0.7.6
@@ -40,8 +40,8 @@ specifiers:
   yjs: 13.5.44
 
 dependencies:
-  '@adobe/css-tools': 4.0.2
-  '@heroicons/react': 2.0.13_react@18.2.0
+  '@adobe/css-tools': 4.1.0
+  '@heroicons/react': 2.0.14_react@18.2.0
   '@lexical/clipboard': 0.7.6_lexical@0.7.6
   '@lexical/code': 0.7.6_lexical@0.7.6
   '@lexical/html': 0.7.6_lexical@0.7.6
@@ -82,8 +82,8 @@ devDependencies:
 
 packages:
 
-  /@adobe/css-tools/4.0.2:
-    resolution: {integrity: sha512-Fx6tYjk2wKUgLi8uMANZr8GNZx05u44ArIJldn9VxLvolzlJVgHbTUCbwhMd6bcYky178+WUSxPHO3DAtGLWpw==}
+  /@adobe/css-tools/4.1.0:
+    resolution: {integrity: sha512-mMVJ/j/GbZ/De4ZHWbQAQO1J6iVnjtZLc9WEdkUQb8S/Bu2cAF2bETXUgMAdvMG3/ngtKmcNBe+Zms9bg6jnQQ==}
     dev: false
 
   /@ampproject/remapping/2.2.0:
@@ -535,8 +535,8 @@ packages:
       - supports-color
     dev: true
 
-  /@heroicons/react/2.0.13_react@18.2.0:
-    resolution: {integrity: sha512-iSN5XwmagrnirWlYEWNPdCDj9aRYVD/lnK3JlsC9/+fqGF80k8C7rl+1HCvBX0dBoagKqOFBs6fMhJJ1hOg1EQ==}
+  /@heroicons/react/2.0.14_react@18.2.0:
+    resolution: {integrity: sha512-eFL4if6L7woL1fUvk/jjXx4z9NxVESHHrQnEd2qKVelTFTIr/3VLGWdPb0biia9ZVe26P0JSs/xmOlRNur3SrQ==}
     peerDependencies:
       react: '>= 16'
     dependencies:
