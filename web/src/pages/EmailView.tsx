@@ -174,7 +174,21 @@ function parseEmailContent(email: Email) {
     }
   }
   const element = parse(email.html, options)
-  return element
+  if (Array.isArray(element)) {
+    return <>{element}</>
+  } else if (typeof element === 'string') {
+    return element
+  }
+  if (element.props.children.length > 0) {
+    return element
+  }
+  // fallback to text if html parsing fails
+  console.log(email.text)
+  return (
+    <pre className="w-full block whitespace-pre-wrap break-words font-sans">
+      {email.text}
+    </pre>
+  )
 }
 
 // transformCss transforms css to be scoped to the email-sandbox class
