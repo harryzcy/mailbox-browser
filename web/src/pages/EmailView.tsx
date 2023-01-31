@@ -143,7 +143,7 @@ function parseEmailContent(email: Email) {
       if (['html', 'head', 'body'].includes(domNode.name)) {
         return <>{domToReact(domNode.children, options)}</>
       }
-      if (['meta', 'link'].includes(domNode.name)) return <></>
+      if (['meta', 'link', 'script'].includes(domNode.name)) return <></>
       if (domNode.name === 'style') {
         domNode.children = domNode.children
           .map((child) => {
