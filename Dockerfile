@@ -1,4 +1,4 @@
-FROM golang:1.19.4-alpine3.17 as bff-builder
+FROM golang:1.19.5-alpine3.17 as bff-builder
 
 ARG BUILD_VERSION
 ARG BUILD_COMMIT
@@ -19,6 +19,8 @@ RUN set -ex && \
 
 FROM node:18.13.0-alpine3.17 as web-builder
 
+ARG BUILD_VERSION
+
 WORKDIR /app
 
 ENV NPM_VERSION 9.2.0
@@ -28,6 +30,7 @@ RUN npm install -g npm@${NPM_VERSION} && npm -g install pnpm@${PNPM_VERSION}
 COPY web ./
 RUN pnpm fetch && \
   pnpm install -r --offline && \
+  echo "export const browserVersion = \"${BUILD_VERSION}\"" > src/utils/info.ts && \
   pnpm run build
 
 FROM alpine:3.17.1

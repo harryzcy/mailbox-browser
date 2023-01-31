@@ -25,3 +25,6 @@ dist-ssr
 
 # env
 .env
+
+# build info
+/web/src/utils/info.ts

@@ -12,6 +12,7 @@ DOCKER_BUILD_ARGS = $(ARG_BUILD_COMMIT) $(ARG_BUILD_DATE) $(ARG_BUILD_VERSION)
 .PHONY: web
 web:
 	@echo "Building web..."
+	@echo "export const browserVersion = \"$(BUILD_VERSION)\"" > web/src/utils/info.ts
 	@cd web && pnpm run build
 
 .PHONY: docker
