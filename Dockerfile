@@ -1,4 +1,4 @@
-FROM golang:1.19.5-alpine3.17 as bff-builder
+FROM golang:1.20.0-alpine3.17 as bff-builder
 
 ARG BUILD_VERSION
 ARG BUILD_COMMIT
