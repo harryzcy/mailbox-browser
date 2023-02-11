@@ -33,7 +33,7 @@ RUN pnpm fetch && \
   echo "export const browserVersion = \"${BUILD_VERSION}\"" > src/utils/info.ts && \
   pnpm run build
 
-FROM alpine:3.17.1
+FROM alpine:3.17.2
 
 COPY --from=bff-builder /bin/bff /bin/bff
 COPY --from=web-builder /app/dist /bin/dist
