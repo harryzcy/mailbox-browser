@@ -15,7 +15,7 @@ specifiers:
   '@lexical/table': 0.8.0
   '@lexical/utils': 0.8.0
   '@types/react': 18.0.28
-  '@types/react-dom': 18.0.10
+  '@types/react-dom': 18.0.11
   '@typescript-eslint/eslint-plugin': 5.52.0
   '@typescript-eslint/parser': 5.52.0
   '@vitejs/plugin-react': 3.1.0
@@ -37,7 +37,7 @@ specifiers:
   tailwindcss: 3.2.6
   typescript: 4.9.5
   vite: 4.1.1
-  yjs: 13.5.45
+  yjs: 13.5.46
 
 dependencies:
   '@adobe/css-tools': 4.1.0
@@ -48,7 +48,7 @@ dependencies:
   '@lexical/link': 0.8.0_lexical@0.8.0
   '@lexical/list': 0.8.0_lexical@0.8.0
   '@lexical/markdown': 0.8.0_tcdykxsiamlzue3tpxsg7j5avi
-  '@lexical/react': 0.8.0_fg6lxgl4izpjx5a3ykp5k2wga4
+  '@lexical/react': 0.8.0_4jswyputypsxt4etg4anf45lyy
   '@lexical/rich-text': 0.8.0_hnurvrmgbg6cxblkx4z7asa5p4
   '@lexical/selection': 0.8.0_lexical@0.8.0
   '@lexical/table': 0.8.0_lexical@0.8.0
@@ -60,11 +60,11 @@ dependencies:
   react-router-dom: 6.8.1_biqbaboplfbrettd7655fr4n2y
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
   tailwindcss: 3.2.6_postcss@8.4.21
-  yjs: 13.5.45
+  yjs: 13.5.46
 
 devDependencies:
   '@types/react': 18.0.28
-  '@types/react-dom': 18.0.10
+  '@types/react-dom': 18.0.11
   '@typescript-eslint/eslint-plugin': 5.52.0_6cfvjsbua5ptj65675bqcn6oza
   '@typescript-eslint/parser': 5.52.0_7kw3g6rralp5ps6mg3uyzz6azm
   '@vitejs/plugin-react': 3.1.0_vite@4.1.1
@@ -732,7 +732,7 @@ packages:
       lexical: 0.8.0
     dev: false
 
-  /@lexical/react/0.8.0_fg6lxgl4izpjx5a3ykp5k2wga4:
+  /@lexical/react/0.8.0_4jswyputypsxt4etg4anf45lyy:
     resolution: {integrity: sha512-B1IDjnKaBhTjLTzi6NU5oQcFlSL8/RvMCLRLgM2uDocJq8HJ1bAbnrbSVssUdZek/Q5Fl7uCWWBZWwJtGBYlQg==}
     peerDependencies:
       lexical: 0.8.0
@@ -755,7 +755,7 @@ packages:
       '@lexical/table': 0.8.0_lexical@0.8.0
       '@lexical/text': 0.8.0_lexical@0.8.0
       '@lexical/utils': 0.8.0_lexical@0.8.0
-      '@lexical/yjs': 0.8.0_lexical@0.8.0+yjs@13.5.45
+      '@lexical/yjs': 0.8.0_lexical@0.8.0+yjs@13.5.46
       lexical: 0.8.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -814,7 +814,7 @@ packages:
       lexical: 0.8.0
     dev: false
 
-  /@lexical/yjs/0.8.0_lexical@0.8.0+yjs@13.5.45:
+  /@lexical/yjs/0.8.0_lexical@0.8.0+yjs@13.5.46:
     resolution: {integrity: sha512-YaX9UsxrEtKZbZRXNpb/oBut0akenAhLlC7Q6jtgFkXAuDCQCnrt0/+4olxlKTM1rjBdA78n33uksJ8bB8Yb4w==}
     peerDependencies:
       lexical: 0.8.0
@@ -822,7 +822,7 @@ packages:
     dependencies:
       '@lexical/offset': 0.8.0_lexical@0.8.0
       lexical: 0.8.0
-      yjs: 13.5.45
+      yjs: 13.5.46
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
@@ -864,8 +864,8 @@ packages:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
     dev: true
 
-  /@types/react-dom/18.0.10:
-    resolution: {integrity: sha512-E42GW/JA4Qv15wQdqJq8DL4JhNpB3prJgjgapN3qJT9K2zO5IIAQh4VXvCEDupoqAwnz0cY4RlXeC/ajX5SFHg==}
+  /@types/react-dom/18.0.11:
+    resolution: {integrity: sha512-O38bPbI2CWtgw/OoQoY+BRelw7uysmXbWvw3nLWO21H1HSh+GOlqPuXshJfjmpNlKiiSDG9cc1JZAaMmVdcTlw==}
     dependencies:
       '@types/react': 18.0.28
     dev: true
@@ -3355,8 +3355,8 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /yjs/13.5.45:
-    resolution: {integrity: sha512-9VUNDvb9oJHdYSMdzIpdM/agVm+EEFKRN+843CFqQuq5bo/BP3EAaxofRG9jQut3sqtGQT4A9YdQvOeeAjU6aA==}
+  /yjs/13.5.46:
+    resolution: {integrity: sha512-KIY4BEWYCm79Sr4JTDvgirXmz3lVZ5n7h6nKlsBYu97f/HDQo+XSoq92RqBiybejF9E/L5Iz+56zZrSfBKZ5DQ==}
     dependencies:
       lib0: 0.2.60
     dev: false
