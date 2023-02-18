@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@adobe/css-tools': 4.1.0
-  '@heroicons/react': 2.0.15
+  '@heroicons/react': 2.0.16
   '@lexical/clipboard': 0.8.0
   '@lexical/code': 0.8.0
   '@lexical/html': 0.8.0
@@ -36,12 +36,12 @@ specifiers:
   react-use: 17.4.0
   tailwindcss: 3.2.7
   typescript: 4.9.5
-  vite: 4.1.1
+  vite: 4.1.2
   yjs: 13.5.46
 
 dependencies:
   '@adobe/css-tools': 4.1.0
-  '@heroicons/react': 2.0.15_react@18.2.0
+  '@heroicons/react': 2.0.16_react@18.2.0
   '@lexical/clipboard': 0.8.0_lexical@0.8.0
   '@lexical/code': 0.8.0_lexical@0.8.0
   '@lexical/html': 0.8.0_lexical@0.8.0
@@ -67,7 +67,7 @@ devDependencies:
   '@types/react-dom': 18.0.11
   '@typescript-eslint/eslint-plugin': 5.52.0_6cfvjsbua5ptj65675bqcn6oza
   '@typescript-eslint/parser': 5.52.0_7kw3g6rralp5ps6mg3uyzz6azm
-  '@vitejs/plugin-react': 3.1.0_vite@4.1.1
+  '@vitejs/plugin-react': 3.1.0_vite@4.1.2
   autoprefixer: 10.4.13_postcss@8.4.21
   eslint: 8.34.0
   eslint-config-standard-with-typescript: 34.0.0_s4wyy3hkcfdlicuewz4avpo42q
@@ -78,7 +78,7 @@ devDependencies:
   postcss: 8.4.21
   prettier: 2.8.4
   typescript: 4.9.5
-  vite: 4.1.1
+  vite: 4.1.2
 
 packages:
 
@@ -535,8 +535,8 @@ packages:
       - supports-color
     dev: true
 
-  /@heroicons/react/2.0.15_react@18.2.0:
-    resolution: {integrity: sha512-CZ2dGWgWG3/z5LEoD5D3MEr1syn45JM/OB2aDpw531Ryecgkz2V7TWQ808P0lva7zP003PVW6WlwbofsYyga3A==}
+  /@heroicons/react/2.0.16_react@18.2.0:
+    resolution: {integrity: sha512-x89rFxH3SRdYaA+JCXwfe+RkE1SFTo9GcOkZettHer71Y3T7V+ogKmfw5CjTazgS3d0ClJ7p1NA+SP7VQLQcLw==}
     peerDependencies:
       react: '>= 16'
     dependencies:
@@ -1016,7 +1016,7 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
-  /@vitejs/plugin-react/3.1.0_vite@4.1.1:
+  /@vitejs/plugin-react/3.1.0_vite@4.1.2:
     resolution: {integrity: sha512-AfgcRL8ZBhAlc3BFdigClmTUMISmmzHn7sB2h9U1odvc5U/MjWXsAaz18b/WoppUTDBzxOJwo2VdClfUcItu9g==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -1027,7 +1027,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.19.6_@babel+core@7.20.12
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 4.1.1
+      vite: 4.1.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3265,8 +3265,8 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: false
 
-  /vite/4.1.1:
-    resolution: {integrity: sha512-LM9WWea8vsxhr782r9ntg+bhSFS06FJgCvvB0+8hf8UWtvaiDagKYWXndjfX6kGl74keHJUcpzrQliDXZlF5yg==}
+  /vite/4.1.2:
+    resolution: {integrity: sha512-MWDb9Rfy3DI8omDQySbMK93nQqStwbsQWejXRY2EBzEWKmLAXWb1mkI9Yw2IJrc+oCvPCI1Os5xSSIBYY6DEAw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
