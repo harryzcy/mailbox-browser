@@ -37,7 +37,7 @@ specifiers:
   tailwindcss: 3.2.7
   typescript: 4.9.5
   vite: 4.1.3
-  yjs: 13.5.46
+  yjs: 13.5.47
 
 dependencies:
   '@adobe/css-tools': 4.1.0
@@ -48,7 +48,7 @@ dependencies:
   '@lexical/link': 0.8.0_lexical@0.8.0
   '@lexical/list': 0.8.0_lexical@0.8.0
   '@lexical/markdown': 0.8.0_tcdykxsiamlzue3tpxsg7j5avi
-  '@lexical/react': 0.8.0_4jswyputypsxt4etg4anf45lyy
+  '@lexical/react': 0.8.0_nnd3z6ukkhkcgzagdyjbz5eqi4
   '@lexical/rich-text': 0.8.0_hnurvrmgbg6cxblkx4z7asa5p4
   '@lexical/selection': 0.8.0_lexical@0.8.0
   '@lexical/table': 0.8.0_lexical@0.8.0
@@ -60,7 +60,7 @@ dependencies:
   react-router-dom: 6.8.1_biqbaboplfbrettd7655fr4n2y
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
   tailwindcss: 3.2.7_postcss@8.4.21
-  yjs: 13.5.46
+  yjs: 13.5.47
 
 devDependencies:
   '@types/react': 18.0.28
@@ -732,7 +732,7 @@ packages:
       lexical: 0.8.0
     dev: false
 
-  /@lexical/react/0.8.0_4jswyputypsxt4etg4anf45lyy:
+  /@lexical/react/0.8.0_nnd3z6ukkhkcgzagdyjbz5eqi4:
     resolution: {integrity: sha512-B1IDjnKaBhTjLTzi6NU5oQcFlSL8/RvMCLRLgM2uDocJq8HJ1bAbnrbSVssUdZek/Q5Fl7uCWWBZWwJtGBYlQg==}
     peerDependencies:
       lexical: 0.8.0
@@ -755,7 +755,7 @@ packages:
       '@lexical/table': 0.8.0_lexical@0.8.0
       '@lexical/text': 0.8.0_lexical@0.8.0
       '@lexical/utils': 0.8.0_lexical@0.8.0
-      '@lexical/yjs': 0.8.0_lexical@0.8.0+yjs@13.5.46
+      '@lexical/yjs': 0.8.0_lexical@0.8.0+yjs@13.5.47
       lexical: 0.8.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -814,7 +814,7 @@ packages:
       lexical: 0.8.0
     dev: false
 
-  /@lexical/yjs/0.8.0_lexical@0.8.0+yjs@13.5.46:
+  /@lexical/yjs/0.8.0_lexical@0.8.0+yjs@13.5.47:
     resolution: {integrity: sha512-YaX9UsxrEtKZbZRXNpb/oBut0akenAhLlC7Q6jtgFkXAuDCQCnrt0/+4olxlKTM1rjBdA78n33uksJ8bB8Yb4w==}
     peerDependencies:
       lexical: 0.8.0
@@ -822,7 +822,7 @@ packages:
     dependencies:
       '@lexical/offset': 0.8.0_lexical@0.8.0
       lexical: 0.8.0
-      yjs: 13.5.46
+      yjs: 13.5.47
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
@@ -3355,8 +3355,8 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /yjs/13.5.46:
-    resolution: {integrity: sha512-KIY4BEWYCm79Sr4JTDvgirXmz3lVZ5n7h6nKlsBYu97f/HDQo+XSoq92RqBiybejF9E/L5Iz+56zZrSfBKZ5DQ==}
+  /yjs/13.5.47:
+    resolution: {integrity: sha512-F7BZ+Bt36OAt+bdSQS7TN43KSxsHjfXWfcLC526tJ3mctO1FYHGEtOrUqpLC7pSp4jPn4rKSYHv1PVQcdb/vIQ==}
     dependencies:
       lib0: 0.2.60
     dev: false
