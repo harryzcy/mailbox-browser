@@ -195,14 +195,15 @@ function parseEmailContent(email: Email) {
 function transformCss(code: string) {
   const obj = css.parse(code, { silent: true })
 
-  obj.stylesheet.rules = transformCssRules(obj.stylesheet.rules)
+  const cssRules = transformCssRules(obj.stylesheet.rules)
+  if (cssRules) obj.stylesheet.rules = cssRules
   const result = css.stringify(obj, { compress: false })
 
   return result
 }
 
-function transformCssRules(rules: Array<css.CssAtRuleAST>) {
-  return rules.map((rule) => {
+function transformCssRules(rules?: Array<css.CssAtRuleAST>) {
+  return rules?.map((rule) => {
     if (isCssRule(rule)) {
       rule.selectors = rule.selectors?.map((selector) => {
         if (selector.startsWith('@')) return selector
