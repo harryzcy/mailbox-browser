@@ -4,5 +4,5 @@
     ":disableDependencyDashboard"
   ],
   "labels": ["dependencies"],
-  "postUpdateOptions": ["gomodTidy"]
+  "postUpdateOptions": ["gomodTidy", "pnpmDedupe"]
 }
