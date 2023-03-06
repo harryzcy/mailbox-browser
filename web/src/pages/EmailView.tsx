@@ -61,7 +61,7 @@ export default function EmailView() {
         {data.type == 'email' && (
           <Await resolve={data.email}>
             {(email: Email) => (
-              <div className='overflow-scroll'>
+              <div className="overflow-scroll">
                 <div className="mb-2 px-3">
                   <span className="text-xl font-normal dark:text-neutral-200">
                     {email.subject}
@@ -76,7 +76,7 @@ export default function EmailView() {
         {data.type == 'thread' && (
           <Await resolve={data.thread}>
             {(thread: Thread) => (
-              <div className='overflow-scroll'>
+              <div className="overflow-scroll">
                 <div className="mb-2 px-3">
                   <span className="text-xl font-normal dark:text-neutral-200">
                     {thread.subject}
