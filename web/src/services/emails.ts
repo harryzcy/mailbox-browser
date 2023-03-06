@@ -7,6 +7,8 @@ export interface EmailInfo {
   subject: string
   from: string[]
   to: string[]
+  threadID: string
+  isThreadLatest: true | undefined
 }
 
 export type ListEmailsProps = {
