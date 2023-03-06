@@ -82,7 +82,7 @@ export default function EmailView() {
                     {thread.subject}
                   </span>
                 </div>
-                {thread.emails.map((email) => (
+                {thread.emails?.map((email) => (
                   <EmailBlock key={email.messageID} email={email} />
                 ))}
               </div>
