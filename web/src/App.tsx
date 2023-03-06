@@ -11,6 +11,7 @@ import Root from './pages/Root'
 import EmailList from './pages/EmailList'
 import { getEmail, getEmailRaw } from './services/emails'
 import EmailRawView from './pages/EmailRawView'
+import { getThread } from './services/threads'
 
 const router = createBrowserRouter([
   {
@@ -30,11 +31,24 @@ const router = createBrowserRouter([
             element: <EmailList />
           },
           {
+            path: 'thread/:threadID',
+            element: <EmailView />,
+            loader: ({ params }) => {
+              if (!params.threadID) return redirect('/inbox')
+              return defer({
+                type: 'thread',
+                threadID: params.threadID,
+                thread: getThread(params.threadID)
+              })
+            }
+          },
+          {
             path: ':messageID',
             element: <EmailView />,
             loader: ({ params }) => {
               if (!params.messageID) return redirect('/inbox')
               return defer({
+                type: 'email',
                 messageID: params.messageID,
                 email: getEmail(params.messageID)
               })

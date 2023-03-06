@@ -39,6 +39,10 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         if (email.type === 'draft') {
           openDraftEmail(email.messageID)
         } else if (email.type === 'inbox' || email.type === 'sent') {
+          if (email.threadID) {
+            navigate(`/inbox/thread/${email.threadID}`)
+            return
+          }
           navigate(`/inbox/${email.messageID}`)
         }
       }}

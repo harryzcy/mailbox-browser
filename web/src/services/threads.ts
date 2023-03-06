@@ -6,7 +6,7 @@ export interface Thread {
   subject: string
   emailIDs: string[]
   timeUpdated: string
-  Emails: Email[]
+  emails: Email[]
 }
 
 export async function getThread(threadID: string): Promise<Thread> {
