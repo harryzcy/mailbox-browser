@@ -17,7 +17,7 @@
     "@lexical/html": "0.8.1",
     "@lexical/link": "0.8.1",
     "@lexical/list": "0.8.1",
-    "@lexical/markdown": "0.8.1",
+    "@lexical/markdown": "0.9.0",
     "@lexical/react": "0.8.1",
     "@lexical/rich-text": "0.8.1",
     "@lexical/selection": "0.8.1",
