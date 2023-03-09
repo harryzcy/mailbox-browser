@@ -4,5 +4,17 @@
     ":disableDependencyDashboard"
   ],
   "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "matchSourceUrls": [
+        "https://github.com/aws/aws-sdk-go-v2"
+      ]
+    },
+    {
+      "matchSourceUrls": [
+        "https://github.com/facebook/lexical"
+      ]
+    }
+  ],
   "postUpdateOptions": ["gomodTidy", "pnpmDedupe"]
 }
