@@ -15,7 +15,7 @@
     "@lexical/clipboard": "0.8.1",
     "@lexical/code": "0.8.1",
     "@lexical/html": "0.8.1",
-    "@lexical/link": "0.8.1",
+    "@lexical/link": "0.9.0",
     "@lexical/list": "0.8.1",
     "@lexical/markdown": "0.8.1",
     "@lexical/react": "0.8.1",
