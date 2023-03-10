@@ -27,7 +27,7 @@
     "lexical": "0.9.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.8.2",
+    "react-router-dom": "6.9.0",
     "react-use": "17.4.0",
     "tailwindcss": "3.2.7",
     "yjs": "13.5.49"
