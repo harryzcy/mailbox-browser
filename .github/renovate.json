@@ -1,14 +1,19 @@
 {
   "extends": [
     "config:base",
-    ":disableDependencyDashboard"
+    ":disableDependencyDashboard",
+    ":automergeMinor"
   ],
   "labels": ["dependencies"],
   "packageRules": [
     {
-      "matchPackagePrefixes": [
-        "github.com/aws/aws-sdk-go-v2"
-      ]
+      "packagePatterns": [
+        "^github.com/aws/aws-sdk-go-v2$",
+        "^github.com/aws/aws-sdk-go-v2/"
+      ],
+      "automerge": true,
+      "groupName": "all aws-sdk-go-v2 dependencies",
+      "groupSlug": "all-aws-sdk-go-v2"
     },
     {
       "matchSourceUrls": [
