@@ -26,7 +26,7 @@ specifiers:
   eslint-plugin-n: 15.6.1
   eslint-plugin-promise: 6.1.1
   eslint-plugin-react: 7.32.2
-  html-react-parser: 3.0.12
+  html-react-parser: 3.0.13
   lexical: 0.9.0
   postcss: 8.4.21
   prettier: 2.8.6
@@ -53,7 +53,7 @@ dependencies:
   '@lexical/selection': 0.9.0_lexical@0.9.0
   '@lexical/table': 0.9.0_lexical@0.9.0
   '@lexical/utils': 0.9.0_lexical@0.9.0
-  html-react-parser: 3.0.12_react@18.2.0
+  html-react-parser: 3.0.13_react@18.2.0
   lexical: 0.9.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -2128,20 +2128,20 @@ packages:
     dependencies:
       function-bind: 1.1.1
 
-  /html-dom-parser/3.1.5:
-    resolution: {integrity: sha512-9KTy2C7G7OcDDvnJ3Y7np84RF3OuO7X0PE5ZXyrNdOTI9NYam8thaUtxGEIM5lUqJkJR8T1aVe+zlN6H4PCtuA==}
+  /html-dom-parser/3.1.6:
+    resolution: {integrity: sha512-j3JYc7/W4CUzZXBqJVljJaWQ1vddTG0bxipRZh03emQtUQ5Uk+rFKil3hk7RbS9yd4QcyaFdD2qGJ1f6aY47Qg==}
     dependencies:
       domhandler: 5.0.3
       htmlparser2: 8.0.1
     dev: false
 
-  /html-react-parser/3.0.12_react@18.2.0:
-    resolution: {integrity: sha512-eOXg0EvKhXjYjljd8gtBPzL8Pqf49uRrb9JAjYLlqYFr95E+HoCvGt0/w0J1E/fR1ArsEMWY+K6M4/wUuvaQ5Q==}
+  /html-react-parser/3.0.13_react@18.2.0:
+    resolution: {integrity: sha512-Z8amThJdrAhuqG/29GAyh2obOETWdC6zFWS/+jnk3lTX7QO2AVEicf+LcfuJwaAOK+YIJ46u96QaWSwmEO64Tw==}
     peerDependencies:
       react: 0.14 || 15 || 16 || 17 || 18
     dependencies:
       domhandler: 5.0.3
-      html-dom-parser: 3.1.5
+      html-dom-parser: 3.1.6
       react: 18.2.0
       react-property: 2.0.0
       style-to-js: 1.1.3
