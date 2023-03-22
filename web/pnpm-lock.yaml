@@ -37,7 +37,7 @@ specifiers:
   tailwindcss: 3.2.7
   typescript: 5.0.2
   vite: 4.2.1
-  yjs: 13.5.50
+  yjs: 13.5.51
 
 dependencies:
   '@adobe/css-tools': 4.2.0
@@ -48,7 +48,7 @@ dependencies:
   '@lexical/link': 0.9.0_lexical@0.9.0
   '@lexical/list': 0.9.0_lexical@0.9.0
   '@lexical/markdown': 0.9.0_7izmw4b2xj7hw2h6clmrcwgggm
-  '@lexical/react': 0.9.0_eomkax2f4pv2zciir7dp3fzvoa
+  '@lexical/react': 0.9.0_qalbw42ucyozrrh46auroooijm
   '@lexical/rich-text': 0.9.0_ygdiab3l25ii2thiryscflw2vq
   '@lexical/selection': 0.9.0_lexical@0.9.0
   '@lexical/table': 0.9.0_lexical@0.9.0
@@ -60,7 +60,7 @@ dependencies:
   react-router-dom: 6.9.0_biqbaboplfbrettd7655fr4n2y
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
   tailwindcss: 3.2.7_postcss@8.4.21
-  yjs: 13.5.50
+  yjs: 13.5.51
 
 devDependencies:
   '@types/react': 18.0.28
@@ -753,7 +753,7 @@ packages:
       lexical: 0.9.0
     dev: false
 
-  /@lexical/react/0.9.0_eomkax2f4pv2zciir7dp3fzvoa:
+  /@lexical/react/0.9.0_qalbw42ucyozrrh46auroooijm:
     resolution: {integrity: sha512-gnQ12ufSXLsgudohUbF1Uf5DXkaH0/5S7n+h64ofdeFwbCmqy7yq0FZgWpSX1lBW0UI15UT2uqVQ5LwPqqNhuQ==}
     peerDependencies:
       lexical: 0.9.0
@@ -776,7 +776,7 @@ packages:
       '@lexical/table': 0.9.0_lexical@0.9.0
       '@lexical/text': 0.9.0_lexical@0.9.0
       '@lexical/utils': 0.9.0_lexical@0.9.0
-      '@lexical/yjs': 0.9.0_lexical@0.9.0+yjs@13.5.50
+      '@lexical/yjs': 0.9.0_lexical@0.9.0+yjs@13.5.51
       lexical: 0.9.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -835,7 +835,7 @@ packages:
       lexical: 0.9.0
     dev: false
 
-  /@lexical/yjs/0.9.0_lexical@0.9.0+yjs@13.5.50:
+  /@lexical/yjs/0.9.0_lexical@0.9.0+yjs@13.5.51:
     resolution: {integrity: sha512-xRwa/gmBgS4uE0lYFht9gM602wzb0MSXJBWreI8hSyyipQPgr7XTndKzt/0ntZ6RvgV8KEINyftjNftwGQNooA==}
     peerDependencies:
       lexical: 0.9.0
@@ -843,7 +843,7 @@ packages:
     dependencies:
       '@lexical/offset': 0.9.0_lexical@0.9.0
       lexical: 0.9.0
-      yjs: 13.5.50
+      yjs: 13.5.51
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
@@ -2404,8 +2404,8 @@ packages:
     resolution: {integrity: sha512-UHMvjRVqrpBLJkCRytVxAvy3PftRnlhZIqKcY1Uiugf6KjzP0GQTwWhxxcltJJ0sZCjZcVYgiib+m08R5KXz0g==}
     dev: false
 
-  /lib0/0.2.65:
-    resolution: {integrity: sha512-avDor/VGaIMqNTZ40NIsH+/O1jFUYJGB+Z30KQnNlx0NlcElQKVAg+wv2lfbnYjY6HjXW/cKvwrrZfLBoFIObA==}
+  /lib0/0.2.72:
+    resolution: {integrity: sha512-JPnUxl15tO6jrBASQ92+uDyQzW4ISMhDORq6mLovBYxESEWQCj5SnC8oYkELboGbU1ZqCIEEDwCL6mYqWNzdOA==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
@@ -3378,10 +3378,11 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /yjs/13.5.50:
-    resolution: {integrity: sha512-Q2KVNfovwjtJV4Yxz+HaFYT6vTYBaFagOSpTL3jbPc7Sbv/My68fLTfPlYy9FmNO87pV8dMBd5XuVar+9WsAWg==}
+  /yjs/13.5.51:
+    resolution: {integrity: sha512-F1Nb3z3TdandD80IAeQqgqy/2n9AhDLcXoBhZvCUX1dNVe0ef7fIwi6MjSYaGAYF2Ev8VcLcsGnmuGGOl7AWbw==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
     dependencies:
-      lib0: 0.2.65
+      lib0: 0.2.72
     dev: false
 
   /yocto-queue/0.1.0:
