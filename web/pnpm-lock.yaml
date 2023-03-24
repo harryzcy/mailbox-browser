@@ -26,7 +26,7 @@ specifiers:
   eslint-plugin-n: 15.6.1
   eslint-plugin-promise: 6.1.1
   eslint-plugin-react: 7.32.2
-  html-react-parser: 3.0.13
+  html-react-parser: 3.0.14
   lexical: 0.9.0
   postcss: 8.4.21
   prettier: 2.8.6
@@ -53,7 +53,7 @@ dependencies:
   '@lexical/selection': 0.9.0_lexical@0.9.0
   '@lexical/table': 0.9.0_lexical@0.9.0
   '@lexical/utils': 0.9.0_lexical@0.9.0
-  html-react-parser: 3.0.13_react@18.2.0
+  html-react-parser: 3.0.14_react@18.2.0
   lexical: 0.9.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -2135,8 +2135,8 @@ packages:
       htmlparser2: 8.0.1
     dev: false
 
-  /html-react-parser/3.0.13_react@18.2.0:
-    resolution: {integrity: sha512-Z8amThJdrAhuqG/29GAyh2obOETWdC6zFWS/+jnk3lTX7QO2AVEicf+LcfuJwaAOK+YIJ46u96QaWSwmEO64Tw==}
+  /html-react-parser/3.0.14_react@18.2.0:
+    resolution: {integrity: sha512-e0b9UF8MD2ysx0hgNq+amdte36LjzzlkmNFfHwQLPL/6nZdPHYtUH1a0RqJIeqa/Rk/MZpLuL/jhdPSE3VU+4A==}
     peerDependencies:
       react: 0.14 || 15 || 16 || 17 || 18
     dependencies:
