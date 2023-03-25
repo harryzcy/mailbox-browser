@@ -4,7 +4,7 @@ specifiers:
   '@adobe/css-tools': 4.2.0
   '@heroicons/react': 2.0.16
   '@lexical/clipboard': 0.9.1
-  '@lexical/code': 0.9.0
+  '@lexical/code': 0.9.1
   '@lexical/html': 0.9.0
   '@lexical/link': 0.9.0
   '@lexical/list': 0.9.0
@@ -43,7 +43,7 @@ dependencies:
   '@adobe/css-tools': 4.2.0
   '@heroicons/react': 2.0.16_react@18.2.0
   '@lexical/clipboard': 0.9.1_lexical@0.9.0
-  '@lexical/code': 0.9.0_lexical@0.9.0
+  '@lexical/code': 0.9.1_lexical@0.9.0
   '@lexical/html': 0.9.0_lexical@0.9.0
   '@lexical/link': 0.9.0_lexical@0.9.0
   '@lexical/list': 0.9.0_lexical@0.9.0
@@ -652,6 +652,16 @@ packages:
       lexical: 0.9.0
     dependencies:
       '@lexical/utils': 0.9.0_lexical@0.9.0
+      lexical: 0.9.0
+      prismjs: 1.29.0
+    dev: false
+
+  /@lexical/code/0.9.1_lexical@0.9.0:
+    resolution: {integrity: sha512-jX8YN6KkmTeMzPfpLS6mCeyK6KS6DB1vSxoxfjWCiIK5p/YbkJk0OhRwmGpES2dPRe5xt22L13x15Y9KG76dDQ==}
+    peerDependencies:
+      lexical: 0.9.1
+    dependencies:
+      '@lexical/utils': 0.9.1_lexical@0.9.0
       lexical: 0.9.0
       prismjs: 1.29.0
     dev: false
