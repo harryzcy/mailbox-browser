@@ -6,7 +6,7 @@ specifiers:
   '@lexical/clipboard': 0.9.1
   '@lexical/code': 0.9.1
   '@lexical/html': 0.9.1
-  '@lexical/link': 0.9.0
+  '@lexical/link': 0.9.1
   '@lexical/list': 0.9.0
   '@lexical/markdown': 0.9.0
   '@lexical/react': 0.9.0
@@ -45,7 +45,7 @@ dependencies:
   '@lexical/clipboard': 0.9.1_lexical@0.9.0
   '@lexical/code': 0.9.1_lexical@0.9.0
   '@lexical/html': 0.9.1_lexical@0.9.0
-  '@lexical/link': 0.9.0_lexical@0.9.0
+  '@lexical/link': 0.9.1_lexical@0.9.0
   '@lexical/list': 0.9.0_lexical@0.9.0
   '@lexical/markdown': 0.9.0_2r5yb3jgytntxissrwntdnyjsy
   '@lexical/react': 0.9.0_qalbw42ucyozrrh46auroooijm
@@ -716,6 +716,15 @@ packages:
       lexical: 0.9.0
     dependencies:
       '@lexical/utils': 0.9.0_lexical@0.9.0
+      lexical: 0.9.0
+    dev: false
+
+  /@lexical/link/0.9.1_lexical@0.9.0:
+    resolution: {integrity: sha512-iMtC6Fa7zVN7Pkevanzuc16brXQB1NU1+oIjJlBRux8CckmysXJntuor+OtYom0/0cPxDuCJxHolD7yU5Wi1tA==}
+    peerDependencies:
+      lexical: 0.9.1
+    dependencies:
+      '@lexical/utils': 0.9.1_lexical@0.9.0
       lexical: 0.9.0
     dev: false
 
