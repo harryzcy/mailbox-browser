@@ -5,7 +5,7 @@ specifiers:
   '@heroicons/react': 2.0.16
   '@lexical/clipboard': 0.9.1
   '@lexical/code': 0.9.1
-  '@lexical/html': 0.9.0
+  '@lexical/html': 0.9.1
   '@lexical/link': 0.9.0
   '@lexical/list': 0.9.0
   '@lexical/markdown': 0.9.0
@@ -44,7 +44,7 @@ dependencies:
   '@heroicons/react': 2.0.16_react@18.2.0
   '@lexical/clipboard': 0.9.1_lexical@0.9.0
   '@lexical/code': 0.9.1_lexical@0.9.0
-  '@lexical/html': 0.9.0_lexical@0.9.0
+  '@lexical/html': 0.9.1_lexical@0.9.0
   '@lexical/link': 0.9.0_lexical@0.9.0
   '@lexical/list': 0.9.0_lexical@0.9.0
   '@lexical/markdown': 0.9.0_2r5yb3jgytntxissrwntdnyjsy
