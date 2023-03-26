@@ -11,7 +11,7 @@ specifiers:
   '@lexical/markdown': 0.9.1
   '@lexical/react': 0.9.1
   '@lexical/rich-text': 0.9.1
-  '@lexical/selection': 0.9.0
+  '@lexical/selection': 0.9.1
   '@lexical/table': 0.9.0
   '@lexical/utils': 0.9.0
   '@types/react': 18.0.29
@@ -47,10 +47,10 @@ dependencies:
   '@lexical/html': 0.9.1_lexical@0.9.0
   '@lexical/link': 0.9.1_lexical@0.9.0
   '@lexical/list': 0.9.1_lexical@0.9.0
-  '@lexical/markdown': 0.9.1_2r5yb3jgytntxissrwntdnyjsy
+  '@lexical/markdown': 0.9.1_6pe6exmqm35gv3az4jzo6tpamu
   '@lexical/react': 0.9.1_qalbw42ucyozrrh46auroooijm
-  '@lexical/rich-text': 0.9.1_axcv5opxox7ufvvj2we2ccslfe
-  '@lexical/selection': 0.9.0_lexical@0.9.0
+  '@lexical/rich-text': 0.9.1_cpigwy5ybqxvss4vlmx7ah35ze
+  '@lexical/selection': 0.9.1_lexical@0.9.0
   '@lexical/table': 0.9.0_lexical@0.9.0
   '@lexical/utils': 0.9.0_lexical@0.9.0
   html-react-parser: 3.0.14_react@18.2.0
@@ -715,23 +715,6 @@ packages:
       lexical: 0.9.0
     dev: false
 
-  /@lexical/markdown/0.9.1_2r5yb3jgytntxissrwntdnyjsy:
-    resolution: {integrity: sha512-q8ec1Z87JK3oGWdIqKf1aVXZwPS1Dc9TdFOPvmY5CdONSb4wBoj6hPwpjlVyA2ByOa8oTxm19KgnD0Tfl3WCGQ==}
-    peerDependencies:
-      lexical: 0.9.1
-    dependencies:
-      '@lexical/code': 0.9.1_lexical@0.9.0
-      '@lexical/link': 0.9.1_lexical@0.9.0
-      '@lexical/list': 0.9.1_lexical@0.9.0
-      '@lexical/rich-text': 0.9.1_l4fl5z6six7nslzfy7ks7z7y2q
-      '@lexical/text': 0.9.1_lexical@0.9.0
-      '@lexical/utils': 0.9.1_lexical@0.9.0
-      lexical: 0.9.0
-    transitivePeerDependencies:
-      - '@lexical/clipboard'
-      - '@lexical/selection'
-    dev: false
-
   /@lexical/markdown/0.9.1_6pe6exmqm35gv3az4jzo6tpamu:
     resolution: {integrity: sha512-q8ec1Z87JK3oGWdIqKf1aVXZwPS1Dc9TdFOPvmY5CdONSb4wBoj6hPwpjlVyA2ByOa8oTxm19KgnD0Tfl3WCGQ==}
     peerDependencies:
@@ -811,7 +794,7 @@ packages:
       - yjs
     dev: false
 
-  /@lexical/rich-text/0.9.1_axcv5opxox7ufvvj2we2ccslfe:
+  /@lexical/rich-text/0.9.1_cpigwy5ybqxvss4vlmx7ah35ze:
     resolution: {integrity: sha512-ac5lUam6e4YAC2Lo0op7pTxTqK1mQUiATGDG2A99LY6HIzmZUeK8Pi/LG0u/KRaJ8C4kCPVMmI3SzXQo28oUIQ==}
     peerDependencies:
       '@lexical/clipboard': 0.9.1
@@ -820,7 +803,7 @@ packages:
       lexical: 0.9.1
     dependencies:
       '@lexical/clipboard': 0.9.1_lexical@0.9.0
-      '@lexical/selection': 0.9.0_lexical@0.9.0
+      '@lexical/selection': 0.9.1_lexical@0.9.0
       '@lexical/utils': 0.9.0_lexical@0.9.0
       lexical: 0.9.0
     dev: false
@@ -835,20 +818,6 @@ packages:
     dependencies:
       '@lexical/clipboard': 0.9.1_lexical@0.9.0
       '@lexical/selection': 0.9.1_lexical@0.9.0
-      '@lexical/utils': 0.9.1_lexical@0.9.0
-      lexical: 0.9.0
-    dev: false
-
-  /@lexical/rich-text/0.9.1_l4fl5z6six7nslzfy7ks7z7y2q:
-    resolution: {integrity: sha512-ac5lUam6e4YAC2Lo0op7pTxTqK1mQUiATGDG2A99LY6HIzmZUeK8Pi/LG0u/KRaJ8C4kCPVMmI3SzXQo28oUIQ==}
-    peerDependencies:
-      '@lexical/clipboard': 0.9.1
-      '@lexical/selection': 0.9.1
-      '@lexical/utils': 0.9.1
-      lexical: 0.9.1
-    dependencies:
-      '@lexical/clipboard': 0.9.1_lexical@0.9.0
-      '@lexical/selection': 0.9.0_lexical@0.9.0
       '@lexical/utils': 0.9.1_lexical@0.9.0
       lexical: 0.9.0
     dev: false
