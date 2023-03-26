@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Await, useLoaderData, useNavigate } from 'react-router-dom'
 import parse, {
   Element,
@@ -19,6 +19,8 @@ import { Thread } from '../services/threads'
 import { getNameFromEmails } from '../utils/emails'
 import { formatDate } from '../utils/time'
 import { useOutsideClick } from '../hooks/useOutsideClick'
+import { EmailDraft } from '../components/emails/EmailDraft'
+import { DraftEmail } from '../contexts/DraftEmailContext'
 
 export default function EmailView() {
   const data = useLoaderData() as
@@ -29,6 +31,16 @@ export default function EmailView() {
 
   const goPrevious = () => {}
   const goNext = () => {}
+
+  const [showReply, setShowReply] = useState(false)
+
+  const startReply = (email: Email) => {
+    setShowReply(true)
+  }
+
+  const startForward = (email: Email) => {
+    // TODO
+  }
 
   return (
     <>
@@ -61,13 +73,32 @@ export default function EmailView() {
         {data.type == 'email' && (
           <Await resolve={data.email}>
             {(email: Email) => (
-              <div className="overflow-scroll">
+              <div className="overflow-scroll h-full pb-5">
                 <div className="mb-2 px-3">
                   <span className="text-xl font-normal dark:text-neutral-200">
                     {email.subject}
                   </span>
                 </div>
-                <EmailBlock email={email} />
+                <EmailBlock
+                  email={email}
+                  startReply={startReply}
+                  startForward={startForward}
+                />
+                {showReply && (
+                  <EmailDraft
+                    email={
+                      {
+                        // TODO: use the correct sender based on domain
+                        from: [email.to[0]],
+                        subject: email.subject.startsWith('Re: ')
+                          ? email.subject
+                          : `Re: ${email.subject}`
+                      } as DraftEmail
+                    }
+                    isReply
+                    handleEmailChange={() => {}}
+                  />
+                )}
               </div>
             )}
           </Await>
@@ -76,14 +107,19 @@ export default function EmailView() {
         {data.type == 'thread' && (
           <Await resolve={data.thread}>
             {(thread: Thread) => (
-              <div className="overflow-scroll">
+              <div className="overflow-scroll h-full pb-5">
                 <div className="mb-2 px-3">
                   <span className="text-xl font-normal dark:text-neutral-200">
                     {thread.subject}
                   </span>
                 </div>
                 {thread.emails?.map((email) => (
-                  <EmailBlock key={email.messageID} email={email} />
+                  <EmailBlock
+                    key={email.messageID}
+                    email={email}
+                    startReply={startReply}
+                    startForward={startForward}
+                  />
                 ))}
               </div>
             )}
@@ -96,10 +132,12 @@ export default function EmailView() {
 
 type EmailBlockProps = {
   email: Email
+  startReply: (email: Email) => void
+  startForward: (email: Email) => void
 }
 
 function EmailBlock(props: EmailBlockProps) {
-  const { email } = props
+  const { email, startForward, startReply } = props
 
   const [showMoreActions, setShowMoreActions] = React.useState(false)
   const showMoreActionsRef = useRef(null)
@@ -123,11 +161,20 @@ function EmailBlock(props: EmailBlockProps) {
           <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-300">
             <span className="p-1">{formatDate(email.timeReceived)}</span>
             <span className="inline-flex ml-4 relative">
-              {/* TODO: implement reply and forward actions */}
-              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200">
+              <span
+                className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                onClick={() => {
+                  startReply(email)
+                }}
+              >
                 <ArrowUturnLeftIcon />
               </span>
-              <span className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200">
+              <span
+                className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                onClick={() => {
+                  startForward(email)
+                }}
+              >
                 <ArrowUturnRightIcon />
               </span>
               <span

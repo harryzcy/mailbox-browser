@@ -17,10 +17,11 @@ import TextInput from '../inputs/TextInput'
 interface EmailDraftProps {
   email: DraftEmail
   handleEmailChange: (email: DraftEmail) => void
-  handleClose: () => void
-  handleMinimize: () => void
-  handleSend: () => void
-  handleDelete: () => void
+  handleClose?: () => void
+  handleMinimize?: () => void
+  handleSend?: () => void
+  handleDelete?: () => void
+  isReply?: boolean
 }
 
 export function EmailDraft(props: EmailDraftProps) {
@@ -30,44 +31,51 @@ export function EmailDraft(props: EmailDraftProps) {
     handleClose,
     handleMinimize,
     handleSend,
-    handleDelete
+    handleDelete,
+    isReply = false
   } = props
 
-  const draftEmailsContext = useContext(DraftEmailsContext)
-
   return (
-    <div className="flex flex-col w-full h-full max-h-full rounded md:rounded-md bg-neutral-50 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 shadow-md">
-      <div className="flex items-center justify-between bg-neutral-100 dark:bg-neutral-700 p-2 rounded-t md:rounded-t-md">
-        <span>{email.subject || 'New Email'}</span>
-        <span className="inline-flex">
-          <span
-            className="-my-2 -mr-1 p-1.5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-600 cursor-pointer"
-            onClick={handleMinimize}
-          >
-            <MinusIcon className="w-4 h-4" />
+    <div
+      className={`flex flex-col w-full rounded md:rounded-md bg-neutral-50 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 shadow-md ${
+        !isReply ? ' h-full max-h-full' : ''
+      }`}
+    >
+      {!isReply && (
+        <div className="flex items-center justify-between bg-neutral-100 dark:bg-neutral-700 p-2 rounded-t md:rounded-t-md">
+          <span>{email.subject || 'New Email'}</span>
+          <span className="inline-flex">
+            <span
+              className="-my-2 -mr-1 p-1.5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-600 cursor-pointer"
+              onClick={handleMinimize}
+            >
+              <MinusIcon className="w-4 h-4" />
+            </span>
+            <span
+              className="-my-2 -mr-1 p-1.5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-600 cursor-pointer"
+              onClick={handleClose}
+            >
+              <XMarkIcon className="w-4 h-4" />
+            </span>
           </span>
-          <span
-            className="-my-2 -mr-1 p-1.5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-600 cursor-pointer"
-            onClick={handleClose}
-          >
-            <XMarkIcon className="w-4 h-4" />
-          </span>
-        </span>
-      </div>
+        </div>
+      )}
 
-      <div className="flex px-2 pt-2">
-        <span className="ml-2 px-3 py-1 w-16 text-center bg-neutral-200 dark:bg-neutral-900 rounded md:rounded-md">
-          From
-        </span>
-        <span className="flex-1 border-b dark:border-neutral-600 mx-2">
-          <EmailAddressInput
-            addresses={email.from || []}
-            handleChange={(emails) => {
-              handleEmailChange({ ...email, from: emails })
-            }}
-          />
-        </span>
-      </div>
+      {!isReply && (
+        <div className="flex px-2 pt-2">
+          <span className="ml-2 px-3 py-1 w-16 text-center bg-neutral-200 dark:bg-neutral-900 rounded md:rounded-md">
+            From
+          </span>
+          <span className="flex-1 border-b dark:border-neutral-600 mx-2">
+            <EmailAddressInput
+              addresses={email.from || []}
+              handleChange={(emails) => {
+                handleEmailChange({ ...email, from: emails })
+              }}
+            />
+          </span>
+        </div>
+      )}
       <div className="flex px-2 pt-2">
         <span className="ml-2 px-3 py-1 w-16 text-center bg-neutral-200 dark:bg-neutral-900 rounded md:rounded-md">
           To
@@ -108,17 +116,22 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
       </div>
 
-      <div className="flex px-2 pt-3">
-        <span className="flex-1 border-b dark:border-neutral-600 mx-2">
-          <TextInput
-            value={email.subject || ''}
-            placeholder="Subject"
-            handleChange={(subject) => {
-              handleEmailChange({ ...email, subject })
-            }}
-          />
-        </span>
-      </div>
+      {
+        // Reply emails should used standard subject
+        !isReply && (
+          <div className="flex px-2 pt-3">
+            <span className="flex-1 border-b dark:border-neutral-600 mx-2">
+              <TextInput
+                value={email.subject || ''}
+                placeholder="Subject"
+                handleChange={(subject) => {
+                  handleEmailChange({ ...email, subject })
+                }}
+              />
+            </span>
+          </div>
+        )
+      }
 
       <div className="flex-1 flex px-2 pt-3 overscroll-contain overflow-scroll">
         <RichTextEditor
@@ -126,8 +139,12 @@ export function EmailDraft(props: EmailDraftProps) {
           handleChange={({ html, text }) => {
             handleEmailChange({ ...email, html, text })
           }}
-          handleSend={handleSend}
-          handleDelete={handleDelete}
+          handleSend={() => {
+            handleSend && handleSend()
+          }}
+          handleDelete={() => {
+            handleDelete && handleDelete()
+          }}
         />
       </div>
     </div>
