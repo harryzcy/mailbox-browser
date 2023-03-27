@@ -41,11 +41,13 @@ export default function DraftEmailsTabs() {
       replyTo: email.from,
       html: email.html,
       text: email.text,
-      send: false
+      send: false,
+      replyEmailID: email.replyEmail?.messageID
     }
 
     let data: Email
     const oldMessageID = email.messageID
+
     if (isLocalDraftID(email.messageID)) {
       data = await createEmail(body)
     } else {
@@ -66,7 +68,8 @@ export default function DraftEmailsTabs() {
         bcc: data.bcc,
         replyTo: data.replyTo,
         html: data.html,
-        text: data.text
+        text: data.text,
+        replyEmail: email.replyEmail // keep the replyEmail
       },
       excludeInWaitlist: true
     })

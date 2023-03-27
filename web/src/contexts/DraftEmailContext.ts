@@ -1,4 +1,5 @@
 import { createContext, Dispatch } from 'react'
+import { Email } from '../services/emails'
 
 export interface DraftEmail {
   messageID: string
@@ -10,6 +11,7 @@ export interface DraftEmail {
   replyTo: string[]
   text: string
   html: string
+  replyEmail?: Email
 }
 
 export type State = {
@@ -19,7 +21,7 @@ export type State = {
 }
 
 export type Action =
-  | { type: 'add'; messageID: string }
+  | { type: 'add'; messageID: string; isReply?: boolean; replyEmail?: Email }
   | { type: 'load'; email: DraftEmail }
   | { type: 'open'; id: string }
   | { type: 'close' }
@@ -47,8 +49,19 @@ export function draftEmailReducer(state: State, action: Action): State {
         from: [] as string[],
         to: [] as string[],
         cc: [] as string[],
-        bcc: [] as string[]
+        bcc: [] as string[],
+        replyEmail: action.replyEmail
       } as DraftEmail
+
+      if (action.isReply && action.replyEmail) {
+        // TODO: use the correct sender based on domain
+        newEmail.from = [action.replyEmail.to[0]]
+        newEmail.to = [action.replyEmail.from[0]]
+        newEmail.subject = action.replyEmail.subject.startsWith('Re: ')
+          ? action.replyEmail.subject
+          : `Re: ${action.replyEmail.subject}`
+      }
+
       return {
         activeEmail: newEmail,
         updateWaitlist: state.updateWaitlist,

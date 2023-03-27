@@ -5,8 +5,10 @@ export interface Thread {
   type: 'thread'
   subject: string
   emailIDs: string[]
+  draftID?: string
   timeUpdated: string
   emails: Email[]
+  draft?: Email
 }
 
 export async function getThread(threadID: string): Promise<Thread> {

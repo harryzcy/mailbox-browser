@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Await, useLoaderData, useNavigate } from 'react-router-dom'
 import parse, {
   Element,
@@ -14,13 +14,18 @@ import {
   EllipsisVerticalIcon
 } from '@heroicons/react/24/outline'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
-import { Email, trashEmail } from '../services/emails'
+import {
+  Email,
+  generateLocalDraftID,
+  saveEmail,
+  trashEmail
+} from '../services/emails'
 import { Thread } from '../services/threads'
 import { getNameFromEmails } from '../utils/emails'
 import { formatDate } from '../utils/time'
 import { useOutsideClick } from '../hooks/useOutsideClick'
 import { EmailDraft } from '../components/emails/EmailDraft'
-import { DraftEmail } from '../contexts/DraftEmailContext'
+import { DraftEmail, DraftEmailsContext } from '../contexts/DraftEmailContext'
 
 export default function EmailView() {
   const data = useLoaderData() as
@@ -32,14 +37,70 @@ export default function EmailView() {
   const goPrevious = () => {}
   const goNext = () => {}
 
-  const [showReply, setShowReply] = useState(false)
+  const { activeEmail: activeReplyEmail, dispatch: dispatchDraftEmail } =
+    useContext(DraftEmailsContext)
+  const [isInitialReplyOpen, setIsInitialReplyOpen] = useState(false)
 
   const startReply = (email: Email) => {
-    setShowReply(true)
+    setIsInitialReplyOpen(true)
+    dispatchDraftEmail({
+      type: 'add',
+      messageID: generateLocalDraftID(),
+      isReply: true,
+      replyEmail: email
+    })
+    console.log(draftElemRef.current)
   }
+
+  const draftElemRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    console.log(draftElemRef.current)
+    if (!draftElemRef.current) return
+    draftElemRef.current.scrollIntoView()
+  }, [isInitialReplyOpen])
 
   const startForward = (email: Email) => {
     // TODO
+  }
+
+  const handleEmailChange = (email: DraftEmail) => {
+    dispatchDraftEmail({
+      type: 'update',
+      messageID: email.messageID,
+      email,
+      excludeInWaitlist: false
+    })
+  }
+
+  const handleSend = () => {
+    // prevent still saving emails
+    dispatchDraftEmail({
+      type: 'remove-waitlist'
+    })
+
+    const sendRequest = async () => {
+      const email = activeReplyEmail
+      if (!email) return
+      await saveEmail({
+        messageID: email.messageID,
+        subject: email.subject,
+        from: email.from,
+        to: email.to,
+        cc: email.cc,
+        bcc: email.bcc,
+        replyTo: email.from,
+        html: email.html,
+        text: email.text,
+        send: true // save and send
+      })
+
+      dispatchDraftEmail({
+        type: 'close'
+      })
+    }
+
+    sendRequest()
   }
 
   return (
@@ -84,21 +145,18 @@ export default function EmailView() {
                   startReply={startReply}
                   startForward={startForward}
                 />
-                {showReply && (
-                  <EmailDraft
-                    email={
-                      {
-                        // TODO: use the correct sender based on domain
-                        from: [email.to[0]],
-                        subject: email.subject.startsWith('Re: ')
-                          ? email.subject
-                          : `Re: ${email.subject}`
-                      } as DraftEmail
-                    }
-                    isReply
-                    handleEmailChange={() => {}}
-                  />
-                )}
+                {activeReplyEmail &&
+                  activeReplyEmail.replyEmail?.messageID ===
+                    email.messageID && (
+                    <div ref={draftElemRef}>
+                      <EmailDraft
+                        email={activeReplyEmail}
+                        isReply
+                        handleEmailChange={handleEmailChange}
+                        handleSend={handleSend}
+                      />
+                    </div>
+                  )}
               </div>
             )}
           </Await>
@@ -121,6 +179,14 @@ export default function EmailView() {
                     startForward={startForward}
                   />
                 ))}
+                {thread.draftID && activeReplyEmail && (
+                  <EmailDraft
+                    email={activeReplyEmail}
+                    isReply
+                    handleEmailChange={handleEmailChange}
+                    handleSend={handleSend}
+                  />
+                )}
               </div>
             )}
           </Await>
