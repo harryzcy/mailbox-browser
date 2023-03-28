@@ -6,9 +6,7 @@
 import { MinusIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { useEffect, useRef } from 'react'
 
-import {
-  DraftEmail,
-} from '../../contexts/DraftEmailContext'
+import { DraftEmail } from '../../contexts/DraftEmailContext'
 import EmailAddressInput from '../inputs/EmailAddressInput'
 import RichTextEditor from '../inputs/RichTextEditor'
 import TextInput from '../inputs/TextInput'
