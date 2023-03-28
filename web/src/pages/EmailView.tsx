@@ -55,7 +55,6 @@ export default function EmailView() {
   const draftElemRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    console.log(draftElemRef.current)
     if (!draftElemRef.current) return
     draftElemRef.current.scrollIntoView()
   }, [isInitialReplyOpen])

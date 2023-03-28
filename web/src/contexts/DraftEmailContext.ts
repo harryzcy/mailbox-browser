@@ -12,6 +12,7 @@ export interface DraftEmail {
   text: string
   html: string
   replyEmail?: Email
+  threadID?: string
 }
 
 export type State = {
@@ -82,6 +83,7 @@ export function draftEmailReducer(state: State, action: Action): State {
         ...action.email,
         html: extractEmailBody(action.email.html)
       }
+      console.log(email.threadID)
       return {
         activeEmail: email,
         updateWaitlist: state.updateWaitlist,

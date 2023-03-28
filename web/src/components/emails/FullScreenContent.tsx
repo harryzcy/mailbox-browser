@@ -82,7 +82,7 @@ export default function FullScreenContent(props: FullScreenContentProps) {
     deleteRequest()
   }
 
-  if (draftEmailsContext.activeEmail === null || draftEmailsContext.activeEmail.replyEmail) {
+  if (draftEmailsContext.activeEmail === null || draftEmailsContext.activeEmail.replyEmail || draftEmailsContext.activeEmail.threadID) {
     return null
   }
 
