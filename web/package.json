@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@adobe/css-tools": "4.2.0",
-    "@heroicons/react": "2.0.16",
+    "@heroicons/react": "2.0.17",
     "@lexical/clipboard": "0.9.1",
     "@lexical/code": "0.9.1",
     "@lexical/html": "0.9.1",
