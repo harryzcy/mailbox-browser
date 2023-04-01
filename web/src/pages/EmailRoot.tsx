@@ -55,8 +55,8 @@ export default function EmailRoot(props: EmailRootProps) {
     return () => abortController.abort()
   }, [props.type])
 
-  const [year, setYear] = useState<number>(new Date().getFullYear())
-  const [month, setMonth] = useState<number>(new Date().getMonth() + 1)
+  const [year, setYear] = useState<number>(new Date().getUTCFullYear())
+  const [month, setMonth] = useState<number>(new Date().getUTCMonth() + 1)
 
   const loadEmails = async (input: {
     year?: number
