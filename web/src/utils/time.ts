@@ -1,3 +1,14 @@
+export function getCurrentYearMonth(): {
+  year: number
+  month: number
+} {
+  const date = new Date()
+  return {
+    year: date.getUTCFullYear(),
+    month: date.getUTCMonth() + 1
+  }
+}
+
 export function formatDate(date: string, short: boolean = false): string {
   if (!date) return ''
   if (short) return formatDateShort(date)
