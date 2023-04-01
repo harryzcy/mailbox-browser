@@ -19,7 +19,7 @@
       "matchSourceUrls": [
         "https://github.com/facebook/lexical"
       ],
-      "groupName": "@lexical monorepo"
+      "groupName": "facebook/lexical monorepo"
     }
   ],
   "postUpdateOptions": ["gomodTidy", "pnpmDedupe"]
