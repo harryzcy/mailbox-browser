@@ -49,7 +49,6 @@ export default function EmailView() {
       isReply: true,
       replyEmail: email
     })
-    console.log(draftElemRef.current)
   }
 
   const draftElemRef = useRef<HTMLDivElement>(null)
