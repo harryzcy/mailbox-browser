@@ -3,6 +3,7 @@ import EmailMenuBar from '../components/emails/EmailMenuBar'
 import EmailTableView from '../components/emails/EmailTableView'
 import { useOutsideClick } from '../hooks/useOutsideClick'
 import { deleteEmail, trashEmail } from '../services/emails'
+import { getCurrentYearMonth } from '../utils/time'
 import { useInboxContext } from './EmailRoot'
 
 export default function EmailList() {
@@ -86,8 +87,7 @@ export default function EmailList() {
   }, [year, month])
 
   const checkHasPrevious = () => {
-    const currentYear = new Date().getFullYear()
-    const currentMonth = new Date().getMonth() + 1
+    const { year: currentYear, month: currentMonth } = getCurrentYearMonth()
     return currentYear > year || (currentYear === year && currentMonth > month)
   }
 

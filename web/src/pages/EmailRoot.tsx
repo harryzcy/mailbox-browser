@@ -9,6 +9,7 @@ import DraftEmailsTabs from '../components/emails/DraftEmailsTabs'
 import FullScreenContent from '../components/emails/FullScreenContent'
 import { DraftEmailsContext } from '../contexts/DraftEmailContext'
 import { EmailInfo, listEmails, ListEmailsResponse } from '../services/emails'
+import { getCurrentYearMonth } from '../utils/time'
 
 type InboxContext = {
   count: number
@@ -55,8 +56,9 @@ export default function EmailRoot(props: EmailRootProps) {
     return () => abortController.abort()
   }, [props.type])
 
-  const [year, setYear] = useState<number>(new Date().getUTCFullYear())
-  const [month, setMonth] = useState<number>(new Date().getUTCMonth() + 1)
+  const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
+  const [year, setYear] = useState<number>(initialYear)
+  const [month, setMonth] = useState<number>(initialMonth)
 
   const loadEmails = async (input: {
     year?: number
