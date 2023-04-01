@@ -71,6 +71,7 @@ export type Email = {
   to: string[]
   text: string
   html: string
+  threadID?: string
 
   // inbox only
   timeReceived: string
