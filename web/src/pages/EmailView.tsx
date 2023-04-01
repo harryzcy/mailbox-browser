@@ -11,12 +11,14 @@ import * as css from '@adobe/css-tools'
 import {
   ArrowUturnLeftIcon,
   ArrowUturnRightIcon,
-  EllipsisVerticalIcon
+  EllipsisVerticalIcon,
+  PencilIcon
 } from '@heroicons/react/24/outline'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import {
   Email,
   generateLocalDraftID,
+  getEmail,
   saveEmail,
   trashEmail
 } from '../services/emails'
@@ -48,6 +50,13 @@ export default function EmailView() {
       messageID: generateLocalDraftID(),
       isReply: true,
       replyEmail: email
+    })
+  }
+
+  const openReply = (email: Email) => {
+    dispatchDraftEmail({
+      type: 'load',
+      email: email
     })
   }
 
@@ -184,6 +193,23 @@ export default function EmailView() {
                     handleEmailChange={handleEmailChange}
                     handleSend={handleSend}
                   />
+                )}
+                {thread.draftID && !activeReplyEmail && (
+                  <div className="bg-neutral-50 rounded-md bg-neutral-50 dark:bg-neutral-800 p-3 mb-4">
+                    <div className="flex justify-between items-start">
+                      <span className="text-red-300">[Draft]</span>
+                      <span className="text-neutral-500 dark:text-neutral-300">
+                        <span
+                          className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                          onClick={() => {
+                            openReply(thread.draft!)
+                          }}
+                        >
+                          <PencilIcon />
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 )}
               </div>
             )}
