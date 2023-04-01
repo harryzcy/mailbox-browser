@@ -70,7 +70,7 @@ export default function DraftEmailsTabs() {
         html: data.html,
         text: data.text,
         replyEmail: email.replyEmail, // keep the replyEmail
-        threadID: data.threadID,
+        threadID: data.threadID
       },
       excludeInWaitlist: true
     })
