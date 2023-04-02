@@ -56,8 +56,14 @@ export function draftEmailReducer(state: State, action: Action): State {
 
       if (action.isReply && action.replyEmail) {
         // TODO: use the correct sender based on domain
-        newEmail.from = [action.replyEmail.to[0]]
-        newEmail.to = [action.replyEmail.from[0]]
+        if (action.replyEmail.type === 'inbox') {
+          newEmail.from = [action.replyEmail.to[0]]
+          newEmail.to = [action.replyEmail.from[0]]
+        } else {
+          // sent
+          newEmail.from = [action.replyEmail.from[0]]
+          newEmail.to = [action.replyEmail.to[0]]
+        }
         newEmail.subject = action.replyEmail.subject.startsWith('Re: ')
           ? action.replyEmail.subject
           : `Re: ${action.replyEmail.subject}`
