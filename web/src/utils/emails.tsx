@@ -71,7 +71,7 @@ export function parseEmailContent(email: Email) {
   } else if (typeof element === 'string') {
     return element
   }
-  if (element.props.children.length > 0) {
+  if (element.props.children) {
     return element
   }
   // fallback to text if html parsing fails
