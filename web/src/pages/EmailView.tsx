@@ -18,7 +18,6 @@ import EmailMenuBar from '../components/emails/EmailMenuBar'
 import {
   Email,
   generateLocalDraftID,
-  getEmail,
   saveEmail,
   trashEmail
 } from '../services/emails'
@@ -186,7 +185,7 @@ export default function EmailView() {
                     startForward={startForward}
                   />
                 ))}
-                {thread.draftID && activeReplyEmail && (
+                {activeReplyEmail && (
                   <EmailDraft
                     email={activeReplyEmail}
                     isReply
