@@ -1,4 +1,6 @@
 import { createContext, Dispatch } from 'react'
+import { Email } from '../services/emails'
+import { formatDateFull } from '../utils/time'
 
 export interface DraftEmail {
   messageID: string
@@ -10,6 +12,8 @@ export interface DraftEmail {
   replyTo: string[]
   text: string
   html: string
+  replyEmail?: Email
+  threadID?: string
 }
 
 export type State = {
@@ -19,7 +23,14 @@ export type State = {
 }
 
 export type Action =
-  | { type: 'add'; messageID: string }
+  | {
+      type: 'add'
+      messageID: string
+      isReply?: boolean
+      replyEmail?: Email
+      isForward?: boolean
+      forwardEmail?: Email
+    }
   | { type: 'load'; email: DraftEmail }
   | { type: 'open'; id: string }
   | { type: 'close' }
@@ -47,8 +58,37 @@ export function draftEmailReducer(state: State, action: Action): State {
         from: [] as string[],
         to: [] as string[],
         cc: [] as string[],
-        bcc: [] as string[]
+        bcc: [] as string[],
+        replyEmail: action.replyEmail
       } as DraftEmail
+
+      if (action.isReply && action.replyEmail) {
+        // TODO: use the correct sender based on domain
+        if (action.replyEmail.type === 'inbox') {
+          newEmail.from = [action.replyEmail.to[0]]
+          newEmail.to = [action.replyEmail.from[0]]
+        } else {
+          // sent
+          newEmail.from = [action.replyEmail.from[0]]
+          newEmail.to = [action.replyEmail.to[0]]
+        }
+        newEmail.subject = action.replyEmail.subject.startsWith('Re: ')
+          ? action.replyEmail.subject
+          : `Re: ${action.replyEmail.subject}`
+      }
+      if (action.isForward && action.forwardEmail) {
+        if (action.forwardEmail.type === 'inbox') {
+          newEmail.from = [action.forwardEmail.to[0]]
+        } else {
+          // sent
+          newEmail.from = [action.forwardEmail.from[0]]
+        }
+        newEmail.subject = action.forwardEmail.subject.startsWith('Fwd: ')
+          ? action.forwardEmail.subject
+          : `Fwd: ${action.forwardEmail.subject}`
+        newEmail.html = createForwardHTML(action.forwardEmail)
+      }
+
       return {
         activeEmail: newEmail,
         updateWaitlist: state.updateWaitlist,
@@ -145,6 +185,56 @@ export const DraftEmailsContext = createContext<{
 })
 
 const extractEmailBody = (html: string) => {
-  const body = /<body>(.*?)<\/body>/g.exec(html)?.[1] || ''
-  return body
+  if (html.includes('<body>')) {
+    const body = /<body>(.*?)<\/body>/gs.exec(html)?.[1] || ''
+    return body
+  }
+  return html
+}
+
+const createForwardHTML = (email: Email): string => {
+  const { html, timeReceived, timeSent, from } = email
+  const time = timeReceived || timeSent
+
+  const fromStr = from
+    .map((raw) => {
+      const { name, address } = parseAddress(raw)
+      return name ? `${name} &#60;${address}&#62;` : address
+    })
+    .join(', ')
+
+  const body = extractEmailBody(html)
+  const forwardHTML = `
+  <p class="editor-paragraph"><br></p>
+  <p class="editor-paragraph">On ${formatDateFull(time)} ${fromStr} wrote:</p>
+  <div class="editor-email-quote">${body}</div>`
+  return forwardHTML
+}
+
+const parseAddress = (
+  address: string
+): {
+  name: string
+  address: string
+} => {
+  address = address.trim()
+
+  let displayName = ''
+  let email = ''
+
+  if (address.includes('<')) {
+    displayName = address.split('<')[0].trim()
+    email = address.split('<')[1].replace('>', '').trim()
+
+    if (displayName.startsWith('"') && displayName.endsWith('"')) {
+      displayName = displayName.slice(1, -1)
+    }
+  } else {
+    email = address
+  }
+
+  return {
+    name: displayName,
+    address: email
+  }
 }

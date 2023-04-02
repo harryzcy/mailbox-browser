@@ -71,6 +71,7 @@ export type Email = {
   to: string[]
   text: string
   html: string
+  threadID?: string
 
   // inbox only
   timeReceived: string
@@ -88,6 +89,9 @@ export type Email = {
 
   attachments: File[]
   inlines: File[]
+
+  // sent only
+  timeSent: string
 }
 
 export type EmailVerdict = {
@@ -113,6 +117,7 @@ export type CreateEmailProps = {
   text: string
   html: string
   send: boolean
+  replyEmailID?: string
 }
 
 export async function getEmailRaw(messageID: string): Promise<string> {
@@ -121,6 +126,7 @@ export async function getEmailRaw(messageID: string): Promise<string> {
 }
 
 export async function createEmail(email: CreateEmailProps): Promise<Email> {
+  // TODO: should return error
   const response = await fetch('/web/emails', {
     method: 'POST',
     headers: {
