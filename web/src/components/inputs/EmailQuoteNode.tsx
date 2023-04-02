@@ -52,8 +52,7 @@ export class EmailQuoteNode extends DecoratorNode<ReactNode> {
 
   exportDOM(editor: LexicalEditor): DOMExportOutput {
     const div = document.createElement('div')
-    div.className = 'editor-email-quote'
-    div.innerHTML = this.__html
+    div.innerHTML = this.__html.trim()
     return { element: div }
   }
 
