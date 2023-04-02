@@ -10,6 +10,7 @@ import {
   SerializedLexicalNode
 } from 'lexical'
 import { ReactNode } from 'react'
+import { parseEmailHTML } from '../../utils/emails'
 
 export class EmailQuoteNode extends DecoratorNode<ReactNode> {
   __html: string
@@ -52,6 +53,7 @@ export class EmailQuoteNode extends DecoratorNode<ReactNode> {
 
   exportDOM(editor: LexicalEditor): DOMExportOutput {
     const div = document.createElement('div')
+    div.className = 'editor-email-quote'
     div.innerHTML = this.__html.trim()
     return { element: div }
   }
@@ -112,8 +114,8 @@ type EmailQuoteProps = {
 
 export function EmailQuote(props: EmailQuoteProps) {
   return (
-    <div
-      dangerouslySetInnerHTML={{ __html: props.html }}
-    />
+    <>
+      {parseEmailHTML(props.html)}
+    </>
   )
 }
