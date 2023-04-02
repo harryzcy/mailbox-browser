@@ -118,9 +118,5 @@ type EmailQuoteProps = {
 }
 
 export function EmailQuote(props: EmailQuoteProps) {
-  return (
-    <>
-      {parseEmailHTML(props.html)}
-    </>
-  )
+  return <>{parseEmailHTML(props.html)}</>
 }
