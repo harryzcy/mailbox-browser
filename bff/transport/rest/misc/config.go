@@ -7,6 +7,6 @@ import (
 
 func Config(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"emailDomains": config.EMAIL_DOMAINS,
+		"emailAddresses": config.EMAIL_ADDRESSES,
 	})
 }

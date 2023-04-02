@@ -16,6 +16,6 @@ var (
 	AWS_REGION               = os.Getenv("AWS_REGION")
 	AWS_API_ID               = os.Getenv("AWS_API_ID")
 
-	// comma separated list of domains, required for email replies
-	EMAIL_DOMAINS = strings.Split(os.Getenv("EMAIL_DOMAINS"), ",")
+	// comma separated list of email addresses or domains, required for email replies
+	EMAIL_ADDRESSES = strings.Split(os.Getenv("EMAIL_ADDRESSES"), ",")
 )
