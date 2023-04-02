@@ -28,6 +28,7 @@ import theme from './themes/LexicalTheme'
 import './RichTextEditor.css'
 import { useEffect } from 'react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { EmailQuoteNode } from './EmailQuoteNode'
 
 function Placeholder() {
   return (
@@ -73,7 +74,8 @@ export default function RichTextEditor(props: RichTextEditorProps) {
       TableCellNode,
       TableRowNode,
       AutoLinkNode,
-      LinkNode
+      LinkNode,
+      EmailQuoteNode
     ],
     editorState: (editor) => {
       if (!props.initialHtml) return undefined

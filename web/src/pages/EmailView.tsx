@@ -67,7 +67,12 @@ export default function EmailView() {
   }, [isInitialReplyOpen])
 
   const startForward = (email: Email) => {
-    // TODO
+    dispatchDraftEmail({
+      type: 'add',
+      messageID: generateLocalDraftID(),
+      isForward: true,
+      forwardEmail: email
+    })
   }
 
   const handleEmailChange = (email: DraftEmail) => {

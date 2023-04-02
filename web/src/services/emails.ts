@@ -89,6 +89,9 @@ export type Email = {
 
   attachments: File[]
   inlines: File[]
+
+  // sent only
+  timeSent: string
 }
 
 export type EmailVerdict = {

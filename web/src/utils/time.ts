@@ -58,3 +58,10 @@ function formatDateLong(date: string): string {
   hour = hour % 12 || 12 // Convert 0 to 12
   return `${month} ${day}, ${year}, ${hour}:${minutesStr} ${meridian}`
 }
+
+export function formatDateFull(date: string): string {
+  const dateObj = new Date(date)
+  const dayOfWeek = dateObj.toLocaleString('default', { weekday: 'short' })
+
+  return `${dayOfWeek}, ${formatDateLong(date)}`
+}

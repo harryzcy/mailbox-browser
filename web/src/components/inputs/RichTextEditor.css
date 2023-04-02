@@ -216,3 +216,8 @@ pre::-webkit-scrollbar {
 pre::-webkit-scrollbar-thumb {
   background: #999;
 }
+
+.editor-email-quote {
+  border-left: solid 1px #ccc;
+  padding-left: 10px;
+}
