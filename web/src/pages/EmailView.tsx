@@ -363,7 +363,6 @@ function parseEmailContent(email: Email) {
     return element
   }
   // fallback to text if html parsing fails
-  console.log(email.text)
   return (
     <pre className="w-full block whitespace-pre-wrap break-words font-sans">
       {email.text}
