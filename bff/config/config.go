@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var (
@@ -14,4 +15,7 @@ var (
 	AWS_SECRET_ACCESS_KEY    = os.Getenv("AWS_SECRET_ACCESS_KEY")
 	AWS_REGION               = os.Getenv("AWS_REGION")
 	AWS_API_ID               = os.Getenv("AWS_API_ID")
+
+	// comma separated list of email addresses or domains, required for email replies
+	EMAIL_ADDRESSES = strings.Split(os.Getenv("EMAIL_ADDRESSES"), ",")
 )

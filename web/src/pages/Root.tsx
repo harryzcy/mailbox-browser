@@ -2,28 +2,44 @@ import { useReducer } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import {
+  ConfigContext,
+  configReducer,
+  initialConfigState
+} from '../contexts/ConfigContext'
+import {
   draftEmailReducer,
   DraftEmailsContext,
   initialState
 } from '../contexts/DraftEmailContext'
 
 export default function Root() {
+  const [configState, configDispatch] = useReducer(
+    configReducer,
+    initialConfigState
+  )
   const [draftEmailsState, draftEmailsDispatch] = useReducer(
     draftEmailReducer,
     initialState
   )
 
   return (
-    <DraftEmailsContext.Provider
+    <ConfigContext.Provider
       value={{
-        emails: draftEmailsState.emails,
-        activeEmail: draftEmailsState.activeEmail,
-        updateWaitlist: draftEmailsState.updateWaitlist,
-        dispatch: draftEmailsDispatch
+        state: configState,
+        dispatch: configDispatch
       }}
     >
-      <Sidebar />
-      <Outlet />
-    </DraftEmailsContext.Provider>
+      <DraftEmailsContext.Provider
+        value={{
+          emails: draftEmailsState.emails,
+          activeEmail: draftEmailsState.activeEmail,
+          updateWaitlist: draftEmailsState.updateWaitlist,
+          dispatch: draftEmailsDispatch
+        }}
+      >
+        <Sidebar />
+        <Outlet />
+      </DraftEmailsContext.Provider>
+    </ConfigContext.Provider>
   )
 }
