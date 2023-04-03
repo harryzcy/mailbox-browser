@@ -1,6 +1,7 @@
-import { createContext, Dispatch } from 'react'
+import { createContext, Dispatch, useContext } from 'react'
 import { Email } from '../services/emails'
 import { formatDateFull } from '../utils/time'
+import { ConfigContext } from './ConfigContext'
 
 export interface DraftEmail {
   messageID: string
@@ -28,6 +29,7 @@ export type Action =
       messageID: string
       isReply?: boolean
       replyEmail?: Email
+      allowedAddresses?: string[] // the allowed addresses to send from
       isForward?: boolean
       forwardEmail?: Email
     }
@@ -65,7 +67,10 @@ export function draftEmailReducer(state: State, action: Action): State {
       if (action.isReply && action.replyEmail) {
         // TODO: use the correct sender based on domain
         if (action.replyEmail.type === 'inbox') {
-          newEmail.from = [action.replyEmail.to[0]]
+          newEmail.from = determineFromAddress(
+            action.replyEmail.to,
+            action.allowedAddresses
+          )
           newEmail.to = [action.replyEmail.from[0]]
         } else {
           // sent
@@ -237,4 +242,35 @@ const parseAddress = (
     name: displayName,
     address: email
   }
+}
+
+const determineFromAddress = (
+  choices: string[],
+  allowedAddresses?: string[]
+): string[] => {
+  if (!allowedAddresses) {
+    // TODO: handle this better
+    console.warn("Couldn't find a matching email address.")
+    return [choices[0]]
+  }
+
+  for (const address of choices) {
+    for (const expectedAddress of allowedAddresses) {
+      const hasPrefix = expectedAddress.includes('@')
+      if (hasPrefix) {
+        if (address === expectedAddress) {
+          return [address]
+        }
+      } else {
+        const domain = address.split('@')[1]
+        if (domain === expectedAddress) {
+          return [address]
+        }
+      }
+    }
+  }
+
+  // TODO: handle this better
+  console.warn("Couldn't find a matching email address.")
+  return [choices[0]]
 }

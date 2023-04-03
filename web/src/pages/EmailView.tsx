@@ -20,6 +20,7 @@ import { useOutsideClick } from '../hooks/useOutsideClick'
 import { EmailDraft } from '../components/emails/EmailDraft'
 import { DraftEmail, DraftEmailsContext } from '../contexts/DraftEmailContext'
 import { parseEmailContent } from '../utils/emails'
+import { ConfigContext } from '../contexts/ConfigContext'
 
 export default function EmailView() {
   const data = useLoaderData() as
@@ -35,13 +36,16 @@ export default function EmailView() {
     useContext(DraftEmailsContext)
   const [isInitialReplyOpen, setIsInitialReplyOpen] = useState(false)
 
+  const configContext = useContext(ConfigContext)
+
   const startReply = (email: Email) => {
     setIsInitialReplyOpen(true)
     dispatchDraftEmail({
       type: 'add',
       messageID: generateLocalDraftID(),
       isReply: true,
-      replyEmail: email
+      replyEmail: email,
+      allowedAddresses: configContext.state.config.emailAddresses
     })
   }
 
