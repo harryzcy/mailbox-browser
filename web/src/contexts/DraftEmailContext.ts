@@ -65,7 +65,6 @@ export function draftEmailReducer(state: State, action: Action): State {
       } as DraftEmail
 
       if (action.isReply && action.replyEmail) {
-        // TODO: use the correct sender based on domain
         if (action.replyEmail.type === 'inbox') {
           newEmail.from = determineFromAddress(
             action.replyEmail.to,
