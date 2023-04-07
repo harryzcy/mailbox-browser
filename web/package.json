@@ -47,7 +47,7 @@
     "eslint-plugin-react": "7.32.2",
     "postcss": "8.4.21",
     "prettier": "2.8.7",
-    "typescript": "5.0.3",
+    "typescript": "5.0.4",
     "vite": "4.2.1"
   }
 }
