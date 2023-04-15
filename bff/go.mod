@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/aws/aws-sdk-go-v2 v1.17.8
 	github.com/aws/aws-sdk-go-v2/credentials v1.13.20
-	github.com/brianvoe/gofakeit/v6 v6.20.2
+	github.com/brianvoe/gofakeit/v6 v6.21.0
 	github.com/gin-contrib/zap v0.1.0
 	github.com/gin-gonic/gin v1.9.0
 	go.uber.org/zap v1.24.0
