@@ -41,8 +41,8 @@ dependencies:
     specifier: 0.10.0
     version: 0.10.0(lexical@0.10.0)
   html-react-parser:
-    specifier: 3.0.15
-    version: 3.0.15(react@18.2.0)
+    specifier: 3.0.16
+    version: 3.0.16(react@18.2.0)
   lexical:
     specifier: 0.10.0
     version: 0.10.0
@@ -2152,8 +2152,8 @@ packages:
       htmlparser2: 8.0.2
     dev: false
 
-  /html-react-parser@3.0.15(react@18.2.0):
-    resolution: {integrity: sha512-iM2KUVhNoeIsezbpO6xwOHlFqWH+EYaCGwWWeX7R+jvrgc+mbnuouWaCU8GZRRbPKDD0eJXPZwLoeGVft84QXw==}
+  /html-react-parser@3.0.16(react@18.2.0):
+    resolution: {integrity: sha512-ysQZtRFPcg+McVb4B05oNWSnqM14zagpvTgGcI5e1/BvCl38YwzWzKibrbBmXeemg70olN1bAoeixo7o06G5Eg==}
     peerDependencies:
       react: 0.14 || 15 || 16 || 17 || 18
     dependencies:
