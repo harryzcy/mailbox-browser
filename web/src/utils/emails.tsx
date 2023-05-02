@@ -113,17 +113,20 @@ function transformCssRules(rules?: Array<css.CssAtRuleAST>) {
       rule.declarations = rule.declarations.map((declaration) => {
         if (declaration.type === css.CssTypes.declaration) {
           const watchProperties = [
-            'background-image',
             'background',
-            'list-style-image',
-            'list-style',
+            'background-image',
+            'border',
+            'border-image',
+            'border-image-source',
             'content',
             'cursor',
-            'border-image-source',
-            'src',
-            'offset-path',
+            'filter',
+            'list-style',
+            'list-style-image',
+            'mask',
             'mask-image',
-            'mask'
+            'offset-path',
+            'src'
           ]
           if (watchProperties.includes(declaration.property.toLowerCase())) {
             declaration.value = makeCSSURL(declaration.value)
