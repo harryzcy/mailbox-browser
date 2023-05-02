@@ -1,4 +1,4 @@
-FROM golang:1.20.2-alpine3.17 as bff-builder
+FROM golang:1.20.3-alpine3.17 as bff-builder
 
 ARG BUILD_VERSION
 ARG BUILD_COMMIT
@@ -17,7 +17,7 @@ RUN set -ex && \
       " \
       -o /bin/bff
 
-FROM node:18.15.0-alpine3.17 as web-builder
+FROM node:18.16.0-alpine3.17 as web-builder
 
 ARG BUILD_VERSION
 
