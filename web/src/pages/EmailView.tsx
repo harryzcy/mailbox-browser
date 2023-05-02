@@ -235,6 +235,8 @@ function EmailBlock(props: EmailBlockProps) {
 
   useOutsideClick(showMoreActionsRef, () => setShowMoreActions(false))
 
+  const configContext = useContext(ConfigContext)
+
   return (
     <>
       <div className="bg-neutral-50 rounded-md bg-neutral-50 dark:bg-neutral-800 p-3 mb-4">
@@ -298,7 +300,7 @@ function EmailBlock(props: EmailBlockProps) {
         {/* email body */}
         <div className="mt-4">
           <div className="email-sandbox dark:text-neutral-300">
-            {parseEmailContent(email)}
+            {parseEmailContent(email, configContext.state.config.disableProxy)}
           </div>
         </div>
       </div>

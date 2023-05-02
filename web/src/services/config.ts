@@ -1,5 +1,6 @@
 interface Config {
   emailAddresses: string[]
+  disableProxy: boolean
 }
 
 export async function getConfig(): Promise<Config> {

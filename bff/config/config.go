@@ -18,4 +18,6 @@ var (
 
 	// comma separated list of email addresses or domains, required for email replies
 	EMAIL_ADDRESSES = strings.Split(os.Getenv("EMAIL_ADDRESSES"), ",")
+
+	DISABLE_PROXY = os.Getenv("DISABLE_PROXY") == "true"
 )
