@@ -9,6 +9,10 @@ export default defineConfig({
         target: 'http://localhost:8070',
         changeOrigin: true
       },
+      '/proxy': {
+        target: 'http://localhost:8070',
+        changeOrigin: true
+      },
       '/config': {
         target: 'http://localhost:8070',
         changeOrigin: true
