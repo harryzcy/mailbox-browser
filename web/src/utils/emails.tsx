@@ -60,6 +60,9 @@ export function parseEmailContent(email: Email) {
           if (isAttachment) {
             domNode.attribs.src = `${window.location.origin}/web/emails/${email.messageID}/attachments/${cid}`
           }
+        } else {
+          const url = `/proxy?l=${encodeURIComponent(domNode.attribs.src)}`
+          domNode.attribs.src = url
         }
       }
     }
