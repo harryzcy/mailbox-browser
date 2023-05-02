@@ -33,9 +33,14 @@ func Proxy(ctx *gin.Context) {
 	}
 	defer res.Body.Close()
 
+	_, err = io.Copy(ctx.Writer, res.Body)
+	if err != nil {
+		reqError(ctx, err)
+		return
+	}
+
 	copyHeader(ctx.Writer.Header(), res.Header)
 	ctx.Status(res.StatusCode)
-	io.Copy(ctx.Writer, res.Body)
 }
 
 func copyHeader(dst, src http.Header) {
