@@ -112,7 +112,20 @@ function transformCssRules(rules?: Array<css.CssAtRuleAST>) {
       })
       rule.declarations = rule.declarations.map((declaration) => {
         if (declaration.type === css.CssTypes.declaration) {
-          if (declaration.property === 'background-image') {
+          const watchProperties = [
+            'background-image',
+            'background',
+            'list-style-image',
+            'list-style',
+            'content',
+            'cursor',
+            'border-image-source',
+            'src',
+            'offset-path',
+            'mask-image',
+            'mask'
+          ]
+          if (watchProperties.includes(declaration.property.toLowerCase())) {
             declaration.value = makeCSSURL(declaration.value)
           }
         }
@@ -143,5 +156,5 @@ function makeCSSURL(value: string) {
 }
 
 export const exportedForTesting = {
-  makeCSSURL,
+  makeCSSURL
 }
