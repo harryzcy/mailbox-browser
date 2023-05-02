@@ -62,8 +62,7 @@ export function parseEmailContent(email: Email, disableProxy?: boolean) {
           }
         } else {
           if (!disableProxy) {
-            const url = `/proxy?l=${encodeURIComponent(domNode.attribs.src)}`
-            domNode.attribs.src = url
+            domNode.attribs.src = makeProxyURL(domNode.attribs.src)
           }
         }
       }
@@ -111,6 +110,14 @@ function transformCssRules(rules?: Array<css.CssAtRuleAST>) {
           ? selector
           : `.email-sandbox ${selector}`
       })
+      rule.declarations = rule.declarations.map((declaration) => {
+        if (declaration.type === css.CssTypes.declaration) {
+          if (declaration.property === 'background-image') {
+            declaration.value = makeCSSURL(declaration.value)
+          }
+        }
+        return declaration
+      })
     } else if ('rules' in rule) {
       rule.rules = transformCssRules(rule.rules)
     }
@@ -120,4 +127,21 @@ function transformCssRules(rules?: Array<css.CssAtRuleAST>) {
 
 function isCssRule(rule: css.CssAtRuleAST): rule is css.CssRuleAST {
   return rule.type === css.CssTypes.rule
+}
+
+function makeProxyURL(url: string) {
+  return `/proxy?l=${encodeURIComponent(url)}`
+}
+
+function makeCSSURL(value: string) {
+  return value.replace(/url\( *['"]?(.*?)['"]? *\)/g, (match, url) => {
+    if (url.startsWith('https://') || url.startsWith('http://')) {
+      return `url(${makeProxyURL(url)})`
+    }
+    return match
+  })
+}
+
+export const exportedForTesting = {
+  makeCSSURL,
 }
