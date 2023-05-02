@@ -14,7 +14,7 @@ RUN set -ex && \
         -X 'github.com/harryzcy/mailbox-browser/bff/transport/rest/misc.version=${BUILD_VERSION}' \
         -X 'github.com/harryzcy/mailbox-browser/bff/transport/rest/misc.commit=${BUILD_COMMIT}' \
         -X 'github.com/harryzcy/mailbox-browser/bff/transport/rest/misc.buildDate=${BUILD_DATE}' \
-      " \
+        -w -s" \
       -o /bin/bff
 
 FROM node:18.16.0-alpine3.17 as web-builder
