@@ -11,6 +11,25 @@ jobs:
     uses: harryzcy/github-actions/.github/workflows/go.yml@main
     with:
       working-directory: bff
+  
+  jest-test:
+    name: Jest Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
 
   docker:
     name: Docker Build
