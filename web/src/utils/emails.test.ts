@@ -49,4 +49,9 @@ describe('makeCSSURL', () => {
       'data://image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wr+9OAAAAABJRU5ErkJggg==' // eslint-disable-line max-len
     )
   })
+
+  it("doesn't match", () => {
+    const result = makeCSSURL('linear-gradient(#cc0000, #cc0000)')
+    expect(result).toBe('linear-gradient(#cc0000, #cc0000)')
+  })
 })
