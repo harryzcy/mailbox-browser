@@ -9,6 +9,7 @@ export interface EmailInfo {
   to: string[]
   threadID: string
   isThreadLatest: true | undefined
+  unread?: boolean
 }
 
 export type ListEmailsProps = {
