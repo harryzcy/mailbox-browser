@@ -35,6 +35,7 @@ type InboxContext = {
     month: number
     nextCursor?: string
   }) => Promise<ListEmailsResponse>
+  markAsRead: (messageID: string) => void
 }
 
 interface EmailRootProps {
@@ -102,6 +103,20 @@ export default function EmailRoot(props: EmailRootProps) {
     setEmails(emails.filter((email) => email.messageID !== messageID))
   }
 
+  const markAsRead = (messageID: string) => {
+    setEmails(
+      emails.map((email) => {
+        if (email.messageID === messageID) {
+          return {
+            ...email,
+            unread: false
+          }
+        }
+        return email
+      })
+    )
+  }
+
   const outletContext: InboxContext = {
     count,
     setCount,
@@ -117,7 +132,8 @@ export default function EmailRoot(props: EmailRootProps) {
     setYear,
     month,
     setMonth,
-    loadEmails
+    loadEmails,
+    markAsRead
   }
 
   const configContext = useContext(ConfigContext)

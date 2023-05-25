@@ -21,6 +21,7 @@ import { EmailDraft } from '../components/emails/EmailDraft'
 import { DraftEmail, DraftEmailsContext } from '../contexts/DraftEmailContext'
 import { parseEmailContent } from '../utils/emails'
 import { ConfigContext } from '../contexts/ConfigContext'
+import { useInboxContext } from './EmailRoot'
 
 export default function EmailView() {
   const data = useLoaderData() as
@@ -236,6 +237,14 @@ function EmailBlock(props: EmailBlockProps) {
   useOutsideClick(showMoreActionsRef, () => setShowMoreActions(false))
 
   const configContext = useContext(ConfigContext)
+
+  const { markAsRead } = useInboxContext()
+
+  useEffect(() => {
+    if (email.unread) {
+      markAsRead(email.messageID)
+    }
+  }, []) // only run once
 
   return (
     <>
