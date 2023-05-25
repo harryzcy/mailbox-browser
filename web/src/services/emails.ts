@@ -81,6 +81,7 @@ export type Email = {
   destination: string[]
   returnPath: string
   verdict: EmailVerdict
+  unread?: boolean
 
   // draft only
   timeUpdated: string
