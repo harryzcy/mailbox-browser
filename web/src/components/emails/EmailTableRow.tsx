@@ -16,6 +16,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
   const backgroundClassName = props.selected
     ? ' bg-blue-100 dark:bg-neutral-700'
     : ''
+  const unreadClassName = email.unread ? ' font-bold' : ''
 
   const draftEmailsContext = useContext(DraftEmailsContext)
 
@@ -54,7 +55,8 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       <div
         className={
           'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-neutral-200 dark:border-neutral-900' +
-          backgroundClassName
+          backgroundClassName +
+          unreadClassName
         }
       >
         <span title={email.from && email.from.length > 0 ? email.from[0] : ''}>
@@ -64,7 +66,8 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       <div
         className={
           'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-neutral-200 dark:border-neutral-900' +
-          backgroundClassName
+          backgroundClassName +
+          unreadClassName
         }
       >
         {email.subject}
@@ -72,7 +75,8 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       <div
         className={
           'px-4 py-2 cursor-pointer border-t group-first:border-0 border-neutral-200 dark:border-neutral-900 text-right' +
-          backgroundClassName
+          backgroundClassName +
+          unreadClassName
         }
       >
         {formatDate(
