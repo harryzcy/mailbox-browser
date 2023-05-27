@@ -28,6 +28,10 @@ export default function EmailList() {
   useOutsideClick([menuRef, emailViewRef], () => {
     setSelected([])
   })
+  const { scrollYPosition, setScrollYPosition } = useInboxContext()
+  useEffect(() => {
+    emailViewRef.current?.scrollTo(0, scrollYPosition)
+  }, [emailViewRef.current])
 
   const toggleSelected = (messageID: string, action: 'add' | 'replace') => {
     if (action === 'replace') {
@@ -135,7 +139,14 @@ export default function EmailList() {
           </span>
         </EmailMenuBar>
       </div>
-      <div ref={emailViewRef} className="mb-4 overflow-scroll rounded-md">
+      <div
+        ref={emailViewRef}
+        className="mb-4 overflow-scroll rounded-md"
+        onScroll={() => {
+          if (!emailViewRef.current) return
+          setScrollYPosition(emailViewRef.current.scrollTop)
+        }}
+      >
         <EmailTableView
           emails={emails}
           selected={selected}
