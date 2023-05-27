@@ -36,6 +36,8 @@ type InboxContext = {
     nextCursor?: string
   }) => Promise<ListEmailsResponse>
   markAsRead: (messageID: string) => void
+  scrollYPosition: number
+  setScrollYPosition: (yPosition: number) => void
 }
 
 interface EmailRootProps {
@@ -47,6 +49,7 @@ export default function EmailRoot(props: EmailRootProps) {
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
   const [emails, setEmails] = useState<EmailInfo[]>([])
+  const [scrollYPosition, setScrollYPosition] = useState<number>(0)
 
   const [loadingState, setLoadingState] = useState<
     'idle' | 'loading' | 'loaded' | 'error'
@@ -133,7 +136,9 @@ export default function EmailRoot(props: EmailRootProps) {
     month,
     setMonth,
     loadEmails,
-    markAsRead
+    markAsRead,
+    scrollYPosition,
+    setScrollYPosition
   }
 
   const configContext = useContext(ConfigContext)
