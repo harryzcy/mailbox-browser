@@ -2,10 +2,13 @@ name: Tests
 
 on:
   push:
+    branches:
+      - "**"
     tags-ignore:
-      - 'v*'
+      - "v*"
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   go-test:
@@ -13,7 +16,7 @@ jobs:
     uses: harryzcy/github-actions/.github/workflows/go.yml@main
     with:
       working-directory: bff
-  
+
   jest-test:
     name: Jest Tests
     runs-on: ubuntu-latest
@@ -25,7 +28,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         run: npm ci
