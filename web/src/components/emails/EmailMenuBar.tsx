@@ -1,12 +1,18 @@
 import { useContext } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import { EnvelopeIcon, TrashIcon } from '@heroicons/react/24/outline'
+import {
+  EnvelopeIcon,
+  TrashIcon,
+  EnvelopeOpenIcon
+} from '@heroicons/react/24/outline'
 import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
 import { generateLocalDraftID } from '../../services/emails'
 
 interface EmailMenuBarProps {
   showOperations: boolean
   handleDelete?: () => void
+  handleRead: () => void
+  handleUnread: () => void
   hasPrevious: boolean
   hasNext: boolean
   goPrevious: () => void
@@ -18,6 +24,8 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
   const {
     showOperations,
     handleDelete,
+    handleRead,
+    handleUnread,
     hasPrevious,
     hasNext,
     goPrevious,
@@ -28,9 +36,9 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
 
   return (
     <div className="flex justify-between items-stretch">
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-1">
         <span
-          className="inline-flex items-center h-full space-x-2 px-3 rounded-md cursor-pointer bg-sky-200 border border-sky-200"
+          className="inline-flex items-center h-full space-x-2 px-3 mr-3 rounded-md cursor-pointer bg-sky-200 border border-sky-200"
           onClick={() => {
             dispatchDraftEmail({
               type: 'add',
@@ -53,6 +61,18 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
               }}
             >
               <TrashIcon className="h-5 w-5" />
+            </span>
+            <span
+              className="inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:text-sky-900 dark:hover:text-gray-100"
+              onClick={handleRead}
+            >
+              <EnvelopeIcon className="h-5 w-5" />
+            </span>
+            <span
+              className="inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:text-sky-900 dark:hover:text-gray-100"
+              onClick={handleUnread}
+            >
+              <EnvelopeOpenIcon className="h-5 w-5" />
             </span>
           </>
         )}
