@@ -179,6 +179,18 @@ export async function trashEmail(messageID: string): Promise<void> {
   })
 }
 
+export async function readEmail(messageID: string): Promise<void> {
+  await fetch(`/web/emails/${messageID}/read`, {
+    method: 'POST'
+  })
+}
+
+export async function unreadEmail(messageID: string): Promise<void> {
+  await fetch(`/web/emails/${messageID}/unread`, {
+    method: 'POST'
+  })
+}
+
 export function generateLocalDraftID(): string {
   return `local-${Date.now().toString()}`
 }

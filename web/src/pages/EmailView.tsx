@@ -10,8 +10,10 @@ import EmailMenuBar from '../components/emails/EmailMenuBar'
 import {
   Email,
   generateLocalDraftID,
+  readEmail,
   saveEmail,
-  trashEmail
+  trashEmail,
+  unreadEmail
 } from '../services/emails'
 import { Thread } from '../services/threads'
 import { getNameFromEmails } from '../utils/emails'
@@ -125,6 +127,22 @@ export default function EmailView() {
               await trashEmail(data.messageID)
             }
             navigate(-1)
+          }}
+          handleRead={async () => {
+            if ('threadID' in data) {
+              // TODO
+              throw new Error('Not yet supported')
+            } else {
+              await readEmail(data.messageID)
+            }
+          }}
+          handleUnread={async () => {
+            if ('threadID' in data) {
+              // TODO
+              throw new Error('Not yet supported')
+            } else {
+              await unreadEmail(data.messageID)
+            }
           }}
           hasPrevious={false}
           hasNext={false}

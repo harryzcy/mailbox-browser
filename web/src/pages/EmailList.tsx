@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import EmailTableView from '../components/emails/EmailTableView'
 import { useOutsideClick } from '../hooks/useOutsideClick'
-import { deleteEmail, trashEmail } from '../services/emails'
+import {
+  deleteEmail,
+  readEmail,
+  trashEmail,
+  unreadEmail
+} from '../services/emails'
 import { getCurrentYearMonth } from '../utils/time'
 import { useInboxContext } from './EmailRoot'
 
@@ -123,12 +128,52 @@ export default function EmailList() {
     setSelected([])
   }
 
+  const handleRead = async () => {
+    const selectedEmails = emails.filter((e) => selected.includes(e.messageID))
+    for (const email of selectedEmails) {
+      await readEmail(email.messageID)
+    }
+    setEmails(
+      emails.map((e) => {
+        if (selected.includes(e.messageID)) {
+          return {
+            ...e,
+            unread: false
+          }
+        }
+        return e
+      })
+    )
+    setSelected([])
+  }
+
+  const handleUnread = async () => {
+    const selectedEmails = emails.filter((e) => selected.includes(e.messageID))
+    for (const email of selectedEmails) {
+      await unreadEmail(email.messageID)
+    }
+    setEmails(
+      emails.map((e) => {
+        if (selected.includes(e.messageID)) {
+          return {
+            ...e,
+            unread: true
+          }
+        }
+        return e
+      })
+    )
+    setSelected([])
+  }
+
   return (
     <>
       <div ref={menuRef} className="mb-4">
         <EmailMenuBar
           showOperations={selected.length > 0}
           handleDelete={handleDelete}
+          handleRead={handleRead}
+          handleUnread={handleUnread}
           hasPrevious={hasPrevious}
           hasNext={true}
           goPrevious={goPrevious}
