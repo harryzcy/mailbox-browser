@@ -28,7 +28,7 @@ RUN npm ci && \
     echo "export const browserVersion = \"${BUILD_VERSION}\"" > src/utils/info.ts && \
     npm run build
 
-FROM alpine:3.18.0
+FROM alpine:3.18.2
 
 COPY --from=bff-builder /bin/bff /bin/bff
 COPY --from=web-builder /app/dist /bin/dist
