@@ -31,7 +31,7 @@
     "react-router-dom": "6.13.0",
     "react-use": "17.4.0",
     "tailwindcss": "3.3.2",
-    "yjs": "13.6.4"
+    "yjs": "13.6.5"
   },
   "devDependencies": {
     "@types/jest": "29.5.2",
