@@ -13,13 +13,13 @@ import (
 func chdir(dir string) {
 	wd, _ := os.Getwd()
 	for !strings.HasSuffix(wd, "/bff") {
-		os.Chdir("..")
+		_ = os.Chdir("..")
 
 		wd, _ = os.Getwd()
 	}
 
 	if dir != "" {
-		os.Chdir(dir)
+		_ = os.Chdir(dir)
 	}
 }
 
