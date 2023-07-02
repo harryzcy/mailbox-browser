@@ -8,6 +8,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/harryzcy/mailbox-browser/bff/config"
 	"github.com/harryzcy/mailbox-browser/bff/transport/rest"
 	"go.uber.org/zap"
 )
@@ -15,6 +16,9 @@ import (
 func main() {
 	// Initialize logger
 	logger, _ := NewLogger()
+
+	// Load config
+	config.Init(logger)
 
 	// Mode is either "dev" or "prod"
 	mode := os.Getenv("MODE")
