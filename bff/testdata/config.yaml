@@ -1,0 +1,16 @@
+aws:
+  region: us-west-2
+  accessKeyID: example-key-id
+  secretAccessKey: example-secret-key
+  apiGateway:
+    apiID: app-id
+    endpoint: https://example.com
+
+email:
+  addresses: example.com,example.org
+
+static:
+  dir: /static
+
+proxy:
+  enable: true

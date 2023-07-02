@@ -8,6 +8,6 @@ import (
 func Config(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"emailAddresses": config.EMAIL_ADDRESSES,
-		"disableProxy":   config.DISABLE_PROXY,
+		"disableProxy":   !config.PROXY_ENABLE,
 	})
 }

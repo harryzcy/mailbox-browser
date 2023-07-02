@@ -28,3 +28,6 @@ dist-ssr
 
 # build info
 /web/src/utils/info.ts
+
+# config
+bff/config.yaml
