@@ -2,7 +2,6 @@ package config
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -36,9 +35,13 @@ type Plugin struct {
 	} `json:"endpoints"`
 }
 
+var (
+	configName = "config"
+)
+
 func Init(logger *zap.Logger) {
 	v := viper.New()
-	v.SetConfigName("config")
+	v.SetConfigName(configName)
 	v.SetConfigType("yaml")
 	v.AddConfigPath(".")
 
@@ -70,8 +73,6 @@ func Init(logger *zap.Logger) {
 	if err != nil {
 		logger.Fatal("Fatal error unmarshaling plugins", zap.Error(err))
 	}
-
-	fmt.Println(PLUGINS)
 }
 
 func getString(v *viper.Viper, key, env string) string {
