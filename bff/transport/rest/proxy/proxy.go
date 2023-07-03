@@ -50,9 +50,3 @@ func copyHeader(dst, src http.Header) {
 		}
 	}
 }
-
-func reqError(ctx *gin.Context, err error) {
-	ctx.JSON(http.StatusInternalServerError, gin.H{
-		"error": err.Error(),
-	})
-}

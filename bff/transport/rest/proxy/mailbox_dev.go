@@ -1,6 +1,6 @@
 //go:build dev
 
-package web
+package proxy
 
 import (
 	"math/rand"
