@@ -2,13 +2,13 @@ package request
 
 import (
 	"bytes"
+	"context"
 	"net/http"
 	"net/url"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/credentials"
-	"github.com/gin-gonic/gin"
 	"github.com/harryzcy/mailbox-browser/bff/config"
 )
 
@@ -20,7 +20,7 @@ type RequestOptions struct {
 }
 
 // AWSRequest sends a request to AWS API Gateway and returns the response.
-func AWSRequest(ctx *gin.Context, options RequestOptions) (*http.Response, error) {
+func AWSRequest(ctx context.Context, options RequestOptions) (*http.Response, error) {
 	endpoint := config.AWS_API_GATEWAY_ENDPOINT
 
 	body := bytes.NewReader(options.Payload)
