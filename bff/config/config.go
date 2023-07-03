@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -22,7 +23,18 @@ var (
 
 	EMAIL_ADDRESSES []string
 	PROXY_ENABLE    bool
+
+	PLUGINS []Plugin
 )
+
+type Plugin struct {
+	Name        string `json:"name"`
+	DisplayName string `json:"displayName"`
+	Endpoints   struct {
+		Email  string `json:"email"`
+		Emails string `json:"emails"`
+	} `json:"endpoints"`
+}
 
 func Init(logger *zap.Logger) {
 	v := viper.New()
@@ -53,6 +65,13 @@ func Init(logger *zap.Logger) {
 	EMAIL_ADDRESSES = strings.Split(getString(v, "email.addresses", "EMAIL_ADDRESSES"), ",")
 
 	PROXY_ENABLE = getBool(v, "proxy.enable", "ENABLE_PROXY", true)
+
+	err = v.UnmarshalKey("plugins", &PLUGINS)
+	if err != nil {
+		logger.Fatal("Fatal error unmarshaling plugins", zap.Error(err))
+	}
+
+	fmt.Println(PLUGINS)
 }
 
 func getString(v *viper.Viper, key, env string) string {
