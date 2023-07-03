@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 	"strings"
 	"testing"
@@ -38,6 +39,11 @@ func TestInit(t *testing.T) {
 	assert.Equal(t, "https://example.com", AWS_API_GATEWAY_ENDPOINT)
 	assert.Equal(t, []string{"example.com", "example.org"}, EMAIL_ADDRESSES)
 	assert.True(t, PROXY_ENABLE)
+	assert.Len(t, PLUGINS, 1)
+	assert.Equal(t, "name", PLUGINS[0].Name)
+	assert.Equal(t, "display name", PLUGINS[0].DisplayName)
+	assert.Equal(t, "https://example.com/email", PLUGINS[0].Endpoints.Email)
+	assert.Equal(t, "https://example.com/emails", PLUGINS[0].Endpoints.Emails)
 }
 
 func TestInit_NoFile(t *testing.T) {
@@ -54,6 +60,33 @@ func TestInit_NoFile(t *testing.T) {
 	assert.Equal(t, "", AWS_API_GATEWAY_ENDPOINT)
 	assert.Equal(t, []string{""}, EMAIL_ADDRESSES)
 	assert.True(t, PROXY_ENABLE)
+}
+
+func TestInit_ViperError(t *testing.T) {
+	chdir("testdata")
+	configName = "error"
+	defer chdir("")
+	defer func() {
+		configName = "config"
+	}()
+
+	logger, _ := zap.NewDevelopment()
+	err := Init(logger)
+	assert.Error(t, err)
+}
+
+func TestInit_UnmarshalPluginsError(t *testing.T) {
+	chdir("testdata")
+	configName = "plugins-error"
+	defer chdir("")
+	defer func() {
+		configName = "config"
+	}()
+
+	logger, _ := zap.NewDevelopment()
+	err := Init(logger)
+	assert.Error(t, err)
+	fmt.Println(PLUGINS[0].Name)
 }
 
 func TestGetString(t *testing.T) {

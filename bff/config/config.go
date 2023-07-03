@@ -39,7 +39,7 @@ var (
 	configName = "config"
 )
 
-func Init(logger *zap.Logger) {
+func Init(logger *zap.Logger) error {
 	v := viper.New()
 	v.SetConfigName(configName)
 	v.SetConfigType("yaml")
@@ -51,7 +51,8 @@ func Init(logger *zap.Logger) {
 		if errors.As(err, &notFound) {
 			logger.Info("No config file found, using environment variables")
 		} else {
-			logger.Fatal("Fatal error config file", zap.Error(err))
+			logger.Error("Fatal error config file", zap.Error(err))
+			return err
 		}
 	}
 
@@ -71,8 +72,10 @@ func Init(logger *zap.Logger) {
 
 	err = v.UnmarshalKey("plugins", &PLUGINS)
 	if err != nil {
-		logger.Fatal("Fatal error unmarshaling plugins", zap.Error(err))
+		logger.Error("Fatal error unmarshaling plugins", zap.Error(err))
+		return err
 	}
+	return nil
 }
 
 func getString(v *viper.Viper, key, env string) string {
