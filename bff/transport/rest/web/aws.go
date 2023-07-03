@@ -25,7 +25,7 @@ func MailboxProxy(ctx *gin.Context) {
 		return
 	}
 
-	resp, err := request(ctx, RequestOptions{
+	resp, err := AWSRequest(ctx, RequestOptions{
 		Method:   method,
 		Endpoint: config.AWS_API_GATEWAY_ENDPOINT,
 		Path:     strings.TrimPrefix(ctx.Request.URL.Path, "/web"),
@@ -65,7 +65,7 @@ type RequestOptions struct {
 	Credentials aws.CredentialsProvider
 }
 
-func request(ctx *gin.Context, options RequestOptions) (*http.Response, error) {
+func AWSRequest(ctx *gin.Context, options RequestOptions) (*http.Response, error) {
 	body := bytes.NewReader(options.Payload)
 	req, err := http.NewRequestWithContext(ctx, options.Method, options.Endpoint+options.Path, body)
 	if err != nil {
