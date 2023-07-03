@@ -58,7 +58,7 @@ func Init(logger *zap.Logger) {
 	AWS_REGION = getString(v, "aws.region", "AWS_REGION")
 	AWS_ACCESS_KEY_ID = getString(v, "aws.accessKeyID", "AWS_ACCESS_KEY_ID")
 	AWS_SECRET_ACCESS_KEY = getString(v, "aws.secretAccessKey", "AWS_SECRET_ACCESS_KEY")
-	AWS_API_GATEWAY_ENDPOINT = getString(v, "aws.apiGateway.endpoint", "AWS_API_GATEWAY_ENDPOINT")
+	AWS_API_GATEWAY_ENDPOINT = strings.TrimSuffix(getString(v, "aws.apiGateway.endpoint", "AWS_API_GATEWAY_ENDPOINT"), "/")
 	AWS_API_ID = getString(v, "aws.apiGateway.apiID", "AWS_API_ID")
 
 	// comma separated list of email addresses or domains, required for email replies

@@ -7,8 +7,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/gin-gonic/gin"
 	"github.com/harryzcy/mailbox-browser/bff/config"
 	"github.com/harryzcy/mailbox-browser/bff/request"
@@ -68,16 +66,8 @@ func getEmails(ctx *gin.Context, emailIDs []string) ([]types.Email, error) {
 
 	for _, emailID := range emailIDs {
 		resp, err := request.AWSRequest(ctx, request.RequestOptions{
-			Method:   "GET",
-			Endpoint: config.AWS_API_GATEWAY_ENDPOINT,
-			Path:     "/emails/" + emailID,
-			Region:   config.AWS_REGION,
-			Credentials: credentials.StaticCredentialsProvider{
-				Value: aws.Credentials{
-					AccessKeyID:     config.AWS_ACCESS_KEY_ID,
-					SecretAccessKey: config.AWS_SECRET_ACCESS_KEY,
-				},
-			},
+			Method: "GET",
+			Path:   "/emails/" + emailID,
 		})
 		if err != nil {
 			return nil, err

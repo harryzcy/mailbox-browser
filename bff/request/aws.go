@@ -7,23 +7,24 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/gin-gonic/gin"
+	"github.com/harryzcy/mailbox-browser/bff/config"
 )
 
 type RequestOptions struct {
-	Method      string
-	Endpoint    string
-	Path        string
-	Query       url.Values
-	Payload     []byte
-	Region      string
-	Credentials aws.CredentialsProvider
+	Method  string
+	Path    string
+	Query   url.Values
+	Payload []byte
 }
 
 // AWSRequest sends a request to AWS API Gateway and returns the response.
 func AWSRequest(ctx *gin.Context, options RequestOptions) (*http.Response, error) {
+	endpoint := config.AWS_API_GATEWAY_ENDPOINT
+
 	body := bytes.NewReader(options.Payload)
-	req, err := http.NewRequestWithContext(ctx, options.Method, options.Endpoint+options.Path, body)
+	req, err := http.NewRequestWithContext(ctx, options.Method, endpoint+options.Path, body)
 	if err != nil {
 		return nil, err
 	}
@@ -36,9 +37,14 @@ func AWSRequest(ctx *gin.Context, options RequestOptions) (*http.Response, error
 	req.Header.Set("Accept", "application/json")
 
 	err = signSDKRequest(ctx, req, &signSDKRequestOptions{
-		Credentials: options.Credentials,
-		Payload:     options.Payload,
-		Region:      options.Region,
+		Credentials: credentials.StaticCredentialsProvider{
+			Value: aws.Credentials{
+				AccessKeyID:     config.AWS_ACCESS_KEY_ID,
+				SecretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+			},
+		},
+		Payload: options.Payload,
+		Region:  config.AWS_REGION,
 	})
 	if err != nil {
 		return nil, err

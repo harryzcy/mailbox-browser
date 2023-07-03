@@ -6,10 +6,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/gin-gonic/gin"
-	"github.com/harryzcy/mailbox-browser/bff/config"
 	"github.com/harryzcy/mailbox-browser/bff/request"
 	"github.com/harryzcy/mailbox-browser/bff/transport/rest/ginutil"
 )
@@ -24,18 +21,10 @@ func MailboxProxy(ctx *gin.Context) {
 	}
 
 	resp, err := request.AWSRequest(ctx, request.RequestOptions{
-		Method:   method,
-		Endpoint: config.AWS_API_GATEWAY_ENDPOINT,
-		Path:     strings.TrimPrefix(ctx.Request.URL.Path, "/web"),
-		Query:    ctx.Request.URL.Query(),
-		Payload:  payload,
-		Region:   config.AWS_REGION,
-		Credentials: credentials.StaticCredentialsProvider{
-			Value: aws.Credentials{
-				AccessKeyID:     config.AWS_ACCESS_KEY_ID,
-				SecretAccessKey: config.AWS_SECRET_ACCESS_KEY,
-			},
-		},
+		Method:  method,
+		Path:    strings.TrimPrefix(ctx.Request.URL.Path, "/web"),
+		Query:   ctx.Request.URL.Query(),
+		Payload: payload,
 	})
 	if err != nil {
 		ginutil.InternalError(ctx, err)
