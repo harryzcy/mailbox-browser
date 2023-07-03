@@ -29,7 +29,8 @@ func TestInit(t *testing.T) {
 	defer chdir("")
 
 	logger, _ := zap.NewDevelopment()
-	Init(logger)
+	err := Init(logger)
+	assert.NoError(t, err)
 	assert.Equal(t, "/static", STATIC_DIR)
 	assert.Equal(t, "/static/index.html", INDEX_HTML)
 	assert.Equal(t, "us-west-2", AWS_REGION)
@@ -51,7 +52,8 @@ func TestInit_NoFile(t *testing.T) {
 	defer chdir("")
 
 	logger, _ := zap.NewDevelopment()
-	Init(logger)
+	err := Init(logger)
+	assert.NoError(t, err)
 	assert.Equal(t, "", STATIC_DIR)
 	assert.Equal(t, "", AWS_REGION)
 	assert.Equal(t, "", AWS_ACCESS_KEY_ID)
