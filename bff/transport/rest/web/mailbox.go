@@ -3,17 +3,15 @@
 package web
 
 import (
-	"bytes"
 	"io"
 	"net/http"
-	"net/url"
 	"strings"
-	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/gin-gonic/gin"
 	"github.com/harryzcy/mailbox-browser/bff/config"
+	"github.com/harryzcy/mailbox-browser/bff/request"
 )
 
 func MailboxProxy(ctx *gin.Context) {
@@ -25,7 +23,7 @@ func MailboxProxy(ctx *gin.Context) {
 		return
 	}
 
-	resp, err := AWSRequest(ctx, RequestOptions{
+	resp, err := request.AWSRequest(ctx, request.RequestOptions{
 		Method:   method,
 		Endpoint: config.AWS_API_GATEWAY_ENDPOINT,
 		Path:     strings.TrimPrefix(ctx.Request.URL.Path, "/web"),
@@ -53,46 +51,6 @@ func MailboxProxy(ctx *gin.Context) {
 	}
 
 	ctx.DataFromReader(resp.StatusCode, resp.ContentLength, resp.Header.Get("Content-Type"), resp.Body, headers)
-}
-
-type RequestOptions struct {
-	Method      string
-	Endpoint    string
-	Path        string
-	Query       url.Values
-	Payload     []byte
-	Region      string
-	Credentials aws.CredentialsProvider
-}
-
-func AWSRequest(ctx *gin.Context, options RequestOptions) (*http.Response, error) {
-	body := bytes.NewReader(options.Payload)
-	req, err := http.NewRequestWithContext(ctx, options.Method, options.Endpoint+options.Path, body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.URL.RawQuery = options.Query.Encode()
-	if options.Method == http.MethodPost || options.Method == http.MethodPut {
-		req.Header.Add("Content-Type", "application/json")
-	}
-
-	req.Header.Set("Accept", "application/json")
-
-	err = signSDKRequest(ctx, req, &signSDKRequestOptions{
-		Credentials: options.Credentials,
-		Payload:     options.Payload,
-		Region:      options.Region,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	httpClient := &http.Client{
-		Timeout: 10 * time.Second,
-	}
-	resp, err := httpClient.Do(req)
-	return resp, err
 }
 
 func reqError(ctx *gin.Context, err error) {

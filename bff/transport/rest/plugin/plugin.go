@@ -11,7 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/gin-gonic/gin"
 	"github.com/harryzcy/mailbox-browser/bff/config"
-	"github.com/harryzcy/mailbox-browser/bff/transport/rest/web"
+	"github.com/harryzcy/mailbox-browser/bff/request"
 	"github.com/harryzcy/mailbox-browser/bff/types"
 )
 
@@ -80,7 +80,7 @@ func getEmails(ctx *gin.Context, emailIDs []string) ([]types.Email, error) {
 	var emails []types.Email
 
 	for _, emailID := range emailIDs {
-		resp, err := web.AWSRequest(ctx, web.RequestOptions{
+		resp, err := request.AWSRequest(ctx, request.RequestOptions{
 			Method:   "GET",
 			Endpoint: config.AWS_API_GATEWAY_ENDPOINT,
 			Path:     "/emails/" + emailID,
