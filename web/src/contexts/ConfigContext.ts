@@ -3,6 +3,16 @@ import { createContext, Dispatch } from 'react'
 export interface Config {
   emailAddresses: string[]
   disableProxy: boolean
+  plugins: Plugin[]
+}
+
+export interface Plugin {
+  name: string
+  displayName: string
+  endpoints: {
+    email: string
+    emails: string
+  }
 }
 
 export interface State {
@@ -15,7 +25,8 @@ export type Action = { type: 'set'; config: Config }
 export const initialConfigState: State = {
   config: {
     emailAddresses: [],
-    disableProxy: false
+    disableProxy: false,
+    plugins: []
   },
   loaded: false
 }
