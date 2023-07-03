@@ -118,6 +118,7 @@ export default function EmailView() {
     <>
       <div className="mb-4">
         <EmailMenuBar
+          emailIDs={'messageID' in data ? [data.messageID] : []}
           showOperations={true}
           handleDelete={async () => {
             if ('threadID' in data) {

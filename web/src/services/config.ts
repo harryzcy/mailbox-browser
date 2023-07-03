@@ -1,9 +1,16 @@
-import { Plugin } from './plugins'
-
 interface Config {
   emailAddresses: string[]
   disableProxy: boolean
   plugins: Plugin[]
+}
+
+export interface Plugin {
+  name: string
+  displayName: string
+  endpoints: {
+    email: string
+    emails: string
+  }
 }
 
 export async function getConfig(): Promise<Config> {

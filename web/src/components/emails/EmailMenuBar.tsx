@@ -9,8 +9,10 @@ import {
 import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
 import { generateLocalDraftID } from '../../services/emails'
 import { ConfigContext, Plugin } from '../../contexts/ConfigContext'
+import * as plugins from '../../services/plugins'
 
 interface EmailMenuBarProps {
+  emailIDs: string[]
   showOperations: boolean
   handleDelete?: () => void
   handleRead: () => void
@@ -24,6 +26,7 @@ interface EmailMenuBarProps {
 
 export default function EmailMenuBar(props: EmailMenuBarProps) {
   const {
+    emailIDs,
     showOperations,
     handleDelete,
     handleRead,
@@ -44,6 +47,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
 
   const invokePlugin = (plugin: Plugin) => {
     setShowPluginMenu(false)
+    plugins.invoke(plugin.name, emailIDs)
   }
 
   return (

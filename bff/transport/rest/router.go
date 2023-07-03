@@ -11,6 +11,7 @@ import (
 
 	"github.com/harryzcy/mailbox-browser/bff/config"
 	"github.com/harryzcy/mailbox-browser/bff/transport/rest/misc"
+	"github.com/harryzcy/mailbox-browser/bff/transport/rest/plugin"
 	"github.com/harryzcy/mailbox-browser/bff/transport/rest/proxy"
 	"github.com/harryzcy/mailbox-browser/bff/transport/rest/web"
 )
@@ -34,6 +35,8 @@ func Init(logger *zap.Logger, mode string) *gin.Engine {
 	webPath := r.Group("/web")
 	webPath.Any("/*any", web.MailboxProxy)
 	r.GET("/proxy", proxy.Proxy)
+
+	r.POST("/plugins/invoke", plugin.Invoke)
 
 	// misc routes
 	r.GET("/ping", misc.Ping)

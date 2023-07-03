@@ -1,19 +1,12 @@
-import { Email } from './emails'
-
-export interface Plugin {
-  name: string
-  displayName: string
-  endpoints: {
-    email: string
-    emails: string
-  }
-}
-
-async function callPluginsHook(
-  plugin: Plugin,
-  action: 'email' | 'emails',
-  data: Email | Email[]
-) {
-  const url = plugin.endpoints[action]
-  await fetch(url, { method: 'POST' })
+export async function invoke(pluginName: string, emailIDs: string[]) {
+  await fetch(`/plugins/invoke`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: pluginName,
+      messageIDs: emailIDs
+    })
+  })
 }
