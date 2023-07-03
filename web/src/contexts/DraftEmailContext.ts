@@ -1,7 +1,6 @@
 import { createContext, Dispatch, useContext } from 'react'
 import { Email } from '../services/emails'
 import { formatDateFull } from '../utils/time'
-import { ConfigContext } from './ConfigContext'
 
 export interface DraftEmail {
   messageID: string

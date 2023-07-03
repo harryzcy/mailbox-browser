@@ -14,3 +14,10 @@ static:
 
 proxy:
   enable: true
+
+plugins:
+  - name: name
+    displayName: display name
+    endpoints:
+      email: https://example.com/email
+      emails: https://example.com/emails

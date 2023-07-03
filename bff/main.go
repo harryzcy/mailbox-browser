@@ -18,7 +18,9 @@ func main() {
 	logger, _ := NewLogger()
 
 	// Load config
-	config.Init(logger)
+	if err := config.Init(logger); err != nil {
+		os.Exit(1)
+	}
 
 	// Mode is either "dev" or "prod"
 	mode := os.Getenv("MODE")
