@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/harryzcy/mailbox-browser/bff/config"
 	"github.com/harryzcy/mailbox-browser/bff/request"
+	"github.com/harryzcy/mailbox-browser/bff/transport/rest/ginutil"
 	"github.com/harryzcy/mailbox-browser/bff/types"
 )
 
@@ -23,28 +24,19 @@ type InvokeRequest struct {
 func Invoke(c *gin.Context) {
 	var req InvokeRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(400, gin.H{
-			"status": "error",
-			"reason": "invalid request body",
-		})
+		ginutil.BadRequest(c, err)
 		return
 	}
 
 	plugin := findPluginByName(req.Name)
 	if plugin == nil {
-		c.JSON(400, gin.H{
-			"status": "error",
-			"reason": "plugin not found",
-		})
+		ginutil.BadRequest(c, ErrPluginNotFound)
 		return
 	}
 
 	emails, err := getEmails(c, req.MessageIDs)
 	if err != nil {
-		c.JSON(500, gin.H{
-			"status": "error",
-			"reason": "failed to get emails",
-		})
+		ginutil.InternalError(c, ErrEmailGetFailed)
 		return
 	}
 
@@ -53,16 +45,11 @@ func Invoke(c *gin.Context) {
 	}
 	err = invokePlugin(client, plugin, emails)
 	if err != nil {
-		c.JSON(500, gin.H{
-			"status": "error",
-			"reason": "failed to invoke plugin",
-		})
+		ginutil.InternalError(c, ErrInvokePlugin)
 		return
 	}
 
-	c.JSON(200, gin.H{
-		"status": "ok",
-	})
+	ginutil.Success(c)
 }
 
 // findPluginByName finds a plugin by name from the config.PLUGINS slice.

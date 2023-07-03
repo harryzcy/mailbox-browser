@@ -7,12 +7,13 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/harryzcy/mailbox-browser/bff/transport/rest/ginutil"
 )
 
 func Proxy(ctx *gin.Context) {
 	target, err := url.QueryUnescape(ctx.Query("l"))
 	if err != nil {
-		reqError(ctx, err)
+		ginutil.InternalError(ctx, err)
 		return
 	}
 
@@ -22,20 +23,20 @@ func Proxy(ctx *gin.Context) {
 
 	req, err := http.NewRequest(ctx.Request.Method, target, ctx.Request.Body)
 	if err != nil {
-		reqError(ctx, err)
+		ginutil.InternalError(ctx, err)
 		return
 	}
 
 	res, err := client.Do(req)
 	if err != nil {
-		reqError(ctx, err)
+		ginutil.InternalError(ctx, err)
 		return
 	}
 	defer res.Body.Close()
 
 	_, err = io.Copy(ctx.Writer, res.Body)
 	if err != nil {
-		reqError(ctx, err)
+		ginutil.InternalError(ctx, err)
 		return
 	}
 

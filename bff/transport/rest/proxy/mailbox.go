@@ -4,7 +4,6 @@ package proxy
 
 import (
 	"io"
-	"net/http"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -12,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/harryzcy/mailbox-browser/bff/config"
 	"github.com/harryzcy/mailbox-browser/bff/request"
+	"github.com/harryzcy/mailbox-browser/bff/transport/rest/ginutil"
 )
 
 func MailboxProxy(ctx *gin.Context) {
@@ -19,7 +19,7 @@ func MailboxProxy(ctx *gin.Context) {
 
 	payload, err := io.ReadAll(ctx.Request.Body)
 	if err != nil {
-		reqError(ctx, err)
+		ginutil.InternalError(ctx, err)
 		return
 	}
 
@@ -38,7 +38,7 @@ func MailboxProxy(ctx *gin.Context) {
 		},
 	})
 	if err != nil {
-		reqError(ctx, err)
+		ginutil.InternalError(ctx, err)
 		return
 	}
 
@@ -51,10 +51,4 @@ func MailboxProxy(ctx *gin.Context) {
 	}
 
 	ctx.DataFromReader(resp.StatusCode, resp.ContentLength, resp.Header.Get("Content-Type"), resp.Body, headers)
-}
-
-func reqError(ctx *gin.Context, err error) {
-	ctx.JSON(http.StatusInternalServerError, gin.H{
-		"error": err.Error(),
-	})
 }
