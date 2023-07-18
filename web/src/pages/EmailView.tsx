@@ -81,30 +81,54 @@ export default function EmailView() {
     })
   }
 
-  const handleSend = () => {
-    const sendRequest = async () => {
-      const email = activeReplyEmail
-      if (!email) return
-      await saveEmail({
-        messageID: email.messageID,
-        subject: email.subject,
-        from: email.from,
-        to: email.to,
-        cc: email.cc,
-        bcc: email.bcc,
-        replyTo: email.from,
-        html: email.html,
-        text: email.text,
-        send: true // save and send
-      })
+  const handleSend = async () => {
+    const email = activeReplyEmail
+    if (!email) return
+    await saveEmail({
+      messageID: email.messageID,
+      subject: email.subject,
+      from: email.from,
+      to: email.to,
+      cc: email.cc,
+      bcc: email.bcc,
+      replyTo: email.from,
+      html: email.html,
+      text: email.text,
+      send: true // save and send
+    })
 
-      dispatchDraftEmail({
-        type: 'remove',
-        messageID: email.messageID
-      })
+    dispatchDraftEmail({
+      type: 'remove',
+      messageID: email.messageID
+    })
+  }
+
+  const handleDelete = async () => {
+    if ('threadID' in data) {
+      // TODO
+      throw new Error('Not yet supported')
+    } else {
+      await trashEmail(data.messageID)
     }
+    navigate(-1)
+  }
 
-    void sendRequest()
+  const handleRead = async () => {
+    if ('threadID' in data) {
+      // TODO
+      throw new Error('Not yet supported')
+    } else {
+      await readEmail(data.messageID)
+    }
+  }
+
+  const handleUnread = async () => {
+    if ('threadID' in data) {
+      // TODO
+      throw new Error('Not yet supported')
+    } else {
+      await unreadEmail(data.messageID)
+    }
   }
 
   return (
@@ -113,33 +137,14 @@ export default function EmailView() {
         <EmailMenuBar
           emailIDs={'messageID' in data ? [data.messageID] : []}
           showOperations={true}
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          handleDelete={async () => {
-            if ('threadID' in data) {
-              // TODO
-              throw new Error('Not yet supported')
-            } else {
-              await trashEmail(data.messageID)
-            }
-            navigate(-1)
+          handleDelete={() => {
+            void handleDelete()
           }}
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          handleRead={async () => {
-            if ('threadID' in data) {
-              // TODO
-              throw new Error('Not yet supported')
-            } else {
-              await readEmail(data.messageID)
-            }
+          handleRead={() => {
+            void handleRead()
           }}
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          handleUnread={async () => {
-            if ('threadID' in data) {
-              // TODO
-              throw new Error('Not yet supported')
-            } else {
-              await unreadEmail(data.messageID)
-            }
+          handleUnread={() => {
+            void handleUnread()
           }}
           hasPrevious={false}
           hasNext={false}
@@ -177,7 +182,9 @@ export default function EmailView() {
                         email={activeReplyEmail}
                         isReply
                         handleEmailChange={handleEmailChange}
-                        handleSend={handleSend}
+                        handleSend={() => {
+                          void handleSend()
+                        }}
                       />
                     </div>
                   )}
