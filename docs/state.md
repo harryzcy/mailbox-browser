@@ -18,7 +18,7 @@ The state consists of the following:
 
 The following actions manages the state:
 
-- `add`: Adds a new draft email to the working directory. This is dispatched when user creates a new draft email by clicking the *New* button or by starting a email reply/forward.
+- `add`: Adds a new draft email to the working directory. This is dispatched when user creates a new draft email by clicking the **New** button or by starting a email reply/forward.
 - `load`: Loads an email to the working directory
 - `open`: Opens a draft email in Draft tab
 - `minimize`: Convert full-page draft to minimized state
