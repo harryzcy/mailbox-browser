@@ -15,5 +15,5 @@ export async function getThread(threadID: string): Promise<Thread> {
   const response = await fetch(`/web/threads/${threadID}`, {
     method: 'GET'
   })
-  return response.json()
+  return response.json() as Promise<Thread>
 }

@@ -51,10 +51,10 @@ export async function listEmails(
     params.append('nextCursor', nextCursor)
   }
 
-  const response = await fetch('/web/emails?' + params, {
+  const response = await fetch('/web/emails?' + params.toString(), {
     method: 'GET'
   })
-  return response.json()
+  return response.json() as Promise<ListEmailsResponse>
 }
 
 export type File = {
@@ -106,7 +106,7 @@ export type EmailVerdict = {
 
 export async function getEmail(id: string): Promise<Email> {
   const response = await fetch(`/web/emails/${id}`)
-  return response.json()
+  return response.json() as Promise<Email>
 }
 
 export type CreateEmailProps = {
@@ -139,7 +139,7 @@ export async function createEmail(email: CreateEmailProps): Promise<Email> {
       generateText: 'off'
     })
   })
-  return response.json()
+  return response.json() as Promise<Email>
 }
 
 export type SaveEmailProps = CreateEmailProps & {
@@ -164,7 +164,7 @@ export async function saveEmail(email: SaveEmailProps): Promise<Email> {
       send: email.send
     })
   })
-  return response.json()
+  return response.json() as Promise<Email>
 }
 
 export async function deleteEmail(messageID: string): Promise<void> {

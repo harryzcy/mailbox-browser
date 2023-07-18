@@ -15,5 +15,5 @@ export interface Plugin {
 
 export async function getConfig(): Promise<Config> {
   const response = await fetch('/config')
-  return response.json()
+  return response.json() as Promise<Config>
 }
