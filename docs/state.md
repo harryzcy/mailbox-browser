@@ -18,11 +18,11 @@ The state consists of the following:
 
 The following actions manages the state:
 
-- `add`: Adds a new draft email to the working directory. This is dispatched when user creates a new draft email by clicking the **New** button or by starting a email reply/forward.
-- `load`: Loads an email to the working directory
-- `open`: Opens a draft email in Draft tab
+- `new`: Adds a new draft email (not a reply or forward) to the working directory. This is dispatched when user clicks **New** button.
+- `new-reply`: Adds a new draft reply to the working directory.
+- `new-forward`: Adds a new draft forward to the working directory.
+- `open`: Opens a draft email in Draft tab.
+- `load`: Loads an email to the working directory. This should be done by making a HTTP request and using the response content. If the email is already in the working directory, the email should be opened instead (identical to `open`).
 - `minimize`: Convert full-page draft to minimized state
-- `close`: Close a draft email completely.
+- `remove`: Remove an email from the working directory.
 - `update`: Update a draft email when any of subject, content, recipient, etc is changed, optionally append to the update waitlist.
-- `remove-waitlist`: Remove email from the update waitlist.
-- `clear-waitlist`: Clear all emails in the update waitlist.
