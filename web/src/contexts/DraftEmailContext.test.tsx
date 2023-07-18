@@ -1,7 +1,9 @@
 import { useContext, useReducer } from 'react'
 import { renderHook } from '@testing-library/react'
 import {
+  DraftEmail,
   DraftEmailsContext,
+  State,
   draftEmailReducer,
   initialState
 } from './DraftEmailContext'
@@ -9,20 +11,24 @@ import { act } from 'react-dom/test-utils'
 import { Email } from '../services/emails'
 
 describe('DraftEmailContext', () => {
-  const wrapper = ({ children }: { children: JSX.Element }) => {
-    const [state, dispatch] = useReducer(draftEmailReducer, initialState)
+  const createWrapper = (state: State = initialState) => {
+    const wrapper = ({ children }: { children: JSX.Element }) => {
+      const [draftState, dispatch] = useReducer(draftEmailReducer, state)
 
-    return (
-      <DraftEmailsContext.Provider
-        value={{
-          emails: state.emails,
-          activeEmail: state.activeEmail,
-          dispatch
-        }}
-      >
-        {children}
-      </DraftEmailsContext.Provider>
-    )
+      return (
+        <DraftEmailsContext.Provider
+          value={{
+            emails: draftState.emails,
+            activeEmail: draftState.activeEmail,
+            dispatch
+          }}
+        >
+          {children}
+        </DraftEmailsContext.Provider>
+      )
+    }
+
+    return wrapper
   }
 
   const inboxEmail: Email = {
@@ -45,7 +51,7 @@ describe('DraftEmailContext', () => {
 
   test('New email', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
-      wrapper
+      wrapper: createWrapper()
     })
 
     expect(result.current.emails).toHaveLength(0)
@@ -61,7 +67,7 @@ describe('DraftEmailContext', () => {
 
   test('New email - Multiple emails', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
-      wrapper
+      wrapper: createWrapper()
     })
 
     expect(result.current.emails).toHaveLength(0)
@@ -84,7 +90,7 @@ describe('DraftEmailContext', () => {
 
   test('New reply to inbox email', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
-      wrapper
+      wrapper: createWrapper()
     })
 
     act(() => {
@@ -104,7 +110,7 @@ describe('DraftEmailContext', () => {
 
   test('New reply to sent email', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
-      wrapper
+      wrapper: createWrapper()
     })
 
     act(() => {
@@ -125,7 +131,7 @@ describe('DraftEmailContext', () => {
 
   test('New forward for inbox email', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
-      wrapper
+      wrapper: createWrapper()
     })
 
     act(() => {
@@ -142,7 +148,7 @@ describe('DraftEmailContext', () => {
 
   test('New forward for sent email', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
-      wrapper
+      wrapper: createWrapper()
     })
 
     act(() => {
@@ -155,5 +161,202 @@ describe('DraftEmailContext', () => {
     expect(result.current.emails).toHaveLength(1)
     expect(result.current.emails[0].messageID).toBe('example-id')
     expect(result.current.emails[0].subject).toBe('Fwd: Example subject')
+  })
+
+  test('Open email', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper({
+        emails: [{messageID: "id-1"} as DraftEmail, {messageID: "id-2"} as DraftEmail],
+        activeEmail: null
+      })
+    })
+
+    expect(result.current.emails).toHaveLength(2)
+    expect(result.current.activeEmail).toBeNull()
+    act(() => {
+      result.current.dispatch({
+        type: 'open',
+        messageID: 'id-1'
+      })
+    })
+    expect(result.current.activeEmail?.messageID).toBe('id-1')
+
+    act(() => {
+      result.current.dispatch({
+        type: 'open',
+        messageID: 'id-2'
+      })
+    })
+    expect(result.current.activeEmail?.messageID).toBe('id-2')
+  })
+
+  test('Load existing email', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper({
+        emails: [{messageID: "id-1"} as DraftEmail, {messageID: "id-2"} as DraftEmail],
+        activeEmail: null
+      })
+    })
+
+    expect(result.current.activeEmail).toBeNull()
+    act(() => {
+      result.current.dispatch({
+        type: 'load',
+        email: {messageID: "id-1"} as DraftEmail
+      })
+    })
+    expect(result.current.activeEmail?.messageID).toBe('id-1')
+  })
+
+  test('Load new email', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper()
+    })
+
+    expect(result.current.activeEmail).toBeNull()
+    act(() => {
+      result.current.dispatch({
+        type: 'load',
+        email: inboxEmail
+      })
+    })
+    expect(result.current.activeEmail?.messageID).toBe('example-id')
+  })
+
+  test('Minimize email', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper({
+        emails: [{messageID: "id-1"} as DraftEmail, {messageID: "id-2"} as DraftEmail],
+        activeEmail: {messageID: "id-1"} as DraftEmail
+      })
+    })
+
+    expect(result.current.activeEmail?.messageID).toBe('id-1')
+    act(() => {
+      result.current.dispatch({
+        type: 'minimize'
+      })
+    })
+    expect(result.current.activeEmail).toBeNull()
+  })
+
+  test('Remove email', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper({
+        emails: [{messageID: "id-1"} as DraftEmail, {messageID: "id-2"} as DraftEmail],
+        activeEmail: null
+      })
+    })
+
+    expect(result.current.emails).toHaveLength(2)
+    act(() => {
+      result.current.dispatch({
+        type: 'remove',
+        messageID: 'id-1'
+      })
+    })
+    expect(result.current.emails).toHaveLength(1)
+    expect(result.current.emails[0].messageID).toBe('id-2')
+  })
+
+  test('Remove active email', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper({
+        emails: [{messageID: "id-1"} as DraftEmail, {messageID: "id-2"} as DraftEmail],
+        activeEmail: {messageID: "id-1"} as DraftEmail
+      })
+    })
+
+    expect(result.current.emails).toHaveLength(2)
+    expect(result.current.activeEmail?.messageID).toBe('id-1')
+    act(() => {
+      result.current.dispatch({
+        type: 'remove',
+        messageID: 'id-1'
+      })
+    })
+    expect(result.current.emails).toHaveLength(1)
+    expect(result.current.emails[0].messageID).toBe('id-2')
+    expect(result.current.activeEmail).toBeNull()
+  })
+
+  test('Remove non-existent email', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper({
+        emails: [{messageID: "id-1"} as DraftEmail, {messageID: "id-2"} as DraftEmail],
+        activeEmail: null
+      })
+    })
+
+    expect(result.current.emails).toHaveLength(2)
+    act(() => {
+      result.current.dispatch({
+        type: 'remove',
+        messageID: 'id-3'
+      })
+    })
+    expect(result.current.emails).toHaveLength(2)
+  })
+
+  test('Update email', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper({
+        emails: [{messageID: "id-1"} as DraftEmail, {messageID: "id-2"} as DraftEmail],
+        activeEmail: null
+      })
+    })
+
+    expect(result.current.emails).toHaveLength(2)
+    act(() => {
+      result.current.dispatch({
+        type: 'update',
+        messageID: 'id-1',
+        email: {messageID: "id-1", subject: 'New subject'} as DraftEmail
+      })
+    })
+    expect(result.current.emails).toHaveLength(2)
+    expect(result.current.emails[0].subject).toBe('New subject')
+  })
+
+  test('Update active email', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper({
+        emails: [{messageID: "id-1"} as DraftEmail, {messageID: "id-2"} as DraftEmail],
+        activeEmail: {messageID: "id-1"} as DraftEmail
+      })
+    })
+
+    expect(result.current.emails).toHaveLength(2)
+    expect(result.current.activeEmail?.subject).toBeUndefined()
+    act(() => {
+      result.current.dispatch({
+        type: 'update',
+        messageID: 'id-1',
+        email: {messageID: "id-1", subject: 'New subject'} as DraftEmail
+      })
+    })
+    expect(result.current.emails).toHaveLength(2)
+    expect(result.current.activeEmail?.subject).toBe('New subject')
+  })
+
+  test('Update email with different messageID', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper({
+        emails: [{messageID: "id-1"} as DraftEmail, {messageID: "id-2"} as DraftEmail],
+        activeEmail: null
+      })
+    })
+
+    expect(result.current.emails).toHaveLength(2)
+    act(() => {
+      result.current.dispatch({
+        type: 'update',
+        messageID: 'id-1',
+        email: {messageID: "id-3", subject: 'New subject'} as DraftEmail
+      })
+    })
+    expect(result.current.emails).toHaveLength(2)
+    expect(result.current.emails[0].messageID).toBe('id-3')
+    expect(result.current.emails[0].subject).toBe('New subject')
   })
 })
