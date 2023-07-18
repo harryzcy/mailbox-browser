@@ -9,7 +9,6 @@ import {
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import {
   Email,
-  createEmail,
   generateLocalDraftID,
   readEmail,
   saveEmail,
