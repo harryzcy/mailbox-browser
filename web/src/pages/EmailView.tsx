@@ -44,9 +44,8 @@ export default function EmailView() {
   const startReply = (email: Email) => {
     setIsInitialReplyOpen(true)
     dispatchDraftEmail({
-      type: 'add',
+      type: 'new-reply',
       messageID: generateLocalDraftID(),
-      isReply: true,
       replyEmail: email,
       allowedAddresses: configContext.state.config.emailAddresses
     })
@@ -68,9 +67,8 @@ export default function EmailView() {
 
   const startForward = (email: Email) => {
     dispatchDraftEmail({
-      type: 'add',
+      type: 'new-forward',
       messageID: generateLocalDraftID(),
-      isForward: true,
       forwardEmail: email
     })
   }
@@ -79,17 +77,11 @@ export default function EmailView() {
     dispatchDraftEmail({
       type: 'update',
       messageID: email.messageID,
-      email,
-      excludeInWaitlist: false
+      email
     })
   }
 
   const handleSend = () => {
-    // prevent still saving emails
-    dispatchDraftEmail({
-      type: 'remove-waitlist'
-    })
-
     const sendRequest = async () => {
       const email = activeReplyEmail
       if (!email) return
@@ -107,11 +99,12 @@ export default function EmailView() {
       })
 
       dispatchDraftEmail({
-        type: 'close'
+        type: 'remove',
+        messageID: email.messageID
       })
     }
 
-    sendRequest()
+    void sendRequest()
   }
 
   return (
@@ -120,6 +113,7 @@ export default function EmailView() {
         <EmailMenuBar
           emailIDs={'messageID' in data ? [data.messageID] : []}
           showOperations={true}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           handleDelete={async () => {
             if ('threadID' in data) {
               // TODO
@@ -129,6 +123,7 @@ export default function EmailView() {
             }
             navigate(-1)
           }}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           handleRead={async () => {
             if ('threadID' in data) {
               // TODO
@@ -137,6 +132,7 @@ export default function EmailView() {
               await readEmail(data.messageID)
             }
           }}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           handleUnread={async () => {
             if ('threadID' in data) {
               // TODO

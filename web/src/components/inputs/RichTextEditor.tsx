@@ -1,4 +1,4 @@
-import { $getRoot, $insertNodes, EditorState, LexicalEditor } from 'lexical'
+import { $getRoot, EditorState, LexicalEditor } from 'lexical'
 import {
   InitialConfigType,
   LexicalComposer
@@ -26,8 +26,6 @@ import AutoLinkPlugin from './plugins/AutoLinkPlugin'
 
 import theme from './themes/LexicalTheme'
 import './RichTextEditor.css'
-import { useEffect } from 'react'
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { EmailQuoteNode } from './EmailQuoteNode'
 
 function Placeholder() {

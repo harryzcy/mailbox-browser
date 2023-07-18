@@ -17,16 +17,19 @@ export default function FullScreenContent(props: FullScreenContentProps) {
     draftEmailsContext.dispatch({
       type: 'update',
       messageID: email.messageID,
-      email,
-      excludeInWaitlist: false
+      email
     })
   }
 
   const handleClose = () => {
+    if (!draftEmailsContext.activeEmail) return
+
     draftEmailsContext.dispatch({
-      type: 'close'
+      type: 'remove',
+      messageID: draftEmailsContext.activeEmail.messageID
     })
   }
+
   const handleMinimize = () => {
     draftEmailsContext.dispatch({
       type: 'minimize'
@@ -34,11 +37,6 @@ export default function FullScreenContent(props: FullScreenContentProps) {
   }
 
   const handleSend = () => {
-    // prevent still saving emails
-    draftEmailsContext.dispatch({
-      type: 'remove-waitlist'
-    })
-
     const sendRequest = async () => {
       const email = draftEmailsContext.activeEmail
       if (!email) return
@@ -56,30 +54,28 @@ export default function FullScreenContent(props: FullScreenContentProps) {
       })
 
       draftEmailsContext.dispatch({
-        type: 'close'
+        type: 'remove',
+        messageID: email.messageID
       })
     }
 
-    sendRequest()
+    void sendRequest()
   }
 
   const handleDelete = () => {
-    draftEmailsContext.dispatch({
-      type: 'remove-waitlist'
-    })
-
     const deleteRequest = async () => {
       const email = draftEmailsContext.activeEmail
       if (!email) return
       await deleteEmail(email.messageID)
 
       draftEmailsContext.dispatch({
-        type: 'close'
+        type: 'remove',
+        messageID: email.messageID
       })
       props.handleDelete(email.messageID)
     }
 
-    deleteRequest()
+    void deleteRequest()
   }
 
   if (

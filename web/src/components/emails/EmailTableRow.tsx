@@ -38,11 +38,11 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       }}
       onDoubleClick={() => {
         if (email.type === 'draft') {
-          openDraftEmail(email.messageID)
           if (email.threadID) {
             navigate(`/inbox/thread/${email.threadID}`)
             return
           }
+          void openDraftEmail(email.messageID)
         } else if (email.type === 'inbox' || email.type === 'sent') {
           if (email.threadID) {
             navigate(`/inbox/thread/${email.threadID}`)

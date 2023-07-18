@@ -47,7 +47,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
 
   const invokePlugin = (plugin: Plugin) => {
     setShowPluginMenu(false)
-    plugins.invoke(plugin.name, emailIDs)
+    void plugins.invoke(plugin.name, emailIDs)
   }
 
   return (
@@ -57,7 +57,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
           className="inline-flex items-center h-full space-x-2 px-3 mr-3 rounded-md cursor-pointer bg-sky-200 border border-sky-200"
           onClick={() => {
             dispatchDraftEmail({
-              type: 'add',
+              type: 'new',
               messageID: generateLocalDraftID()
             })
           }}
