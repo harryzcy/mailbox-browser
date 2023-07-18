@@ -79,7 +79,7 @@ describe('DraftEmailContext', () => {
           type: 'inbox',
           from: ['example@example.com'],
           to: ['example@example.com'],
-          subject: 'Example subject',
+          subject: 'Example subject'
         } as Email
       })
     })
