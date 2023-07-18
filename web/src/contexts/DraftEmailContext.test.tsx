@@ -25,6 +25,24 @@ describe('DraftEmailContext', () => {
     )
   }
 
+  const inboxEmail: Email = {
+    messageID: 'example-id',
+    type: 'inbox',
+    from: ['sender@example.com'],
+    to: ['me@example.com'],
+    subject: 'Example subject',
+    html: '<body>Content</body>'
+  } as Email
+
+  const sentEmail: Email = {
+    messageID: 'example-id',
+    type: 'sent',
+    from: ['me@example.com'],
+    to: ['sender@example.com'],
+    subject: 'Example subject',
+    html: '<body>Content</body>'
+  } as Email
+
   test('New email', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
       wrapper
@@ -64,7 +82,7 @@ describe('DraftEmailContext', () => {
     expect(result.current.emails[1].messageID).toBe('example-2')
   })
 
-  test('New reply', () => {
+  test('New reply to inbox email', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
       wrapper
     })
@@ -73,22 +91,39 @@ describe('DraftEmailContext', () => {
       result.current.dispatch({
         type: 'new-reply',
         messageID: 'example-id',
-        allowedAddresses: ['example@example.com'],
-        replyEmail: {
-          messageID: 'reply-to-id',
-          type: 'inbox',
-          from: ['example@example.com'],
-          to: ['example@example.com'],
-          subject: 'Example subject'
-        } as Email
+        allowedAddresses: ['me@example.com'],
+        replyEmail: inboxEmail
       })
     })
     expect(result.current.emails).toHaveLength(1)
     expect(result.current.emails[0].messageID).toBe('example-id')
     expect(result.current.emails[0].subject).toBe('Re: Example subject')
+    expect(result.current.emails[0].to).toStrictEqual(['sender@example.com'])
+    expect(result.current.emails[0].from).toStrictEqual(['me@example.com'])
   })
 
-  test('New forward', () => {
+  test('New reply to sent email', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper
+    })
+
+    act(() => {
+      result.current.dispatch({
+        type: 'new-reply',
+        messageID: 'example-id',
+        allowedAddresses: ['me@example.com'],
+        replyEmail: sentEmail
+      })
+    })
+
+    expect(result.current.emails).toHaveLength(1)
+    expect(result.current.emails[0].messageID).toBe('example-id')
+    expect(result.current.emails[0].subject).toBe('Re: Example subject')
+    expect(result.current.emails[0].to).toStrictEqual(['sender@example.com'])
+    expect(result.current.emails[0].from).toStrictEqual(['me@example.com'])
+  })
+
+  test('New forward for inbox email', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
       wrapper
     })
@@ -97,14 +132,24 @@ describe('DraftEmailContext', () => {
       result.current.dispatch({
         type: 'new-forward',
         messageID: 'example-id',
-        forwardEmail: {
-          messageID: 'forward-to-id',
-          type: 'inbox',
-          from: ['example@example.com'],
-          to: ['example@example.com'],
-          subject: 'Example subject',
-          html: '<body>Content</body>'
-        } as Email
+        forwardEmail: inboxEmail
+      })
+    })
+    expect(result.current.emails).toHaveLength(1)
+    expect(result.current.emails[0].messageID).toBe('example-id')
+    expect(result.current.emails[0].subject).toBe('Fwd: Example subject')
+  })
+
+  test('New forward for sent email', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper
+    })
+
+    act(() => {
+      result.current.dispatch({
+        type: 'new-forward',
+        messageID: 'example-id',
+        forwardEmail: sentEmail
       })
     })
     expect(result.current.emails).toHaveLength(1)
