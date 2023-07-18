@@ -46,7 +46,7 @@ describe('DraftEmailContext', () => {
     from: ['me@example.com'],
     to: ['sender@example.com'],
     subject: 'Example subject',
-    html: '<body>Content</body>'
+    html: 'html'
   } as Email
 
   test('New email', () => {
@@ -217,7 +217,7 @@ describe('DraftEmailContext', () => {
     act(() => {
       result.current.dispatch({
         type: 'load',
-        email: inboxEmail
+        email: sentEmail
       })
     })
     expect(result.current.activeEmail?.messageID).toBe('example-id')

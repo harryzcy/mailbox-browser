@@ -221,7 +221,8 @@ export const DraftEmailsContext = createContext<{
   dispatch: () => null
 })
 
-const extractEmailBody = (html: string) => {
+const extractEmailBody = (html?: string) => {
+  if (!html) return ''
   if (html.includes('<body>')) {
     const body = /<body>(.*?)<\/body>/gs.exec(html)?.[1] || ''
     return body
