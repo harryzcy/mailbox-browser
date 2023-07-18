@@ -237,7 +237,7 @@ const createForwardHTML = (email: Email): string => {
   const fromStr = from
     .map((raw) => {
       const { name, address } = parseAddress(raw)
-      return name ? `${name} &#60;${address}&#62;` : address
+      return name ? `${name} &#60;${address}&#62;` : address // &#60; and &#62; are < and > respectively
     })
     .join(', ')
 
