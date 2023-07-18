@@ -1,4 +1,4 @@
-import { createContext, Dispatch, useContext } from 'react'
+import { createContext, Dispatch } from 'react'
 import { Email } from '../services/emails'
 import { formatDateFull } from '../utils/time'
 
@@ -52,7 +52,7 @@ export const initialState: State = {
 
 export function draftEmailReducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'add':
+    case 'add': {
       const newEmail = {
         messageID: action.messageID,
         subject: '',
@@ -97,7 +97,8 @@ export function draftEmailReducer(state: State, action: Action): State {
         updateWaitlist: state.updateWaitlist,
         emails: [...state.emails, newEmail]
       }
-    case 'load':
+    }
+    case 'load': {
       const foundEmail = state.emails.find(
         (email) => email.messageID === action.email.messageID
       )
@@ -117,6 +118,7 @@ export function draftEmailReducer(state: State, action: Action): State {
         updateWaitlist: state.updateWaitlist,
         emails: [...state.emails, email]
       }
+    }
     case 'open':
       return {
         activeEmail:
@@ -130,7 +132,7 @@ export function draftEmailReducer(state: State, action: Action): State {
         updateWaitlist: state.updateWaitlist,
         emails: state.emails
       }
-    case 'close':
+    case 'close': {
       const emails = state.emails.filter(
         (email) => email.messageID !== state.activeEmail?.messageID
       )
@@ -139,7 +141,8 @@ export function draftEmailReducer(state: State, action: Action): State {
         updateWaitlist: state.updateWaitlist,
         emails
       }
-    case 'update':
+    }
+    case 'update': {
       const updatedEmails = state.emails.map((email) => {
         if (email.messageID === action.messageID) {
           return action.email
@@ -158,6 +161,7 @@ export function draftEmailReducer(state: State, action: Action): State {
             : [...state.updateWaitlist, action.messageID],
         emails: updatedEmails
       }
+    }
     case 'remove-waitlist':
       return {
         activeEmail: state.activeEmail,
