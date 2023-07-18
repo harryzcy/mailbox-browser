@@ -9,6 +9,7 @@ import {
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import {
   Email,
+  createEmail,
   generateLocalDraftID,
   readEmail,
   saveEmail,
@@ -43,12 +44,15 @@ export default function EmailView() {
 
   const startReply = (email: Email) => {
     setIsInitialReplyOpen(true)
+    const draftID = generateLocalDraftID()
     dispatchDraftEmail({
       type: 'new-reply',
-      messageID: generateLocalDraftID(),
+      messageID: draftID,
       replyEmail: email,
       allowedAddresses: configContext.state.config.emailAddresses
     })
+
+    // TODO
   }
 
   const openReply = (email: Email) => {
@@ -71,6 +75,7 @@ export default function EmailView() {
       messageID: generateLocalDraftID(),
       forwardEmail: email
     })
+    // TODO
   }
 
   const handleEmailChange = (email: DraftEmail) => {
