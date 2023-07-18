@@ -215,7 +215,9 @@ export default function EmailView() {
                     email={activeReplyEmail}
                     isReply
                     handleEmailChange={handleEmailChange}
-                    handleSend={handleSend}
+                    handleSend={() => {
+                      void handleSend()
+                    }}
                   />
                 )}
                 {thread.draftID && !activeReplyEmail && (
