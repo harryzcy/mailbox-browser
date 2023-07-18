@@ -13,7 +13,6 @@ Configuration is handled via `ConfigContext`. The config data is loaded in `Emai
 The state consists of the following:
 
 - `activeEmail`: the active draft email that's rendered in full-screen mode.
-- `updateWaitlist`: the waitlist queue of emails to be updated via HTTP requests.
 - `emails`: The full list of emails that's opened and displayed in tabs.
 
 The following actions manages the state:
