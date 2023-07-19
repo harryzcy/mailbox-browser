@@ -1,80 +1,8 @@
 import { useContext } from 'react'
-import { useInterval } from 'react-use'
-import {
-  DraftEmail,
-  DraftEmailsContext
-} from '../../contexts/DraftEmailContext'
-import {
-  createEmail,
-  Email,
-  isLocalDraftID,
-  saveEmail
-} from '../../services/emails'
-
-const SAVE_INTERVAL = 15000 /* 15 seconds */
+import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
 
 export default function DraftEmailsTabs() {
   const draftEmailsContext = useContext(DraftEmailsContext)
-
-  useInterval(async () => {
-    const waitlist = [...draftEmailsContext.updateWaitlist]
-    draftEmailsContext.dispatch({
-      type: 'clear-waitlist'
-    })
-
-    for (const messageID of waitlist) {
-      const email = draftEmailsContext.emails.find(
-        (email) => email.messageID === messageID
-      )
-      if (!email) continue
-      await createOrSaveEmail(email)
-    }
-  }, SAVE_INTERVAL)
-
-  const createOrSaveEmail = async (email: DraftEmail) => {
-    const body = {
-      subject: email.subject,
-      from: email.from,
-      to: email.to,
-      cc: email.cc,
-      bcc: email.bcc,
-      replyTo: email.from,
-      html: email.html,
-      text: email.text,
-      send: false,
-      replyEmailID: email.replyEmail?.messageID
-    }
-
-    let data: Email
-    const oldMessageID = email.messageID
-
-    if (isLocalDraftID(email.messageID)) {
-      data = await createEmail(body)
-    } else {
-      data = await saveEmail({
-        ...body,
-        messageID: email.messageID
-      })
-    }
-    draftEmailsContext.dispatch({
-      type: 'update',
-      messageID: oldMessageID,
-      email: {
-        messageID: data.messageID,
-        subject: data.subject,
-        from: data.from,
-        to: data.to,
-        cc: data.cc,
-        bcc: data.bcc,
-        replyTo: data.replyTo,
-        html: data.html,
-        text: data.text,
-        replyEmail: email.replyEmail, // keep the replyEmail
-        threadID: data.threadID
-      },
-      excludeInWaitlist: true
-    })
-  }
 
   if (draftEmailsContext.emails.length === 0) {
     return null
@@ -98,7 +26,7 @@ export default function DraftEmailsTabs() {
               onClick={() => {
                 draftEmailsContext.dispatch({
                   type: 'open',
-                  id: email.messageID
+                  messageID: email.messageID
                 })
               }}
             >

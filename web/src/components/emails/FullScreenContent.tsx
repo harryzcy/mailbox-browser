@@ -1,10 +1,11 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
   DraftEmail,
   DraftEmailsContext
 } from '../../contexts/DraftEmailContext'
 import { deleteEmail, saveEmail } from '../../services/emails'
 import { EmailDraft } from './EmailDraft'
+import useThrottled from '../../hooks/useThrottled'
 
 interface FullScreenContentProps {
   handleDelete: (messageID: string) => void
@@ -13,73 +14,88 @@ interface FullScreenContentProps {
 export default function FullScreenContent(props: FullScreenContentProps) {
   const draftEmailsContext = useContext(DraftEmailsContext)
 
+  const [isSending, setIsSending] = useState(false)
+  const [draftEmail, setDraftEmail] = useState<DraftEmail | undefined>()
+  const throttledDraftEmail = useThrottled(draftEmail)
+
+  const saveDraft = async (email: DraftEmail, send: boolean = false) => {
+    await saveEmail({
+      messageID: email.messageID,
+      subject: email.subject,
+      from: email.from,
+      to: email.to,
+      cc: email.cc,
+      bcc: email.bcc,
+      replyTo: email.from,
+      html: email.html,
+      text: email.text,
+      send
+    })
+  }
+
+  useEffect(() => {
+    const save = async () => {
+      if (isSending) return
+      if (!draftEmail) return
+      await saveDraft(draftEmail)
+    }
+
+    void save()
+  }, [throttledDraftEmail])
+
   const handleEmailChange = (email: DraftEmail) => {
+    setDraftEmail(email)
+
     draftEmailsContext.dispatch({
       type: 'update',
       messageID: email.messageID,
-      email,
-      excludeInWaitlist: false
+      email
     })
   }
 
   const handleClose = () => {
+    if (!draftEmailsContext.activeEmail) return
+
     draftEmailsContext.dispatch({
-      type: 'close'
+      type: 'remove',
+      messageID: draftEmailsContext.activeEmail.messageID
     })
   }
+
   const handleMinimize = () => {
     draftEmailsContext.dispatch({
       type: 'minimize'
     })
   }
 
-  const handleSend = () => {
-    // prevent still saving emails
+  const handleSend = async () => {
+    const email = draftEmailsContext.activeEmail
+    if (!email) return
+
+    setIsSending(true) // prevent saving draft
+    const shouldSend = true // save and send
+    await saveDraft(email, shouldSend)
+
     draftEmailsContext.dispatch({
-      type: 'remove-waitlist'
+      type: 'remove',
+      messageID: email.messageID
     })
-
-    const sendRequest = async () => {
-      const email = draftEmailsContext.activeEmail
-      if (!email) return
-      await saveEmail({
-        messageID: email.messageID,
-        subject: email.subject,
-        from: email.from,
-        to: email.to,
-        cc: email.cc,
-        bcc: email.bcc,
-        replyTo: email.from,
-        html: email.html,
-        text: email.text,
-        send: true // save and send
-      })
-
-      draftEmailsContext.dispatch({
-        type: 'close'
-      })
-    }
-
-    sendRequest()
   }
 
   const handleDelete = () => {
-    draftEmailsContext.dispatch({
-      type: 'remove-waitlist'
-    })
-
     const deleteRequest = async () => {
       const email = draftEmailsContext.activeEmail
       if (!email) return
       await deleteEmail(email.messageID)
 
       draftEmailsContext.dispatch({
-        type: 'close'
+        type: 'remove',
+        messageID: email.messageID
       })
       props.handleDelete(email.messageID)
     }
 
-    deleteRequest()
+    void deleteRequest()
   }
 
   if (
@@ -97,7 +113,9 @@ export default function FullScreenContent(props: FullScreenContentProps) {
         handleEmailChange={handleEmailChange}
         handleClose={handleClose}
         handleMinimize={handleMinimize}
-        handleSend={handleSend}
+        handleSend={() => {
+          void handleSend()
+        }}
         handleDelete={handleDelete}
       />
     </div>

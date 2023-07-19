@@ -8,7 +8,9 @@ import {
 } from '@heroicons/react/24/outline'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import {
+  CreateEmailProps,
   Email,
+  createEmail,
   generateLocalDraftID,
   readEmail,
   saveEmail,
@@ -41,15 +43,42 @@ export default function EmailView() {
 
   const configContext = useContext(ConfigContext)
 
-  const startReply = (email: Email) => {
-    setIsInitialReplyOpen(true)
+  const startDraft = async (draftID: string, replyEmail?: Email) => {
+    const body = {
+      subject: '',
+      from: [],
+      to: [],
+      cc: [],
+      bcc: [],
+      replyTo: [],
+      html: '',
+      text: '',
+      send: false
+    } as CreateEmailProps
+    if (replyEmail) {
+      body.replyEmailID = replyEmail.messageID
+    }
+
+    const email = await createEmail(body)
+
     dispatchDraftEmail({
-      type: 'add',
-      messageID: generateLocalDraftID(),
-      isReply: true,
+      type: 'update',
+      messageID: draftID,
+      email
+    })
+  }
+
+  const startReply = async (email: Email) => {
+    setIsInitialReplyOpen(true)
+    const draftID = generateLocalDraftID()
+    dispatchDraftEmail({
+      type: 'new-reply',
+      messageID: draftID,
       replyEmail: email,
       allowedAddresses: configContext.state.config.emailAddresses
     })
+
+    await startDraft(draftID)
   }
 
   const openReply = (email: Email) => {
@@ -66,52 +95,73 @@ export default function EmailView() {
     draftElemRef.current.scrollIntoView()
   }, [isInitialReplyOpen])
 
-  const startForward = (email: Email) => {
+  const startForward = async (email: Email) => {
+    const draftID = generateLocalDraftID()
     dispatchDraftEmail({
-      type: 'add',
-      messageID: generateLocalDraftID(),
-      isForward: true,
+      type: 'new-forward',
+      messageID: draftID,
       forwardEmail: email
     })
+
+    await startDraft(draftID)
   }
 
   const handleEmailChange = (email: DraftEmail) => {
     dispatchDraftEmail({
       type: 'update',
       messageID: email.messageID,
-      email,
-      excludeInWaitlist: false
+      email
     })
   }
 
-  const handleSend = () => {
-    // prevent still saving emails
-    dispatchDraftEmail({
-      type: 'remove-waitlist'
+  const handleSend = async () => {
+    const email = activeReplyEmail
+    if (!email) return
+    await saveEmail({
+      messageID: email.messageID,
+      subject: email.subject,
+      from: email.from,
+      to: email.to,
+      cc: email.cc,
+      bcc: email.bcc,
+      replyTo: email.from,
+      html: email.html,
+      text: email.text,
+      send: true // save and send
     })
 
-    const sendRequest = async () => {
-      const email = activeReplyEmail
-      if (!email) return
-      await saveEmail({
-        messageID: email.messageID,
-        subject: email.subject,
-        from: email.from,
-        to: email.to,
-        cc: email.cc,
-        bcc: email.bcc,
-        replyTo: email.from,
-        html: email.html,
-        text: email.text,
-        send: true // save and send
-      })
+    dispatchDraftEmail({
+      type: 'remove',
+      messageID: email.messageID
+    })
+  }
 
-      dispatchDraftEmail({
-        type: 'close'
-      })
+  const handleDelete = async () => {
+    if ('threadID' in data) {
+      // TODO
+      throw new Error('Not yet supported')
+    } else {
+      await trashEmail(data.messageID)
     }
+    navigate(-1)
+  }
 
-    sendRequest()
+  const handleRead = async () => {
+    if ('threadID' in data) {
+      // TODO
+      throw new Error('Not yet supported')
+    } else {
+      await readEmail(data.messageID)
+    }
+  }
+
+  const handleUnread = async () => {
+    if ('threadID' in data) {
+      // TODO
+      throw new Error('Not yet supported')
+    } else {
+      await unreadEmail(data.messageID)
+    }
   }
 
   return (
@@ -120,30 +170,14 @@ export default function EmailView() {
         <EmailMenuBar
           emailIDs={'messageID' in data ? [data.messageID] : []}
           showOperations={true}
-          handleDelete={async () => {
-            if ('threadID' in data) {
-              // TODO
-              throw new Error('Not yet supported')
-            } else {
-              await trashEmail(data.messageID)
-            }
-            navigate(-1)
+          handleDelete={() => {
+            void handleDelete()
           }}
-          handleRead={async () => {
-            if ('threadID' in data) {
-              // TODO
-              throw new Error('Not yet supported')
-            } else {
-              await readEmail(data.messageID)
-            }
+          handleRead={() => {
+            void handleRead()
           }}
-          handleUnread={async () => {
-            if ('threadID' in data) {
-              // TODO
-              throw new Error('Not yet supported')
-            } else {
-              await unreadEmail(data.messageID)
-            }
+          handleUnread={() => {
+            void handleUnread()
           }}
           hasPrevious={false}
           hasNext={false}
@@ -170,8 +204,8 @@ export default function EmailView() {
                 </div>
                 <EmailBlock
                   email={email}
-                  startReply={startReply}
-                  startForward={startForward}
+                  startReply={(email) => void startReply(email)}
+                  startForward={(email) => void startForward(email)}
                 />
                 {activeReplyEmail &&
                   activeReplyEmail.replyEmail?.messageID ===
@@ -181,7 +215,9 @@ export default function EmailView() {
                         email={activeReplyEmail}
                         isReply
                         handleEmailChange={handleEmailChange}
-                        handleSend={handleSend}
+                        handleSend={() => {
+                          void handleSend()
+                        }}
                       />
                     </div>
                   )}
@@ -203,8 +239,8 @@ export default function EmailView() {
                   <EmailBlock
                     key={email.messageID}
                     email={email}
-                    startReply={startReply}
-                    startForward={startForward}
+                    startReply={(email) => void startReply(email)}
+                    startForward={(email) => void startForward(email)}
                   />
                 ))}
                 {activeReplyEmail && (
@@ -212,7 +248,9 @@ export default function EmailView() {
                     email={activeReplyEmail}
                     isReply
                     handleEmailChange={handleEmailChange}
-                    handleSend={handleSend}
+                    handleSend={() => {
+                      void handleSend()
+                    }}
                   />
                 )}
                 {thread.draftID && !activeReplyEmail && (

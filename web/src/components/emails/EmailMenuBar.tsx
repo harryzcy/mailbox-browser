@@ -7,7 +7,7 @@ import {
   EllipsisVerticalIcon
 } from '@heroicons/react/24/outline'
 import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
-import { generateLocalDraftID } from '../../services/emails'
+import { createEmail, generateLocalDraftID } from '../../services/emails'
 import { ConfigContext, Plugin } from '../../contexts/ConfigContext'
 import * as plugins from '../../services/plugins'
 
@@ -47,7 +47,36 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
 
   const invokePlugin = (plugin: Plugin) => {
     setShowPluginMenu(false)
-    plugins.invoke(plugin.name, emailIDs)
+    void plugins.invoke(plugin.name, emailIDs)
+  }
+
+  const handleCreate = async () => {
+    const draftID = generateLocalDraftID()
+
+    dispatchDraftEmail({
+      type: 'new',
+      messageID: draftID
+    })
+
+    const body = {
+      subject: '',
+      from: [],
+      to: [],
+      cc: [],
+      bcc: [],
+      replyTo: [],
+      html: '',
+      text: '',
+      send: false
+    }
+
+    const email = await createEmail(body)
+
+    dispatchDraftEmail({
+      type: 'update',
+      messageID: draftID,
+      email
+    })
   }
 
   return (
@@ -56,10 +85,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
         <span
           className="inline-flex items-center h-full space-x-2 px-3 mr-3 rounded-md cursor-pointer bg-sky-200 border border-sky-200"
           onClick={() => {
-            dispatchDraftEmail({
-              type: 'add',
-              messageID: generateLocalDraftID()
-            })
+            void handleCreate()
           }}
         >
           <span>

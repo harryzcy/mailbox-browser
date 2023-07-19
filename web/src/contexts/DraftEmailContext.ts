@@ -1,4 +1,4 @@
-import { createContext, Dispatch, useContext } from 'react'
+import { createContext, Dispatch } from 'react'
 import { Email } from '../services/emails'
 import { formatDateFull } from '../utils/time'
 
@@ -18,93 +18,149 @@ export interface DraftEmail {
 
 export type State = {
   activeEmail: DraftEmail | null
-  updateWaitlist: string[] // messageIDs
   emails: DraftEmail[]
+}
+
+export const initialState: State = {
+  activeEmail: null,
+  emails: []
 }
 
 export type Action =
   | {
-      type: 'add'
+      // new email that's not a reply or forward
+      type: 'new'
       messageID: string
-      isReply?: boolean
-      replyEmail?: Email
-      allowedAddresses?: string[] // the allowed addresses to send from
-      isForward?: boolean
-      forwardEmail?: Email
     }
-  | { type: 'load'; email: DraftEmail }
-  | { type: 'open'; id: string }
-  | { type: 'close' }
-  | { type: 'minimize' }
   | {
-      type: 'update'
+      // new reply email
+      type: 'new-reply'
       messageID: string
-      email: DraftEmail
-      excludeInWaitlist: boolean
+      allowedAddresses: string[] // the allowed addresses to send from
+      replyEmail: Email
     }
-  | { type: 'remove-waitlist' }
-  | { type: 'clear-waitlist' }
-export const initialState: State = {
-  activeEmail: null,
-  updateWaitlist: [],
-  emails: []
+  | {
+      // new forward email
+      type: 'new-forward'
+      messageID: string
+      forwardEmail: Email
+    }
+  | {
+      // open an email already in the working directory
+      type: 'open'
+      messageID: string
+    }
+  | {
+      // load an email to the working directory
+      type: 'load'
+      email: DraftEmail
+    }
+  | {
+      // exit the full screen email view
+      type: 'minimize'
+    }
+  | {
+      // remove an email from the working directory
+      type: 'remove'
+      messageID: string
+    }
+  | {
+      // update an email in the working directory
+      type: 'update'
+      messageID: string // the original messageID of the email to update
+      email: DraftEmail
+    }
+
+/**
+ * Create a new empty email.
+ * @returns the new draft email
+ */
+function newEmptyEmail(messageID: string): DraftEmail {
+  return {
+    messageID,
+    subject: '',
+    from: [] as string[],
+    to: [] as string[],
+    cc: [] as string[],
+    bcc: [] as string[]
+  } as DraftEmail
+}
+
+/**
+ * Add a prefix to a subject only if it doesn't already have it.
+ * It's useful for adding "Re: " or "Fwd: " to a subject.
+ * @returns the subject with the prefix
+ */
+function addPrefix(subject: string, prefix: string) {
+  return subject.startsWith(prefix) ? subject : prefix + subject
 }
 
 export function draftEmailReducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'add':
-      const newEmail = {
-        messageID: action.messageID,
-        subject: '',
-        from: [] as string[],
-        to: [] as string[],
-        cc: [] as string[],
-        bcc: [] as string[],
-        replyEmail: action.replyEmail
-      } as DraftEmail
+    case 'new': {
+      const newEmail = newEmptyEmail(action.messageID)
+      return {
+        activeEmail: newEmail,
+        emails: [...state.emails, newEmail]
+      }
+    }
 
-      if (action.isReply && action.replyEmail) {
-        if (action.replyEmail.type === 'inbox') {
-          newEmail.from = determineFromAddress(
-            action.replyEmail.to,
-            action.allowedAddresses
-          )
-          newEmail.to = [action.replyEmail.from[0]]
-        } else {
-          // sent
-          newEmail.from = [action.replyEmail.from[0]]
-          newEmail.to = [action.replyEmail.to[0]]
-        }
-        newEmail.subject = action.replyEmail.subject.startsWith('Re: ')
-          ? action.replyEmail.subject
-          : `Re: ${action.replyEmail.subject}`
+    case 'new-reply': {
+      const newEmail = newEmptyEmail(action.messageID)
+      newEmail.replyEmail = action.replyEmail
+
+      if (action.replyEmail.type === 'inbox') {
+        newEmail.from = determineFromAddress(
+          action.replyEmail.to,
+          action.allowedAddresses
+        )
+        newEmail.to = [action.replyEmail.from[0]]
+      } else {
+        // sent
+        newEmail.from = [action.replyEmail.from[0]]
+        newEmail.to = [action.replyEmail.to[0]]
       }
-      if (action.isForward && action.forwardEmail) {
-        if (action.forwardEmail.type === 'inbox') {
-          newEmail.from = [action.forwardEmail.to[0]]
-        } else {
-          // sent
-          newEmail.from = [action.forwardEmail.from[0]]
-        }
-        newEmail.subject = action.forwardEmail.subject.startsWith('Fwd: ')
-          ? action.forwardEmail.subject
-          : `Fwd: ${action.forwardEmail.subject}`
-        newEmail.html = createForwardHTML(action.forwardEmail)
-      }
+      newEmail.subject = addPrefix(action.replyEmail.subject, 'Re: ')
 
       return {
         activeEmail: newEmail,
-        updateWaitlist: state.updateWaitlist,
         emails: [...state.emails, newEmail]
       }
-    case 'load':
+    }
+
+    case 'new-forward': {
+      const newEmail = newEmptyEmail(action.messageID)
+      if (action.forwardEmail.type === 'inbox') {
+        newEmail.from = [action.forwardEmail.to[0]]
+      } else {
+        // sent
+        newEmail.from = [action.forwardEmail.from[0]]
+      }
+      newEmail.subject = action.forwardEmail.subject.startsWith('Fwd: ')
+        ? action.forwardEmail.subject
+        : `Fwd: ${action.forwardEmail.subject}`
+      newEmail.html = createForwardHTML(action.forwardEmail)
+      return {
+        activeEmail: newEmail,
+        emails: [...state.emails, newEmail]
+      }
+    }
+
+    case 'open':
+      return {
+        activeEmail:
+          state.emails.find((email) => email.messageID === action.messageID) ||
+          null,
+        emails: state.emails
+      }
+
+    case 'load': {
       const foundEmail = state.emails.find(
         (email) => email.messageID === action.email.messageID
       )
       if (foundEmail) {
         return {
           activeEmail: foundEmail,
-          updateWaitlist: state.updateWaitlist,
           emails: state.emails
         }
       }
@@ -114,80 +170,67 @@ export function draftEmailReducer(state: State, action: Action): State {
       }
       return {
         activeEmail: email,
-        updateWaitlist: state.updateWaitlist,
         emails: [...state.emails, email]
       }
-    case 'open':
-      return {
-        activeEmail:
-          state.emails.find((email) => email.messageID === action.id) || null,
-        updateWaitlist: state.updateWaitlist,
-        emails: state.emails
-      }
+    }
+
     case 'minimize':
       return {
         activeEmail: null,
-        updateWaitlist: state.updateWaitlist,
         emails: state.emails
       }
-    case 'close':
-      const emails = state.emails.filter(
-        (email) => email.messageID !== state.activeEmail?.messageID
-      )
+
+    case 'remove':
+      // if the active email is the one being removed, set it to null
+      // otherwise, keep it the same
       return {
-        activeEmail: null,
-        updateWaitlist: state.updateWaitlist,
-        emails
+        activeEmail:
+          state.activeEmail?.messageID == action.messageID
+            ? null
+            : state.activeEmail,
+        emails: state.emails.filter(
+          (email) => email.messageID !== action.messageID
+        )
       }
-    case 'update':
+
+    case 'update': {
       const updatedEmails = state.emails.map((email) => {
         if (email.messageID === action.messageID) {
-          return action.email
+          return {
+            ...action.email,
+            replyEmail: email.replyEmail,
+            threadID: email.threadID
+          }
         }
         return email
       })
       return {
         activeEmail:
           state.activeEmail?.messageID === action.messageID
-            ? action.email
+            ? {
+                ...action.email,
+                replyEmail: state.activeEmail.replyEmail,
+                threadID: state.activeEmail.threadID
+              }
             : state.activeEmail,
-        updateWaitlist:
-          action.excludeInWaitlist ||
-          state.updateWaitlist.includes(action.messageID)
-            ? state.updateWaitlist
-            : [...state.updateWaitlist, action.messageID],
         emails: updatedEmails
       }
-    case 'remove-waitlist':
-      return {
-        activeEmail: state.activeEmail,
-        updateWaitlist: state.updateWaitlist.filter(
-          (messageID) => messageID !== state.activeEmail?.messageID
-        ),
-        emails: state.emails
-      }
-    case 'clear-waitlist':
-      return {
-        activeEmail: state.activeEmail,
-        updateWaitlist: [],
-        emails: state.emails
-      }
+    }
   }
 }
 
 export const DraftEmailsContext = createContext<{
   activeEmail: DraftEmail | null
   emails: DraftEmail[]
-  updateWaitlist: string[]
   dispatch: Dispatch<Action>
 }>({
   activeEmail: null,
   emails: [],
-  updateWaitlist: [],
   dispatch: () => null
 })
 
-const extractEmailBody = (html: string) => {
+const extractEmailBody = (html?: string) => {
+  if (!html) return ''
   if (html.includes('<body>')) {
     const body = /<body>(.*?)<\/body>/gs.exec(html)?.[1] || ''
     return body
@@ -202,7 +245,7 @@ const createForwardHTML = (email: Email): string => {
   const fromStr = from
     .map((raw) => {
       const { name, address } = parseAddress(raw)
-      return name ? `${name} &#60;${address}&#62;` : address
+      return name ? `${name} &#60;${address}&#62;` : address // &#60; and &#62; are < and > respectively
     })
     .join(', ')
 

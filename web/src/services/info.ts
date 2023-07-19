@@ -6,5 +6,5 @@ interface Info {
 
 export async function getInfo(): Promise<Info> {
   const response = await fetch('/web/info')
-  return response.json()
+  return response.json() as Promise<Info>
 }
