@@ -73,7 +73,7 @@ export default function FullScreenContent(props: FullScreenContentProps) {
     if (!email) return
 
     setIsSending(true) // prevent saving draft
-    const shouldSend = true; // save and send
+    const shouldSend = true // save and send
     await saveDraft(email, shouldSend)
 
     draftEmailsContext.dispatch({

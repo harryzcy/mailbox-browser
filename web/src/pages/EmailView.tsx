@@ -9,6 +9,7 @@ import {
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import {
   Email,
+  createEmail,
   generateLocalDraftID,
   readEmail,
   saveEmail,
@@ -41,7 +42,29 @@ export default function EmailView() {
 
   const configContext = useContext(ConfigContext)
 
-  const startReply = (email: Email) => {
+  const startDraft = async (draftID: string) => {
+    const body = {
+      subject: '',
+      from: [],
+      to: [],
+      cc: [],
+      bcc: [],
+      replyTo: [],
+      html: '',
+      text: '',
+      send: false
+    }
+
+    const email = await createEmail(body)
+
+    dispatchDraftEmail({
+      type: 'update',
+      messageID: draftID,
+      email
+    })
+  }
+
+  const startReply = async (email: Email) => {
     setIsInitialReplyOpen(true)
     const draftID = generateLocalDraftID()
     dispatchDraftEmail({
@@ -51,7 +74,7 @@ export default function EmailView() {
       allowedAddresses: configContext.state.config.emailAddresses
     })
 
-    // TODO
+    await startDraft(draftID)
   }
 
   const openReply = (email: Email) => {
@@ -68,13 +91,15 @@ export default function EmailView() {
     draftElemRef.current.scrollIntoView()
   }, [isInitialReplyOpen])
 
-  const startForward = (email: Email) => {
+  const startForward = async (email: Email) => {
+    const draftID = generateLocalDraftID()
     dispatchDraftEmail({
       type: 'new-forward',
-      messageID: generateLocalDraftID(),
+      messageID: draftID,
       forwardEmail: email
     })
-    // TODO
+
+    await startDraft(draftID)
   }
 
   const handleEmailChange = (email: DraftEmail) => {
@@ -175,8 +200,8 @@ export default function EmailView() {
                 </div>
                 <EmailBlock
                   email={email}
-                  startReply={startReply}
-                  startForward={startForward}
+                  startReply={(email) => void startReply(email)}
+                  startForward={(email) => void startForward(email)}
                 />
                 {activeReplyEmail &&
                   activeReplyEmail.replyEmail?.messageID ===
@@ -210,8 +235,8 @@ export default function EmailView() {
                   <EmailBlock
                     key={email.messageID}
                     email={email}
-                    startReply={startReply}
-                    startForward={startForward}
+                    startReply={(email) => void startReply(email)}
+                    startForward={(email) => void startForward(email)}
                   />
                 ))}
                 {activeReplyEmail && (
