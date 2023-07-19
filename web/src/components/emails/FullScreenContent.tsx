@@ -7,8 +7,6 @@ import { deleteEmail, saveEmail } from '../../services/emails'
 import { EmailDraft } from './EmailDraft'
 import useThrottled from '../../hooks/useThrottled'
 
-// const forceUpdateInterval = 5000
-
 interface FullScreenContentProps {
   handleDelete: (messageID: string) => void
 }
@@ -16,11 +14,13 @@ interface FullScreenContentProps {
 export default function FullScreenContent(props: FullScreenContentProps) {
   const draftEmailsContext = useContext(DraftEmailsContext)
 
+  const [isSending, setIsSending] = useState(false)
   const [draftEmail, setDraftEmail] = useState<DraftEmail | undefined>()
   const throttledDraftEmail = useThrottled(draftEmail)
 
   useEffect(() => {
     const saveDraft = async () => {
+      if (isSending) return
       if (!draftEmail) return
       await saveEmail({
         messageID: draftEmail.messageID,
@@ -67,6 +67,8 @@ export default function FullScreenContent(props: FullScreenContentProps) {
   const handleSend = async () => {
     const email = draftEmailsContext.activeEmail
     if (!email) return
+
+    setIsSending(true) // prevent saving draft
     await saveEmail({
       messageID: email.messageID,
       subject: email.subject,
