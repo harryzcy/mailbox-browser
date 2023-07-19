@@ -8,6 +8,7 @@ import {
 } from '@heroicons/react/24/outline'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import {
+  CreateEmailProps,
   Email,
   createEmail,
   generateLocalDraftID,
@@ -42,7 +43,7 @@ export default function EmailView() {
 
   const configContext = useContext(ConfigContext)
 
-  const startDraft = async (draftID: string) => {
+  const startDraft = async (draftID: string, replyEmail?: Email) => {
     const body = {
       subject: '',
       from: [],
@@ -53,6 +54,9 @@ export default function EmailView() {
       html: '',
       text: '',
       send: false
+    } as CreateEmailProps
+    if (replyEmail) {
+      body.replyEmailID = replyEmail.messageID
     }
 
     const email = await createEmail(body)

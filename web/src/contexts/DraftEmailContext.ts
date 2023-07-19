@@ -196,14 +196,22 @@ export function draftEmailReducer(state: State, action: Action): State {
     case 'update': {
       const updatedEmails = state.emails.map((email) => {
         if (email.messageID === action.messageID) {
-          return action.email
+          return {
+            ...action.email,
+            replyEmail: email.replyEmail,
+            threadID: email.threadID
+          }
         }
         return email
       })
       return {
         activeEmail:
           state.activeEmail?.messageID === action.messageID
-            ? action.email
+            ? {
+                ...action.email,
+                replyEmail: state.activeEmail.replyEmail,
+                threadID: state.activeEmail.threadID
+              }
             : state.activeEmail,
         emails: updatedEmails
       }
