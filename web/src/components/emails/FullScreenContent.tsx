@@ -18,25 +18,29 @@ export default function FullScreenContent(props: FullScreenContentProps) {
   const [draftEmail, setDraftEmail] = useState<DraftEmail | undefined>()
   const throttledDraftEmail = useThrottled(draftEmail)
 
+  const saveDraft = async (email: DraftEmail, send: boolean = false) => {
+    await saveEmail({
+      messageID: email.messageID,
+      subject: email.subject,
+      from: email.from,
+      to: email.to,
+      cc: email.cc,
+      bcc: email.bcc,
+      replyTo: email.from,
+      html: email.html,
+      text: email.text,
+      send
+    })
+  }
+
   useEffect(() => {
-    const saveDraft = async () => {
+    const save = async () => {
       if (isSending) return
       if (!draftEmail) return
-      await saveEmail({
-        messageID: draftEmail.messageID,
-        subject: draftEmail.subject,
-        from: draftEmail.from,
-        to: draftEmail.to,
-        cc: draftEmail.cc,
-        bcc: draftEmail.bcc,
-        replyTo: draftEmail.from,
-        html: draftEmail.html,
-        text: draftEmail.text,
-        send: false
-      })
+      await saveDraft(draftEmail)
     }
 
-    void saveDraft()
+    void save()
   }, [throttledDraftEmail])
 
   const handleEmailChange = (email: DraftEmail) => {
@@ -69,18 +73,8 @@ export default function FullScreenContent(props: FullScreenContentProps) {
     if (!email) return
 
     setIsSending(true) // prevent saving draft
-    await saveEmail({
-      messageID: email.messageID,
-      subject: email.subject,
-      from: email.from,
-      to: email.to,
-      cc: email.cc,
-      bcc: email.bcc,
-      replyTo: email.from,
-      html: email.html,
-      text: email.text,
-      send: true // save and send
-    })
+    const shouldSend = true; // save and send
+    await saveDraft(email, shouldSend)
 
     draftEmailsContext.dispatch({
       type: 'remove',
