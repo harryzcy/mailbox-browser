@@ -20,6 +20,9 @@ jobs:
   jest-test:
     name: Jest Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
     defaults:
       run:
         working-directory: web
@@ -28,7 +31,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
         run: npm ci
