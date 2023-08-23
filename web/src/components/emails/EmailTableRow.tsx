@@ -30,11 +30,15 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     })
   }
 
+  const isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent)
+
   return (
     <div
       className="contents group"
       onClick={(event) => {
-        onClick(event.metaKey ? 'add' : 'replace')
+        const shouldAdd =
+          (isMacLike && event.metaKey) || (!isMacLike && event.ctrlKey)
+        if (isMacLike) onClick(shouldAdd ? 'add' : 'replace')
       }}
       onDoubleClick={() => {
         if (email.type === 'draft') {
