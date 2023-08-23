@@ -20,7 +20,7 @@ export default function EmailRawView() {
       <div className="mt-5 p-5 text-sm border rounded-md relative dark:text-neutral-400 dark:border-neutral-700">
         <React.Suspense fallback={<div>Loading...</div>}>
           <Await resolve={data.raw}>
-            {(raw) => (
+            {(raw: string) => (
               <>
                 <pre className="w-full block whitespace-pre-wrap break-words">
                   {raw}
@@ -31,7 +31,7 @@ export default function EmailRawView() {
                     role="button"
                     className="p-2 rounded-md cursor-pointer bg-blue-100 dark:bg-neutral-700"
                     onClick={() => {
-                      navigator.clipboard.writeText(raw)
+                      void navigator.clipboard.writeText(raw)
                     }}
                   >
                     <span>Copy</span>

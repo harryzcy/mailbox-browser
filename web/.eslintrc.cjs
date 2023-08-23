@@ -10,6 +10,14 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'prettier'
   ],
+  rules: {
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      {
+        checksVoidReturn: false
+      }
+    ]
+  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: true,
