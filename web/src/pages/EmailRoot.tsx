@@ -58,7 +58,7 @@ export default function EmailRoot(props: EmailRootProps) {
   useEffect(() => {
     const abortController = new AbortController()
     setLoadingState('loading')
-    loadAndSetEmails()
+    void loadAndSetEmails()
     return () => abortController.abort()
   }, [props.type])
 
@@ -156,7 +156,7 @@ export default function EmailRoot(props: EmailRootProps) {
   }
 
   useEffect(() => {
-    loadConfig()
+    void loadConfig()
   })
 
   return (

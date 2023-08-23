@@ -63,7 +63,7 @@ export default function EmailList() {
       newYear = year + 1
     }
 
-    let data = await loadEmails({
+    const data = await loadEmails({
       year: newYear,
       month: newMonth
     })
