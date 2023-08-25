@@ -30,7 +30,7 @@ import { EmailQuoteNode } from './EmailQuoteNode'
 
 function Placeholder() {
   return (
-    <div className="inline-block text-slate-400 dark:text-neutral-400 truncate absolute left-3 top-3 select-none pointer-events-none">
+    <div className="pointer-events-none absolute left-3 top-3 inline-block select-none truncate text-slate-400 dark:text-neutral-400">
       Email body...
     </div>
   )
@@ -97,12 +97,12 @@ export default function RichTextEditor(props: RichTextEditorProps) {
 
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className="flex flex-col w-full h-full min-h-[12rem] relative rounded md:rounded-md font-normal leading-5 text-left">
+      <div className="relative flex h-full min-h-[12rem] w-full flex-col rounded text-left font-normal leading-5 md:rounded-md">
         <div className="relative flex-1 overflow-scroll">
           <RichTextPlugin
             contentEditable={
               <ContentEditable
-                className="relative min-h-full resize-none outline-none p-3 caret-inherit"
+                className="relative min-h-full resize-none p-3 caret-inherit outline-none"
                 style={{
                   tabSize: 1
                 }}

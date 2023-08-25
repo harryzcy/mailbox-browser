@@ -34,7 +34,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
 
   return (
     <div
-      className="contents group"
+      className="group contents"
       onClick={(event) => {
         const shouldAdd =
           (isMacLike && event.metaKey) || (!isMacLike && event.ctrlKey)
@@ -58,13 +58,13 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     >
       <div
         className={
-          'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-neutral-200 dark:border-neutral-900 relative' +
+          'relative cursor-pointer truncate border-t border-neutral-200 px-4 py-2 group-first:border-0 dark:border-neutral-900' +
           backgroundClassName +
           unreadClassName
         }
       >
         {email.unread && (
-          <span className="absolute h-1 w-1 inset-1/2 transform -translate-y-1/2 left-[7px] rounded-full bg-neutral-900 dark:bg-neutral-300"></span>
+          <span className="absolute inset-1/2 left-[7px] h-1 w-1 -translate-y-1/2 transform rounded-full bg-neutral-900 dark:bg-neutral-300"></span>
         )}
         <span title={email.from && email.from.length > 0 ? email.from[0] : ''}>
           {getNameFromEmails(email.from)}
@@ -72,7 +72,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'truncate px-4 py-2 cursor-pointer border-t group-first:border-0 border-neutral-200 dark:border-neutral-900' +
+          'cursor-pointer truncate border-t border-neutral-200 px-4 py-2 group-first:border-0 dark:border-neutral-900' +
           backgroundClassName +
           unreadClassName
         }
@@ -81,7 +81,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'px-4 py-2 cursor-pointer border-t group-first:border-0 border-neutral-200 dark:border-neutral-900 text-right' +
+          'cursor-pointer border-t border-neutral-200 px-4 py-2 text-right group-first:border-0 dark:border-neutral-900' +
           backgroundClassName +
           unreadClassName
         }
