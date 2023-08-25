@@ -37,7 +37,7 @@ import {
 import {
   $isAtNodeEnd,
   $isParentElementRTL,
-  $wrapNodes
+  $setBlocksType
 } from '@lexical/selection'
 import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils'
 import {
@@ -116,14 +116,14 @@ function Divider() {
   return <div className="mx-2 my-1 w-px bg-neutral-200 dark:bg-neutral-600" />
 }
 
-function positionEditorElement(editor: any, rect: any) {
+function positionEditorElement(editor: HTMLDivElement, rect: DOMRect | null) {
   if (rect === null) {
     editor.style.opacity = '0'
     editor.style.top = '-1000px'
     editor.style.left = '-1000px'
   } else {
     editor.style.opacity = '1'
-    editor.style.top = `${rect.top + rect.height + window.pageYOffset + 10}px`
+    editor.style.top = `${rect.top + rect.height + window.scrollY + 10}px`
     editor.style.left = `${
       rect.left + window.pageXOffset - editor.offsetWidth / 2 + rect.width / 2
     }px`
@@ -131,8 +131,8 @@ function positionEditorElement(editor: any, rect: any) {
 }
 
 function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
-  const editorRef = useRef(null)
-  const inputRef = useRef(null)
+  const editorRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const mouseDownRef = useRef(false)
   const [linkUrl, setLinkUrl] = useState('')
   const [isEditMode, setEditMode] = useState(false)
@@ -226,7 +226,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
 
   useEffect(() => {
     if (isEditMode && inputRef.current) {
-      const input: any = inputRef.current
+      const input = inputRef.current
       input.focus()
     }
   }, [isEditMode])
@@ -337,11 +337,11 @@ function BlockOptionsDropdownList({
   toolbarRef,
   setShowBlockOptionsDropDown
 }: BlockOptionsDropdownListProps) {
-  const dropDownRef = useRef(null)
+  const dropDownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const toolbar = toolbarRef.current
-    const dropDown: any = dropDownRef.current
+    const dropDown = dropDownRef.current
 
     if (toolbar !== null && dropDown !== null) {
       const { left } = toolbar.getBoundingClientRect()
@@ -351,14 +351,17 @@ function BlockOptionsDropdownList({
   }, [dropDownRef, toolbarRef])
 
   useEffect(() => {
-    const dropDown: any = dropDownRef.current
+    const dropDown = dropDownRef.current
     const toolbar = toolbarRef.current
 
     if (dropDown !== null && toolbar !== null) {
-      const handle = (event: any) => {
+      const handle = (event: MouseEvent) => {
         const target = event.target
 
-        if (!dropDown.contains(target) && !toolbar.contains(target)) {
+        if (
+          !dropDown.contains(target as Node) &&
+          !toolbar.contains(target as Node)
+        ) {
           setShowBlockOptionsDropDown(false)
         }
       }
@@ -376,7 +379,7 @@ function BlockOptionsDropdownList({
         const selection = $getSelection()
 
         if ($isRangeSelection(selection)) {
-          $wrapNodes(selection, () => $createParagraphNode())
+          $setBlocksType(selection, () => $createParagraphNode())
         }
       })
     }
@@ -389,7 +392,7 @@ function BlockOptionsDropdownList({
         const selection = $getSelection()
 
         if ($isRangeSelection(selection)) {
-          $wrapNodes(selection, () => $createHeadingNode('h1'))
+          $setBlocksType(selection, () => $createHeadingNode('h1'))
         }
       })
     }
@@ -402,7 +405,7 @@ function BlockOptionsDropdownList({
         const selection = $getSelection()
 
         if ($isRangeSelection(selection)) {
-          $wrapNodes(selection, () => $createHeadingNode('h2'))
+          $setBlocksType(selection, () => $createHeadingNode('h2'))
         }
       })
     }
@@ -433,7 +436,7 @@ function BlockOptionsDropdownList({
         const selection = $getSelection()
 
         if ($isRangeSelection(selection)) {
-          $wrapNodes(selection, () => $createQuoteNode())
+          $setBlocksType(selection, () => $createQuoteNode())
         }
       })
     }
@@ -446,7 +449,7 @@ function BlockOptionsDropdownList({
         const selection = $getSelection()
 
         if ($isRangeSelection(selection)) {
-          $wrapNodes(selection, () => $createCodeNode())
+          $setBlocksType(selection, () => $createCodeNode())
         }
       })
     }
@@ -454,13 +457,38 @@ function BlockOptionsDropdownList({
   }
 
   const blockTypeList: [string, string, () => void, ReactElement][] = [
-    ['paragraph', 'Normal', formatParagraph, <Bars4Icon />],
-    ['large-heading', 'Large Heading', formatLargeHeading, <Bars2Icon />],
-    ['small-heading', 'Small Heading', formatSmallHeading, <Bars3Icon />],
-    ['bullet-list', 'Bullet List', formatBulletList, <ListBulletIcon />],
-    ['numbered-list', 'Numbered List', formatNumberedList, <ListNumberIcon />],
-    ['quote', 'Quote', formatQuote, <ChatBubbleBottomCenterTextIcon />],
-    ['code', 'Code', formatCode, <CodeBracketIcon />]
+    ['paragraph', 'Normal', formatParagraph, <Bars4Icon key="paragraph" />],
+    [
+      'large-heading',
+      'Large Heading',
+      formatLargeHeading,
+      <Bars2Icon key="large-heading" />
+    ],
+    [
+      'small-heading',
+      'Small Heading',
+      formatSmallHeading,
+      <Bars3Icon key="small-heading" />
+    ],
+    [
+      'bullet-list',
+      'Bullet List',
+      formatBulletList,
+      <ListBulletIcon key="bullet-list" />
+    ],
+    [
+      'numbered-list',
+      'Numbered List',
+      formatNumberedList,
+      <ListNumberIcon key="numbered-list" />
+    ],
+    [
+      'quote',
+      'Quote',
+      formatQuote,
+      <ChatBubbleBottomCenterTextIcon key="quote" />
+    ],
+    ['code', 'Code', formatCode, <CodeBracketIcon key="code" />]
   ]
 
   return (
@@ -501,6 +529,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
   const [showBlockOptionsDropDown, setShowBlockOptionsDropDown] =
     useState(false)
   const [codeLanguage, setCodeLanguage] = useState('')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isRTL, setIsRTL] = useState(false)
   const [isLink, setIsLink] = useState(false)
   const [isBold, setIsBold] = useState(false)
@@ -563,6 +592,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (_payload, newEditor) => {
           updateToolbar()
           return false
@@ -590,7 +620,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
 
   const codeLanguges = useMemo(() => getCodeLanguages(), [])
   const onCodeLanguageSelect = useCallback(
-    (e: any) => {
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
       editor.update(() => {
         if (selectedElementKey !== null) {
           const node = $getNodeByKey(selectedElementKey)

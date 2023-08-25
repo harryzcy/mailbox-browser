@@ -290,7 +290,7 @@ function EmailBlock(props: EmailBlockProps) {
   const { email, startForward, startReply } = props
 
   const [showMoreActions, setShowMoreActions] = React.useState(false)
-  const showMoreActionsRef = useRef(null)
+  const showMoreActionsRef = useRef<HTMLSpanElement>(null)
 
   useOutsideClick(showMoreActionsRef, () => setShowMoreActions(false))
 

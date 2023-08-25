@@ -29,6 +29,7 @@ export class EmailQuoteNode extends DecoratorNode<ReactNode> {
     this.__html = html
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   createDOM(config: EditorConfig): HTMLElement {
     const div = document.createElement('div')
     return div
@@ -48,10 +49,12 @@ export class EmailQuoteNode extends DecoratorNode<ReactNode> {
     return self.__html
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   decorate(editor: LexicalEditor): ReactNode {
     return <EmailQuote html={this.__html} />
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   exportDOM(editor: LexicalEditor): DOMExportOutput {
     const div = document.createElement('div')
     div.className = 'editor-email-quote'
