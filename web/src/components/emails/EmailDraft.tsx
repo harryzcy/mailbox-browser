@@ -33,25 +33,25 @@ export function EmailDraft(props: EmailDraftProps) {
 
   return (
     <div
-      className={`flex flex-col w-full rounded md:rounded-md bg-neutral-50 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 shadow-md ${
+      className={`flex w-full flex-col rounded bg-neutral-50 text-neutral-800 shadow-md dark:bg-neutral-800 dark:text-neutral-100 md:rounded-md ${
         !isReply ? ' h-full max-h-full' : ''
       }`}
     >
       {!isReply && (
-        <div className="flex items-center justify-between bg-neutral-100 dark:bg-neutral-700 p-2 rounded-t md:rounded-t-md">
+        <div className="flex items-center justify-between rounded-t bg-neutral-100 p-2 dark:bg-neutral-700 md:rounded-t-md">
           <span>{email.subject || 'New Email'}</span>
           <span className="inline-flex">
             <span
-              className="-my-2 -mr-1 p-1.5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-600 cursor-pointer"
+              className="-my-2 -mr-1 cursor-pointer rounded-full p-1.5 hover:bg-neutral-300 dark:hover:bg-neutral-600"
               onClick={handleMinimize}
             >
-              <MinusIcon className="w-4 h-4" />
+              <MinusIcon className="h-4 w-4" />
             </span>
             <span
-              className="-my-2 -mr-1 p-1.5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-600 cursor-pointer"
+              className="-my-2 -mr-1 cursor-pointer rounded-full p-1.5 hover:bg-neutral-300 dark:hover:bg-neutral-600"
               onClick={handleClose}
             >
-              <XMarkIcon className="w-4 h-4" />
+              <XMarkIcon className="h-4 w-4" />
             </span>
           </span>
         </div>
@@ -59,10 +59,10 @@ export function EmailDraft(props: EmailDraftProps) {
 
       {!isReply && (
         <div className="flex px-2 pt-2">
-          <span className="ml-2 px-3 py-1 w-16 text-center bg-neutral-200 dark:bg-neutral-900 rounded md:rounded-md">
+          <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center dark:bg-neutral-900 md:rounded-md">
             From
           </span>
-          <span className="flex-1 border-b dark:border-neutral-600 mx-2">
+          <span className="mx-2 flex-1 border-b dark:border-neutral-600">
             <EmailAddressInput
               addresses={email.from || []}
               handleChange={(emails) => {
@@ -73,10 +73,10 @@ export function EmailDraft(props: EmailDraftProps) {
         </div>
       )}
       <div className="flex px-2 pt-2">
-        <span className="ml-2 px-3 py-1 w-16 text-center bg-neutral-200 dark:bg-neutral-900 rounded md:rounded-md">
+        <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center dark:bg-neutral-900 md:rounded-md">
           To
         </span>
-        <span className="flex-1 border-b dark:border-neutral-600 mx-2">
+        <span className="mx-2 flex-1 border-b dark:border-neutral-600">
           <EmailAddressInput
             addresses={email.to || []}
             handleChange={(emails) => {
@@ -86,10 +86,10 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
       </div>
       <div className="flex px-2 pt-2">
-        <span className="ml-2 px-3 py-1 w-16 text-center bg-neutral-200 dark:bg-neutral-900 rounded md:rounded-md">
+        <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center dark:bg-neutral-900 md:rounded-md">
           Cc
         </span>
-        <span className="flex-1 border-b dark:border-neutral-600 mx-2">
+        <span className="mx-2 flex-1 border-b dark:border-neutral-600">
           <EmailAddressInput
             addresses={email.cc || []}
             handleChange={(emails) => {
@@ -99,10 +99,10 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
       </div>
       <div className="flex px-2 pt-2">
-        <span className="ml-2 px-3 py-1 w-16 text-center bg-neutral-200 dark:bg-neutral-900 rounded md:rounded-md">
+        <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center dark:bg-neutral-900 md:rounded-md">
           Bcc
         </span>
-        <span className="flex-1 border-b dark:border-neutral-600 mx-2">
+        <span className="mx-2 flex-1 border-b dark:border-neutral-600">
           <EmailAddressInput
             addresses={email.bcc || []}
             handleChange={(emails) => {
@@ -116,7 +116,7 @@ export function EmailDraft(props: EmailDraftProps) {
         // Reply emails should used standard subject
         !isReply && (
           <div className="flex px-2 pt-3">
-            <span className="flex-1 border-b dark:border-neutral-600 mx-2">
+            <span className="mx-2 flex-1 border-b dark:border-neutral-600">
               <TextInput
                 value={email.subject || ''}
                 placeholder="Subject"
@@ -129,7 +129,7 @@ export function EmailDraft(props: EmailDraftProps) {
         )
       }
 
-      <div className="flex-1 flex px-2 pt-3 overscroll-contain overflow-scroll">
+      <div className="flex flex-1 overflow-scroll overscroll-contain px-2 pt-3">
         <RichTextEditor
           initialHtml={email.html || ''}
           handleChange={({ html, text }) => {

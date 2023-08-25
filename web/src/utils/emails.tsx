@@ -85,7 +85,7 @@ export function parseEmailContent(email: Email, disableProxy?: boolean) {
   }
   // fallback to text if html parsing fails
   return (
-    <pre className="w-full block whitespace-pre-wrap break-words font-sans">
+    <pre className="block w-full whitespace-pre-wrap break-words font-sans">
       {email.text}
     </pre>
   )

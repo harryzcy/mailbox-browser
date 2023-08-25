@@ -188,7 +188,7 @@ export default function EmailView() {
 
       <React.Suspense
         fallback={
-          <div className="bg-neutral-50 rounded-md bg-neutral-50 dark:bg-neutral-800 p-3 overflow-scroll mb-4 dark:text-neutral-200">
+          <div className="mb-4 overflow-scroll rounded-md bg-neutral-50 bg-neutral-50 p-3 dark:bg-neutral-800 dark:text-neutral-200">
             <span>Loading...</span>
           </div>
         }
@@ -196,7 +196,7 @@ export default function EmailView() {
         {data.type == 'email' && (
           <Await resolve={data.email}>
             {(email: Email) => (
-              <div className="overflow-scroll h-full pb-5">
+              <div className="h-full overflow-scroll pb-5">
                 <div className="mb-2 px-3">
                   <span className="text-xl font-normal dark:text-neutral-200">
                     {email.subject}
@@ -229,7 +229,7 @@ export default function EmailView() {
         {data.type == 'thread' && (
           <Await resolve={data.thread}>
             {(thread: Thread) => (
-              <div className="overflow-scroll h-full pb-5">
+              <div className="h-full overflow-scroll pb-5">
                 <div className="mb-2 px-3">
                   <span className="text-xl font-normal dark:text-neutral-200">
                     {thread.subject}
@@ -254,12 +254,12 @@ export default function EmailView() {
                   />
                 )}
                 {thread.draftID && !activeReplyEmail && (
-                  <div className="bg-neutral-50 rounded-md bg-neutral-50 dark:bg-neutral-800 p-3 mb-4">
-                    <div className="flex justify-between items-start">
+                  <div className="mb-4 rounded-md bg-neutral-50 bg-neutral-50 p-3 dark:bg-neutral-800">
+                    <div className="flex items-start justify-between">
                       <span className="text-red-300">[Draft]</span>
                       <span className="text-neutral-500 dark:text-neutral-300">
                         <span
-                          className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                          className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
                           onClick={() => {
                             openReply(thread.draft!)
                           }}
@@ -305,9 +305,9 @@ function EmailBlock(props: EmailBlockProps) {
 
   return (
     <>
-      <div className="bg-neutral-50 rounded-md bg-neutral-50 dark:bg-neutral-800 p-3 mb-4">
+      <div className="mb-4 rounded-md bg-neutral-50 bg-neutral-50 p-3 dark:bg-neutral-800">
         {/* header info for emails */}
-        <div className="flex justify-between items-start">
+        <div className="flex items-start justify-between">
           <div className="dark:text-neutral-300">
             <div>
               <span>{getNameFromEmails(email.from)}</span>
@@ -319,9 +319,9 @@ function EmailBlock(props: EmailBlockProps) {
 
           <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-300">
             <span className="p-1">{formatDate(email.timeReceived)}</span>
-            <span className="inline-flex ml-4 relative">
+            <span className="relative ml-4 inline-flex">
               <span
-                className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
                 onClick={() => {
                   startReply(email)
                 }}
@@ -329,7 +329,7 @@ function EmailBlock(props: EmailBlockProps) {
                 <ArrowUturnLeftIcon />
               </span>
               <span
-                className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
                 onClick={() => {
                   startForward(email)
                 }}
@@ -337,7 +337,7 @@ function EmailBlock(props: EmailBlockProps) {
                 <ArrowUturnRightIcon />
               </span>
               <span
-                className="inline-flex w-8 h-8 p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
                 onClick={() => setShowMoreActions(!showMoreActions)}
               >
                 <EllipsisVerticalIcon />
@@ -346,10 +346,10 @@ function EmailBlock(props: EmailBlockProps) {
               {showMoreActions && (
                 <span
                   ref={showMoreActionsRef}
-                  className="absolute right-0 top-8 w-28 rounded-md py-1 border select-none bg-white dark:border-neutral-600 dark:bg-neutral-800"
+                  className="absolute right-0 top-8 w-28 select-none rounded-md border bg-white py-1 dark:border-neutral-600 dark:bg-neutral-800"
                 >
                   <div
-                    className="px-2 py-1 w-full cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-600"
+                    className="w-full cursor-pointer px-2 py-1 hover:bg-gray-100 dark:hover:bg-neutral-600"
                     onClick={() => {
                       setShowMoreActions(false)
                       window.open(`/raw/${email.messageID}`, '_blank')

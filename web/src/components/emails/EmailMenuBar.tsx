@@ -80,10 +80,10 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
   }
 
   return (
-    <div className="flex justify-between items-stretch select-none">
+    <div className="flex select-none items-stretch justify-between">
       <div className="flex items-center space-x-1">
         <span
-          className="inline-flex items-center h-full space-x-2 px-3 mr-3 rounded-md cursor-pointer bg-sky-200 border border-sky-200"
+          className="mr-3 inline-flex h-full cursor-pointer items-center space-x-2 rounded-md border border-sky-200 bg-sky-200 px-3"
           onClick={() => {
             void handleCreate()
           }}
@@ -91,13 +91,13 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
           <span>
             <EnvelopeIcon className="h-5 w-5 text-sky-800" />
           </span>
-          <span className="text-bold text-sky-900 font-medium">Compose</span>
+          <span className="text-bold font-medium text-sky-900">Compose</span>
         </span>
 
         {showOperations && (
           <>
             <span
-              className="inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:text-sky-900 dark:hover:text-gray-100"
+              className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
               onClick={() => {
                 handleDelete && handleDelete()
               }}
@@ -105,21 +105,21 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
               <TrashIcon className="h-5 w-5" />
             </span>
             <span
-              className="inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:text-sky-900 dark:hover:text-gray-100"
+              className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
               onClick={handleRead}
             >
               <EnvelopeIcon className="h-5 w-5" />
             </span>
             <span
-              className="inline-flex p-2 rounded-md cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:text-sky-900 dark:hover:text-gray-100"
+              className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
               onClick={handleUnread}
             >
               <EnvelopeOpenIcon className="h-5 w-5" />
             </span>
             <span className="inline-flex h-1/2 w-2.5">
-              <span className="block h-full w-[1px] bg-gray-300 m-auto"></span>
+              <span className="m-auto block h-full w-[1px] bg-gray-300"></span>
             </span>
-            <span className="inline-flex relative p-2 rounded-md cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700 text-gray-600 dark:text-gray-300 hover:text-sky-900 dark:hover:text-gray-100">
+            <span className="relative inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100">
               <span
                 className="-m-2 p-2"
                 onClick={() => {
@@ -129,14 +129,14 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
                 <EllipsisVerticalIcon className="h-5 w-5" />
               </span>
               {showPluginMenu && (
-                <div className="absolute top-9 left-0 rounded-md bg-white dark:bg-neutral-800 w-40 border">
+                <div className="absolute left-0 top-9 w-40 rounded-md border bg-white dark:bg-neutral-800">
                   {configContext.state.config.plugins.length === 0 ? (
                     <div className="w-full p-2">No plugins installed</div>
                   ) : (
                     configContext.state.config.plugins.map((plugin) => (
                       <div
                         key={plugin.name}
-                        className="w-full p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 hover:text-sky-900 dark:hover:text-gray-100"
+                        className="w-full p-2 hover:bg-neutral-100 hover:text-sky-900 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
                         onClick={() => {
                           invokePlugin(plugin)
                         }}
@@ -153,12 +153,12 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
       </div>
 
       <nav
-        className="inline-flex rounded-md divide-x dark:divide-x-0 border dark:border-sky-900"
+        className="inline-flex divide-x rounded-md border dark:divide-x-0 dark:border-sky-900"
         aria-label="pagination"
       >
         <span
           className={
-            'inline-flex p-2 items-center dark:bg-cyan-900 rounded-l-md ' +
+            'inline-flex items-center rounded-l-md p-2 dark:bg-cyan-900 ' +
             (!hasPrevious
               ? 'cursor-not-allowed text-gray-400'
               : 'cursor-pointer dark:text-cyan-50')
@@ -170,13 +170,13 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
           </span>
         </span>
         {children && (
-          <span className="inline-flex py-2 px-3 mx-px dark:bg-cyan-900 select-none dark:text-cyan-50 text-sm text-center">
+          <span className="mx-px inline-flex select-none px-3 py-2 text-center text-sm dark:bg-cyan-900 dark:text-cyan-50">
             {children}
           </span>
         )}
         <span
           className={
-            'inline-flex p-2 items-center dark:bg-cyan-900 rounded-r-md ' +
+            'inline-flex items-center rounded-r-md p-2 dark:bg-cyan-900 ' +
             (!hasNext
               ? 'cursor-not-allowed text-gray-400'
               : 'cursor-pointer dark:text-cyan-50')

@@ -21,7 +21,7 @@ export default function Sidebar() {
   }, [])
 
   return (
-    <aside className="flex-none flex flex-col justify-between h-screen md:w-60 text-base select-none">
+    <aside className="flex h-screen flex-none select-none flex-col justify-between text-base md:w-60">
       <div>
         <div className="flex flex-col content-center md:p-6">
           <h1 className="text-center font-light tracking-wide dark:text-neutral-100">
@@ -35,10 +35,10 @@ export default function Sidebar() {
                 key={path}
                 to={path}
                 className={({ isActive }) =>
-                  `flex items-center px-4 py-2 mb-1 space-x-2 cursor-pointer rounded hover:bg-neutral-300 hover:text-black dark:hover:bg-neutral-700 dark:hover:text-neutral-100 ${
+                  `mb-1 flex cursor-pointer items-center space-x-2 rounded px-4 py-2 hover:bg-neutral-300 hover:text-black dark:hover:bg-neutral-700 dark:hover:text-neutral-100 ${
                     isActive
-                      ? 'text-neutral-900 dark:text-neutral-200 bg-neutral-200 dark:bg-neutral-800'
-                      : 'text-neutral-700 dark:text-neutral-400 bg-transparent'
+                      ? 'bg-neutral-200 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-200'
+                      : 'bg-transparent text-neutral-700 dark:text-neutral-400'
                   }`
                 }
               >
@@ -50,7 +50,7 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      <div className="grid grid-cols-2 space-x-1 items-center justify-center text-gray-400 dark:text-neutral-500 text-xs py-2 md:py-6">
+      <div className="grid grid-cols-2 items-center justify-center space-x-1 py-2 text-xs text-gray-400 dark:text-neutral-500 md:py-6">
         <span className="justify-self-end">Mailbox</span>
         <span>{mailboxVersion}</span>
         <span className="justify-self-end">Browser</span>

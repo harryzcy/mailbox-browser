@@ -11,18 +11,18 @@ export default function DraftEmailsTabs() {
   return (
     <div
       className={
-        'fixed w-full h-[3rem] -mx-8 px-8 pt-2' +
+        'fixed -mx-8 h-[3rem] w-full px-8 pt-2' +
         (draftEmailsContext.activeEmail === null
           ? ' bg-neutral-50 dark:bg-neutral-900'
           : '')
       }
     >
-      <div className="flex space-x-2 h-full text-slate-900 dark:text-slate-300">
+      <div className="flex h-full space-x-2 text-slate-900 dark:text-slate-300">
         {draftEmailsContext.emails.map((email) => {
           return (
             <div
               key={email.messageID}
-              className="rounded-t md:rounded-t-md bg-neutral-200 dark:bg-neutral-800 flex p-1 px-5 items-center cursor-pointer"
+              className="flex cursor-pointer items-center rounded-t bg-neutral-200 p-1 px-5 dark:bg-neutral-800 md:rounded-t-md"
               onClick={() => {
                 draftEmailsContext.dispatch({
                   type: 'open',
