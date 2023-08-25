@@ -11,14 +11,14 @@ import { browserVersion } from '../utils/info'
 
 export default function Sidebar() {
   const navItems: [string, string, ReactElement][] = [
-    ['Inbox', '/inbox', <InboxIcon />],
-    ['Drafts', '/drafts', <DocumentTextIcon />],
-    ['Sent', '/sent', <PaperAirplaneIcon />]
+    ['Inbox', '/inbox', <InboxIcon key="inbox" />],
+    ['Drafts', '/drafts', <DocumentTextIcon key="drafts" />],
+    ['Sent', '/sent', <PaperAirplaneIcon key="sent" />]
   ]
 
   const [mailboxVersion, setMailboxVersion] = useState('')
   useEffect(() => {
-    getInfo().then((info) => setMailboxVersion(info.version))
+    void getInfo().then((info) => setMailboxVersion(info.version))
   }, [])
 
   return (
