@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+
 import EmailMenuBar from '../components/emails/EmailMenuBar'
 import EmailTableView from '../components/emails/EmailTableView'
 import { useOutsideClick } from '../hooks/useOutsideClick'

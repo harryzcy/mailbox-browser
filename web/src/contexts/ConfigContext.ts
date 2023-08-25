@@ -1,4 +1,4 @@
-import { createContext, Dispatch } from 'react'
+import { Dispatch, createContext } from 'react'
 
 export interface Config {
   emailAddresses: string[]

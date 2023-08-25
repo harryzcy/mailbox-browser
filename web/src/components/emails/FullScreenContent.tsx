@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
+
 import {
   DraftEmail,
   DraftEmailsContext
 } from '../../contexts/DraftEmailContext'
+import useThrottled from '../../hooks/useThrottled'
 import { deleteEmail, saveEmail } from '../../services/emails'
 import { EmailDraft } from './EmailDraft'
-import useThrottled from '../../hooks/useThrottled'
 
 interface FullScreenContentProps {
   handleDelete: (messageID: string) => void

@@ -1,16 +1,17 @@
-import './App.css'
 import {
-  createBrowserRouter,
   RouterProvider,
-  redirect,
-  defer
+  createBrowserRouter,
+  defer,
+  redirect
 } from 'react-router-dom'
+
+import './App.css'
+import EmailList from './pages/EmailList'
+import EmailRawView from './pages/EmailRawView'
 import EmailRoot from './pages/EmailRoot'
 import EmailView from './pages/EmailView'
 import Root from './pages/Root'
-import EmailList from './pages/EmailList'
 import { getEmail, getEmailRaw } from './services/emails'
-import EmailRawView from './pages/EmailRawView'
 import { getThread } from './services/threads'
 
 const router = createBrowserRouter([

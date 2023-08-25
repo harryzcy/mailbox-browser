@@ -1,14 +1,15 @@
-import { useContext, useEffect, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import {
+  EllipsisVerticalIcon,
   EnvelopeIcon,
-  TrashIcon,
   EnvelopeOpenIcon,
-  EllipsisVerticalIcon
+  TrashIcon
 } from '@heroicons/react/24/outline'
+import { useContext, useEffect, useState } from 'react'
+
+import { ConfigContext, Plugin } from '../../contexts/ConfigContext'
 import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
 import { createEmail, generateLocalDraftID } from '../../services/emails'
-import { ConfigContext, Plugin } from '../../contexts/ConfigContext'
 import * as plugins from '../../services/plugins'
 
 interface EmailMenuBarProps {
