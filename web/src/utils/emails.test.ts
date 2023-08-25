@@ -1,4 +1,5 @@
 import { exportedForTesting } from './emails'
+
 const { makeCSSURL } = exportedForTesting
 
 describe('makeCSSURL', () => {

@@ -4,8 +4,8 @@ import {
   $getSelection,
   $isElementNode,
   $isRangeSelection,
-  INDENT_CONTENT_COMMAND,
   COMMAND_PRIORITY_HIGH,
+  INDENT_CONTENT_COMMAND,
   RangeSelection
 } from 'lexical'
 import { useEffect } from 'react'

@@ -1,8 +1,8 @@
 import {
-  DecoratorNode,
   DOMConversionMap,
   DOMConversionOutput,
   DOMExportOutput,
+  DecoratorNode,
   EditorConfig,
   LexicalEditor,
   LexicalNode,
@@ -10,6 +10,7 @@ import {
   SerializedLexicalNode
 } from 'lexical'
 import { ReactNode } from 'react'
+
 import { parseEmailHTML } from '../../utils/emails'
 
 export class EmailQuoteNode extends DecoratorNode<ReactNode> {

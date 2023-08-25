@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { XMarkIcon } from '@heroicons/react/20/solid'
+import { useState } from 'react'
 
 export interface EmailAddressInputProps {
   addresses: string[]

@@ -1,5 +1,6 @@
 import { useReducer } from 'react'
 import { Outlet } from 'react-router-dom'
+
 import Sidebar from '../components/Sidebar'
 import {
   ConfigContext,
@@ -7,8 +8,8 @@ import {
   initialConfigState
 } from '../contexts/ConfigContext'
 import {
-  draftEmailReducer,
   DraftEmailsContext,
+  draftEmailReducer,
   initialState
 } from '../contexts/DraftEmailContext'
 

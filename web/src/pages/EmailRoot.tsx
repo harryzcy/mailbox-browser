@@ -2,15 +2,15 @@
  * EmailRoot.tsx
  * This is the root component for inbox, draft, and sent pages.
  */
-
 import { useContext, useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router-dom'
+
 import DraftEmailsTabs from '../components/emails/DraftEmailsTabs'
 import FullScreenContent from '../components/emails/FullScreenContent'
 import { ConfigContext } from '../contexts/ConfigContext'
 import { DraftEmailsContext } from '../contexts/DraftEmailContext'
 import { getConfig } from '../services/config'
-import { EmailInfo, listEmails, ListEmailsResponse } from '../services/emails'
+import { EmailInfo, ListEmailsResponse, listEmails } from '../services/emails'
 import { getCurrentYearMonth } from '../utils/time'
 
 type InboxContext = {

@@ -1,53 +1,3 @@
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import {
-  ReactElement,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react'
-import {
-  CAN_REDO_COMMAND,
-  CAN_UNDO_COMMAND,
-  LexicalEditor,
-  REDO_COMMAND,
-  UNDO_COMMAND,
-  SELECTION_CHANGE_COMMAND,
-  FORMAT_TEXT_COMMAND,
-  FORMAT_ELEMENT_COMMAND,
-  $getSelection,
-  $isRangeSelection,
-  $createParagraphNode,
-  $getNodeByKey,
-  RangeSelection
-} from 'lexical'
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link'
-import {
-  $isParentElementRTL,
-  $wrapNodes,
-  $isAtNodeEnd
-} from '@lexical/selection'
-import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils'
-import {
-  INSERT_ORDERED_LIST_COMMAND,
-  INSERT_UNORDERED_LIST_COMMAND,
-  REMOVE_LIST_COMMAND,
-  $isListNode,
-  ListNode
-} from '@lexical/list'
-import { createPortal } from 'react-dom'
-import {
-  $createHeadingNode,
-  $createQuoteNode,
-  $isHeadingNode
-} from '@lexical/rich-text'
-import {
-  $createCodeNode,
-  $isCodeNode,
-  getDefaultCodeLanguage,
-  getCodeLanguages
-} from '@lexical/code'
 import {
   ArrowUturnLeftIcon,
   ArrowUturnRightIcon,
@@ -64,11 +14,62 @@ import {
   PencilSquareIcon
 } from '@heroicons/react/20/solid'
 import { PaperAirplaneIcon, TrashIcon } from '@heroicons/react/24/outline'
+import {
+  $createCodeNode,
+  $isCodeNode,
+  getCodeLanguages,
+  getDefaultCodeLanguage
+} from '@lexical/code'
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link'
+import {
+  $isListNode,
+  INSERT_ORDERED_LIST_COMMAND,
+  INSERT_UNORDERED_LIST_COMMAND,
+  ListNode,
+  REMOVE_LIST_COMMAND
+} from '@lexical/list'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import {
+  $createHeadingNode,
+  $createQuoteNode,
+  $isHeadingNode
+} from '@lexical/rich-text'
+import {
+  $isAtNodeEnd,
+  $isParentElementRTL,
+  $wrapNodes
+} from '@lexical/selection'
+import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils'
+import {
+  $createParagraphNode,
+  $getNodeByKey,
+  $getSelection,
+  $isRangeSelection,
+  CAN_REDO_COMMAND,
+  CAN_UNDO_COMMAND,
+  FORMAT_ELEMENT_COMMAND,
+  FORMAT_TEXT_COMMAND,
+  LexicalEditor,
+  REDO_COMMAND,
+  RangeSelection,
+  SELECTION_CHANGE_COMMAND,
+  UNDO_COMMAND
+} from 'lexical'
+import {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
+import { createPortal } from 'react-dom'
+
 import Bars3BottomCenterIcon from '../icons/Bars3BottomCenterIcon'
-import ListNumberIcon from '../icons/ListNumberIcon'
-import StrikeThroughIcon from '../icons/StrikeThrough'
 import BoldIcon from '../icons/BoldIcon'
 import ItalicIcon from '../icons/ItalicIcon'
+import ListNumberIcon from '../icons/ListNumberIcon'
+import StrikeThroughIcon from '../icons/StrikeThrough'
 import UnderlineIcon from '../icons/Underline'
 
 const LowPriority = 1

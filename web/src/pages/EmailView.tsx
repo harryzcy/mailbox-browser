@@ -1,12 +1,17 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Await, useLoaderData, useNavigate } from 'react-router-dom'
 import {
   ArrowUturnLeftIcon,
   ArrowUturnRightIcon,
   EllipsisVerticalIcon,
   PencilIcon
 } from '@heroicons/react/24/outline'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Await, useLoaderData, useNavigate } from 'react-router-dom'
+
+import { EmailDraft } from '../components/emails/EmailDraft'
 import EmailMenuBar from '../components/emails/EmailMenuBar'
+import { ConfigContext } from '../contexts/ConfigContext'
+import { DraftEmail, DraftEmailsContext } from '../contexts/DraftEmailContext'
+import { useOutsideClick } from '../hooks/useOutsideClick'
 import {
   CreateEmailProps,
   Email,
@@ -19,12 +24,8 @@ import {
 } from '../services/emails'
 import { Thread } from '../services/threads'
 import { getNameFromEmails } from '../utils/emails'
-import { formatDate } from '../utils/time'
-import { useOutsideClick } from '../hooks/useOutsideClick'
-import { EmailDraft } from '../components/emails/EmailDraft'
-import { DraftEmail, DraftEmailsContext } from '../contexts/DraftEmailContext'
 import { parseEmailContent } from '../utils/emails'
-import { ConfigContext } from '../contexts/ConfigContext'
+import { formatDate } from '../utils/time'
 import { useInboxContext } from './EmailRoot'
 
 export default function EmailView() {

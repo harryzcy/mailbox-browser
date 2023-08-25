@@ -3,7 +3,6 @@
  * Copyright (c) 2011-2022 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-
 import { IconProps } from './IconProps'
 
 export default function StrikeThroughIcon({ className }: IconProps) {

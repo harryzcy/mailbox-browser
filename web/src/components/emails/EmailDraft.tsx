@@ -2,7 +2,6 @@
  * EmailDraft.tsx
  * This component will occupy full screen when a user is composing an email.
  */
-
 import { MinusIcon, XMarkIcon } from '@heroicons/react/20/solid'
 
 import { DraftEmail } from '../../contexts/DraftEmailContext'

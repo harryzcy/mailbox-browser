@@ -1,11 +1,12 @@
+import * as css from '@adobe/css-tools'
 import parse, {
-  Element,
-  Text,
-  HTMLReactParserOptions,
   DOMNode,
+  Element,
+  HTMLReactParserOptions,
+  Text,
   domToReact
 } from 'html-react-parser'
-import * as css from '@adobe/css-tools'
+
 import { Email } from '../services/emails'
 
 export function getNameFromEmails(emails: string[] | null): string {
