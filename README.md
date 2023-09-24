@@ -19,6 +19,7 @@ docker run --env AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID> \
 
 1. Clone the repository
 1. Create [Cloudflare project](https://developers.cloudflare.com/pages/get-started/guide/)
+1. Configure correct environment variables according to [this](#environment-variables) section
 1. Run `make cloudflare`
 
 Replace the environment variables with respective values.
