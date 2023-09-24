@@ -5,7 +5,7 @@ export const onRequest: PagesFunction = async (context) => {
   if (!target) {
     return new Response(
       JSON.stringify({
-        reason: 'Missing target URL'
+        reason: 'missing target URL'
       }),
       { status: 400 }
     )
