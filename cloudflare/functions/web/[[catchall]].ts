@@ -26,11 +26,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
   const res = await aws.fetch(`${endpoint}/${path}${query}`, {
     method: context.request.method,
-    headers: context.request.headers,
-    body: context.request.body,
-    aws: {
-      allHeaders: true
-    }
+    body: context.request.body
   })
   return res
 }
