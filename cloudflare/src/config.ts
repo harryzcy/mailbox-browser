@@ -7,4 +7,17 @@ export interface Env {
 
   EMAIL_ADDRESSES: string[]
   PROXY_ENABLE: boolean
+
+  PLUGINS: string
+}
+
+export interface Plugin {
+  Name: string
+  DisplayName: string
+  Endpoints: Endpoint
+}
+
+export interface Endpoint {
+  Email: string
+  Emails: string
 }
