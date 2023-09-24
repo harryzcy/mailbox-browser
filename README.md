@@ -2,7 +2,9 @@
 
 Web Interface for Mailbox.
 
-## Usage via Docker
+## Usage
+
+### Docker
 
 ```shell
 docker run --env AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID> \
@@ -12,6 +14,12 @@ docker run --env AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID> \
            --env AWS_API_GATEWAY_ENDPOINT=<AWS_API_GATEWAY_ENDPOINT> \
            harryzcy/mailbox-browser
 ```
+
+### Cloudflare Pages & Pages Functions
+
+1. Clone the repository
+1. Create [Cloudflare project](https://developers.cloudflare.com/pages/get-started/guide/)
+1. Run `make cloudflare`
 
 Replace the environment variables with respective values.
 
@@ -30,4 +38,5 @@ Replace the environment variables with respective values.
 | Directory | Description |
 | --------- | ----------- |
 | bff | Backend for frontend |
+| cloudflare | Cloudflare Pages deployment |
 | web | Web frontend |
