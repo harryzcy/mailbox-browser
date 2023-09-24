@@ -29,6 +29,7 @@ coverage
 
 # build info
 /web/src/utils/info.ts
+/cloudflare/src/buildInfo.ts
 
 # config
 bff/config.yaml
