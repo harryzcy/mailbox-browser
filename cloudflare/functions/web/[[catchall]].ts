@@ -7,6 +7,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const aws = new AwsClient({
     accessKeyId: context.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: context.env.AWS_SECRET_ACCESS_KEY,
+    service: 'execute-api',
     region: context.env.AWS_REGION
   })
 
@@ -17,10 +18,19 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const path = segments.join('/')
   const url = context.request.url
   const query = url.includes('?') ? `?${url.split('?')[1]}` : ''
+  const headers = context.request.headers
+  headers.append('Accept', 'application/json')
+  if (context.request.method === 'POST' || context.request.method === 'PUT') {
+    headers.append('Content-Type', 'application/json')
+  }
 
-  return aws.fetch(`${endpoint}/${path}${query}`, {
+  const res = await aws.fetch(`${endpoint}/${path}${query}`, {
     method: context.request.method,
     headers: context.request.headers,
-    body: context.request.body
+    body: context.request.body,
+    aws: {
+      allHeaders: true
+    }
   })
+  return res
 }
