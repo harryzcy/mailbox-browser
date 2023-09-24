@@ -5,5 +5,5 @@ import (
 )
 
 func Robots(c *gin.Context) {
-	c.String(200, "User-agent: *\nDisallow: /")
+	c.String(200, "User-agent: *\nDisallow: /\n")
 }
