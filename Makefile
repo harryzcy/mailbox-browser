@@ -28,4 +28,7 @@ docker:
 cloudflare: web
 	@echo "Deploying to Cloudflare..."
 	@cp -r web/dist cloudflare/
-	@cd cloudflare && wrangler deploy
+	@echo "export const BUILD_VERSION = \"$(BUILD_VERSION)\"" > cloudflare/src/buildInfo.ts
+	@echo "export const BUILD_COMMIT = \"$(BUILD_COMMIT)\"" >> cloudflare/src/buildInfo.ts
+	@echo "export const BUILD_DATE = \"$(BUILD_DATE)\"" >> cloudflare/src/buildInfo.ts
+	@cd cloudflare && npx wrangler pages deploy dist
