@@ -16,7 +16,7 @@ all: web docker
 web:
 	@echo "Building web..."
 	@echo "export const browserVersion = \"$(BUILD_VERSION)\"" > web/src/utils/info.ts
-	@cd web && npm run build
+	@cd web && npm ci && npm run build
 
 .PHONY: docker
 docker:
@@ -31,4 +31,4 @@ cloudflare: web
 	@echo "export const BUILD_VERSION = \"$(BUILD_VERSION)\"" > cloudflare/src/buildInfo.ts
 	@echo "export const BUILD_COMMIT = \"$(BUILD_COMMIT)\"" >> cloudflare/src/buildInfo.ts
 	@echo "export const BUILD_DATE = \"$(BUILD_DATE)\"" >> cloudflare/src/buildInfo.ts
-	@cd cloudflare && npx wrangler pages deploy dist
+	@cd cloudflare && npm ci && npx wrangler pages deploy dist
