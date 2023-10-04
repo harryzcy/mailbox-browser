@@ -19,6 +19,7 @@ type InvokeRequest struct {
 	MessageIDs []string `json:"messageIDs"`
 }
 
+// TODO: Rework this.
 func Invoke(c *gin.Context) {
 	var req InvokeRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
