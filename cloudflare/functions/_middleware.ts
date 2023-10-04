@@ -21,8 +21,17 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 const performForwardAuth: PagesFunction<Env> = async (context) => {
   const address = context.env.AUTH_FORWARD_ADDRESS
 
+  const headers = context.request.headers
+
+  const { protocol } = new URL(context.request.url)
+  headers.set('X-Forwarded-Method', context.request.method)
+  headers.set('X-Forwarded-Proto', protocol)
+  headers.set('X-Forwarded-Host', headers.get('Host'))
+  headers.set('X-Forwarded-URI', context.request.url)
+  headers.set('X-Forwarded-For', headers.get('CF-Connecting-IP'))
+
   const resp = await fetch(address, {
-    headers: context.request.headers,
+    headers,
     redirect: 'manual'
   })
   if (resp.status >= 200 && resp.status < 300) {
