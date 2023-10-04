@@ -14,7 +14,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "rootDir": "./src",
+    "outDir": "./dist"
   },
   "include": ["src", "vite.config.ts", "jest.config.ts", "tailwind.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
