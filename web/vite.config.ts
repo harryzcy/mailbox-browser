@@ -3,7 +3,14 @@ import { defineConfig } from 'vite'
 
 const proxyRoutes = ['/web', '/proxy', '/config', '/plugins']
 
-const proxy = {}
+const proxy = {} as Record<
+  string,
+  {
+    target: string
+    changeOrigin: boolean
+  }
+>
+
 proxyRoutes.forEach((route) => {
   proxy[route] = {
     target: 'http://localhost:8070',
