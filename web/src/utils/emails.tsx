@@ -159,6 +159,8 @@ function isCssRule(rule: css.CssAtRuleAST): rule is css.CssRuleAST {
 }
 
 function makeProxyURL(url: string) {
+  if (!url) return url
+  if (url.startsWith('data:')) return url
   return `/proxy?l=${encodeURIComponent(url)}`
 }
 
