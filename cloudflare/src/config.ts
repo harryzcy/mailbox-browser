@@ -1,6 +1,7 @@
 export interface Env {
   AUTH_BASIC_USER: string
   AUTH_BASIC_PASS: string
+  AUTH_FORWARD_ADDRESS: string
 
   AWS_REGION: string
   AWS_ACCESS_KEY_ID: string

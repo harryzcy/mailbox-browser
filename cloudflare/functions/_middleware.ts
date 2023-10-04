@@ -7,11 +7,34 @@ enum AuthState {
 }
 
 export const onRequest: PagesFunction<Env> = async (context) => {
-  // If user/password is not set, skip authentication.
-  if (!context.env.AUTH_BASIC_USER && !context.env.AUTH_BASIC_PASS) {
+  if (context.env.AUTH_FORWARD_ADDRESS) {
+    return await performForwardAuth(context)
+  }
+
+  if (context.env.AUTH_BASIC_USER && context.env.AUTH_BASIC_PASS) {
+    return await performBasicAuth(context)
+  }
+
+  return await context.next()
+}
+
+const performForwardAuth: PagesFunction<Env> = async (context) => {
+  const address = context.env.AUTH_FORWARD_ADDRESS
+
+  const resp = await fetch(address, {
+    headers: context.request.headers
+  })
+  if (resp.status >= 200 && resp.status < 300) {
     return await context.next()
   }
 
+  return new Response(resp.body, {
+    status: resp.status,
+    headers: resp.headers
+  })
+}
+
+const performBasicAuth: PagesFunction<Env> = async (context) => {
   const { protocol, pathname } = new URL(context.request.url)
   if (
     'https:' !== protocol ||
