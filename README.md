@@ -22,7 +22,16 @@ docker run --env AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID> \
 1. Configure correct environment variables according to [this](#environment-variables) section
 1. Run `make cloudflare`
 
-Replace the environment variables with respective values. For basic authentication, please provide `AUTH_BASIC_USER` and `AUTH_BASIC_PASS`.
+Replace the environment variables with respective values.
+
+Two forms of authentication is supported when using Cloudflare for deployments:
+
+- Basic Auth: Providing `AUTH_BASIC_USER` and `AUTH_BASIC_PASS` environmental variable will enabled HTTP basic auth for all routes.
+- Forward Auth: This method delegates authentication to an external service, whose URL address is defined by `AUTH_FORWARD_ADDRESS`.
+
+  For every request received, the middleware will send a request with the same header to the external service. If the response has a 2XX code, then the access is granted and the original request is performed. Otherwise, the response from the external service is returned.
+
+  Forward Auth will take precedence over basic auth. So if `AUTH_FORWARD_ADDRESS` is defined, Basic Auth won't be performed.
 
 ## Environment Variables
 
@@ -33,8 +42,9 @@ Replace the environment variables with respective values. For basic authenticati
 - `AWS_API_GATEWAY_ENDPOINT`: AWS API Gateway endpoint
 - `EMAIL_ADDRESSES`: a comma-separated list of email addresses/domains to send email from (required for replying emails)
 - `PROXY_ENABLE` (optional): whether to proxy email images, must be `true` or `false` (default)
-- `AUTH_BASIC_USER`: Basic authentication username (only available using Cloudflare Pages)
-- `AUTH_BASIC_PASS`: Basic authentication password (only available using Cloudflare Pages)
+- `AUTH_BASIC_USER`: Basic Auth username (only available using Cloudflare Pages)
+- `AUTH_BASIC_PASS`: Basic Auth password (only available using Cloudflare Pages)
+- `AUTH_FORWARD_ADDRESS`: Forward Auth address (only available using Cloudflare Pages)
 
 ## Components
 
