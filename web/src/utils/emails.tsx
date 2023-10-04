@@ -51,7 +51,7 @@ export function parseEmailContent(email: Email, disableProxy?: boolean) {
           })
           .filter((child) => child !== null) as Text[]
       }
-      if (domNode.name === 'img') {
+      if (domNode.name === 'img' && domNode.attribs.src) {
         if (domNode.attribs.src.startsWith('cid:')) {
           const cid = domNode.attribs.src.replace('cid:', '')
           const isInline = email.inlines.some(
@@ -81,6 +81,7 @@ export function parseEmailContent(email: Email, disableProxy?: boolean) {
   } else if (typeof element === 'string') {
     return element
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   if (element.props.children) {
     return element
   }
@@ -159,6 +160,8 @@ function isCssRule(rule: css.CssAtRuleAST): rule is css.CssRuleAST {
 }
 
 function makeProxyURL(url: string) {
+  if (!url) return url
+  if (url.startsWith('data:')) return url
   return `/proxy?l=${encodeURIComponent(url)}`
 }
 
@@ -185,7 +188,7 @@ function isURLProperty(property: string) {
 }
 
 function makeCSSURL(value: string) {
-  return value.replace(/url\( *['"]?(.*?)['"]? *\)/g, (match, url) => {
+  return value.replace(/url\( *['"]?(.*?)['"]? *\)/g, (match, url: string) => {
     if (url.startsWith('https://') || url.startsWith('http://')) {
       return `url(${makeProxyURL(url)})`
     }
