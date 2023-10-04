@@ -188,7 +188,7 @@ function isURLProperty(property: string) {
 }
 
 function makeCSSURL(value: string) {
-  return value.replace(/url\( *['"]?(.*?)['"]? *\)/g, (match, url) => {
+  return value.replace(/url\( *['"]?(.*?)['"]? *\)/g, (match, url: string) => {
     if (url.startsWith('https://') || url.startsWith('http://')) {
       return `url(${makeProxyURL(url)})`
     }
