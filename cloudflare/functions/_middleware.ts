@@ -7,6 +7,11 @@ enum AuthState {
 }
 
 export const onRequest: PagesFunction<Env> = async (context) => {
+  // If user/password is not set, skip authentication.
+  if (!context.env.AUTH_BASIC_USER && !context.env.AUTH_BASIC_PASS) {
+    return await context.next()
+  }
+
   const { protocol, pathname } = new URL(context.request.url)
   if (
     'https:' !== protocol ||
