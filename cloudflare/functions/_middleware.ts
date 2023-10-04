@@ -22,7 +22,8 @@ const performForwardAuth: PagesFunction<Env> = async (context) => {
   const address = context.env.AUTH_FORWARD_ADDRESS
 
   const resp = await fetch(address, {
-    headers: context.request.headers
+    headers: context.request.headers,
+    redirect: 'manual'
   })
   if (resp.status >= 200 && resp.status < 300) {
     return await context.next()
