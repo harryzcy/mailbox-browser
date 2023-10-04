@@ -51,7 +51,7 @@ export function parseEmailContent(email: Email, disableProxy?: boolean) {
           })
           .filter((child) => child !== null) as Text[]
       }
-      if (domNode.name === 'img') {
+      if (domNode.name === 'img' && !domNode.attribs.src) {
         if (domNode.attribs.src.startsWith('cid:')) {
           const cid = domNode.attribs.src.replace('cid:', '')
           const isInline = email.inlines.some(
