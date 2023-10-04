@@ -1,5 +1,11 @@
 import { Env } from '../src/config'
 
+enum AuthState {
+  Malformed = 0,
+  NeedLogin,
+  Authenticated
+}
+
 export const onRequest: PagesFunction<Env> = async (context) => {
   const { protocol, pathname } = new URL(context.request.url)
   if (
@@ -14,28 +20,31 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     return new Response('Logged out.', { status: 401 })
   }
 
-  const auth = await basicAuthentication(context.request)
-  if (auth === null) {
-    return newLoginPrompt()
-  }
-  const { user, pass } = auth
-  if (
-    user !== context.env.AUTH_BASIC_USER ||
-    pass !== context.env.AUTH_BASIC_PASS
-  ) {
-    return newLoginPrompt()
+  const state = basicAuthentication(context.request, context.env)
+  switch (state) {
+    case AuthState.Malformed:
+      return new Response('Malformed credentials.', { status: 400 })
+    case AuthState.NeedLogin:
+      return newLoginPrompt()
+    case AuthState.Authenticated:
+      break
+    default:
+      throw new Response('Unknown authentication state.', { status: 500 })
   }
 
   return await context.next()
 }
 
-const basicAuthentication = async (request: Request) => {
+const basicAuthentication = (request: Request, env: Env): AuthState => {
   const authorization = request.headers.get('Authorization')
+  if (!authorization) {
+    return AuthState.NeedLogin
+  }
 
   const [scheme, encoded] = authorization.split(' ')
 
   if (!encoded || scheme !== 'Basic') {
-    return null
+    return AuthState.Malformed
   }
 
   const buffer = Uint8Array.from(atob(encoded), (character) =>
@@ -47,10 +56,12 @@ const basicAuthentication = async (request: Request) => {
     return null
   }
 
-  return {
-    user: decoded.substring(0, index),
-    pass: decoded.substring(index + 1)
+  const user = decoded.substring(0, index)
+  const pass = decoded.substring(index + 1)
+  if (user !== env.AUTH_BASIC_USER || pass !== env.AUTH_BASIC_PASS) {
+    return AuthState.NeedLogin
   }
+  return AuthState.Authenticated
 }
 
 const newLoginPrompt = () => {
