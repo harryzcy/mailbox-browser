@@ -22,7 +22,7 @@ docker run --env AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID> \
 1. Configure correct environment variables according to [this](#environment-variables) section
 1. Run `make cloudflare`
 
-Replace the environment variables with respective values.
+Replace the environment variables with respective values. For basic authentication, please provide `AUTH_BASIC_USER` and `AUTH_BASIC_PASS`.
 
 ## Environment Variables
 
@@ -33,6 +33,8 @@ Replace the environment variables with respective values.
 - `AWS_API_GATEWAY_ENDPOINT`: AWS API Gateway endpoint
 - `EMAIL_ADDRESSES`: a comma-separated list of email addresses/domains to send email from (required for replying emails)
 - `PROXY_ENABLE` (optional): whether to proxy email images, must be `true` or `false` (default)
+- `AUTH_BASIC_USER`: Basic authentication username (only available using Cloudflare Pages)
+- `AUTH_BASIC_PASS`: Basic authentication password (only available using Cloudflare Pages)
 
 ## Components
 
