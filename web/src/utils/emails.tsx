@@ -81,6 +81,7 @@ export function parseEmailContent(email: Email, disableProxy?: boolean) {
   } else if (typeof element === 'string') {
     return element
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   if (element.props.children) {
     return element
   }
