@@ -48,4 +48,4 @@ Replace the environment variables with respective values. For basic authenticati
 
 | Dark mode |  Light mode |
 |:---------:|:-----------:|
-| <img width="1919" alt="Screenshot Dark Mode" src="https://github.com/harryzcy/mailbox-browser/assets/37034805/b77a6c40-c6c1-4dd8-98de-2add697b26f9"> | <img width="1920" alt="Screenshot Light Mode" src="https://github.com/harryzcy/mailbox-browser/assets/37034805/ce9ab42c-923a-4b03-8ee4-bcdc9d4b72ed"> |
+| ![Screenshot Dark Mode](https://github.com/harryzcy/mailbox-browser/assets/37034805/b77a6c40-c6c1-4dd8-98de-2add697b26f9) | ![Screenshot Light Mode](https://github.com/harryzcy/mailbox-browser/assets/37034805/ce9ab42c-923a-4b03-8ee4-bcdc9d4b72ed) |
