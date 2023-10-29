@@ -30,10 +30,10 @@ export function parseEmailContent(email: Email, disableProxy?: boolean) {
       if (domNode.name === 'a') {
         domNode.attribs.target = '_blank'
         domNode.attribs.rel = 'noopener noreferrer'
-        return domNode
+        return
       }
       if (['html', 'head', 'body'].includes(domNode.name)) {
-        return <>{domToReact(domNode.children, options)}</>
+        return <>{domToReact(domNode.children as DOMNode[], options)}</>
       }
       if (['meta', 'link', 'script'].includes(domNode.name)) return <></>
 
