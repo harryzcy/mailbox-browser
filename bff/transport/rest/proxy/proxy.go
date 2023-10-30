@@ -1,16 +1,23 @@
 package proxy
 
 import (
+	"errors"
 	"io"
 	"net/http"
 	"net/url"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/harryzcy/mailbox-browser/bff/config"
 	"github.com/harryzcy/mailbox-browser/bff/transport/rest/ginutil"
 )
 
 func Proxy(ctx *gin.Context) {
+	if !config.PROXY_ENABLE {
+		ginutil.Forbidden(ctx, errors.New("proxy disabled"))
+		return
+	}
+
 	target, err := url.QueryUnescape(ctx.Query("l"))
 	if err != nil {
 		ginutil.InternalError(ctx, err)

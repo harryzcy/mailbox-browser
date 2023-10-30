@@ -14,6 +14,12 @@ func BadRequest(c *gin.Context, err error) {
 	})
 }
 
+func Forbidden(c *gin.Context, err error) {
+	c.JSON(403, gin.H{
+		"error": err.Error(),
+	})
+}
+
 func Success(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"status": "success",
