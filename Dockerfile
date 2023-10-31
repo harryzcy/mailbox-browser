@@ -27,9 +27,11 @@ COPY web ./
 # if dist exists, skip the build
 RUN [[ -d dist ]] && echo "build exists, skipping" || echo "build does not exist, building"
 RUN [[ -d dist ]] || \
+  ( \
   npm ci && \
   echo "export const browserVersion = \"${BUILD_VERSION}\"" > src/utils/info.ts && \
-  npm run build
+  npm run build \
+  )
 
 FROM alpine:3.18.4
 
