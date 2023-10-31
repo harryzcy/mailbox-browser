@@ -45,6 +45,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build frontend
+        run: make web
+
       - name: Get build variables
         run: |
           echo "BUILD_COMMIT=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_ENV
