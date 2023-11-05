@@ -37,6 +37,20 @@ var (
 )
 
 func Init(logger *zap.Logger) error {
+	err := Load(logger)
+	if err != nil {
+		return err
+	}
+
+	err = LoadPluginConfigs()
+	if err != nil {
+		logger.Error("Fatal error loading plugin configs", zap.Error(err))
+		return err
+	}
+	return nil
+}
+
+func Load(logger *zap.Logger) error {
 	v := viper.New()
 	v.SetConfigName(configName)
 	v.SetConfigType("yaml")
@@ -73,11 +87,6 @@ func Init(logger *zap.Logger) error {
 		return err
 	}
 
-	err = LoadPluginConfigs()
-	if err != nil {
-		logger.Error("Fatal error loading plugin configs", zap.Error(err))
-		return err
-	}
 	return nil
 }
 

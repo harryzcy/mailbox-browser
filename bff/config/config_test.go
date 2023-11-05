@@ -23,12 +23,12 @@ func chdir(dir string) {
 	}
 }
 
-func TestInit(t *testing.T) {
+func TestLoad(t *testing.T) {
 	chdir("testdata")
 	defer chdir("")
 
 	logger, _ := zap.NewDevelopment()
-	err := Init(logger)
+	err := Load(logger)
 	assert.NoError(t, err)
 	assert.Equal(t, "/static", STATIC_DIR)
 	assert.Equal(t, "/static/index.html", INDEX_HTML)
@@ -43,12 +43,12 @@ func TestInit(t *testing.T) {
 	assert.Equal(t, "https://example.com/plugin2", PLUGIN_CONFIGS[1])
 }
 
-func TestInit_NoFile(t *testing.T) {
+func TestLoad_NoFile(t *testing.T) {
 	chdir("config")
 	defer chdir("")
 
 	logger, _ := zap.NewDevelopment()
-	err := Init(logger)
+	err := Load(logger)
 	assert.NoError(t, err)
 	assert.Equal(t, "", STATIC_DIR)
 	assert.Equal(t, "", AWS_REGION)
@@ -60,7 +60,7 @@ func TestInit_NoFile(t *testing.T) {
 	assert.True(t, PROXY_ENABLE)
 }
 
-func TestInit_ViperError(t *testing.T) {
+func TestLoad_ViperError(t *testing.T) {
 	chdir("testdata")
 	configName = "error"
 	defer chdir("")
@@ -69,7 +69,7 @@ func TestInit_ViperError(t *testing.T) {
 	}()
 
 	logger, _ := zap.NewDevelopment()
-	err := Init(logger)
+	err := Load(logger)
 	assert.Error(t, err)
 }
 
