@@ -37,7 +37,7 @@ var (
 )
 
 func Init(logger *zap.Logger) error {
-	err := Load(logger)
+	err := load(logger)
 	if err != nil {
 		return err
 	}
@@ -50,7 +50,7 @@ func Init(logger *zap.Logger) error {
 	return nil
 }
 
-func Load(logger *zap.Logger) error {
+func load(logger *zap.Logger) error {
 	v := viper.New()
 	v.SetConfigName(configName)
 	v.SetConfigType("yaml")

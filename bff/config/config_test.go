@@ -28,7 +28,7 @@ func TestLoad(t *testing.T) {
 	defer chdir("")
 
 	logger, _ := zap.NewDevelopment()
-	err := Load(logger)
+	err := load(logger)
 	assert.NoError(t, err)
 	assert.Equal(t, "/static", STATIC_DIR)
 	assert.Equal(t, "/static/index.html", INDEX_HTML)
@@ -48,7 +48,7 @@ func TestLoad_NoFile(t *testing.T) {
 	defer chdir("")
 
 	logger, _ := zap.NewDevelopment()
-	err := Load(logger)
+	err := load(logger)
 	assert.NoError(t, err)
 	assert.Equal(t, "", STATIC_DIR)
 	assert.Equal(t, "", AWS_REGION)
@@ -69,7 +69,7 @@ func TestLoad_ViperError(t *testing.T) {
 	}()
 
 	logger, _ := zap.NewDevelopment()
-	err := Load(logger)
+	err := load(logger)
 	assert.Error(t, err)
 }
 
