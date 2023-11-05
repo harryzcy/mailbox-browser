@@ -3,12 +3,12 @@ package plugin
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/harryzcy/mailbox-browser/bff/config"
+	"github.com/harryzcy/mailbox-browser/bff/idgen"
 	"github.com/harryzcy/mailbox-browser/bff/request"
 	"github.com/harryzcy/mailbox-browser/bff/transport/rest/ginutil"
 	"github.com/harryzcy/mailbox-browser/bff/types"
@@ -19,7 +19,6 @@ type InvokeRequest struct {
 	MessageIDs []string `json:"messageIDs"`
 }
 
-// TODO: Rework this.
 func Invoke(c *gin.Context) {
 	var req InvokeRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -92,28 +91,27 @@ func invokePlugin(client http.Client, plugin *config.Plugin, emails []types.Emai
 		return nil
 	}
 
-	var body []byte
-
-	if len(emails) == 1 {
-		var err error
-		body, err = json.Marshal(emails[0])
-		if err != nil {
-			return err
-		}
-	} else {
-		// more than 1 email
-		if plugin.HookURL == "" {
-			return errors.New("batch email endpoint not found")
-		}
-
-		var err error
-		body, err = json.Marshal(emails)
-		if err != nil {
-			return err
-		}
+	payload := types.PluginWebhookPayload{
+		ID: idgen.NewID(),
+		Hook: types.HookInfo{
+			Name: plugin.Name,
+		},
 	}
 
-	_, err := client.Post(plugin.HookURL, "application/json", bytes.NewReader(body))
+	if len(emails) == 1 {
+		payload.Resources.Email = &emails[0]
+	} else {
+		payload.Resources.EmailList = emails
+
+	}
+
+	var err error
+	body, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	_, err = client.Post(plugin.HookURL, "application/json", bytes.NewReader(body))
 	if err != nil {
 		return err
 	}
