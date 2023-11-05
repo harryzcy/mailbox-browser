@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"os"
 	"strings"
 	"testing"
@@ -72,20 +71,6 @@ func TestInit_ViperError(t *testing.T) {
 	logger, _ := zap.NewDevelopment()
 	err := Init(logger)
 	assert.Error(t, err)
-}
-
-func TestInit_UnmarshalPluginsError(t *testing.T) {
-	chdir("testdata")
-	configName = "plugins-error"
-	defer chdir("")
-	defer func() {
-		configName = "config"
-	}()
-
-	logger, _ := zap.NewDevelopment()
-	err := Init(logger)
-	assert.Error(t, err)
-	fmt.Println(PLUGINS[0].Name)
 }
 
 func TestGetString(t *testing.T) {

@@ -54,7 +54,7 @@ func Invoke(c *gin.Context) {
 // findPluginByName finds a plugin by name from the config.PLUGINS slice.
 // It returns nil if the plugin is not found.
 func findPluginByName(name string) *config.Plugin {
-	for _, plugin := range config.PLUGINS {
+	for _, plugin := range config.Plugins {
 		if plugin.Name == name {
 			return &plugin
 		}

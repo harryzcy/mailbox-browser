@@ -5,6 +5,7 @@
   "description": "A description for the plugin",
   "author": "Author Name",
   "homepage": "https://example.com",
+  "configURL": "https://example.com/config",
   "hookURL": "https://example.com/hook",
   "hooks": [
     {

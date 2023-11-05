@@ -23,20 +23,8 @@ var (
 	EMAIL_ADDRESSES []string
 	PROXY_ENABLE    bool
 
-	PLUGINS        []Plugin
 	PLUGIN_CONFIGS []string // comma separated list of plugin config urls
 )
-
-type Plugin struct {
-	SchemaVersion string `json:"schemaVersion"`
-	Name          string `json:"name"`
-	DisplayName   string `json:"displayName"`
-	Description   string `json:"description"`
-	Author        string `json:"author"`
-	Homepage      string `json:"homepage"`
-	HookURL       string `json:"hookURL"`
-	Hooks         []Hook `json:"hooks"`
-}
 
 type Hook struct {
 	Type        string `json:"type"`
