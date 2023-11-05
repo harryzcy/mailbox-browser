@@ -8,8 +8,12 @@
   "hookURL": "https://example.com/hook",
   "hooks": [
     {
-      "hookType": "action",
-      "hookName": "actionName"
+      "type": "action",
+      "name": "actionName",
+      "resources": [
+        "email",
+        "emailList"
+      ]
     }
   ]
 }
