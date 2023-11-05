@@ -32,12 +32,12 @@ func LoadPluginConfigs() error {
 	}
 
 	plugins := make([]*Plugin, len(PLUGIN_CONFIGS))
-	for _, url := range PLUGIN_CONFIGS {
+	for i, url := range PLUGIN_CONFIGS {
 		plugin, err := LoadPluginConfig(client, url)
 		if err != nil {
 			return err
 		}
-		plugins = append(plugins, plugin)
+		plugins[i] = plugin
 	}
 
 	Plugins = plugins
@@ -53,7 +53,8 @@ func LoadPluginConfig(client *http.Client, url string) (*Plugin, error) {
 	defer resp.Body.Close()
 
 	var plugin *Plugin
-	err = json.NewDecoder(resp.Body).Decode(plugin)
+
+	err = json.NewDecoder(resp.Body).Decode(&plugin)
 	if err != nil {
 		panic(err)
 	}
