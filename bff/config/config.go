@@ -72,6 +72,12 @@ func Init(logger *zap.Logger) error {
 		logger.Error("Fatal error unmarshaling plugin configs", zap.Error(err))
 		return err
 	}
+
+	err = LoadPluginConfigs()
+	if err != nil {
+		logger.Error("Fatal error loading plugin configs", zap.Error(err))
+		return err
+	}
 	return nil
 }
 
