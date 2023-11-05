@@ -80,7 +80,7 @@ func load(logger *zap.Logger) error {
 	EMAIL_ADDRESSES = strings.Split(getString(v, "email.addresses", "EMAIL_ADDRESSES"), ",")
 
 	PROXY_ENABLE = getBool(v, "proxy.enable", "ENABLE_PROXY", true)
-	PLUGIN_CONFIGS = getStringList(v, "plugin.configs", "PLUGIN_CONFIGS")
+	PLUGIN_CONFIGS = getStringSlice(v, "plugin.configs", "PLUGIN_CONFIGS")
 
 	return nil
 }
@@ -107,7 +107,7 @@ func getBool(v *viper.Viper, key, env string, defaultValue bool) bool {
 	return defaultValue
 }
 
-func getStringList(v *viper.Viper, key, env string) []string {
+func getStringSlice(v *viper.Viper, key, env string) []string {
 	if value, ok := os.LookupEnv(env); ok {
 		value := strings.TrimSuffix(value, ",")
 		return strings.Split(value, ",")
