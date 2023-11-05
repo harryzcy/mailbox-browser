@@ -21,7 +21,7 @@ func TestFindPluginByName(t *testing.T) {
 		config.Plugins = originalPlugins
 	}()
 
-	config.Plugins = []config.Plugin{
+	config.Plugins = []*config.Plugin{
 		{
 			Name: "plugin1",
 		},
