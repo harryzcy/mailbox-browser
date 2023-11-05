@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"time"
 )
@@ -11,7 +12,12 @@ const (
 )
 
 var (
+	// Plugins is a list of all plugins, and may be nil if plugin config is invalid
 	Plugins []*Plugin
+
+	// ErrPluginConfigURLMismatch is returned when the plugin config url does not match
+	// the url the config was loaded from
+	ErrPluginConfigURLMismatch = errors.New("plugin config url mismatch")
 )
 
 type Plugin struct {
@@ -21,6 +27,7 @@ type Plugin struct {
 	Description   string `json:"description"`
 	Author        string `json:"author"`
 	Homepage      string `json:"homepage"`
+	ConfigURL     string `json:"configURL"`
 	HookURL       string `json:"hookURL"`
 	Hooks         []Hook `json:"hooks"`
 }
@@ -56,7 +63,11 @@ func LoadPluginConfig(client *http.Client, url string) (*Plugin, error) {
 
 	err = json.NewDecoder(resp.Body).Decode(&plugin)
 	if err != nil {
-		panic(err)
+		return nil, err
+	}
+
+	if url != plugin.ConfigURL {
+		return nil, ErrPluginConfigURLMismatch
 	}
 
 	return plugin, nil
