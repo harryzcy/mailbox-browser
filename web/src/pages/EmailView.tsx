@@ -366,7 +366,12 @@ function EmailBlock(props: EmailBlockProps) {
 
         {/* email body */}
         <div className="mt-4">
-          <div className="email-sandbox dark:text-neutral-300">
+          <div
+            className={
+              'email-sandbox dark:text-neutral-300' +
+              (!email.html ? ' whitespace-pre-line' : '')
+            }
+          >
             {parseEmailContent(email, configContext.state.config.disableProxy)}
           </div>
         </div>

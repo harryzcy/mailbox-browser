@@ -24,9 +24,14 @@ ARG BUILD_VERSION
 WORKDIR /app
 
 COPY web ./
-RUN npm ci && \
+# if dist exists, skip the build
+RUN [[ -d dist ]] && echo "build exists, skipping" || \
+  ( \
+  echo "build does not exist, building" && \
+  npm ci && \
   echo "export const browserVersion = \"${BUILD_VERSION}\"" > src/utils/info.ts && \
-  npm run build
+  npm run build \
+  )
 
 FROM alpine:3.18.4
 
