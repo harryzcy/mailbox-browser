@@ -40,11 +40,8 @@ func TestInit(t *testing.T) {
 	assert.Equal(t, "https://example.com", AWS_API_GATEWAY_ENDPOINT)
 	assert.Equal(t, []string{"example.com", "example.org"}, EMAIL_ADDRESSES)
 	assert.True(t, PROXY_ENABLE)
-	assert.Len(t, PLUGINS, 1)
-	assert.Equal(t, "name", PLUGINS[0].Name)
-	assert.Equal(t, "display name", PLUGINS[0].DisplayName)
-	assert.Equal(t, "https://example.com/email", PLUGINS[0].Endpoints.Email)
-	assert.Equal(t, "https://example.com/emails", PLUGINS[0].Endpoints.Emails)
+	assert.Equal(t, "https://example.com/plugin1", PLUGIN_CONFIGS[0])
+	assert.Equal(t, "https://example.com/plugin2", PLUGIN_CONFIGS[1])
 }
 
 func TestInit_NoFile(t *testing.T) {

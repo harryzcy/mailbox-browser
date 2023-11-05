@@ -23,16 +23,25 @@ var (
 	EMAIL_ADDRESSES []string
 	PROXY_ENABLE    bool
 
-	PLUGINS []Plugin
+	PLUGINS        []Plugin
+	PLUGIN_CONFIGS []string // comma separated list of plugin config urls
 )
 
 type Plugin struct {
+	SchemaVersion string `json:"schemaVersion"`
+	Name          string `json:"name"`
+	DisplayName   string `json:"displayName"`
+	Description   string `json:"description"`
+	Author        string `json:"author"`
+	Homepage      string `json:"homepage"`
+	HookURL       string `json:"hookURL"`
+	Hooks         []Hook `json:"hooks"`
+}
+
+type Hook struct {
+	Type        string `json:"type"`
 	Name        string `json:"name"`
 	DisplayName string `json:"displayName"`
-	Endpoints   struct {
-		Email  string `json:"email"`
-		Emails string `json:"emails"`
-	} `json:"endpoints"`
 }
 
 var (
@@ -70,9 +79,9 @@ func Init(logger *zap.Logger) error {
 
 	PROXY_ENABLE = getBool(v, "proxy.enable", "ENABLE_PROXY", true)
 
-	err = v.UnmarshalKey("plugins", &PLUGINS)
+	err = v.UnmarshalKey("plugin.configs", &PLUGIN_CONFIGS)
 	if err != nil {
-		logger.Error("Fatal error unmarshaling plugins", zap.Error(err))
+		logger.Error("Fatal error unmarshaling plugin configs", zap.Error(err))
 		return err
 	}
 	return nil

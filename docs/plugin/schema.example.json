@@ -9,7 +9,8 @@
   "hooks": [
     {
       "type": "action",
-      "name": "actionName",
+      "name": "action-name-to-identify-hook",
+      "displayName": "Action Name",
       "resources": [
         "email",
         "emailList"

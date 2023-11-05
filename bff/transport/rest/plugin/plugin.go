@@ -92,10 +92,9 @@ func invokePlugin(client http.Client, plugin *config.Plugin, emails []types.Emai
 		return nil
 	}
 
-	var url string
 	var body []byte
+
 	if len(emails) == 1 {
-		url = plugin.Endpoints.Email
 		var err error
 		body, err = json.Marshal(emails[0])
 		if err != nil {
@@ -103,8 +102,7 @@ func invokePlugin(client http.Client, plugin *config.Plugin, emails []types.Emai
 		}
 	} else {
 		// more than 1 email
-		url = plugin.Endpoints.Emails
-		if url == "" {
+		if plugin.HookURL == "" {
 			return errors.New("batch email endpoint not found")
 		}
 
@@ -115,7 +113,7 @@ func invokePlugin(client http.Client, plugin *config.Plugin, emails []types.Emai
 		}
 	}
 
-	_, err := client.Post(url, "application/json", bytes.NewReader(body))
+	_, err := client.Post(plugin.HookURL, "application/json", bytes.NewReader(body))
 	if err != nil {
 		return err
 	}
