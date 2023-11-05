@@ -25,15 +25,15 @@ type Plugin struct {
 	Hooks         []Hook `json:"hooks"`
 }
 
-// LoadConfigs loads all plugin configs from the urls in PLUGIN_CONFIGS.
-func LoadConfigs() error {
+// LoadPluginConfigs loads all plugin configs from the urls in PLUGIN_CONFIGS.
+func LoadPluginConfigs() error {
 	client := &http.Client{
 		Timeout: DEFAULT_HTTP_TIMEOUT,
 	}
 
 	plugins := make([]*Plugin, len(PLUGIN_CONFIGS))
 	for _, url := range PLUGIN_CONFIGS {
-		plugin, err := LoadConfig(*client, url)
+		plugin, err := LoadPluginConfig(client, url)
 		if err != nil {
 			return err
 		}
@@ -44,8 +44,8 @@ func LoadConfigs() error {
 	return nil
 }
 
-// LoadConfig loads a plugin config from a url.
-func LoadConfig(client http.Client, url string) (*Plugin, error) {
+// LoadPluginConfig loads a plugin config from a url.
+func LoadPluginConfig(client *http.Client, url string) (*Plugin, error) {
 	resp, err := client.Get(url)
 	if err != nil {
 		return nil, err
