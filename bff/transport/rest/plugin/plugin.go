@@ -56,7 +56,7 @@ func Invoke(c *gin.Context) {
 func findPluginByName(name string) *config.Plugin {
 	for _, plugin := range config.Plugins {
 		if plugin.Name == name {
-			return &plugin
+			return plugin
 		}
 	}
 	return nil
