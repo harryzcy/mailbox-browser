@@ -3,12 +3,12 @@ package plugin
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/harryzcy/mailbox-browser/bff/config"
+	"github.com/harryzcy/mailbox-browser/bff/idgen"
 	"github.com/harryzcy/mailbox-browser/bff/request"
 	"github.com/harryzcy/mailbox-browser/bff/transport/rest/ginutil"
 	"github.com/harryzcy/mailbox-browser/bff/types"
@@ -53,9 +53,9 @@ func Invoke(c *gin.Context) {
 // findPluginByName finds a plugin by name from the config.PLUGINS slice.
 // It returns nil if the plugin is not found.
 func findPluginByName(name string) *config.Plugin {
-	for _, plugin := range config.PLUGINS {
+	for _, plugin := range config.Plugins {
 		if plugin.Name == name {
-			return &plugin
+			return plugin
 		}
 	}
 	return nil
@@ -91,30 +91,27 @@ func invokePlugin(client http.Client, plugin *config.Plugin, emails []types.Emai
 		return nil
 	}
 
-	var url string
-	var body []byte
-	if len(emails) == 1 {
-		url = plugin.Endpoints.Email
-		var err error
-		body, err = json.Marshal(emails[0])
-		if err != nil {
-			return err
-		}
-	} else {
-		// more than 1 email
-		url = plugin.Endpoints.Emails
-		if url == "" {
-			return errors.New("batch email endpoint not found")
-		}
-
-		var err error
-		body, err = json.Marshal(emails)
-		if err != nil {
-			return err
-		}
+	payload := types.PluginWebhookPayload{
+		ID: idgen.NewID(),
+		Hook: types.HookInfo{
+			Name: plugin.Name,
+		},
 	}
 
-	_, err := client.Post(url, "application/json", bytes.NewReader(body))
+	if len(emails) == 1 {
+		payload.Resources.Email = &emails[0]
+	} else {
+		payload.Resources.EmailList = emails
+
+	}
+
+	var err error
+	body, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	_, err = client.Post(plugin.HookURL, "application/json", bytes.NewReader(body))
 	if err != nil {
 		return err
 	}

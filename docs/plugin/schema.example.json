@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "v0",
+  "name": "plugin-name",
+  "displayName": "Plugin Name",
+  "description": "A description for the plugin",
+  "author": "Author Name",
+  "homepage": "https://example.com",
+  "configURL": "https://example.com/config",
+  "hookURL": "https://example.com/hook",
+  "hooks": [
+    {
+      "type": "action",
+      "name": "action-name-to-identify-hook",
+      "displayName": "Action Name",
+      "resources": [
+        "email",
+        "emailList"
+      ]
+    }
+  ]
+}

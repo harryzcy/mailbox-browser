@@ -16,12 +16,12 @@ func TestMain(m *testing.M) {
 }
 
 func TestFindPluginByName(t *testing.T) {
-	originalPlugins := config.PLUGINS
+	originalPlugins := config.Plugins
 	defer func() {
-		config.PLUGINS = originalPlugins
+		config.Plugins = originalPlugins
 	}()
 
-	config.PLUGINS = []config.Plugin{
+	config.Plugins = []*config.Plugin{
 		{
 			Name: "plugin1",
 		},

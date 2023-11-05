@@ -23,16 +23,13 @@ var (
 	EMAIL_ADDRESSES []string
 	PROXY_ENABLE    bool
 
-	PLUGINS []Plugin
+	PLUGIN_CONFIGS []string // comma separated list of plugin config urls
 )
 
-type Plugin struct {
+type Hook struct {
+	Type        string `json:"type"`
 	Name        string `json:"name"`
 	DisplayName string `json:"displayName"`
-	Endpoints   struct {
-		Email  string `json:"email"`
-		Emails string `json:"emails"`
-	} `json:"endpoints"`
 }
 
 var (
@@ -40,6 +37,20 @@ var (
 )
 
 func Init(logger *zap.Logger) error {
+	err := load(logger)
+	if err != nil {
+		return err
+	}
+
+	err = LoadPluginConfigs()
+	if err != nil {
+		logger.Error("Fatal error loading plugin configs", zap.Error(err))
+		return err
+	}
+	return nil
+}
+
+func load(logger *zap.Logger) error {
 	v := viper.New()
 	v.SetConfigName(configName)
 	v.SetConfigType("yaml")
@@ -70,11 +81,12 @@ func Init(logger *zap.Logger) error {
 
 	PROXY_ENABLE = getBool(v, "proxy.enable", "ENABLE_PROXY", true)
 
-	err = v.UnmarshalKey("plugins", &PLUGINS)
+	err = v.UnmarshalKey("plugin.configs", &PLUGIN_CONFIGS)
 	if err != nil {
-		logger.Error("Fatal error unmarshaling plugins", zap.Error(err))
+		logger.Error("Fatal error unmarshaling plugin configs", zap.Error(err))
 		return err
 	}
+
 	return nil
 }
 
