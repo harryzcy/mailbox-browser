@@ -21,6 +21,7 @@ var (
 	ErrPluginConfigURLMismatch = errors.New("plugin config url mismatch")
 )
 
+// Plugin represents a plugin config.
 type Plugin struct {
 	SchemaVersion string `json:"schemaVersion"`
 	Name          string `json:"name"`
