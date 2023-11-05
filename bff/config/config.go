@@ -91,19 +91,22 @@ func load(logger *zap.Logger) error {
 }
 
 func getString(v *viper.Viper, key, env string) string {
+	if value, ok := os.LookupEnv(env); ok {
+		return value
+	}
 	if v.IsSet(key) {
 		return v.GetString(key)
 	}
-	return os.Getenv(env)
+	return ""
 }
 
 func getBool(v *viper.Viper, key, env string, defaultValue bool) bool {
-	if v.IsSet(key) {
-		return v.GetBool(key)
-	}
-
 	if value, ok := os.LookupEnv(env); ok {
 		return value == "true"
+	}
+
+	if v.IsSet(key) {
+		return v.GetBool(key)
 	}
 
 	return defaultValue
