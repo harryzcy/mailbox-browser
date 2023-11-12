@@ -2,17 +2,18 @@ import { Toaster } from '@ui/toaster'
 import { useReducer } from 'react'
 import { Outlet } from 'react-router-dom'
 
-import Sidebar from '../components/Sidebar'
+import Sidebar from 'components/Sidebar'
+
 import {
   ConfigContext,
   configReducer,
   initialConfigState
-} from '../contexts/ConfigContext'
+} from 'contexts/ConfigContext'
 import {
   DraftEmailsContext,
   draftEmailReducer,
   initialState
-} from '../contexts/DraftEmailContext'
+} from 'contexts/DraftEmailContext'
 
 export default function Root() {
   const [configState, configDispatch] = useReducer(

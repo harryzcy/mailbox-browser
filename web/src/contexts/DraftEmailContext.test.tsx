@@ -2,7 +2,8 @@ import { renderHook } from '@testing-library/react'
 import { useContext, useReducer } from 'react'
 import { act } from 'react-dom/test-utils'
 
-import { Email } from '../services/emails'
+import { Email } from 'services/emails'
+
 import {
   DraftEmail,
   DraftEmailsContext,

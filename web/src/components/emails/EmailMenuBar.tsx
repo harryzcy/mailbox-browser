@@ -7,10 +7,11 @@ import {
 } from '@heroicons/react/24/outline'
 import { useContext, useEffect, useState } from 'react'
 
-import { ConfigContext, Plugin } from '../../contexts/ConfigContext'
-import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
-import { createEmail, generateLocalDraftID } from '../../services/emails'
-import * as plugins from '../../services/plugins'
+import { ConfigContext, Plugin } from 'contexts/ConfigContext'
+import { DraftEmailsContext } from 'contexts/DraftEmailContext'
+
+import { createEmail, generateLocalDraftID } from 'services/emails'
+import * as plugins from 'services/plugins'
 
 interface EmailMenuBarProps {
   emailIDs: string[]

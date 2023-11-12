@@ -65,12 +65,12 @@ import {
 } from 'react'
 import { createPortal } from 'react-dom'
 
-import Bars3BottomCenterIcon from '../icons/Bars3BottomCenterIcon'
-import BoldIcon from '../icons/BoldIcon'
-import ItalicIcon from '../icons/ItalicIcon'
-import ListNumberIcon from '../icons/ListNumberIcon'
-import StrikeThroughIcon from '../icons/StrikeThrough'
-import UnderlineIcon from '../icons/Underline'
+import Bars3BottomCenterIcon from 'components/inputs/icons/Bars3BottomCenterIcon'
+import BoldIcon from 'components/inputs/icons/BoldIcon'
+import ItalicIcon from 'components/inputs/icons/ItalicIcon'
+import ListNumberIcon from 'components/inputs/icons/ListNumberIcon'
+import StrikeThroughIcon from 'components/inputs/icons/StrikeThrough'
+import UnderlineIcon from 'components/inputs/icons/Underline'
 
 const LowPriority = 1
 

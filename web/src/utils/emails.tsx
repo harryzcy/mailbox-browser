@@ -7,7 +7,7 @@ import parse, {
   domToReact
 } from 'html-react-parser'
 
-import { Email } from '../services/emails'
+import { Email } from 'services/emails'
 
 export function getNameFromEmails(emails: string[] | null): string {
   if (!emails || emails.length === 0) {

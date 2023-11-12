@@ -1,16 +1,20 @@
-import { toast } from 'components/ui/use-toast'
 import { useEffect, useRef, useState } from 'react'
 
-import EmailMenuBar from '../components/emails/EmailMenuBar'
-import EmailTableView from '../components/emails/EmailTableView'
-import { useOutsideClick } from '../hooks/useOutsideClick'
+import EmailMenuBar from 'components/emails/EmailMenuBar'
+import EmailTableView from 'components/emails/EmailTableView'
+import { toast } from 'components/ui/use-toast'
+
+import { useOutsideClick } from 'hooks/useOutsideClick'
+
 import {
   deleteEmail,
   readEmail,
   trashEmail,
   unreadEmail
-} from '../services/emails'
-import { getCurrentYearMonth } from '../utils/time'
+} from 'services/emails'
+
+import { getCurrentYearMonth } from 'utils/time'
+
 import { useInboxContext } from './EmailRoot'
 
 export default function EmailList() {

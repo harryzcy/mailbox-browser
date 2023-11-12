@@ -11,7 +11,7 @@ import {
 } from 'lexical'
 import { ReactNode } from 'react'
 
-import { parseEmailHTML } from '../../utils/emails'
+import { parseEmailHTML } from 'utils/emails'
 
 export class EmailQuoteNode extends DecoratorNode<ReactNode> {
   __html: string
