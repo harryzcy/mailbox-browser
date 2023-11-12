@@ -45,6 +45,7 @@ Two forms of authentication is supported when using Cloudflare for deployments:
 - `AUTH_BASIC_USER`: Basic Auth username (only available using Cloudflare Pages)
 - `AUTH_BASIC_PASS`: Basic Auth password (only available using Cloudflare Pages)
 - `AUTH_FORWARD_ADDRESS`: Forward Auth address (only available using Cloudflare Pages)
+- `CF_PROJECT_NAME`: The project name for Cloudflare Pages deployment. When this is set, `wrangler` won't prompt to select project every time.
 
 ## Components
 
