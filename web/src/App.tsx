@@ -1,3 +1,4 @@
+import { useTheme } from 'hooks/useTheme'
 import {
   RouterProvider,
   createBrowserRouter,
@@ -115,6 +116,8 @@ const router = createBrowserRouter([
 ])
 
 function App() {
+  useTheme()
+
   return (
     <div className="flex bg-white font-sans dark:bg-neutral-900">
       <RouterProvider router={router} />
