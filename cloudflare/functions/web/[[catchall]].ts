@@ -22,11 +22,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const data = {
     method: context.request.method,
     headers: context.request.headers
-  } as {
-    method: string
-    headers?: Headers
-    body?: any
-  }
+  } as RequestInit
   if (
     context.request.method === 'PUT' ||
     (context.request.method === 'POST' &&
