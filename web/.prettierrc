@@ -3,7 +3,16 @@
   "trailingComma": "none",
   "singleQuote": true,
   "printWidth": 80,
-  "importOrder": ["^[./]"],
+  "importOrder": [
+    "^components",
+    "^context",
+    "^hooks",
+    "^lib",
+    "^pages",
+    "^services",
+    "^utils",
+    "^[./]"
+  ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
   "plugins": [

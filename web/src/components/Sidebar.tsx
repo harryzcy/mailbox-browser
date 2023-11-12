@@ -6,8 +6,9 @@ import {
 import { ReactElement, useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { getInfo } from '../services/info'
-import { browserVersion } from '../utils/info'
+import { getInfo } from 'services/info'
+
+import { browserVersion } from 'utils/info'
 
 export default function Sidebar() {
   const navItems: [string, string, ReactElement][] = [

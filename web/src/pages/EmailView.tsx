@@ -7,11 +7,16 @@ import {
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Await, useLoaderData, useNavigate } from 'react-router-dom'
 
-import { EmailDraft } from '../components/emails/EmailDraft'
-import EmailMenuBar from '../components/emails/EmailMenuBar'
-import { ConfigContext } from '../contexts/ConfigContext'
-import { DraftEmail, DraftEmailsContext } from '../contexts/DraftEmailContext'
-import { useOutsideClick } from '../hooks/useOutsideClick'
+import { EmailDraft } from 'components/emails/EmailDraft'
+import EmailMenuBar from 'components/emails/EmailMenuBar'
+
+import { ConfigContext } from 'contexts/ConfigContext'
+import { DraftEmail, DraftEmailsContext } from 'contexts/DraftEmailContext'
+
+import { useOutsideClick } from 'hooks/useOutsideClick'
+
+import { useInboxContext } from 'pages/EmailRoot'
+
 import {
   CreateEmailProps,
   Email,
@@ -21,12 +26,12 @@ import {
   saveEmail,
   trashEmail,
   unreadEmail
-} from '../services/emails'
-import { Thread } from '../services/threads'
-import { getNameFromEmails } from '../utils/emails'
-import { parseEmailContent } from '../utils/emails'
-import { formatDate } from '../utils/time'
-import { useInboxContext } from './EmailRoot'
+} from 'services/emails'
+import { Thread } from 'services/threads'
+
+import { getNameFromEmails } from 'utils/emails'
+import { parseEmailContent } from 'utils/emails'
+import { formatDate } from 'utils/time'
 
 export default function EmailView() {
   const data = useLoaderData() as

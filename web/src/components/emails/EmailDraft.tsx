@@ -4,10 +4,11 @@
  */
 import { MinusIcon, XMarkIcon } from '@heroicons/react/20/solid'
 
-import { DraftEmail } from '../../contexts/DraftEmailContext'
-import EmailAddressInput from '../inputs/EmailAddressInput'
-import RichTextEditor from '../inputs/RichTextEditor'
-import TextInput from '../inputs/TextInput'
+import EmailAddressInput from 'components/inputs/EmailAddressInput'
+import RichTextEditor from 'components/inputs/RichTextEditor'
+import TextInput from 'components/inputs/TextInput'
+
+import { DraftEmail } from 'contexts/DraftEmailContext'
 
 interface EmailDraftProps {
   email: DraftEmail

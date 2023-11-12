@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 
-import useIsInViewport from '../../hooks/useIsInViewport'
-import { EmailInfo } from '../../services/emails'
+import useIsInViewport from 'hooks/useIsInViewport'
+
+import { EmailInfo } from 'services/emails'
+
 import EmailTableRow from './EmailTableRow'
 
 interface EmailTableViewProps {

@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { DraftEmailsContext } from '../../contexts/DraftEmailContext'
+import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
 export default function DraftEmailsTabs() {
   const draftEmailsContext = useContext(DraftEmailsContext)
