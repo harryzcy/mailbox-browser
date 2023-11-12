@@ -24,9 +24,20 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     headers.append('Content-Type', 'application/json')
   }
 
-  const res = await aws.fetch(`${endpoint}/${path}${query}`, {
-    method: context.request.method,
-    body: context.request.body
-  })
+  const data = {
+    method: context.request.method
+  } as {
+    method: string
+    body?: any
+  }
+  if (
+    context.request.method === 'PUT' ||
+    (context.request.method === 'POST' &&
+      context.request.headers.get('Content-Type') === 'application/json')
+  ) {
+    data.body = context.request.body
+  }
+
+  const res = await aws.fetch(`${endpoint}/${path}${query}`, data)
   return res
 }
