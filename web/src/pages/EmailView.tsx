@@ -291,22 +291,19 @@ function EmailBlock(props: EmailBlockProps) {
 
   const [showMoreActions, setShowMoreActions] = React.useState(false)
   const showMoreActionsRef = useRef<HTMLSpanElement>(null)
-
   useOutsideClick(showMoreActionsRef, () => setShowMoreActions(false))
 
   const configContext = useContext(ConfigContext)
+  const [showImages, setShowImages] = useState(
+    configContext.state.config.imagesAutoLoad
+  )
 
   const { markAsRead } = useInboxContext()
-
   useEffect(() => {
     if (email.unread) {
       markAsRead(email.messageID)
     }
   }, []) // only run once
-
-  const [showImages, setShowImages] = useState(
-    configContext.state.config.imagesAutoLoad
-  )
 
   return (
     <>
