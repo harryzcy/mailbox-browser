@@ -23,11 +23,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     method: context.request.method,
     headers: context.request.headers
   } as RequestInit
-  if (
-    context.request.method === 'PUT' ||
-    (context.request.method === 'POST' &&
-      context.request.headers.get('Content-Type') === 'application/json')
-  ) {
+  if (context.request.headers.get('Content-Type') === 'application/json') {
     data.body = context.request.body
   }
 
