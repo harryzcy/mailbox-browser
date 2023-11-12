@@ -20,8 +20,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const query = url.includes('?') ? `?${url.split('?')[1]}` : ''
 
   const data = {
-    method: context.request.method,
-    headers: context.request.headers
+    method: context.request.method
   } as RequestInit
   if (context.request.headers.get('Content-Type') === 'application/json') {
     data.body = context.request.body
