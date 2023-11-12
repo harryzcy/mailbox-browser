@@ -305,7 +305,7 @@ function EmailBlock(props: EmailBlockProps) {
   }, []) // only run once
 
   const [showImages, setShowImages] = useState(
-    configContext.state.config.emailsAutoLoad
+    configContext.state.config.imagesAutoLoad
   )
 
   return (
