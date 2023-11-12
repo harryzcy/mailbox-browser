@@ -372,7 +372,11 @@ function EmailBlock(props: EmailBlockProps) {
               (!email.html ? ' whitespace-pre-line' : '')
             }
           >
-            {parseEmailContent(email, configContext.state.config.disableProxy)}
+            {parseEmailContent(
+              email,
+              configContext.state.config.disableProxy,
+              configContext.state.config.emailsAutoLoad
+            )}
           </div>
         </div>
       </div>
