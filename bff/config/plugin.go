@@ -3,7 +3,6 @@ package config
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 )
@@ -55,7 +54,6 @@ func LoadPluginConfigs() error {
 
 // LoadPluginConfig loads a plugin config from a url.
 func LoadPluginConfig(client *http.Client, url string) (*Plugin, error) {
-	fmt.Println("LoadPluginConfig", url)
 	resp, err := client.Get(url)
 	if err != nil {
 		return nil, err
