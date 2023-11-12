@@ -149,10 +149,9 @@ export default function EmailRoot(props: EmailRootProps) {
     if (configContext.state.loaded) {
       return
     }
-    const config = await getConfig()
     configContext.dispatch({
       type: 'set',
-      config
+      config: await getConfig()
     })
   }
 
