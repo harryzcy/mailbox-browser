@@ -9,6 +9,7 @@ const ToastProvider = ToastPrimitives.Provider
 const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Viewport>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
+  // eslint-disable-next-line react/prop-types
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Viewport
     ref={ref}
