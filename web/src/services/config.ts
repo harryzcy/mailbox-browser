@@ -1,6 +1,7 @@
 interface Config {
   emailAddresses: string[]
   disableProxy: boolean
+  imagesAutoLoad: boolean
   plugins: Plugin[]
 }
 
