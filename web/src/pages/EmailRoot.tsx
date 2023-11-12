@@ -72,6 +72,7 @@ export default function EmailRoot(props: EmailRootProps) {
     nextCursor?: string
   }) => {
     const { nextCursor } = input
+
     const data = await listEmails({
       type: props.type,
       year: input.year || year,
