@@ -18,11 +18,6 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const path = segments.join('/')
   const url = context.request.url
   const query = url.includes('?') ? `?${url.split('?')[1]}` : ''
-  const headers = context.request.headers
-  headers.append('Accept', 'application/json')
-  if (context.request.method === 'POST' || context.request.method === 'PUT') {
-    headers.append('Content-Type', 'application/json')
-  }
 
   const data = {
     method: context.request.method
@@ -36,6 +31,12 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       context.request.headers.get('Content-Type') === 'application/json')
   ) {
     data.body = context.request.body
+  }
+
+  const headers = context.request.headers
+  headers.append('Accept', 'application/json')
+  if (context.request.method === 'POST' || context.request.method === 'PUT') {
+    headers.append('Content-Type', 'application/json')
   }
 
   const res = await aws.fetch(`${endpoint}/${path}${query}`, data)
