@@ -20,8 +20,9 @@ var (
 	AWS_API_ID               string
 	AWS_API_GATEWAY_ENDPOINT string
 
-	EMAIL_ADDRESSES []string
-	PROXY_ENABLE    bool
+	EMAIL_ADDRESSES  []string
+	PROXY_ENABLE     bool
+	IMAGES_AUTO_LOAD bool
 
 	PLUGIN_CONFIGS []string // comma separated list of plugin config urls
 )
@@ -80,6 +81,7 @@ func load(logger *zap.Logger) error {
 	EMAIL_ADDRESSES = strings.Split(getString(v, "email.addresses", "EMAIL_ADDRESSES"), ",")
 
 	PROXY_ENABLE = getBool(v, "proxy.enable", "ENABLE_PROXY", true)
+	IMAGES_AUTO_LOAD = getBool(v, "images.autoLoad", "IMAGES_AUTO_LOAD", true)
 	PLUGIN_CONFIGS = getStringSlice(v, "plugin.configs", "PLUGIN_CONFIGS")
 
 	return nil
