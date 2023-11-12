@@ -1,10 +1,5 @@
 import { Dispatch, createContext } from 'react'
-
-export interface Config {
-  emailAddresses: string[]
-  disableProxy: boolean
-  plugins: Plugin[]
-}
+import { Config } from 'services/config'
 
 export interface Plugin {
   name: string
@@ -26,6 +21,7 @@ export const initialConfigState: State = {
   config: {
     emailAddresses: [],
     disableProxy: false,
+    imagesAutoLoad: false,
     plugins: []
   },
   loaded: false

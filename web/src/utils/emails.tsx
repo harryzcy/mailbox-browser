@@ -21,7 +21,11 @@ export function getNameFromEmails(emails: string[] | null): string {
   return emails[0]
 }
 
-export function parseEmailContent(email: Email, disableProxy?: boolean) {
+export function parseEmailContent(
+  email: Email,
+  disableProxy?: boolean,
+  loadImage?: boolean
+) {
   if (!email.html) return email.text
 
   const options: HTMLReactParserOptions = {
@@ -68,7 +72,9 @@ export function parseEmailContent(email: Email, disableProxy?: boolean) {
             domNode.attribs.src = `${window.location.origin}/web/emails/${email.messageID}/attachments/${cid}`
           }
         } else {
-          if (!disableProxy) {
+          if (!loadImage) {
+            domNode.attribs.src = ''
+          } else if (!disableProxy) {
             domNode.attribs.src = makeProxyURL(domNode.attribs.src)
           }
         }

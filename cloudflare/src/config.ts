@@ -11,6 +11,7 @@ export interface Env {
 
   EMAIL_ADDRESSES: string[]
   PROXY_ENABLE: boolean
+  IMAGES_AUTO_LOAD: boolean
 
   PLUGINS: string
 }
