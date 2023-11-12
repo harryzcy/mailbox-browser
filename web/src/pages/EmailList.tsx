@@ -1,3 +1,4 @@
+import { toast } from 'components/ui/use-toast'
 import { useEffect, useRef, useState } from 'react'
 
 import EmailMenuBar from '../components/emails/EmailMenuBar'
@@ -64,14 +65,20 @@ export default function EmailList() {
       newYear = year + 1
     }
 
-    const data = await loadEmails({
-      year: newYear,
-      month: newMonth
-    })
-    setEmails(data.items)
-    setCount(data.count)
-    setHasMore(data.hasMore)
-    setNextCursor(data.nextCursor)
+    try {
+      const data = await loadEmails({
+        year: newYear,
+        month: newMonth
+      })
+      setEmails(data.items)
+      setCount(data.count)
+      setHasMore(data.hasMore)
+      setNextCursor(data.nextCursor)
+    } catch (e) {
+      toast({
+        title: 'Failed to load emails'
+      })
+    }
   }
 
   const goNext = async () => {
@@ -82,14 +89,20 @@ export default function EmailList() {
       newYear = year - 1
     }
 
-    const data = await loadEmails({
-      year: newYear,
-      month: newMonth
-    })
-    setEmails(data.items)
-    setCount(data.count)
-    setHasMore(data.hasMore)
-    setNextCursor(data.nextCursor)
+    try {
+      const data = await loadEmails({
+        year: newYear,
+        month: newMonth
+      })
+      setEmails(data.items)
+      setCount(data.count)
+      setHasMore(data.hasMore)
+      setNextCursor(data.nextCursor)
+    } catch (e) {
+      toast({
+        title: 'Failed to load emails'
+      })
+    }
   }
 
   useEffect(() => {
@@ -103,15 +116,21 @@ export default function EmailList() {
 
   const loadMoreEmails = async () => {
     if (!hasMore) return
-    const data = await loadEmails({
-      year,
-      month,
-      nextCursor
-    })
-    setEmails([...emails, ...data.items])
-    setCount(data.count + count)
-    setHasMore(data.hasMore)
-    setNextCursor(data.nextCursor)
+    try {
+      const data = await loadEmails({
+        year,
+        month,
+        nextCursor
+      })
+      setEmails([...emails, ...data.items])
+      setCount(data.count + count)
+      setHasMore(data.hasMore)
+      setNextCursor(data.nextCursor)
+    } catch (e) {
+      toast({
+        title: 'Failed to load emails'
+      })
+    }
   }
 
   const handleDelete = async () => {

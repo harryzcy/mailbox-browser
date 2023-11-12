@@ -24,12 +24,18 @@
     "@lexical/selection": "0.12.2",
     "@lexical/table": "0.12.2",
     "@lexical/utils": "0.12.2",
+    "@radix-ui/react-toast": "^1.1.5",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
     "html-react-parser": "5.0.6",
     "lexical": "0.12.2",
+    "lucide-react": "^0.292.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.18.0",
+    "tailwind-merge": "^2.0.0",
     "tailwindcss": "3.3.5",
+    "tailwindcss-animate": "^1.0.7",
     "yjs": "13.6.8"
   },
   "devDependencies": {
@@ -54,6 +60,7 @@
     "ts-jest": "29.1.1",
     "ts-node": "10.9.1",
     "typescript": "5.2.2",
-    "vite": "4.5.0"
+    "vite": "4.5.0",
+    "vite-tsconfig-paths": "^4.2.1"
   }
 }
