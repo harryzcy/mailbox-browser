@@ -5,14 +5,14 @@ import {
   redirect
 } from 'react-router-dom'
 
-import './App.css'
-import EmailList from './pages/EmailList'
-import EmailRawView from './pages/EmailRawView'
-import EmailRoot from './pages/EmailRoot'
-import EmailView from './pages/EmailView'
-import Root from './pages/Root'
-import { getEmail, getEmailRaw } from './services/emails'
-import { getThread } from './services/threads'
+import EmailList from 'pages/EmailList'
+import EmailRawView from 'pages/EmailRawView'
+import EmailRoot from 'pages/EmailRoot'
+import EmailView from 'pages/EmailView'
+import Root from 'pages/Root'
+
+import { getEmail, getEmailRaw } from 'services/emails'
+import { getThread } from 'services/threads'
 
 const router = createBrowserRouter([
   {
