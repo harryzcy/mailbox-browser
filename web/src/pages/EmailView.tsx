@@ -4,9 +4,10 @@ import {
   EllipsisVerticalIcon,
   PencilIcon
 } from '@heroicons/react/24/outline'
-import { toast } from '@ui/use-toast'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Await, useLoaderData, useNavigate } from 'react-router-dom'
+
+import { toast } from '@ui/use-toast'
 
 import { EmailDraft } from 'components/emails/EmailDraft'
 import EmailMenuBar from 'components/emails/EmailMenuBar'
