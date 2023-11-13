@@ -1,11 +1,11 @@
 import { Env } from '../src/config'
 
 export const onRequest: PagesFunction<Env> = async (context) => {
-  const proxyEnable = getBooleanWithDefault(context.env, 'PROXY_ENABLE', 'true')
+  const proxyEnable = getBooleanWithDefault(context.env, 'PROXY_ENABLE', true)
   const imagesAutoLoad = getBooleanWithDefault(
     context.env,
     'IMAGES_AUTO_LOAD',
-    'true'
+    true
   )
 
   return new Response(
@@ -21,7 +21,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 function getBooleanWithDefault(
   env: Env,
   property: keyof Env,
-  defaultValue: string
+  defaultValue: boolean
 ) {
   if (env[property] === undefined) {
     return defaultValue
