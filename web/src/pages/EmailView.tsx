@@ -7,6 +7,8 @@ import {
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Await, useLoaderData, useNavigate } from 'react-router-dom'
 
+import { toast } from '@ui/use-toast'
+
 import { EmailDraft } from 'components/emails/EmailDraft'
 import EmailMenuBar from 'components/emails/EmailMenuBar'
 
@@ -157,7 +159,13 @@ export default function EmailView() {
       // TODO
       throw new Error('Not yet supported')
     } else {
-      await readEmail(data.messageID)
+      try {
+        await readEmail(data.messageID)
+      } catch (e) {
+        toast({
+          title: 'Failed to mark email as read'
+        })
+      }
     }
   }
 
@@ -166,7 +174,13 @@ export default function EmailView() {
       // TODO
       throw new Error('Not yet supported')
     } else {
-      await unreadEmail(data.messageID)
+      try {
+        await unreadEmail(data.messageID)
+      } catch (e) {
+        toast({
+          title: 'Failed to mark email as unread'
+        })
+      }
     }
   }
 
@@ -194,7 +208,7 @@ export default function EmailView() {
 
       <React.Suspense
         fallback={
-          <div className="mb-4 overflow-scroll rounded-md bg-neutral-50 bg-neutral-50 p-3 dark:bg-neutral-800 dark:text-neutral-200">
+          <div className="mb-4 overflow-scroll rounded-md bg-neutral-50 p-3 dark:bg-neutral-800 dark:text-neutral-200">
             <span>Loading...</span>
           </div>
         }
@@ -260,7 +274,7 @@ export default function EmailView() {
                   />
                 )}
                 {thread.draftID && !activeReplyEmail && (
-                  <div className="mb-4 rounded-md bg-neutral-50 bg-neutral-50 p-3 dark:bg-neutral-800">
+                  <div className="mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
                     <div className="flex items-start justify-between">
                       <span className="text-red-300">[Draft]</span>
                       <span className="text-neutral-500 dark:text-neutral-300">
@@ -312,7 +326,7 @@ function EmailBlock(props: EmailBlockProps) {
 
   return (
     <>
-      <div className="mb-4 rounded-md bg-neutral-50 bg-neutral-50 p-3 dark:bg-neutral-800">
+      <div className="mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
         {!showImages && (
           <div className="flex gap-2 border rounded-t-md -mx-3 -mt-3 px-3 py-1 mb-3 bg-gray-200 dark:bg-gray-700">
             <span>Images are not displayed</span>

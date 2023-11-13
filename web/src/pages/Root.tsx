@@ -1,6 +1,7 @@
-import { Toaster } from '@ui/toaster'
 import { useReducer } from 'react'
 import { Outlet } from 'react-router-dom'
+
+import { Toaster } from '@ui/toaster'
 
 import Sidebar from 'components/Sidebar'
 

@@ -4,6 +4,7 @@
   "singleQuote": true,
   "printWidth": 80,
   "importOrder": [
+    "^@ui",
     "^components",
     "^context",
     "^hooks",
