@@ -4,6 +4,7 @@ import {
   EllipsisVerticalIcon,
   PencilIcon
 } from '@heroicons/react/24/outline'
+import { toast } from '@ui/use-toast'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Await, useLoaderData, useNavigate } from 'react-router-dom'
 
@@ -157,7 +158,13 @@ export default function EmailView() {
       // TODO
       throw new Error('Not yet supported')
     } else {
-      await readEmail(data.messageID)
+      try {
+        await readEmail(data.messageID)
+      } catch (e) {
+        toast({
+          title: 'Failed to mark email as read'
+        })
+      }
     }
   }
 
@@ -166,7 +173,13 @@ export default function EmailView() {
       // TODO
       throw new Error('Not yet supported')
     } else {
-      await unreadEmail(data.messageID)
+      try {
+        await unreadEmail(data.messageID)
+      } catch (e) {
+        toast({
+          title: 'Failed to mark email as unread'
+        })
+      }
     }
   }
 
