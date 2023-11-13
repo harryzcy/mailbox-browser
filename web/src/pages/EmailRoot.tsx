@@ -176,8 +176,8 @@ export default function EmailRoot(props: EmailRootProps) {
           {props.type === 'inbox'
             ? 'Inbox'
             : props.type === 'draft'
-            ? 'Drafts'
-            : 'Sent'}
+              ? 'Drafts'
+              : 'Sent'}
         </h1>
         <Outlet context={outletContext} />
       </div>
