@@ -10,8 +10,8 @@ export interface Env {
   AWS_API_GATEWAY_ENDPOINT: string
 
   EMAIL_ADDRESSES: string[]
-  PROXY_ENABLE: boolean
-  IMAGES_AUTO_LOAD: boolean
+  PROXY_ENABLE: string
+  IMAGES_AUTO_LOAD: string
 
   PLUGINS: string
 }
