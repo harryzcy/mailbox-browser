@@ -43,7 +43,7 @@ During runtime:
 - `AWS_API_ID`: AWS API Gateway ID
 - `AWS_API_GATEWAY_ENDPOINT`: AWS API Gateway endpoint
 - `EMAIL_ADDRESSES`: a comma-separated list of email addresses/domains to send email from (required for replying emails)
-- `PROXY_ENABLE` (optional): whether to proxy email images, must be `true` or `false` (default)
+- `PROXY_ENABLE` (optional): whether to proxy email images, must be `true` (default) or `false`
 - `IMAGES_AUTO_LOAD` (optional): whether to automatically load images, must be `true` (default) or `false`
 - `AUTH_BASIC_USER`: Basic Auth username (only available using Cloudflare Pages)
 - `AUTH_BASIC_PASS`: Basic Auth password (only available using Cloudflare Pages)
