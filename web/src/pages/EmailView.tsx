@@ -364,7 +364,7 @@ function EmailBlock(props: EmailBlockProps) {
                 <ArrowUturnLeftIcon />
               </span>
               <span
-                className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                className="iline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
                 onClick={() => {
                   startForward(email)
                 }}
@@ -406,11 +406,13 @@ function EmailBlock(props: EmailBlockProps) {
               (!email.html ? ' whitespace-pre-line' : '')
             }
           >
-            {parseEmailContent(
-              email,
-              configContext.state.config.disableProxy,
-              showImages
-            )}
+            <div>
+              {parseEmailContent(
+                email,
+                configContext.state.config.disableProxy,
+                showImages
+              )}
+            </div>
           </div>
         </div>
       </div>

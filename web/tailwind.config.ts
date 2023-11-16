@@ -1,6 +1,9 @@
 import type { Config } from 'tailwindcss'
 
 export default {
+  corePlugins: {
+    preflight: false
+  },
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     container: {
