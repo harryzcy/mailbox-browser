@@ -192,6 +192,12 @@ export async function unreadEmail(messageID: string): Promise<void> {
   })
 }
 
+export async function reparseEmail(messageID: string): Promise<void> {
+  await fetch(`/web/emails/${messageID}/reparse`, {
+    method: 'POST'
+  })
+}
+
 export function generateLocalDraftID(): string {
   return `local-${Date.now().toString()}`
 }
