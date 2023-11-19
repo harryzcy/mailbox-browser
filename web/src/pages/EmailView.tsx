@@ -406,7 +406,7 @@ function EmailBlock(props: EmailBlockProps) {
               (!email.html ? ' whitespace-pre-line' : '')
             }
           >
-            <div>
+            <div className="w-fit mx-auto">
               {parseEmailContent(
                 email,
                 configContext.state.config.disableProxy,
