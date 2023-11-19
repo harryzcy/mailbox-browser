@@ -172,13 +172,15 @@ export default function EmailRoot(props: EmailRootProps) {
             : 'h-full')
         }
       >
-        <h1 className="text-lg font-light tracking-wider dark:text-white md:px-2 md:pb-4">
-          {props.type === 'inbox'
-            ? 'Inbox'
-            : props.type === 'draft'
-              ? 'Drafts'
-              : 'Sent'}
-        </h1>
+        <div className="preflight">
+          <h1 className="text-lg font-light tracking-wider dark:text-white md:px-2 md:pb-4">
+            {props.type === 'inbox'
+              ? 'Inbox'
+              : props.type === 'draft'
+                ? 'Drafts'
+                : 'Sent'}
+          </h1>
+        </div>
         <Outlet context={outletContext} />
       </div>
 

@@ -186,7 +186,7 @@ export default function EmailView() {
 
   return (
     <>
-      <div className="mb-4">
+      <div className="mb-4 preflight">
         <EmailMenuBar
           emailIDs={'messageID' in data ? [data.messageID] : []}
           showOperations={true}
@@ -274,7 +274,7 @@ export default function EmailView() {
                   />
                 )}
                 {thread.draftID && !activeReplyEmail && (
-                  <div className="mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
+                  <div className="preflight mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
                     <div className="flex items-start justify-between">
                       <span className="text-red-300">[Draft]</span>
                       <span className="text-neutral-500 dark:text-neutral-300">
@@ -328,7 +328,7 @@ function EmailBlock(props: EmailBlockProps) {
     <>
       <div className="mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
         {!showImages && (
-          <div className="flex gap-2 border rounded-t-md -mx-3 -mt-3 px-3 py-1 mb-3 bg-gray-200 dark:bg-gray-700">
+          <div className="preflight flex gap-2 border rounded-t-md -mx-3 -mt-3 px-3 py-1 mb-3 bg-gray-200 dark:bg-gray-700">
             <span>Images are not displayed</span>
             <span
               className="text-blue-600 dark:text-blue-200 cursor-pointer"
@@ -342,7 +342,7 @@ function EmailBlock(props: EmailBlockProps) {
         )}
 
         {/* header info for emails */}
-        <div className="flex items-start justify-between">
+        <div className="preflight flex items-start justify-between">
           <div className="dark:text-neutral-300">
             <div>
               <span>{getNameFromEmails(email.from)}</span>
