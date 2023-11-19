@@ -99,6 +99,7 @@ export function parseEmailContent(
   )
 }
 
+// containContentID returns true if there is a file with the given contentID
 function containContentID(files: File[], cid: string) {
   return files.some((file) => file.contentID === cid)
 }
