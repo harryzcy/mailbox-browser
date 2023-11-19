@@ -6,12 +6,19 @@ import { reparseEmail } from 'services/emails'
 export default function EmailRawView() {
   const data = useLoaderData() as { messageID: string; raw: string }
 
+  const [isRequesting, setIsRequesting] = React.useState(false)
+
   const reparse = async () => {
+    if (isRequesting) return
+    setIsRequesting(true)
+
     try {
       await reparseEmail(data.messageID)
     } catch (e) {
       console.error(e)
     }
+
+    setIsRequesting(false)
   }
 
   return (
