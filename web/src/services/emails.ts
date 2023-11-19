@@ -91,7 +91,7 @@ export type Email = {
 
   attachments: File[]
   inlines: File[]
-  otherParts: File[]
+  otherParts?: File[]
 
   // sent only
   timeSent: string
