@@ -1,13 +1,13 @@
 import {
-  DOMConversionMap,
-  DOMConversionOutput,
-  DOMExportOutput,
+  type DOMConversionMap,
+  type DOMConversionOutput,
+  type DOMExportOutput,
   DecoratorNode,
-  EditorConfig,
+  type EditorConfig,
   LexicalEditor,
   LexicalNode,
-  NodeKey,
-  SerializedLexicalNode
+  type NodeKey,
+  type SerializedLexicalNode
 } from 'lexical'
 import { ReactNode } from 'react'
 
@@ -16,17 +16,17 @@ import { parseEmailHTML } from 'utils/emails'
 export class EmailQuoteNode extends DecoratorNode<ReactNode> {
   __html: string
 
+  constructor(html: string, key?: NodeKey) {
+    super(key)
+    this.__html = html
+  }
+
   static getType(): string {
     return 'emailquote'
   }
 
   static clone(node: EmailQuoteNode): EmailQuoteNode {
     return new EmailQuoteNode(node.__html, node.__key)
-  }
-
-  constructor(html: string, key?: NodeKey) {
-    super(key)
-    this.__html = html
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

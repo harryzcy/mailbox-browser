@@ -20,13 +20,13 @@ import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
 import { $getRoot, EditorState, LexicalEditor } from 'lexical'
 
-import { EmailQuoteNode } from './EmailQuoteNode'
-import './RichTextEditor.css'
-import AutoLinkPlugin from './plugins/AutoLinkPlugin'
-import CodeHighlightPlugin from './plugins/CodeHighlightPlugin'
-import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin'
-import ToolbarPlugin from './plugins/ToolbarPlugin'
-import theme from './themes/LexicalTheme'
+import { EmailQuoteNode } from 'components/inputs/EmailQuoteNode'
+import 'components/inputs/RichTextEditor.css'
+import AutoLinkPlugin from 'components/inputs/plugins/AutoLinkPlugin'
+import CodeHighlightPlugin from 'components/inputs/plugins/CodeHighlightPlugin'
+import ListMaxIndentLevelPlugin from 'components/inputs/plugins/ListMaxIndentLevelPlugin'
+import ToolbarPlugin from 'components/inputs/plugins/ToolbarPlugin'
+import theme from 'components/inputs/themes/LexicalTheme'
 
 function Placeholder() {
   return (
