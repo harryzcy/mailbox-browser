@@ -203,7 +203,7 @@ export default function EmailList() {
   }
 
   return (
-    <>
+    <div className="preflight">
       <div ref={menuRef} className="mb-4">
         <EmailMenuBar
           emailIDs={selected}
@@ -237,6 +237,6 @@ export default function EmailList() {
           loadMoreEmails={loadMoreEmails}
         />
       </div>
-    </>
+    </div>
   )
 }
