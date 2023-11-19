@@ -1,7 +1,8 @@
 import React from 'react'
 import { Await, useLoaderData } from 'react-router-dom'
 
-import { toast } from 'components/ui/use-toast'
+import { Toaster } from '@ui/toaster'
+import { toast } from '@ui/use-toast'
 
 import { reparseEmail } from 'services/emails'
 
@@ -23,7 +24,8 @@ export default function EmailRawView() {
     } catch (e) {
       toast({
         title: 'Failed to re-parse email',
-        duration: 5000
+        duration: 5000,
+        variant: 'destructive'
       })
     }
 
@@ -89,6 +91,8 @@ export default function EmailRawView() {
           </Await>
         </React.Suspense>
       </div>
+
+      <Toaster />
     </div>
   )
 }
