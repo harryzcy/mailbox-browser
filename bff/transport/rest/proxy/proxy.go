@@ -33,6 +33,7 @@ func Proxy(ctx *gin.Context) {
 		ginutil.InternalError(ctx, err)
 		return
 	}
+	req.Header = ctx.Request.Header
 
 	res, err := client.Do(req)
 	if err != nil {
