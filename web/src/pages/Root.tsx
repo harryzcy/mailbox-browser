@@ -40,11 +40,15 @@ export default function Root() {
           dispatch: draftEmailsDispatch
         }}
       >
-        <Sidebar />
+        <div className="preflight">
+          <Sidebar />
+        </div>
         <Outlet />
       </DraftEmailsContext.Provider>
 
-      <Toaster />
+      <div className="preflight">
+        <Toaster />
+      </div>
     </ConfigContext.Provider>
   )
 }

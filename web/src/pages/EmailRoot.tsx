@@ -182,13 +182,17 @@ export default function EmailRoot(props: EmailRootProps) {
         <Outlet context={outletContext} />
       </div>
 
-      <FullScreenContent
-        handleDelete={(messageID) => {
-          removeEmailFromList(messageID)
-        }}
-      />
+      <div className="preflight">
+        <FullScreenContent
+          handleDelete={(messageID) => {
+            removeEmailFromList(messageID)
+          }}
+        />
+      </div>
 
-      <DraftEmailsTabs />
+      <div className="preflight">
+        <DraftEmailsTabs />
+      </div>
     </div>
   )
 }

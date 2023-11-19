@@ -55,7 +55,7 @@ body {
 3. Ensure horizontal rules are visible by default.
 */
 
-hr:not(.email-sandbox *) {
+hr {
   height: 0; /* 1 */
   color: inherit; /* 2 */
   border-top-width: 1px; /* 3 */
@@ -65,7 +65,7 @@ hr:not(.email-sandbox *) {
 Add the correct text decoration in Chrome, Edge, and Safari.
 */
 
-abbr:where([title]):not(.email-sandbox *) {
+abbr:where([title]) {
   text-decoration: underline dotted;
 }
 
@@ -73,12 +73,12 @@ abbr:where([title]):not(.email-sandbox *) {
 Remove the default font size and weight for headings.
 */
 
-h1:not(.email-sandbox *),
-h2:not(.email-sandbox *),
-h3:not(.email-sandbox *),
-h4:not(.email-sandbox *),
-h5:not(.email-sandbox *),
-h6:not(.email-sandbox *) {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-size: inherit;
   font-weight: inherit;
 }
@@ -87,7 +87,7 @@ h6:not(.email-sandbox *) {
 Reset links to optimize for opt-in styling instead of opt-out.
 */
 
-a:not(.email-sandbox *) {
+a {
   color: inherit;
   text-decoration: inherit;
 }
@@ -96,8 +96,8 @@ a:not(.email-sandbox *) {
 Add the correct font weight in Edge and Safari.
 */
 
-b:not(.email-sandbox *),
-strong:not(.email-sandbox *) {
+b,
+strong {
   font-weight: bolder;
 }
 
@@ -108,10 +108,10 @@ strong:not(.email-sandbox *) {
 4. Correct the odd `em` font sizing in all browsers.
 */
 
-code:not(.email-sandbox *),
-kbd:not(.email-sandbox *),
-samp:not(.email-sandbox *),
-pre:not(.email-sandbox *) {
+code,
+kbd,
+samp,
+pre {
   font-family: theme('fontFamily.mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace); /* 1 */
   font-feature-settings: theme('fontFamily.mono[1].fontFeatureSettings', normal); /* 2 */
   font-variation-settings: theme('fontFamily.mono[1].fontVariationSettings', normal); /* 3 */
@@ -122,7 +122,7 @@ pre:not(.email-sandbox *) {
 Add the correct font size in all browsers.
 */
 
-small:not(.email-sandbox *) {
+small {
   font-size: 80%;
 }
 
@@ -130,19 +130,19 @@ small:not(.email-sandbox *) {
 Prevent `sub` and `sup` elements from affecting the line height in all browsers.
 */
 
-sub:not(.email-sandbox *),
-sup:not(.email-sandbox *) {
+sub,
+sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
   vertical-align: baseline;
 }
 
-sub:not(.email-sandbox *) {
+sub {
   bottom: -0.25em;
 }
 
-sup:not(.email-sandbox *) {
+sup {
   top: -0.5em;
 }
 
@@ -152,7 +152,7 @@ sup:not(.email-sandbox *) {
 3. Remove gaps between table borders by default.
 */
 
-table:not(.email-sandbox *) {
+table {
   text-indent: 0; /* 1 */
   border-color: inherit; /* 2 */
   border-collapse: collapse; /* 3 */
@@ -164,11 +164,11 @@ table:not(.email-sandbox *) {
 3. Remove default padding in all browsers.
 */
 
-button:not(.email-sandbox *),
-input:not(.email-sandbox *),
-optgroup:not(.email-sandbox *),
-select:not(.email-sandbox *),
-textarea:not(.email-sandbox *) {
+button,
+input,
+optgroup,
+select,
+textarea {
   font-family: inherit; /* 1 */
   font-feature-settings: inherit; /* 1 */
   font-variation-settings: inherit; /* 1 */
@@ -184,8 +184,8 @@ textarea:not(.email-sandbox *) {
 Remove the inheritance of text transform in Edge and Firefox.
 */
 
-button:not(.email-sandbox *),
-select:not(.email-sandbox *) {
+button,
+select {
   text-transform: none;
 }
 
@@ -194,10 +194,10 @@ select:not(.email-sandbox *) {
 2. Remove default button styles.
 */
 
-button:not(.email-sandbox *),
-[type='button']:not(.email-sandbox *),
-[type='reset']:not(.email-sandbox *),
-[type='submit']:not(.email-sandbox *) {
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
   -webkit-appearance: button; /* 1 */
   background-color: transparent; /* 2 */
   background-image: none; /* 2 */
@@ -223,7 +223,7 @@ Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/
 Add the correct vertical alignment in Chrome and Firefox.
 */
 
-progress:not(.email-sandbox *) {
+progress {
   vertical-align: baseline;
 }
 
@@ -268,7 +268,7 @@ Remove the inner padding in Chrome and Safari on macOS.
 Add the correct display in Chrome and Safari.
 */
 
-summary:not(.email-sandbox *) {
+summary {
   display: list-item;
 }
 
@@ -276,28 +276,28 @@ summary:not(.email-sandbox *) {
 Removes the default spacing for appropriate elements.
 */
 
-blockquote:not(.email-sandbox *),
-dl:not(.email-sandbox *),
-dd:not(.email-sandbox *),
-h1:not(.email-sandbox *),
-h2:not(.email-sandbox *),
-h3:not(.email-sandbox *),
-h4:not(.email-sandbox *),
-h5:not(.email-sandbox *),
-h6:not(.email-sandbox *),
-hr:not(.email-sandbox *),
-figure:not(.email-sandbox *),
-p:not(.email-sandbox *),
-pre:not(.email-sandbox *) {
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+figure,
+p,
+pre {
   margin: 0;
 }
 
-fieldset:not(.email-sandbox *) {
+fieldset {
   margin: 0;
   padding: 0;
 }
 
-legend:not(.email-sandbox *) {
+legend {
   padding: 0;
 }
 
@@ -345,7 +345,7 @@ button,
 Make sure disabled buttons don't get the pointer cursor.
 */
 
-:disabled:not(.email-sandbox *) {
+:disabled {
   cursor: default;
 }
 
@@ -355,14 +355,14 @@ Make sure disabled buttons don't get the pointer cursor.
    This can trigger a poorly considered lint error in some tools but is included by design.
 */
 
-img:not(.email-sandbox *),
-svg:not(.email-sandbox *),
-video:not(.email-sandbox *),
-canvas:not(.email-sandbox *),
-audio:not(.email-sandbox *),
-iframe:not(.email-sandbox *),
-embed:not(.email-sandbox *),
-object:not(.email-sandbox *) {
+.preflight img,
+.preflight svg,
+.preflight video,
+.preflight canvas,
+.preflight audio,
+.preflight iframe,
+.preflight embed,
+.preflight object {
   display: block; /* 1 */
   vertical-align: middle; /* 2 */
 }
@@ -371,8 +371,8 @@ object:not(.email-sandbox *) {
 Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
 */
 
-img:not(.email-sandbox *),
-video:not(.email-sandbox *) {
+img,
+video {
   max-width: 100%;
   height: auto;
 }
@@ -381,6 +381,6 @@ video:not(.email-sandbox *) {
 Make elements with the HTML hidden attribute stay hidden by default.
 */
 
-[hidden]:not(.email-sandbox *) {
+[hidden] {
   display: none;
 }
