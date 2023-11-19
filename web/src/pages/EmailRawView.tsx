@@ -1,6 +1,8 @@
 import React from 'react'
 import { Await, useLoaderData } from 'react-router-dom'
 
+import { toast } from 'components/ui/use-toast'
+
 import { reparseEmail } from 'services/emails'
 
 export default function EmailRawView() {
@@ -14,8 +16,15 @@ export default function EmailRawView() {
 
     try {
       await reparseEmail(data.messageID)
+      toast({
+        title: 'Re-parsed email',
+        duration: 5000
+      })
     } catch (e) {
-      console.error(e)
+      toast({
+        title: 'Failed to re-parse email',
+        duration: 5000
+      })
     }
 
     setIsRequesting(false)
