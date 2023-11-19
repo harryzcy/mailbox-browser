@@ -301,9 +301,9 @@ legend:not(.email-sandbox *) {
   padding: 0;
 }
 
-ol:not(.email-sandbox *),
-ul:not(.email-sandbox *),
-menu:not(.email-sandbox *) {
+ol,
+ul,
+menu {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -336,7 +336,7 @@ textarea::placeholder {
 Set the default cursor for buttons.
 */
 
-button:not(.email-sandbox *),
+button,
 [role="button"] {
   cursor: pointer;
 }

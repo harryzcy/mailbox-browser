@@ -1,8 +1,36 @@
 import React from 'react'
 import { Await, useLoaderData } from 'react-router-dom'
 
+import { Toaster } from '@ui/toaster'
+import { toast } from '@ui/use-toast'
+
+import { reparseEmail } from 'services/emails'
+
 export default function EmailRawView() {
   const data = useLoaderData() as { messageID: string; raw: string }
+
+  const [isRequesting, setIsRequesting] = React.useState(false)
+
+  const reparse = async () => {
+    if (isRequesting) return
+    setIsRequesting(true)
+
+    try {
+      await reparseEmail(data.messageID)
+      toast({
+        title: 'Re-parsed email',
+        duration: 5000
+      })
+    } catch (e) {
+      toast({
+        title: 'Failed to re-parse email',
+        duration: 5000,
+        variant: 'destructive'
+      })
+    }
+
+    setIsRequesting(false)
+  }
 
   return (
     <div className="w-full px-2 py-2 md:px-8 md:py-5">
@@ -27,6 +55,13 @@ export default function EmailRawView() {
                 </pre>
 
                 <div className="absolute right-0 top-2 space-x-3 p-3 dark:text-neutral-400">
+                  <span
+                    role="button"
+                    className="cursor-pointer rounded-md bg-blue-100 p-2 dark:bg-neutral-700"
+                    onClick={reparse}
+                  >
+                    <span>Re-Parse</span>
+                  </span>
                   <span
                     role="button"
                     className="cursor-pointer rounded-md bg-blue-100 p-2 dark:bg-neutral-700"
@@ -56,6 +91,8 @@ export default function EmailRawView() {
           </Await>
         </React.Suspense>
       </div>
+
+      <Toaster />
     </div>
   )
 }
