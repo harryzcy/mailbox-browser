@@ -55,7 +55,7 @@ body {
 3. Ensure horizontal rules are visible by default.
 */
 
-.preflight hr {
+hr {
   height: 0; /* 1 */
   color: inherit; /* 2 */
   border-top-width: 1px; /* 3 */
@@ -65,7 +65,7 @@ body {
 Add the correct text decoration in Chrome, Edge, and Safari.
 */
 
-.preflight abbr:where([title]) {
+abbr:where([title]) {
   text-decoration: underline dotted;
 }
 
@@ -73,12 +73,12 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 Remove the default font size and weight for headings.
 */
 
-.preflight h1,
-.preflight h2,
-.preflight h3,
-.preflight h4,
-.preflight h5,
-.preflight h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-size: inherit;
   font-weight: inherit;
 }
@@ -87,7 +87,7 @@ Remove the default font size and weight for headings.
 Reset links to optimize for opt-in styling instead of opt-out.
 */
 
-.preflight a {
+a {
   color: inherit;
   text-decoration: inherit;
 }
@@ -96,8 +96,8 @@ Reset links to optimize for opt-in styling instead of opt-out.
 Add the correct font weight in Edge and Safari.
 */
 
-.preflight b,
-.preflight strong {
+b,
+strong {
   font-weight: bolder;
 }
 
@@ -108,10 +108,10 @@ Add the correct font weight in Edge and Safari.
 4. Correct the odd `em` font sizing in all browsers.
 */
 
-.preflight code,
-.preflight kbd,
-.preflight samp,
-.preflight pre {
+code,
+kbd,
+samp,
+pre {
   font-family: theme('fontFamily.mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace); /* 1 */
   font-feature-settings: theme('fontFamily.mono[1].fontFeatureSettings', normal); /* 2 */
   font-variation-settings: theme('fontFamily.mono[1].fontVariationSettings', normal); /* 3 */
@@ -122,7 +122,7 @@ Add the correct font weight in Edge and Safari.
 Add the correct font size in all browsers.
 */
 
-.preflight small {
+small {
   font-size: 80%;
 }
 
@@ -130,19 +130,19 @@ Add the correct font size in all browsers.
 Prevent `sub` and `sup` elements from affecting the line height in all browsers.
 */
 
-.preflight sub,
-.preflight sup {
+sub,
+sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
   vertical-align: baseline;
 }
 
-.preflight sub {
+sub {
   bottom: -0.25em;
 }
 
-.preflight sup {
+sup {
   top: -0.5em;
 }
 
