@@ -7,7 +7,7 @@ import parse, {
   domToReact
 } from 'html-react-parser'
 
-import { Email } from 'services/emails'
+import { type Email, type File } from 'services/emails'
 
 export function getNameFromEmails(emails: string[] | null): string {
   if (!emails || emails.length === 0) {
@@ -58,18 +58,17 @@ export function parseEmailContent(
       if (domNode.name === 'img' && domNode.attribs.src) {
         if (domNode.attribs.src.startsWith('cid:')) {
           const cid = domNode.attribs.src.replace('cid:', '')
-          const isInline = email.inlines.some(
-            (inline) => inline.contentID === cid
-          )
-          if (isInline) {
-            domNode.attribs.src = `${window.location.origin}/web/emails/${email.messageID}/inlines/${cid}`
+          let disposition = ''
+          if (containContentID(email.attachments, cid)) {
+            disposition = 'attachments'
+          } else if (containContentID(email.inlines, cid)) {
+            disposition = 'inlines'
+          } else if (containContentID(email.otherParts, cid)) {
+            disposition = 'others'
           }
 
-          const isAttachment = email.attachments.some(
-            (inline) => inline.contentID === cid
-          )
-          if (isAttachment) {
-            domNode.attribs.src = `${window.location.origin}/web/emails/${email.messageID}/attachments/${cid}`
+          if (disposition !== '') {
+            domNode.attribs.src = `${window.location.origin}/web/emails/${email.messageID}/${disposition}/${cid}`
           }
         } else {
           if (!loadImage) {
@@ -98,6 +97,11 @@ export function parseEmailContent(
       {email.text}
     </pre>
   )
+}
+
+// containContentID returns true if there is a file with the given contentID
+function containContentID(files: File[], cid: string) {
+  return files.some((file) => file.contentID === cid)
 }
 
 export function parseEmailHTML(html: string) {
