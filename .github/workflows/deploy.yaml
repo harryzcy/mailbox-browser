@@ -10,7 +10,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: github.repository == 'harryzcy/mailbox'
+    if: github.repository == 'harryzcy/mailbox-browser'
     permissions:
       contents: read
       deployments: write
