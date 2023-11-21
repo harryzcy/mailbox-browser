@@ -50,7 +50,7 @@ jobs:
           node-version: 20
 
       - name: Build frontend
-        run: make web
+        run: make build-web
 
       - name: Get build variables
         run: |
