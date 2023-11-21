@@ -53,7 +53,7 @@ export function parseEmailContent(
           .map((child) => {
             // nodeType 3 is text in domhandler package
             if (child.nodeType !== 3) return null
-            return new Text(transformCss(child.data))
+            return new Text(transformCss(host, child.data))
           })
           .filter((child) => child !== null) as Text[]
       }
@@ -135,17 +135,17 @@ function transformStyles(host: string, styles: string) {
 }
 
 // transformCss transforms css to be scoped to the email-sandbox class
-function transformCss(code: string) {
+function transformCss(host: string, code: string) {
   const obj = css.parse(code, { silent: true })
 
-  const cssRules = transformCssRules(obj.stylesheet.rules)
+  const cssRules = transformCssRules(host, obj.stylesheet.rules)
   if (cssRules) obj.stylesheet.rules = cssRules
   const result = css.stringify(obj, { compress: false })
 
   return result
 }
 
-function transformCssRules(rules?: Array<css.CssAtRuleAST>) {
+function transformCssRules(host: string, rules?: Array<css.CssAtRuleAST>) {
   return rules?.map((rule) => {
     if (isCssRule(rule)) {
       rule.selectors = rule.selectors?.map((selector) => {
@@ -157,13 +157,13 @@ function transformCssRules(rules?: Array<css.CssAtRuleAST>) {
       rule.declarations = rule.declarations.map((declaration) => {
         if (declaration.type === css.CssTypes.declaration) {
           if (isURLProperty(declaration.property)) {
-            declaration.value = makeCSSURL(declaration.value)
+            declaration.value = makeCSSURL(host, declaration.value)
           }
         }
         return declaration
       })
     } else if ('rules' in rule) {
-      rule.rules = transformCssRules(rule.rules)
+      rule.rules = transformCssRules(host, rule.rules)
     }
     return rule
   })
