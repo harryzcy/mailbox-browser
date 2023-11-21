@@ -25,7 +25,7 @@ jobs:
 
       - name: Build
         run: |
-          make web
+          make build-cloudflare
 
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
