@@ -8,7 +8,7 @@ on:
 jobs:
   release:
     name: Release on GitHub
-    if: github.repository == 'harryzcy/mailbox-browser'
+    if: github.repository_owner == 'harryzcy'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -42,7 +42,7 @@ jobs:
 
   release-docker:
     name: Release on Docker Hub
-    if: github.repository == 'harryzcy/mailbox-browser'
+    if: github.repository_owner == 'harryzcy'
     runs-on: ubuntu-latest
     permissions:
       contents: read
