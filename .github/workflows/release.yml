@@ -55,7 +55,7 @@ jobs:
       # When building for arm/v7, npm install will fail
       # so let's build the frontend outside of the docker build
       - name: Build frontend
-        run: make web
+        run: make build-web
 
       - name: Get build variables
         run: |
