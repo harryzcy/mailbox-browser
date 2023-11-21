@@ -28,6 +28,8 @@ export function parseEmailContent(
 ) {
   if (!email.html) return email.text
 
+  const host = `${window.location.protocol}//${window.location.host}`
+
   const options: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
       if (!(domNode instanceof Element)) return
@@ -43,7 +45,7 @@ export function parseEmailContent(
 
       // handle inline styles
       if (domNode.attribs.style) {
-        domNode.attribs.style = transformStyles(domNode.attribs.style)
+        domNode.attribs.style = transformStyles(host, domNode.attribs.style)
       }
 
       if (domNode.name === 'style') {
@@ -75,7 +77,7 @@ export function parseEmailContent(
             domNode.attribs.src = ''
           } else if (!disableProxy) {
             domNode.attribs['data-original-src'] = domNode.attribs.src
-            domNode.attribs.src = makeProxyURL(domNode.attribs.src)
+            domNode.attribs.src = makeProxyURL(host, domNode.attribs.src)
           }
         }
       }
@@ -110,7 +112,7 @@ export function parseEmailHTML(html: string) {
   return parseEmailContent(email)
 }
 
-function transformStyles(styles: string) {
+function transformStyles(host: string, styles: string) {
   styles = styles.trim()
   let styleParts = styles.split(';')
   styleParts = styleParts.map((part) => {
@@ -122,7 +124,7 @@ function transformStyles(styles: string) {
     if (!property || !value) return part
 
     if (isURLProperty(property)) {
-      const transformedValue = makeCSSURL(value)
+      const transformedValue = makeCSSURL(host, value)
       return `${property}:${transformedValue}`
     }
 
@@ -171,11 +173,11 @@ function isCssRule(rule: css.CssAtRuleAST): rule is css.CssRuleAST {
   return rule.type === css.CssTypes.rule
 }
 
-function makeProxyURL(url: string) {
+function makeProxyURL(host: string, url: string) {
   if (!url) return url
   if (url.startsWith('data:')) return url
   url = url.trim()
-  return `/proxy?l=${encodeURIComponent(url)}`
+  return `${host}/proxy?l=${encodeURIComponent(url)}`
 }
 
 // isURLProperty returns true if the CSS property may have url function
@@ -200,10 +202,10 @@ function isURLProperty(property: string) {
   return watchProperties.includes(property.toLowerCase())
 }
 
-function makeCSSURL(value: string) {
+function makeCSSURL(host: string, value: string) {
   return value.replace(/url\( *['"]?(.*?)['"]? *\)/g, (match, url: string) => {
     if (url.startsWith('https://') || url.startsWith('http://')) {
-      return `url(${makeProxyURL(url)})`
+      return `url(${makeProxyURL(host, url)})`
     }
     return match
   })
