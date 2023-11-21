@@ -27,14 +27,14 @@ docker:
 	@docker build $(DOCKER_BUILD_ARGS) -t $(DOCKER_IMAGE) .
 
 .PHONY: build-cloudflare
-build-cloudflare:
+build-cloudflare: web
 	@cp -r web/dist cloudflare/
 	@echo "export const BUILD_VERSION = \"$(BUILD_VERSION)\"" > cloudflare/src/buildInfo.ts
 	@echo "export const BUILD_COMMIT = \"$(BUILD_COMMIT)\"" >> cloudflare/src/buildInfo.ts
 	@echo "export const BUILD_DATE = \"$(BUILD_DATE)\"" >> cloudflare/src/buildInfo.ts
 	@cd cloudflare && npm ci
 
-.PHONY: build-cloudflare
-cloudflare: web
+.PHONY: cloudflare
+cloudflare: build-cloudflare
 	@echo "Deploying to Cloudflare..."
 	@cd cloudflare && npx wrangler pages deploy dist $(WRANGLER_ARGS)
