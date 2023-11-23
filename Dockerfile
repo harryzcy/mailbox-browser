@@ -17,7 +17,7 @@ RUN set -ex && \
   -w -s" \
   -o /bin/bff
 
-FROM node:20.9.0-alpine3.18 as web-builder
+FROM node:20.10.0-alpine3.18 as web-builder
 
 ARG BUILD_VERSION
 
