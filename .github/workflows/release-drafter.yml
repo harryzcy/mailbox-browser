@@ -11,7 +11,7 @@ on:
 
 jobs:
   update:
-    name: Update
+    name: Generate Notes
     permissions:
       contents: write
       pull-requests: write
