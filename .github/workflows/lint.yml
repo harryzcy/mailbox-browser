@@ -16,11 +16,13 @@ jobs:
     uses: harryzcy/github-actions/.github/workflows/linter.yml@main
 
   go-lint:
+    name: Go Lint
     uses: harryzcy/github-actions/.github/workflows/golangci-lint.yml@main
     with:
       working-directory: bff
 
   prettier:
+    name: Prettier
     uses: harryzcy/github-actions/.github/workflows/prettier.yml@main
     with:
       working-directory: web
