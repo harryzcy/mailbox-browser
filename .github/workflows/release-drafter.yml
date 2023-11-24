@@ -9,9 +9,6 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
-permissions:
-  contents: read
-
 jobs:
   update_release_draft:
     permissions:
