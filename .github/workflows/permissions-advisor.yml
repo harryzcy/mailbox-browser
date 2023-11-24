@@ -18,6 +18,8 @@ on:
 
 jobs:
   advisor:
+    name: Permissions Advisor
+    if: github.repository_owner == 'harryzcy'
     runs-on: ubuntu-latest
     steps:
       - uses: GitHubSecurityLab/actions-permissions/advisor@v1

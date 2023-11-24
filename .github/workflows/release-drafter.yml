@@ -7,20 +7,15 @@ on:
     tags-ignore:
       - "v*"
   pull_request:
-    types: [opened, reopened, synchronize]
-
-permissions:
-  contents: read
+    types:
+      - opened
+      - reopened
+      - synchronize
 
 jobs:
-  update_release_draft:
+  update:
+    name: Generate Notes
     permissions:
       contents: write
       pull-requests: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: release-drafter/release-drafter@v5
-        with:
-          commitish: main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    uses: harryzcy/github-actions/.github/workflows/release-drafter.yml@main
