@@ -5,6 +5,7 @@ export const allowedTags = [
   'big',
   'blockquote',
   'caption',
+  'center',
   'code',
   'del',
   'div',

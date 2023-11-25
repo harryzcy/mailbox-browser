@@ -46,7 +46,10 @@ export function parseEmailContent(
         return <>{domToReact(domNode.children as DOMNode[], options)}</>
       }
       if (domNode.name === 'head') return <></>
-      if (!allowedTags.includes(domNode.name)) return <></>
+      if (!allowedTags.includes(domNode.name)) {
+        console.warn(`Tag ${domNode.name} is not allowed`)
+        return <></>
+      }
       if (domNode.name === 'a') {
         domNode.attribs.target = '_blank'
         domNode.attribs.rel = 'noopener noreferrer'
