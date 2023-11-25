@@ -18,7 +18,7 @@ export function getNameFromEmails(
   if (!emails || emails.length === 0) {
     return ''
   }
-  const regex = /(.*?) *?<(.*?)>/g
+  const regex = /(.*?)<(.*?)>/g
   const match = regex.exec(emails[0])
   if (match) {
     if (match[1].trim() === '') {
