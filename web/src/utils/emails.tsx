@@ -11,7 +11,10 @@ import { type Email, type File } from 'services/emails'
 
 import { allowedTags, globalAttributes, imgAttributes } from 'utils/elements'
 
-export function getNameFromEmails(emails: string[] | null): string {
+export function getNameFromEmails(
+  emails: string[] | null,
+  showAddress: boolean = false
+): string {
   if (!emails || emails.length === 0) {
     return ''
   }
@@ -21,7 +24,8 @@ export function getNameFromEmails(emails: string[] | null): string {
     if (match[1].trim() === '') {
       return match[2].trim()
     }
-    return `${match[1]} <${match[2]}>`
+    if (!showAddress) return match[1].trim()
+    return `${match[1].trim()} <${match[2].trim()}>`
   }
   return emails[0]
 }
