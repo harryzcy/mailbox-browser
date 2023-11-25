@@ -168,31 +168,37 @@ function transformCss(host: string, code: string) {
 }
 
 function transformCssRules(host: string, rules?: Array<css.CssAtRuleAST>) {
+  const replaceDeclarations = (
+    declarations: Array<css.CssCommentAST | css.CssDeclarationAST>
+  ) => {
+    return declarations.map((declaration) => {
+      if (declaration.type === css.CssTypes.declaration) {
+        if (isURLProperty(declaration.property)) {
+          declaration.value = makeCSSURL(host, declaration.value)
+        }
+      }
+      return declaration
+    })
+  }
+
   return rules?.map((rule) => {
-    if (isCssRule(rule)) {
+    if (rule.type === css.CssTypes.rule) {
       rule.selectors = rule.selectors?.map((selector) => {
-        if (selector.startsWith('@')) return selector
+        if (selector.startsWith('@')) {
+          return selector
+        }
         return selector.includes('.email-sandbox')
           ? selector
           : `.email-sandbox ${selector}`
       })
-      rule.declarations = rule.declarations.map((declaration) => {
-        if (declaration.type === css.CssTypes.declaration) {
-          if (isURLProperty(declaration.property)) {
-            declaration.value = makeCSSURL(host, declaration.value)
-          }
-        }
-        return declaration
-      })
+      rule.declarations = replaceDeclarations(rule.declarations)
+    } else if (rule.type === css.CssTypes.fontFace) {
+      rule.declarations = replaceDeclarations(rule.declarations)
     } else if ('rules' in rule) {
       rule.rules = transformCssRules(host, rule.rules)
     }
     return rule
   })
-}
-
-function isCssRule(rule: css.CssAtRuleAST): rule is css.CssRuleAST {
-  return rule.type === css.CssTypes.rule
 }
 
 function makeProxyURL(host: string, url: string) {
