@@ -9,6 +9,8 @@ import parse, {
 
 import { type Email, type File } from 'services/emails'
 
+import { globalAttributes, imgAttributes } from './elements'
+
 export function getNameFromEmails(emails: string[] | null): string {
   if (!emails || emails.length === 0) {
     return ''
@@ -80,6 +82,8 @@ export function parseEmailContent(
             domNode.attribs.src = makeProxyURL(host, domNode.attribs.src)
           }
         }
+
+        domNode.attribs = filterElementAttributes(domNode.name, domNode.attribs)
       }
     }
   }
@@ -99,6 +103,23 @@ export function parseEmailContent(
       {email.text}
     </pre>
   )
+}
+
+function filterElementAttributes(
+  domName: Element['name'],
+  attribs: Element['attribs']
+): Element['attribs'] {
+  if (attribs === undefined) return attribs
+  if (domName === 'img') {
+    return Object.fromEntries(
+      Object.entries(attribs).filter(([key]) => {
+        if (globalAttributes.includes(key)) return true
+        if (imgAttributes.includes(key)) return true
+        return key.startsWith('data-')
+      })
+    )
+  }
+  return attribs
 }
 
 // containContentID returns true if there is a file with the given contentID
