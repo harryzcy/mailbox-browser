@@ -23,6 +23,8 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   }
 
   const res = await fetch(target)
-  res.headers.delete('Set-Cookie')
-  return res
+
+  const newResponse = new Response(res.body, res)
+  newResponse.headers.delete('Set-Cookie')
+  return newResponse
 }
