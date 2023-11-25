@@ -82,7 +82,7 @@ export const allowedTags = [
   'title'
 ]
 
-export const silenceTags = ['title']
+export const silenceTags = ['title', 'script']
 
 export const globalAttributes = [
   'accesskey',
