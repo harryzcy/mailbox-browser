@@ -9,7 +9,7 @@ import parse, {
 
 import { type Email, type File } from 'services/emails'
 
-import { globalAttributes, imgAttributes } from './elements'
+import { allowedTags, globalAttributes, imgAttributes } from 'utils/elements'
 
 export function getNameFromEmails(emails: string[] | null): string {
   if (!emails || emails.length === 0) {
@@ -38,7 +38,8 @@ export function parseEmailContent(
       if (['html', 'head', 'body'].includes(domNode.name)) {
         return <>{domToReact(domNode.children as DOMNode[], options)}</>
       }
-      if (['meta', 'link', 'script'].includes(domNode.name)) return <></>
+      if (domNode.name === 'head') return <></>
+      if (!allowedTags.includes(domNode.name)) return <></>
       if (domNode.name === 'a') {
         domNode.attribs.target = '_blank'
         domNode.attribs.rel = 'noopener noreferrer'
