@@ -32,13 +32,15 @@ export function parseEmailContent(
 
   const host = `${window.location.protocol}//${window.location.host}`
 
+  const notAllowedTags = ['meta', 'link', 'script', 'iframe', 'title']
+
   const options: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
       if (!(domNode instanceof Element)) return
       if (['html', 'head', 'body'].includes(domNode.name)) {
         return <>{domToReact(domNode.children as DOMNode[], options)}</>
       }
-      if (['meta', 'link', 'script'].includes(domNode.name)) return <></>
+      if (notAllowedTags.includes(domNode.name)) return <></>
       if (domNode.name === 'a') {
         domNode.attribs.target = '_blank'
         domNode.attribs.rel = 'noopener noreferrer'
