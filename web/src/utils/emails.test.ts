@@ -1,4 +1,34 @@
-import { exportedForTesting } from './emails'
+import { exportedForTesting, getNameFromEmails } from './emails'
+
+describe('getNameFromEmails', () => {
+  it('simple case', () => {
+    const result = getNameFromEmails(['FirstName <foo@example.com>'], true)
+    expect(result).toBe('FirstName <foo@example.com>')
+  })
+
+  it('multiple space', () => {
+    const result = getNameFromEmails(
+      ['FirstName  \u003cfoo@example.com\u003e'],
+      true
+    )
+    expect(result).toBe('FirstName <foo@example.com>')
+  })
+
+  it('trim space', () => {
+    const result = getNameFromEmails(['< foo@example.com >  '], true)
+    expect(result).toBe('foo@example.com')
+  })
+
+  it('no address', () => {
+    const result = getNameFromEmails(['FirstName <foo@example.com>'])
+    expect(result).toBe('FirstName')
+  })
+
+  it('without name, always address', () => {
+    const result = getNameFromEmails(['<foo@example.com>'], false)
+    expect(result).toBe('foo@example.com')
+  })
+})
 
 const { makeCSSURL } = exportedForTesting
 

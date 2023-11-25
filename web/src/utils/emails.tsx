@@ -11,14 +11,21 @@ import { type Email, type File } from 'services/emails'
 
 import { allowedTags, globalAttributes, imgAttributes } from 'utils/elements'
 
-export function getNameFromEmails(emails: string[] | null): string {
+export function getNameFromEmails(
+  emails: string[] | null,
+  showAddress: boolean = false
+): string {
   if (!emails || emails.length === 0) {
     return ''
   }
-  const regex = /(.*?) ?<.*?>/g
+  const regex = /(.*?)<(.*?)>/g
   const match = regex.exec(emails[0])
   if (match) {
-    return match[1]
+    if (match[1].trim() === '') {
+      return match[2].trim()
+    }
+    if (!showAddress) return match[1].trim()
+    return `${match[1].trim()} <${match[2].trim()}>`
   }
   return emails[0]
 }

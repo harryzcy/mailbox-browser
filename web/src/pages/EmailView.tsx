@@ -346,10 +346,10 @@ function EmailBlock(props: EmailBlockProps) {
         <div className="preflight flex items-start justify-between">
           <div className="dark:text-neutral-300">
             <div>
-              <span>{getNameFromEmails(email.from)}</span>
+              <span>{getNameFromEmails(email.from, true)}</span>
             </div>
             <div className="text-sm">
-              <span>To: {getNameFromEmails(email.to)}</span>
+              <span>To: {getNameFromEmails(email.to, true)}</span>
             </div>
           </div>
 
