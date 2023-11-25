@@ -1,3 +1,4 @@
+// Tags that are allowed in email.
 export const allowedTags = [
   'a',
   'abbr',
@@ -82,8 +83,10 @@ export const allowedTags = [
   'title'
 ]
 
+// Tags that should be removed from the document, without logging a warning.
 export const silenceTags = ['title', 'script']
 
+// Attributes that are allowed on all tags.
 export const globalAttributes = [
   'accesskey',
   'class',
@@ -104,6 +107,7 @@ export const globalAttributes = [
   'translate'
 ]
 
+// Attributes that are allowed on `<img>` tags.
 export const imgAttributes = [
   'alt',
   'crossorigin',
