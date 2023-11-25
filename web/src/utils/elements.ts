@@ -74,9 +74,11 @@ export const allowedTags = [
   'ul',
   'var',
   'html',
-  'body',
   'head',
-  'meta'
+  'body',
+  'meta',
+  'style',
+  'link'
 ]
 
 export const globalAttributes = [
