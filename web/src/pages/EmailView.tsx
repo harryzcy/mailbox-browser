@@ -5,6 +5,7 @@ import {
   PencilIcon
 } from '@heroicons/react/24/outline'
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { Await, useLoaderData, useNavigate } from 'react-router-dom'
 
 import { toast } from '@ui/use-toast'
@@ -406,13 +407,24 @@ function EmailBlock(props: EmailBlockProps) {
               (!email.html ? ' whitespace-pre-line' : '')
             }
           >
-            <div className="w-fit mx-auto">
-              {parseEmailContent(
-                email,
-                configContext.state.config.disableProxy,
-                showImages
-              )}
-            </div>
+            <ErrorBoundary
+              fallbackRender={({ error }) => {
+                console.error(error)
+                return (
+                  <p className="text-rose-600 dark:text-rose-400 italic">
+                    Rendering failed
+                  </p>
+                )
+              }}
+            >
+              <div className="w-fit mx-auto">
+                {parseEmailContent(
+                  email,
+                  configContext.state.config.disableProxy,
+                  showImages
+                )}
+              </div>
+            </ErrorBoundary>
           </div>
         </div>
       </div>
