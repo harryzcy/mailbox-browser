@@ -408,11 +408,14 @@ function EmailBlock(props: EmailBlockProps) {
             }
           >
             <ErrorBoundary
-              fallback={
-                <p className="text-rose-600 dark:text-rose-400 italic">
-                  Rendering failed
-                </p>
-              }
+              fallbackRender={({ error }) => {
+                console.error(error)
+                return (
+                  <p className="text-rose-600 dark:text-rose-400 italic">
+                    Rendering failed
+                  </p>
+                )
+              }}
             >
               <div className="w-fit mx-auto">
                 {parseEmailContent(
