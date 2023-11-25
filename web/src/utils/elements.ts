@@ -23,6 +23,7 @@ export const allowedTags = [
   'div',
   'dl',
   'dt',
+  'dd',
   'em',
   'fieldset',
   'font',
