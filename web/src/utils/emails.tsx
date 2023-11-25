@@ -9,7 +9,12 @@ import parse, {
 
 import { type Email, type File } from 'services/emails'
 
-import { allowedTags, globalAttributes, imgAttributes } from 'utils/elements'
+import {
+  allowedTags,
+  globalAttributes,
+  imgAttributes,
+  silenceTags
+} from 'utils/elements'
 
 export function getNameFromEmails(
   emails: string[] | null,
@@ -45,9 +50,10 @@ export function parseEmailContent(
       if (['html', 'head', 'body'].includes(domNode.name)) {
         return <>{domToReact(domNode.children as DOMNode[], options)}</>
       }
-      if (domNode.name === 'head') return <></>
       if (!allowedTags.includes(domNode.name)) {
-        console.warn(`Tag ${domNode.name} is not allowed`)
+        if (!silenceTags.includes(domNode.name)) {
+          console.warn(`Unsupported tag: ${domNode.name}`)
+        }
         return <></>
       }
       if (domNode.name === 'a') {

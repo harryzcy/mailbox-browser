@@ -78,8 +78,11 @@ export const allowedTags = [
   'body',
   'meta',
   'style',
-  'link'
+  'link',
+  'title'
 ]
+
+export const silenceTags = ['title']
 
 export const globalAttributes = [
   'accesskey',
