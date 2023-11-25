@@ -79,8 +79,7 @@ export const allowedTags = [
   'body',
   'meta',
   'style',
-  'link',
-  'title'
+  'link'
 ]
 
 // Tags that should be removed from the document, without logging a warning.
