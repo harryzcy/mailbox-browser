@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -54,6 +55,9 @@ func Proxy(ctx *gin.Context) {
 
 func copyHeader(dst, src http.Header) {
 	for k, vv := range src {
+		if strings.ToLower(k) == "set-cookie" {
+			continue
+		}
 		for _, v := range vv {
 			dst.Add(k, v)
 		}

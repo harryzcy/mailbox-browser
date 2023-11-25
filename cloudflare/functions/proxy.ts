@@ -23,5 +23,6 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   }
 
   const res = await fetch(target)
+  res.headers.delete('Set-Cookie')
   return res
 }
