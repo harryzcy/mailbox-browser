@@ -15,10 +15,13 @@ export function getNameFromEmails(emails: string[] | null): string {
   if (!emails || emails.length === 0) {
     return ''
   }
-  const regex = /(.*?) ?<.*?>/g
+  const regex = /(.*?) *?<(.*?)>/g
   const match = regex.exec(emails[0])
   if (match) {
-    return match[1]
+    if (match[1].trim() === '') {
+      return match[2].trim()
+    }
+    return `${match[1]} <${match[2]}>`
   }
   return emails[0]
 }
