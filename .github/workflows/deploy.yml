@@ -27,9 +27,9 @@ jobs:
         shell: bash
         run: |
           if [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-            echo "branch=main" >> $GITHUB_OUTPUT
+            echo "branch=main" >> "$GITHUB_OUTPUT"
           else
-            echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+            echo "branch=${GITHUB_REF#refs/heads/}" >> "$GITHUB_OUTPUT"
           fi
         id: extract_branch
 
