@@ -11,7 +11,7 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@adobe/css-tools": "4.3.1",
+    "@adobe/css-tools": "4.3.2",
     "@heroicons/react": "2.0.18",
     "@lexical/clipboard": "0.12.4",
     "@lexical/code": "0.12.4",
