@@ -33,7 +33,7 @@ RUN [[ -d dist ]] && echo "build exists, skipping" || \
   npm run build \
   )
 
-FROM alpine:3.18.5
+FROM alpine:3.19.0
 
 COPY --from=bff-builder /bin/bff /bin/bff
 COPY --from=web-builder /app/dist /bin/dist
