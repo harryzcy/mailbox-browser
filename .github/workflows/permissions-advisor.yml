@@ -22,7 +22,7 @@ jobs:
     if: github.repository_owner == 'harryzcy'
     runs-on: ubuntu-latest
     steps:
-      - uses: GitHubSecurityLab/actions-permissions/advisor@v1
+      - uses: GitHubSecurityLab/actions-permissions/advisor@e83639073897b68de235d81a783b2221cc13def7 # v1
         with:
           name: ${{ inputs.name }}
           count: ${{ inputs.count }}
