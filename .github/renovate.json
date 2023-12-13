@@ -1,10 +1,13 @@
 {
   "extends": [
-    "config:base",
+    "config:best-practices",
+    ":pinDependencies",
     ":disableDependencyDashboard",
     ":automergeMinor"
   ],
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "packageRules": [
     {
       "packagePatterns": [
@@ -22,5 +25,8 @@
       "groupName": "facebook/lexical monorepo"
     }
   ],
-  "postUpdateOptions": ["gomodTidy", "pnpmDedupe"]
+  "postUpdateOptions": [
+    "gomodTidy",
+    "pnpmDedupe"
+  ]
 }
