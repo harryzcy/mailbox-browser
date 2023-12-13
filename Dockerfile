@@ -1,4 +1,4 @@
-FROM golang:1.21.5-alpine3.19 as bff-builder
+FROM golang:1.21.5-alpine3.19@sha256:feceecc0e1d73d085040a8844de11a2858ba4a0c58c16a672f1736daecc2a4ff as bff-builder
 
 ARG BUILD_VERSION
 ARG BUILD_COMMIT
@@ -33,7 +33,7 @@ RUN [[ -d dist ]] && echo "build exists, skipping" || \
   npm run build \
   )
 
-FROM alpine:3.19.0
+FROM alpine:3.19.0@sha256:51b67269f354137895d43f3b3d810bfacd3945438e94dc5ac55fdac340352f48
 
 COPY --from=bff-builder /bin/bff /bin/bff
 COPY --from=web-builder /app/dist /bin/dist
