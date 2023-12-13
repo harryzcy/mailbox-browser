@@ -8,14 +8,6 @@
   "labels": [
     "dependencies"
   ],
-  "packageRules": [
-    {
-      "matchSourceUrls": [
-        "https://github.com/facebook/lexical"
-      ],
-      "groupName": "facebook/lexical monorepo"
-    }
-  ],
   "postUpdateOptions": [
     "gomodTidy",
     "pnpmDedupe"
