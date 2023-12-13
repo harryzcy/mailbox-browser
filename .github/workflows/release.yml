@@ -61,9 +61,9 @@ jobs:
 
       - name: Get build variables
         run: |
-          echo "BUILD_COMMIT=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_ENV
-          echo "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
-          echo "BUILD_VERSION=$(git describe --tags --always)" >> $GITHUB_ENV
+          echo "BUILD_COMMIT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+          echo "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> "$GITHUB_ENV"
+          echo "BUILD_VERSION=$(git describe --tags --always)" >> "$GITHUB_ENV"
 
       - name: Check build variables
         run: |
