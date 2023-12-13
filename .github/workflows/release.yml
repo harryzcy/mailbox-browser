@@ -70,9 +70,9 @@ jobs:
 
       - name: Check build variables
         run: |
-          echo $BUILD_COMMIT
-          echo $BUILD_DATE
-          echo $BUILD_VERSION
+          echo "$BUILD_COMMIT"
+          echo "$BUILD_DATE"
+          echo "$BUILD_VERSION"
 
       - name: Docker meta
         id: meta
