@@ -10,6 +10,6 @@
   ],
   "postUpdateOptions": [
     "gomodTidy",
-    "pnpmDedupe"
+    "npmDedupe"
   ]
 }
