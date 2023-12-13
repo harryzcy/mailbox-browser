@@ -1,26 +1,15 @@
 {
   "extends": [
-    "config:base",
+    "config:best-practices",
+    ":pinDependencies",
     ":disableDependencyDashboard",
     ":automergeMinor"
   ],
-  "labels": ["dependencies"],
-  "packageRules": [
-    {
-      "packagePatterns": [
-        "^github.com/aws/aws-sdk-go-v2$",
-        "^github.com/aws/aws-sdk-go-v2/"
-      ],
-      "automerge": true,
-      "groupName": "all aws-sdk-go-v2 dependencies",
-      "groupSlug": "all-aws-sdk-go-v2"
-    },
-    {
-      "matchSourceUrls": [
-        "https://github.com/facebook/lexical"
-      ],
-      "groupName": "facebook/lexical monorepo"
-    }
+  "labels": [
+    "dependencies"
   ],
-  "postUpdateOptions": ["gomodTidy", "pnpmDedupe"]
+  "postUpdateOptions": [
+    "gomodTidy",
+    "npmDedupe"
+  ]
 }
