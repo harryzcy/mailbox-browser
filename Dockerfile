@@ -17,7 +17,7 @@ RUN set -ex && \
   -w -s" \
   -o /bin/bff
 
-FROM node:20.10.0-alpine3.19 as web-builder
+FROM node:20.11.0-alpine3.19@sha256:1939baf3b80dfaa653ac7aff361680353748da7867bf3ff783aa63e4c0c9e947 as web-builder
 
 ARG BUILD_VERSION
 
