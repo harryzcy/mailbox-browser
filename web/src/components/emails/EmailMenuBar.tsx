@@ -15,6 +15,7 @@ import * as plugins from 'services/plugins'
 
 interface EmailMenuBarProps {
   emailIDs: string[]
+  clearEmailIDs: () => void
   showOperations: boolean
   handleDelete: () => void
   handleRead: () => void
@@ -29,6 +30,7 @@ interface EmailMenuBarProps {
 export default function EmailMenuBar(props: EmailMenuBarProps) {
   const {
     emailIDs,
+    clearEmailIDs,
     showOperations,
     handleDelete,
     handleRead,
@@ -41,10 +43,10 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
   } = props
 
   return (
-    <div className="flex select-none items-stretch justify-between">
-      <div className="flex items-center space-x-1">
-        <ComposeButton />
-        {showOperations && (
+    <>
+      <div className="hidden md:flex select-none items-stretch justify-between">
+        <div className="flex items-center space-x-1">
+          <ComposeButton />
           <ActionBar
             emailIDs={emailIDs}
             handleDelete={handleDelete}
@@ -52,18 +54,52 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
             handleUnread={handleUnread}
             showOperations={showOperations}
           />
-        )}
+        </div>
+
+        <YearMonthNavigation
+          hasPrevious={hasPrevious}
+          hasNext={hasNext}
+          goPrevious={goPrevious}
+          goNext={goNext}
+        >
+          {children}
+        </YearMonthNavigation>
       </div>
 
-      <YearMonthNavigation
-        hasPrevious={hasPrevious}
-        hasNext={hasNext}
-        goPrevious={goPrevious}
-        goNext={goNext}
-      >
-        {children}
-      </YearMonthNavigation>
-    </div>
+      <div className="flex md:hidden select-none items-stretch justify-between">
+        {showOperations ? (
+          <>
+            <span
+              className="p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
+              onClick={clearEmailIDs}
+            >
+              <ChevronLeftIcon className="h-5 w-5" />
+            </span>
+            <div className="flex items-center">
+              <ActionBar
+                emailIDs={emailIDs}
+                handleDelete={handleDelete}
+                handleRead={handleRead}
+                handleUnread={handleUnread}
+                showOperations={showOperations}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <ComposeButton />
+            <YearMonthNavigation
+              hasPrevious={hasPrevious}
+              hasNext={hasNext}
+              goPrevious={goPrevious}
+              goNext={goNext}
+            >
+              {children}
+            </YearMonthNavigation>
+          </>
+        )}
+      </div>
+    </>
   )
 }
 
@@ -130,6 +166,10 @@ function ActionBar(props: {
   const invokePlugin = (plugin: Plugin) => {
     setShowPluginMenu(false)
     void plugins.invoke(plugin.name, emailIDs)
+  }
+
+  if (!showOperations) {
+    return null
   }
 
   return (
