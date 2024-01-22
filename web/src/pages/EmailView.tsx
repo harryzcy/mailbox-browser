@@ -187,7 +187,7 @@ export default function EmailView() {
 
   return (
     <>
-      <div className="mb-4 preflight">
+      <div className="px-2 md:px-0 mb-4 preflight">
         <EmailMenuBar
           emailIDs={'messageID' in data ? [data.messageID] : []}
           handleBack={() => {
@@ -212,7 +212,7 @@ export default function EmailView() {
 
       <React.Suspense
         fallback={
-          <div className="mb-4 overflow-scroll rounded-md bg-neutral-50 p-3 dark:bg-neutral-800 dark:text-neutral-200">
+          <div className="px-2 md:px-0 mb-4 overflow-scroll rounded-md bg-neutral-50 p-3 dark:bg-neutral-800 dark:text-neutral-200">
             <span>Loading...</span>
           </div>
         }
@@ -220,7 +220,7 @@ export default function EmailView() {
         {data.type == 'email' && (
           <Await resolve={data.email}>
             {(email: Email) => (
-              <div className="h-full overflow-scroll pb-5">
+              <div className="h-full overflow-y-scroll pb-5 px-2 md:px-0">
                 <div className="mb-2 px-3">
                   <span className="text-xl font-normal dark:text-neutral-200">
                     {email.subject}
@@ -278,7 +278,7 @@ export default function EmailView() {
                   />
                 )}
                 {thread.draftID && !activeReplyEmail && (
-                  <div className="preflight mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
+                  <div className="preflight mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800 w-full">
                     <div className="flex items-start justify-between">
                       <span className="text-red-300">[Draft]</span>
                       <span className="text-neutral-500 dark:text-neutral-300">

@@ -204,7 +204,7 @@ export default function EmailList() {
 
   return (
     <>
-      <div ref={menuRef} className="preflight mb-4">
+      <div ref={menuRef} className="preflight mb-4 px-2 md:px-0">
         <EmailMenuBar
           emailIDs={selected}
           handleBack={() => setSelected([])}
@@ -224,7 +224,7 @@ export default function EmailList() {
       </div>
       <div
         ref={emailViewRef}
-        className="preflight mb-4 overflow-scroll rounded-md"
+        className="preflight mb-4 overflow-scroll rounded-md px-2 md:px-0"
         onScroll={() => {
           if (!emailViewRef.current) return
           setScrollYPosition(emailViewRef.current.scrollTop)

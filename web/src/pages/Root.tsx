@@ -55,7 +55,7 @@ export default function Root() {
 
         <div
           className={
-            'max-h-screen max-w-screen flex-1 px-2 pt-4 md:px-8 md:pt-5 ' +
+            'max-h-full max-w-full flex-1 pt-4 md:px-8 md:pt-5 ' +
             (sidebarOnMobile ? 'blur-sm' : '')
           }
         >
@@ -70,7 +70,7 @@ export default function Root() {
             </div>
           </span>
         ) : (
-          <span className="absolute md:hidden top-5">
+          <span className="absolute md:hidden top-5 px-2">
             <span className="p-2" onClick={() => setSidebarOnMobile(true)}>
               <Bars3Icon className="h-4 w-4 dark:text-white" />
             </span>
