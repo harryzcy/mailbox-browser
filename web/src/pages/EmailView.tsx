@@ -190,6 +190,7 @@ export default function EmailView() {
       <div className="mb-4 preflight">
         <EmailMenuBar
           emailIDs={'messageID' in data ? [data.messageID] : []}
+          clearEmailIDs={() => {}}
           showOperations={true}
           handleDelete={() => {
             void handleDelete()

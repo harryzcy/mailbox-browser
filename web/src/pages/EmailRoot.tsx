@@ -163,7 +163,7 @@ export default function EmailRoot(props: EmailRootProps) {
   })
 
   return (
-    <div className="max-h-screen flex-1 pt-2 md:px-8 md:pt-5">
+    <>
       <div
         className={
           'flex flex-col ' +
@@ -173,7 +173,7 @@ export default function EmailRoot(props: EmailRootProps) {
         }
       >
         <div className="preflight">
-          <h1 className="text-lg font-light tracking-wider dark:text-white md:px-2 md:pb-4">
+          <h1 className="text-lg w-full font-light tracking-wider text-center md:text-left dark:text-white px-2 pb-3 md:px-2 md:pb-4">
             {props.type === 'inbox'
               ? 'Inbox'
               : props.type === 'draft'
@@ -195,7 +195,7 @@ export default function EmailRoot(props: EmailRootProps) {
       <div className="preflight">
         <DraftEmailsTabs />
       </div>
-    </div>
+    </>
   )
 }
 

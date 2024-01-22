@@ -116,7 +116,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className="flex bg-white font-sans dark:bg-neutral-900">
+    <div className="flex relative bg-white font-sans dark:bg-neutral-900">
       <RouterProvider router={router} />
     </div>
   )
