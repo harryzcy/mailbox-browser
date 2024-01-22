@@ -2,7 +2,6 @@
  * EmailRoot.tsx
  * This is the root component for inbox, draft, and sent pages.
  */
-import { Bars3Icon } from '@heroicons/react/24/outline'
 import { useContext, useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router-dom'
 
@@ -174,18 +173,13 @@ export default function EmailRoot(props: EmailRootProps) {
         }
       >
         <div className="preflight">
-          <span className="flex dark:text-white px-2 pb-3 md:px-2 md:pb-4 items-center">
-            <span className="absolute">
-              <Bars3Icon className="h-4 w-4 dark:text-white" />
-            </span>
-            <h1 className="text-lg w-full font-light tracking-wider text-center md:text-left">
-              {props.type === 'inbox'
-                ? 'Inbox'
-                : props.type === 'draft'
-                  ? 'Drafts'
-                  : 'Sent'}
-            </h1>
-          </span>
+          <h1 className="text-lg w-full font-light tracking-wider text-center md:text-left dark:text-white px-2 pb-3 md:px-2 md:pb-4">
+            {props.type === 'inbox'
+              ? 'Inbox'
+              : props.type === 'draft'
+                ? 'Drafts'
+                : 'Sent'}
+          </h1>
         </div>
         <Outlet context={outletContext} />
       </div>

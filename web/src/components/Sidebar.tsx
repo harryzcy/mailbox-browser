@@ -3,14 +3,14 @@ import {
   InboxIcon,
   PaperAirplaneIcon
 } from '@heroicons/react/24/outline'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, forwardRef, useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { getInfo } from 'services/info'
 
 import { browserVersion } from 'utils/info'
 
-export default function Sidebar() {
+const Sidebar = forwardRef<HTMLElement>(function Sidebar(props, ref) {
   const navItems: [string, string, ReactElement][] = [
     ['Inbox', '/inbox', <InboxIcon key="inbox" />],
     ['Drafts', '/drafts', <DocumentTextIcon key="drafts" />],
@@ -23,9 +23,12 @@ export default function Sidebar() {
   }, [])
 
   return (
-    <aside className="flex h-screen flex-none select-none flex-col justify-between text-base md:w-60">
+    <aside
+      ref={ref}
+      className="flex h-screen flex-none select-none flex-col justify-between text-base w-60 bg-white dark:bg-neutral-900"
+    >
       <div>
-        <div className="flex flex-col content-center md:p-6">
+        <div className="flex flex-col content-center p-6">
           <h1 className="text-center font-light tracking-wide dark:text-neutral-100">
             Mailbox Browser
           </h1>
@@ -60,4 +63,6 @@ export default function Sidebar() {
       </div>
     </aside>
   )
-}
+})
+
+export default Sidebar
