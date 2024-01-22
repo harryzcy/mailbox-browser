@@ -40,7 +40,7 @@ export default function Root() {
           dispatch: draftEmailsDispatch
         }}
       >
-        <div className="preflight">
+        <div className="hidden md:block preflight">
           <Sidebar />
         </div>
         <Outlet />
