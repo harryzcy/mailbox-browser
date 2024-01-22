@@ -97,7 +97,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
         </span>
 
         {showOperations && (
-          <>
+          <span className="hidden md:inline">
             <span
               className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
               onClick={() => {
@@ -150,7 +150,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
                 </div>
               )}
             </span>
-          </>
+          </span>
         )}
       </div>
 

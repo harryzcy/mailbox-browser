@@ -53,14 +53,14 @@ export default function Root() {
           <Sidebar />
         </div>
 
-        <span
+        <div
           className={
             'max-h-screen flex-1 px-2 pt-4 md:px-8 md:pt-5 ' +
             (sidebarOnMobile ? 'blur-sm' : '')
           }
         >
           <Outlet />
-        </span>
+        </div>
 
         {/* sidebar on mobile - absolute positioning */}
         {sidebarOnMobile ? (
