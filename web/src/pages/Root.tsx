@@ -53,7 +53,12 @@ export default function Root() {
           <Sidebar />
         </div>
 
-        <span className={sidebarOnMobile ? 'blur-sm' : ''}>
+        <span
+          className={
+            'max-h-screen flex-1 px-2 pt-4 md:px-8 md:pt-5 ' +
+            (sidebarOnMobile ? 'blur-sm' : '')
+          }
+        >
           <Outlet />
         </span>
 

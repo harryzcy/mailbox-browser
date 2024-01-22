@@ -163,7 +163,7 @@ export default function EmailRoot(props: EmailRootProps) {
   })
 
   return (
-    <div className="max-h-screen flex-1 px-2 pt-4 md:px-8 md:pt-5">
+    <>
       <div
         className={
           'flex flex-col ' +
@@ -195,7 +195,7 @@ export default function EmailRoot(props: EmailRootProps) {
       <div className="preflight">
         <DraftEmailsTabs />
       </div>
-    </div>
+    </>
   )
 }
 
