@@ -207,7 +207,7 @@ export default function EmailList() {
       <div ref={menuRef} className="preflight mb-4">
         <EmailMenuBar
           emailIDs={selected}
-          clearEmailIDs={() => setSelected([])}
+          handleBack={() => setSelected([])}
           showOperations={selected.length > 0}
           handleDelete={handleDelete}
           handleRead={handleRead}
