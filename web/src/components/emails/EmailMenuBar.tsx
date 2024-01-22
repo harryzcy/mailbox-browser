@@ -84,18 +84,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
   return (
     <div className="flex select-none items-stretch justify-between">
       <div className="flex items-center space-x-1">
-        <span
-          className="mr-3 inline-flex h-full cursor-pointer items-center space-x-2 rounded-md border border-sky-200 bg-sky-200 px-3"
-          onClick={() => {
-            void handleCreate()
-          }}
-        >
-          <span>
-            <EnvelopeIcon className="h-5 w-5 text-sky-800" />
-          </span>
-          <span className="text-bold font-medium text-sky-900">Compose</span>
-        </span>
-
+        <ComposeButton handleCreate={handleCreate} />
         {showOperations && (
           <span className="hidden md:inline">
             <span
@@ -154,42 +143,77 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
         )}
       </div>
 
-      <nav
-        className="inline-flex divide-x rounded-md border dark:divide-x-0 dark:border-sky-900"
-        aria-label="pagination"
+      <YearMonthNavigation
+        hasPrevious={hasPrevious}
+        hasNext={hasNext}
+        goPrevious={goPrevious}
+        goNext={goNext}
       >
-        <span
-          className={
-            'inline-flex items-center rounded-l-md p-2 dark:bg-cyan-900 ' +
-            (!hasPrevious
-              ? 'cursor-not-allowed text-gray-400'
-              : 'cursor-pointer dark:text-cyan-50')
-          }
-          onClick={goPrevious}
-        >
-          <span className="h-5 w-5">
-            <ChevronLeftIcon />
-          </span>
-        </span>
-        {children && (
-          <span className="mx-px inline-flex select-none px-3 py-2 text-center text-sm dark:bg-cyan-900 dark:text-cyan-50">
-            {children}
-          </span>
-        )}
-        <span
-          className={
-            'inline-flex items-center rounded-r-md p-2 dark:bg-cyan-900 ' +
-            (!hasNext
-              ? 'cursor-not-allowed text-gray-400'
-              : 'cursor-pointer dark:text-cyan-50')
-          }
-          onClick={goNext}
-        >
-          <span className="h-5 w-5">
-            <ChevronRightIcon />
-          </span>
-        </span>
-      </nav>
+        {children}
+      </YearMonthNavigation>
     </div>
+  )
+}
+
+function ComposeButton(props: { handleCreate: () => void }) {
+  const { handleCreate } = props
+  return (
+    <span
+      className="mr-3 inline-flex h-full cursor-pointer items-center space-x-2 rounded-md border border-sky-200 bg-sky-200 px-3"
+      onClick={handleCreate}
+    >
+      <span>
+        <EnvelopeIcon className="h-5 w-5 text-sky-800" />
+      </span>
+      <span className="text-bold font-medium text-sky-900">Compose</span>
+    </span>
+  )
+}
+
+function YearMonthNavigation(props: {
+  hasPrevious: boolean
+  hasNext: boolean
+  goPrevious: () => void
+  goNext: () => void
+  children?: React.ReactNode
+}) {
+  const { hasPrevious, hasNext, goPrevious, goNext, children } = props
+  return (
+    <nav
+      className="inline-flex divide-x rounded-md border dark:divide-x-0 dark:border-sky-900"
+      aria-label="pagination"
+    >
+      <span
+        className={
+          'inline-flex items-center rounded-l-md p-2 dark:bg-cyan-900 ' +
+          (!hasPrevious
+            ? 'cursor-not-allowed text-gray-400'
+            : 'cursor-pointer dark:text-cyan-50')
+        }
+        onClick={goPrevious}
+      >
+        <span className="h-5 w-5">
+          <ChevronLeftIcon />
+        </span>
+      </span>
+      {children && (
+        <span className="mx-px inline-flex select-none px-3 py-2 text-center text-sm dark:bg-cyan-900 dark:text-cyan-50">
+          {children}
+        </span>
+      )}
+      <span
+        className={
+          'inline-flex items-center rounded-r-md p-2 dark:bg-cyan-900 ' +
+          (!hasNext
+            ? 'cursor-not-allowed text-gray-400'
+            : 'cursor-pointer dark:text-cyan-50')
+        }
+        onClick={goNext}
+      >
+        <span className="h-5 w-5">
+          <ChevronRightIcon />
+        </span>
+      </span>
+    </nav>
   )
 }
