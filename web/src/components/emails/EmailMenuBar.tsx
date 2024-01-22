@@ -15,7 +15,7 @@ import * as plugins from 'services/plugins'
 
 interface EmailMenuBarProps {
   emailIDs: string[]
-  clearEmailIDs: () => void
+  handleBack: () => void
   showOperations: boolean
   handleDelete: () => void
   handleRead: () => void
@@ -30,7 +30,7 @@ interface EmailMenuBarProps {
 export default function EmailMenuBar(props: EmailMenuBarProps) {
   const {
     emailIDs,
-    clearEmailIDs,
+    handleBack,
     showOperations,
     handleDelete,
     handleRead,
@@ -71,7 +71,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
           <>
             <span
               className="p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
-              onClick={clearEmailIDs}
+              onClick={handleBack}
             >
               <ChevronLeftIcon className="h-5 w-5" />
             </span>
