@@ -9,7 +9,7 @@ import EmailTableRow from './EmailTableRow'
 interface EmailTableViewProps {
   emails: EmailInfo[]
   selected: string[]
-  toggleSelected: (messageID: string, action: 'add' | 'replace') => void
+  toggleSelected: (messageID: string) => void
   hasMore: boolean
   loadMoreEmails: () => void
 }
@@ -33,8 +33,8 @@ export default function EmailTableView(props: EmailTableViewProps) {
             key={email.messageID}
             email={email}
             selected={props.selected.includes(email.messageID)}
-            onClick={(action) => {
-              toggleSelected(email.messageID, action)
+            onClick={() => {
+              toggleSelected(email.messageID)
             }}
           />
         )

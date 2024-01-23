@@ -12,7 +12,7 @@ import { formatDate } from 'utils/time'
 interface EmailTableRowProps {
   email: EmailInfo
   selected: boolean
-  onClick: (action: 'add' | 'replace') => void
+  onClick: () => void
 }
 
 export default function EmailTableRow(props: EmailTableRowProps) {
@@ -31,8 +31,6 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       email: emailDetail
     })
   }
-
-  const isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent)
 
   const openEmail = () => {
     if (email.type === 'draft') {
@@ -58,10 +56,8 @@ export default function EmailTableRow(props: EmailTableRowProps) {
           backgroundClassName +
           unreadClassName
         }
-        onClick={(event) => {
-          const shouldAdd =
-            (isMacLike && event.metaKey) || (!isMacLike && event.ctrlKey)
-          if (isMacLike) onClick(shouldAdd ? 'add' : 'replace')
+        onClick={() => {
+          onClick()
         }}
       >
         <span className="h-full flex items-center">
