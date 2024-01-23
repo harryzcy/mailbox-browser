@@ -34,36 +34,35 @@ export default function EmailTableRow(props: EmailTableRowProps) {
 
   const isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent)
 
+  const openEmail = () => {
+    if (email.type === 'draft') {
+      if (email.threadID) {
+        navigate(`/inbox/thread/${email.threadID}`)
+        return
+      }
+      void openDraftEmail(email.messageID)
+    } else if (email.type === 'inbox' || email.type === 'sent') {
+      if (email.threadID) {
+        navigate(`/inbox/thread/${email.threadID}`)
+        return
+      }
+      navigate(`/inbox/${email.messageID}`)
+    }
+  }
+
   return (
-    <div
-      className="group contents"
-      onClick={(event) => {
-        const shouldAdd =
-          (isMacLike && event.metaKey) || (!isMacLike && event.ctrlKey)
-        if (isMacLike) onClick(shouldAdd ? 'add' : 'replace')
-      }}
-      onDoubleClick={() => {
-        if (email.type === 'draft') {
-          if (email.threadID) {
-            navigate(`/inbox/thread/${email.threadID}`)
-            return
-          }
-          void openDraftEmail(email.messageID)
-        } else if (email.type === 'inbox' || email.type === 'sent') {
-          if (email.threadID) {
-            navigate(`/inbox/thread/${email.threadID}`)
-            return
-          }
-          navigate(`/inbox/${email.messageID}`)
-        }
-      }}
-    >
+    <div className="group contents">
       <div
         className={
-          'relative cursor-pointer border-t border-neutral-200 px-3 md:px-4 py-2 group-first:border-0 dark:border-neutral-900 row-span-2 md:row-span-1' +
+          'cursor-pointer border-t border-neutral-200 px-3 md:px-4 py-2 group-first:border-0 dark:border-neutral-900 row-span-2 md:row-span-1' +
           backgroundClassName +
           unreadClassName
         }
+        onClick={(event) => {
+          const shouldAdd =
+            (isMacLike && event.metaKey) || (!isMacLike && event.ctrlKey)
+          if (isMacLike) onClick(shouldAdd ? 'add' : 'replace')
+        }}
       >
         <span className="h-full flex items-center">
           <div
@@ -80,10 +79,11 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'relative cursor-pointer truncate border-t border-neutral-200 pl-1 pr-4 py-1 md:py-2 group-first:border-0 dark:border-neutral-900' +
+          'cursor-pointer truncate border-t border-neutral-200 pl-1 pr-4 py-1 pt-2 md:py-2 group-first:border-0 dark:border-neutral-900' +
           backgroundClassName +
           unreadClassName
         }
+        onClick={openEmail}
       >
         <span title={email.from && email.from.length > 0 ? email.from[0] : ''}>
           {getNameFromEmails(email.from)}
@@ -91,19 +91,21 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'cursor-pointer truncate md:border-t border-neutral-200 pl-1 pr-4 pb-1 md:py-2 group-first:border-0 dark:border-neutral-900 col-span-2 md:col-span-1' +
+          'cursor-pointer truncate md:border-t border-neutral-200 pl-1 pr-4 pb-2 md:py-2 group-first:border-0 dark:border-neutral-900 col-span-2 md:col-span-1' +
           backgroundClassName +
           unreadClassName
         }
+        onClick={openEmail}
       >
         {email.subject}
       </div>
       <div
         className={
-          'cursor-pointer border-t border-neutral-200 px-4 py-1 md:py-2 text-right group-first:border-0 dark:border-neutral-900 text-xs md:text-base' +
+          'cursor-pointer border-t border-neutral-200 px-4 py-1 pt-3 md:pt-2 text-right group-first:border-0 dark:border-neutral-900 text-xs md:text-base' +
           backgroundClassName +
           (email.unread ? ' md:font-bold' : ' md:dark:font-light')
         }
+        onClick={openEmail}
       >
         {formatDate(
           email.timeReceived || email.timeUpdated || email.timeSent || '',
