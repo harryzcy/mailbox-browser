@@ -60,20 +60,27 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     >
       <div
         className={
-          'relative cursor-pointer border-t border-neutral-200 py-2 group-first:border-0 dark:border-neutral-900 row-span-2 md:row-span-1' +
+          'relative cursor-pointer border-t border-neutral-200 px-3 md:px-4 py-2 group-first:border-0 dark:border-neutral-900 row-span-2 md:row-span-1' +
           backgroundClassName +
           unreadClassName
         }
       >
-        <span className="h-full flex items-center pl-4">
-          <div className="h-4 w-4 border rounded border-neutral-900 dark:border-neutral-300">
+        <span className="h-full flex items-center">
+          <div
+            className={
+              'h-4 w-4 border rounded ' +
+              (selected
+                ? 'border-neutral-900 dark:border-neutral-300'
+                : 'border-neutral-300 dark:border-neutral-500')
+            }
+          >
             {selected && <CheckIcon className="h-3.5 w-3.5" />}
           </div>
         </span>
       </div>
       <div
         className={
-          'relative cursor-pointer truncate border-t border-neutral-200 px-4 py-2 group-first:border-0 dark:border-neutral-900' +
+          'relative cursor-pointer truncate border-t border-neutral-200 pl-1 pr-4 py-2 group-first:border-0 dark:border-neutral-900' +
           backgroundClassName +
           unreadClassName
         }
@@ -84,7 +91,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'cursor-pointer truncate border-t border-neutral-200 px-4 py-2 group-first:border-0 dark:border-neutral-900 col-span-2 md:col-span-1' +
+          'cursor-pointer truncate border-t border-neutral-200 pl-1 pr-4 py-2 group-first:border-0 dark:border-neutral-900 col-span-2 md:col-span-1' +
           backgroundClassName +
           unreadClassName
         }
