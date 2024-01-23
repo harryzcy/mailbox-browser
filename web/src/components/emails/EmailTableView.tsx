@@ -26,7 +26,7 @@ export default function EmailTableView(props: EmailTableViewProps) {
   }, [shouldLoadMore])
 
   return (
-    <div className="grid grid-flow-dense grid-cols-[10px,1fr,1fr] md:grid-cols-[10px,1fr,4fr,1fr] select-none rounded bg-neutral-50 py-1 shadow-md dark:bg-neutral-800 dark:text-neutral-300 md:rounded-md">
+    <div className="grid grid-flow-dense grid-cols-[min-content,1fr,1fr] md:grid-cols-[min-content,1fr,4fr,1fr] select-none rounded bg-neutral-50 py-1 shadow-md dark:bg-neutral-800 dark:text-neutral-300 md:rounded-md">
       {emails.map((email) => {
         return (
           <EmailTableRow

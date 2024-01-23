@@ -1,3 +1,4 @@
+import { CheckIcon } from '@heroicons/react/20/solid'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -15,10 +16,8 @@ interface EmailTableRowProps {
 }
 
 export default function EmailTableRow(props: EmailTableRowProps) {
-  const { email, onClick } = props
-  const backgroundClassName = props.selected
-    ? ' bg-blue-100 dark:bg-neutral-700'
-    : ''
+  const { email, onClick, selected } = props
+  const backgroundClassName = selected ? ' bg-blue-100 dark:bg-neutral-700' : ''
   const unreadClassName = email.unread ? ' font-bold' : ' dark:font-light'
 
   const draftEmailsContext = useContext(DraftEmailsContext)
@@ -61,14 +60,16 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     >
       <div
         className={
-          'relative cursor-pointer border-t border-neutral-200 px-4 py-2 group-first:border-0 dark:border-neutral-900 row-span-2 md:row-span-1' +
+          'relative cursor-pointer border-t border-neutral-200 py-2 group-first:border-0 dark:border-neutral-900 row-span-2 md:row-span-1' +
           backgroundClassName +
           unreadClassName
         }
       >
-        {email.unread && (
-          <span className="absolute inset-1/2 left-[7px] h-1 w-1 -translate-y-1/2 transform rounded-full bg-neutral-900 dark:bg-neutral-300"></span>
-        )}
+        <span className="h-full flex items-center pl-4">
+          <div className="h-4 w-4 border rounded border-neutral-900 dark:border-neutral-300">
+            {selected && <CheckIcon className="h-3.5 w-3.5" />}
+          </div>
+        </span>
       </div>
       <div
         className={
