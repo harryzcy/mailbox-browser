@@ -80,7 +80,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'relative cursor-pointer truncate border-t border-neutral-200 pl-1 pr-4 py-2 group-first:border-0 dark:border-neutral-900' +
+          'relative cursor-pointer truncate border-t border-neutral-200 pl-1 pr-4 py-1 md:py-2 group-first:border-0 dark:border-neutral-900' +
           backgroundClassName +
           unreadClassName
         }
@@ -91,7 +91,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'cursor-pointer truncate border-t border-neutral-200 pl-1 pr-4 py-2 group-first:border-0 dark:border-neutral-900 col-span-2 md:col-span-1' +
+          'cursor-pointer truncate md:border-t border-neutral-200 pl-1 pr-4 pb-1 md:py-2 group-first:border-0 dark:border-neutral-900 col-span-2 md:col-span-1' +
           backgroundClassName +
           unreadClassName
         }
@@ -100,9 +100,9 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'cursor-pointer border-t border-neutral-200 px-4 py-2 text-right group-first:border-0 dark:border-neutral-900' +
+          'cursor-pointer border-t border-neutral-200 px-4 py-1 md:py-2 text-right group-first:border-0 dark:border-neutral-900 text-xs md:text-base' +
           backgroundClassName +
-          unreadClassName
+          (email.unread ? ' md:font-bold' : ' md:dark:font-light')
         }
       >
         {formatDate(
