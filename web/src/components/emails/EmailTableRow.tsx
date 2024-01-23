@@ -75,7 +75,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       <div
         className={
-          'cursor-pointer truncate border-t border-neutral-200 px-4 py-2 group-first:border-0 dark:border-neutral-900' +
+          'cursor-pointer truncate border-t border-neutral-200 px-4 py-2 group-first:border-0 dark:border-neutral-900 col-span-2 md:col-span-1' +
           backgroundClassName +
           unreadClassName
         }
