@@ -34,7 +34,7 @@ export function EmailDraft(props: EmailDraftProps) {
   return (
     <div
       className={`flex w-full flex-col rounded bg-neutral-50 text-neutral-800 shadow-md dark:bg-neutral-800 dark:text-neutral-100 md:rounded-md ${
-        !isReply ? ' h-full max-h-full' : ''
+        !isReply ? 'h-full max-h-full' : ''
       }`}
     >
       {!isReply && (
@@ -129,7 +129,7 @@ export function EmailDraft(props: EmailDraftProps) {
         )
       }
 
-      <div className="flex flex-1 overflow-scroll overscroll-contain px-2 pt-3">
+      <div className="flex flex-1 px-2 pt-3">
         <RichTextEditor
           initialHtml={email.html || ''}
           handleChange={({ html, text }) => {
