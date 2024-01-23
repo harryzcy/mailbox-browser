@@ -47,7 +47,7 @@ export default function EmailRawView() {
           </span>
         </div>
         <div className="relative mt-5 rounded-md border p-5 text-sm dark:border-neutral-700 dark:text-neutral-400">
-          <React.Suspense fallback={<div>Loading...</div>}>
+          <React.Suspense fallback={<div className="px-2">Loading...</div>}>
             <Await resolve={data.raw}>
               {(raw: string) => (
                 <>

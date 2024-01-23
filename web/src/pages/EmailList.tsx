@@ -44,12 +44,7 @@ export default function EmailList() {
     emailViewRef.current?.scrollTo(0, scrollYPosition)
   }, [emailViewRef.current])
 
-  const toggleSelected = (messageID: string, action: 'add' | 'replace') => {
-    if (action === 'replace') {
-      setSelected([messageID])
-      return
-    }
-
+  const toggleSelected = (messageID: string) => {
     if (selected.includes(messageID)) {
       setSelected(selected.filter((s) => s !== messageID))
     } else {

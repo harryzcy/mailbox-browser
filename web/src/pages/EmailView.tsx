@@ -213,7 +213,7 @@ export default function EmailView() {
       <React.Suspense
         fallback={
           <div className="px-2 md:px-0 mb-4 overflow-scroll rounded-md bg-neutral-50 p-3 dark:bg-neutral-800 dark:text-neutral-200">
-            <span>Loading...</span>
+            <span className="px-2">Loading...</span>
           </div>
         }
       >

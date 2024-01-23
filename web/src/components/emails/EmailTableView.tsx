@@ -9,7 +9,7 @@ import EmailTableRow from './EmailTableRow'
 interface EmailTableViewProps {
   emails: EmailInfo[]
   selected: string[]
-  toggleSelected: (messageID: string, action: 'add' | 'replace') => void
+  toggleSelected: (messageID: string) => void
   hasMore: boolean
   loadMoreEmails: () => void
 }
@@ -26,20 +26,15 @@ export default function EmailTableView(props: EmailTableViewProps) {
   }, [shouldLoadMore])
 
   return (
-    <div
-      className="grid select-none rounded bg-neutral-50 py-1 shadow-md dark:bg-neutral-800 dark:text-neutral-300 md:rounded-md"
-      style={{
-        gridTemplateColumns: '1fr 4fr 1fr'
-      }}
-    >
+    <div className="grid grid-flow-dense grid-cols-[min-content,1fr,1fr] md:grid-cols-[min-content,1fr,4fr,1fr] items-stretch select-none rounded bg-neutral-50 py-1 shadow-md dark:bg-neutral-800 dark:text-neutral-300 md:rounded-md">
       {emails.map((email) => {
         return (
           <EmailTableRow
             key={email.messageID}
             email={email}
             selected={props.selected.includes(email.messageID)}
-            onClick={(action) => {
-              toggleSelected(email.messageID, action)
+            onClick={() => {
+              toggleSelected(email.messageID)
             }}
           />
         )
@@ -48,7 +43,7 @@ export default function EmailTableView(props: EmailTableViewProps) {
       <div
         ref={loadMoreRef}
         className={
-          'col-span-3 px-4 py-1 pb-1 pr-[4%] text-center text-sm font-bold dark:border-neutral-900 dark:text-neutral-500' +
+          'col-span-3 md:col-span-4 px-4 py-1 pb-1 pr-4 text-center text-sm font-bold dark:border-neutral-900 dark:text-neutral-500' +
           (emails.length === 0 ? '' : ' border-t pt-2')
         }
       >
