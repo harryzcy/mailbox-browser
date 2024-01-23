@@ -26,7 +26,7 @@ export default function EmailTableView(props: EmailTableViewProps) {
   }, [shouldLoadMore])
 
   return (
-    <div className="grid grid-flow-dense grid-cols-2 md:grid-cols-[1fr,4fr,1fr] select-none rounded bg-neutral-50 py-1 shadow-md dark:bg-neutral-800 dark:text-neutral-300 md:rounded-md">
+    <div className="grid grid-flow-dense grid-cols-[10px,1fr,1fr] md:grid-cols-[10px,1fr,4fr,1fr] select-none rounded bg-neutral-50 py-1 shadow-md dark:bg-neutral-800 dark:text-neutral-300 md:rounded-md">
       {emails.map((email) => {
         return (
           <EmailTableRow
@@ -43,7 +43,7 @@ export default function EmailTableView(props: EmailTableViewProps) {
       <div
         ref={loadMoreRef}
         className={
-          'col-span-2 md:col-span-3 px-4 py-1 pb-1 pr-[4%] text-center text-sm font-bold dark:border-neutral-900 dark:text-neutral-500' +
+          'col-span-3 md:col-span-4 px-4 py-1 pb-1 pr-[4%] text-center text-sm font-bold dark:border-neutral-900 dark:text-neutral-500' +
           (emails.length === 0 ? '' : ' border-t pt-2')
         }
       >

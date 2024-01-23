@@ -61,7 +61,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     >
       <div
         className={
-          'relative cursor-pointer truncate border-t border-neutral-200 px-4 py-2 group-first:border-0 dark:border-neutral-900' +
+          'relative cursor-pointer border-t border-neutral-200 px-4 py-2 group-first:border-0 dark:border-neutral-900 row-span-2 md:row-span-1' +
           backgroundClassName +
           unreadClassName
         }
@@ -69,6 +69,14 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         {email.unread && (
           <span className="absolute inset-1/2 left-[7px] h-1 w-1 -translate-y-1/2 transform rounded-full bg-neutral-900 dark:bg-neutral-300"></span>
         )}
+      </div>
+      <div
+        className={
+          'relative cursor-pointer truncate border-t border-neutral-200 px-4 py-2 group-first:border-0 dark:border-neutral-900' +
+          backgroundClassName +
+          unreadClassName
+        }
+      >
         <span title={email.from && email.from.length > 0 ? email.from[0] : ''}>
           {getNameFromEmails(email.from)}
         </span>
