@@ -6,7 +6,14 @@ enum AuthState {
   Authenticated
 }
 
+const allowedPaths = ['/ping', '/info']
+
 export const onRequest: PagesFunction<Env> = async (context) => {
+  const { pathname } = new URL(context.request.url)
+  if (allowedPaths.includes(pathname)) {
+    return await context.next()
+  }
+
   if (context.env.AUTH_FORWARD_ADDRESS) {
     return await performForwardAuth(context)
   }
