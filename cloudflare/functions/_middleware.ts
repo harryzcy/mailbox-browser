@@ -80,12 +80,14 @@ const performBasicAuth: PagesFunction<Env> = async (context) => {
 const basicAuthentication = (request: Request, env: Env): AuthState => {
   const authorization = request.headers.get('Authorization')
   if (!authorization) {
+    console.log('not authenticated, need login')
     return AuthState.NeedLogin
   }
 
   const [scheme, encoded] = authorization.split(' ')
 
   if (!encoded || scheme !== 'Basic') {
+    console.log('malformed credentials')
     return AuthState.Malformed
   }
 
@@ -101,8 +103,10 @@ const basicAuthentication = (request: Request, env: Env): AuthState => {
   const user = decoded.substring(0, index)
   const pass = decoded.substring(index + 1)
   if (user !== env.AUTH_BASIC_USER || pass !== env.AUTH_BASIC_PASS) {
+    console.log('not authenticated, need login')
     return AuthState.NeedLogin
   }
+  console.log('authenticated')
   return AuthState.Authenticated
 }
 
