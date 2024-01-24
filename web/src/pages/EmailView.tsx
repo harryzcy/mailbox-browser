@@ -346,18 +346,20 @@ function EmailBlock(props: EmailBlockProps) {
         )}
 
         {/* header info for emails */}
-        <div className="preflight flex items-start justify-between">
-          <div className="dark:text-neutral-300">
-            <div>
-              <span>{getNameFromEmails(email.from, true)}</span>
+        <div className="preflight flex flex-wrap items-start justify-between">
+          <div className="dark:text-neutral-300 max-w-full">
+            <div className="break-words">
+              {getNameFromEmails(email.from, true)}
             </div>
             <div className="text-sm">
-              <span>To: {getNameFromEmails(email.to, true)}</span>
+              To: {getNameFromEmails(email.to, true)}
             </div>
           </div>
 
-          <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-300">
-            <span className="p-1">{formatDate(email.timeReceived)}</span>
+          <div className="flex grow justify-between items-center text-sm text-neutral-500 dark:text-neutral-300">
+            <span className="py-1 md:px-1">
+              {formatDate(email.timeReceived)}
+            </span>
             <span className="relative ml-4 inline-flex">
               <span
                 className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
@@ -420,7 +422,7 @@ function EmailBlock(props: EmailBlockProps) {
                 )
               }}
             >
-              <div className="w-fit mx-auto">
+              <div className="w-fit mx-auto max-w-full">
                 {parseEmailContent(
                   email,
                   configContext.state.config.disableProxy,
