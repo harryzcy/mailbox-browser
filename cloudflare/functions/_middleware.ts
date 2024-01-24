@@ -29,6 +29,7 @@ const performForwardAuth: PagesFunction<Env> = async (context) => {
   headers.set('X-Forwarded-Host', headers.get('Host'))
   headers.set('X-Forwarded-URI', context.request.url)
   headers.set('X-Forwarded-For', headers.get('CF-Connecting-IP'))
+  headers.set('X-Original-URL', context.request.url)
 
   console.log('headers', headers)
 
