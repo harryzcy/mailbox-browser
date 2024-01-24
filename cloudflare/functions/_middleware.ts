@@ -37,9 +37,11 @@ const performForwardAuth: PagesFunction<Env> = async (context) => {
     redirect: 'manual'
   })
   if (resp.status >= 200 && resp.status < 300) {
+    console.log('authenticated')
     return await context.next()
   }
 
+  console.log('not authenticated')
   return new Response(resp.body, {
     status: resp.status,
     headers: resp.headers
