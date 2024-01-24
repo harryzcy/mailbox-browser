@@ -6,7 +6,14 @@ enum AuthState {
   Authenticated
 }
 
+const allowedPaths = ['/ping', '/info']
+
 export const onRequest: PagesFunction<Env> = async (context) => {
+  const { pathname } = new URL(context.request.url)
+  if (allowedPaths.includes(pathname)) {
+    return await context.next()
+  }
+
   if (context.env.AUTH_FORWARD_ADDRESS) {
     return await performForwardAuth(context)
   }
@@ -29,6 +36,7 @@ const performForwardAuth: PagesFunction<Env> = async (context) => {
   headers.set('X-Forwarded-Host', headers.get('Host'))
   headers.set('X-Forwarded-URI', context.request.url)
   headers.set('X-Forwarded-For', headers.get('CF-Connecting-IP'))
+  headers.set('X-Original-URL', context.request.url)
 
   console.log('headers', headers)
 
