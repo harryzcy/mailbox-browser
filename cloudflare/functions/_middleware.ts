@@ -30,6 +30,8 @@ const performForwardAuth: PagesFunction<Env> = async (context) => {
   headers.set('X-Forwarded-URI', context.request.url)
   headers.set('X-Forwarded-For', headers.get('CF-Connecting-IP'))
 
+  console.log('headers', headers)
+
   const resp = await fetch(address, {
     headers,
     redirect: 'manual'
