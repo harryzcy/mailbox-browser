@@ -6,7 +6,7 @@ enum AuthState {
   Authenticated
 }
 
-const allowedPaths = ['/ping', '/info']
+const allowedPaths = ['/info', '/ping', '/robots.txt']
 
 export const onRequest: PagesFunction<Env> = async (context) => {
   const { pathname } = new URL(context.request.url)
