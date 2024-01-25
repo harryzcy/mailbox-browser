@@ -27,9 +27,11 @@ export function parseEmailName(emails: string[] | null): {
   const regex = /(.*?)<(.*?)>/g
   const match = regex.exec(emails[0])
   if (!match) return { name: null, address: emails[0] }
+  const name = match[1].trim()
+  const address = match[2].trim()
   return {
-    name: match[1].trim(),
-    address: match[2].trim()
+    name: name === '' ? null : name,
+    address: address === '' ? null : address
   }
 }
 
