@@ -13,11 +13,11 @@ import { formatDate } from 'utils/time'
 interface EmailTableRowProps {
   email: EmailInfo
   selected: boolean
-  onClick: () => void
+  toggleSelect: () => void
 }
 
 export default function EmailTableRow(props: EmailTableRowProps) {
-  const { email, onClick, selected } = props
+  const { email, toggleSelect, selected } = props
   const backgroundClassName = selected ? ' bg-blue-100 dark:bg-neutral-700' : ''
   const unreadClassName = email.unread ? ' font-bold' : ' dark:font-light'
 
@@ -57,9 +57,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
           backgroundClassName +
           unreadClassName
         }
-        onClick={() => {
-          onClick()
-        }}
+        onClick={toggleSelect}
       >
         <span className="h-full flex items-center">
           <div

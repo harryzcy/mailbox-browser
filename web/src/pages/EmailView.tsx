@@ -328,6 +328,12 @@ function EmailBlock(props: EmailBlockProps) {
     }
   }, []) // only run once
 
+  useEffect(() => {
+    if (window.getSelection) {
+      window.getSelection()?.removeAllRanges()
+    }
+  }, [])
+
   const fromEmail = parseEmailName(email.from)
 
   return (
