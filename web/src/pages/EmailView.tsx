@@ -326,7 +326,13 @@ function EmailBlock(props: EmailBlockProps) {
     if (email.unread) {
       markAsRead(email.messageID)
     }
-  }, []) // only run once
+  }, [])
+
+  useEffect(() => {
+    if (window.getSelection) {
+      window.getSelection()?.removeAllRanges()
+    }
+  }, [])
 
   const fromEmail = parseEmailName(email.from)
 

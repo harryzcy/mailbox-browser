@@ -33,7 +33,7 @@ export default function EmailTableView(props: EmailTableViewProps) {
             key={email.messageID}
             email={email}
             selected={props.selected.includes(email.messageID)}
-            onClick={() => {
+            toggleSelect={() => {
               toggleSelected(email.messageID)
             }}
           />
