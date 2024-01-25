@@ -33,7 +33,7 @@ import {
 } from 'services/emails'
 import { Thread } from 'services/threads'
 
-import { parseEmailContent } from 'utils/emails'
+import { parseEmailContent, parseEmailName } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
 export default function EmailView() {
@@ -328,6 +328,8 @@ function EmailBlock(props: EmailBlockProps) {
     }
   }, []) // only run once
 
+  const fromEmail = parseEmailName(email.from)
+
   return (
     <>
       <div className="mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
@@ -348,13 +350,23 @@ function EmailBlock(props: EmailBlockProps) {
         {/* header info for emails */}
         <div className="preflight flex items-start">
           <div className="dark:text-neutral-300 w-full">
-            <div className="flex flex-wrap justify-between items-start">
-              <div className="break-words py-0.5 text-ellipsis">
-                <EmailName emails={email.from} showAddress />
-              </div>
+            <div className="grid grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content,min-content,1fr] justify-between items-center">
+              <div className="md:whitespace-nowrap">{fromEmail.name}</div>
+              {fromEmail.address && (
+                <div className="col-span-2 md:col-span-1 break-words md:max-w-60 lg:max-w-96 xl:max-w-[100em]">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    {' <'}
+                    {fromEmail.address}
+                    {'>'}
+                  </span>
+                </div>
+              )}
 
-              <div className="flex grow justify-between md:justify-end items-center text-sm text-neutral-500 dark:text-neutral-300">
-                <span className="py-1 md:px-1">
+              <div className="flex justify-end items-center text-sm text-neutral-500 dark:text-neutral-300">
+                <span className="md:hidden md:px-1">
+                  {formatDate(email.timeReceived, { monthDayOnly: true })}
+                </span>
+                <span className="hidden md:inline py-1 md:px-1 md:whitespace-nowrap">
                   {formatDate(email.timeReceived)}
                 </span>
 
@@ -425,9 +437,9 @@ function EmailActions(props: {
     showMoreActionsRef
   } = props
   return (
-    <span className="relative ml-4 inline-flex">
+    <span className="relative ml-2 md:ml-4 inline-flex">
       <span
-        className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex h-6 w-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
           startReply(email)
         }}
@@ -435,7 +447,7 @@ function EmailActions(props: {
         <ArrowUturnLeftIcon />
       </span>
       <span
-        className="iline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex h-6 w-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
           startForward(email)
         }}
@@ -443,7 +455,7 @@ function EmailActions(props: {
         <ArrowUturnRightIcon />
       </span>
       <span
-        className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex h-6 w-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => setShowMoreActions(!showMoreActions)}
       >
         <EllipsisVerticalIcon />

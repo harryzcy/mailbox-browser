@@ -106,7 +106,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       >
         {formatDate(
           email.timeReceived || email.timeUpdated || email.timeSent || '',
-          true
+          { short: true }
         )}
       </div>
     </div>

@@ -16,6 +16,20 @@ import {
   silenceTags
 } from 'utils/elements'
 
+export function parseEmailName(emails: string[] | null) {
+  if (!emails || emails.length === 0) {
+    return { name: null, address: null }
+  }
+
+  const regex = /(.*?)<(.*?)>/g
+  const match = regex.exec(emails[0])
+  if (!match) return { name: emails[0], address: null }
+  return {
+    name: match[1].trim(),
+    address: match[2].trim()
+  }
+}
+
 export function parseEmailContent(
   email: Email,
   disableProxy?: boolean,
