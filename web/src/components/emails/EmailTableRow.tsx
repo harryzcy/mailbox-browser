@@ -2,11 +2,12 @@ import { CheckIcon } from '@heroicons/react/20/solid'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import EmailName from 'components/emails/EmailName'
+
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
 import { EmailInfo, getEmail } from 'services/emails'
 
-import { getNameFromEmails } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
 interface EmailTableRowProps {
@@ -82,7 +83,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         onClick={openEmail}
       >
         <span title={email.from && email.from.length > 0 ? email.from[0] : ''}>
-          {getNameFromEmails(email.from)}
+          <EmailName emails={email.from} />
         </span>
       </div>
       <div

@@ -12,6 +12,7 @@ import { toast } from '@ui/use-toast'
 
 import { EmailDraft } from 'components/emails/EmailDraft'
 import EmailMenuBar from 'components/emails/EmailMenuBar'
+import EmailName from 'components/emails/EmailName'
 
 import { ConfigContext } from 'contexts/ConfigContext'
 import { DraftEmail, DraftEmailsContext } from 'contexts/DraftEmailContext'
@@ -32,7 +33,6 @@ import {
 } from 'services/emails'
 import { Thread } from 'services/threads'
 
-import { getNameFromEmails } from 'utils/emails'
 import { parseEmailContent } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
@@ -346,61 +346,32 @@ function EmailBlock(props: EmailBlockProps) {
         )}
 
         {/* header info for emails */}
-        <div className="preflight flex flex-wrap items-start justify-between">
-          <div className="dark:text-neutral-300 max-w-full">
-            <div className="break-words">
-              {getNameFromEmails(email.from, true)}
+        <div className="preflight flex items-start">
+          <div className="dark:text-neutral-300 w-full">
+            <div className="flex flex-wrap justify-between items-start">
+              <div className="break-words py-0.5 text-ellipsis">
+                <EmailName emails={email.from} showAddress />
+              </div>
+
+              <div className="flex grow justify-between md:justify-end items-center text-sm text-neutral-500 dark:text-neutral-300">
+                <span className="py-1 md:px-1">
+                  {formatDate(email.timeReceived)}
+                </span>
+
+                <EmailActions
+                  email={email}
+                  startForward={startForward}
+                  startReply={startReply}
+                  showMoreActions={showMoreActions}
+                  setShowMoreActions={setShowMoreActions}
+                  showMoreActionsRef={showMoreActionsRef}
+                />
+              </div>
             </div>
             <div className="text-sm">
-              To: {getNameFromEmails(email.to, true)}
+              <span>To: </span>
+              <EmailName emails={email.to} showAddress />
             </div>
-          </div>
-
-          <div className="flex grow justify-between items-center text-sm text-neutral-500 dark:text-neutral-300">
-            <span className="py-1 md:px-1">
-              {formatDate(email.timeReceived)}
-            </span>
-            <span className="relative ml-4 inline-flex">
-              <span
-                className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
-                onClick={() => {
-                  startReply(email)
-                }}
-              >
-                <ArrowUturnLeftIcon />
-              </span>
-              <span
-                className="iline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
-                onClick={() => {
-                  startForward(email)
-                }}
-              >
-                <ArrowUturnRightIcon />
-              </span>
-              <span
-                className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
-                onClick={() => setShowMoreActions(!showMoreActions)}
-              >
-                <EllipsisVerticalIcon />
-              </span>
-
-              {showMoreActions && (
-                <span
-                  ref={showMoreActionsRef}
-                  className="absolute right-0 top-8 w-28 select-none rounded-md border bg-white py-1 dark:border-neutral-600 dark:bg-neutral-800"
-                >
-                  <div
-                    className="w-full cursor-pointer px-2 py-1 hover:bg-gray-100 dark:hover:bg-neutral-600"
-                    onClick={() => {
-                      setShowMoreActions(false)
-                      window.open(`/raw/${email.messageID}`, '_blank')
-                    }}
-                  >
-                    View original
-                  </div>
-                </span>
-              )}
-            </span>
           </div>
         </div>
 
@@ -434,5 +405,66 @@ function EmailBlock(props: EmailBlockProps) {
         </div>
       </div>
     </>
+  )
+}
+
+function EmailActions(props: {
+  email: Email
+  startReply: (email: Email) => void
+  startForward: (email: Email) => void
+  showMoreActions: boolean
+  setShowMoreActions: (show: boolean) => void
+  showMoreActionsRef: React.RefObject<HTMLSpanElement>
+}) {
+  const {
+    email,
+    startReply,
+    startForward,
+    showMoreActions,
+    setShowMoreActions,
+    showMoreActionsRef
+  } = props
+  return (
+    <span className="relative ml-4 inline-flex">
+      <span
+        className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        onClick={() => {
+          startReply(email)
+        }}
+      >
+        <ArrowUturnLeftIcon />
+      </span>
+      <span
+        className="iline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        onClick={() => {
+          startForward(email)
+        }}
+      >
+        <ArrowUturnRightIcon />
+      </span>
+      <span
+        className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        onClick={() => setShowMoreActions(!showMoreActions)}
+      >
+        <EllipsisVerticalIcon />
+      </span>
+
+      {showMoreActions && (
+        <span
+          ref={showMoreActionsRef}
+          className="absolute right-0 top-8 w-28 select-none rounded-md border bg-white py-1 dark:border-neutral-600 dark:bg-neutral-800"
+        >
+          <div
+            className="w-full cursor-pointer px-2 py-1 hover:bg-gray-100 dark:hover:bg-neutral-600"
+            onClick={() => {
+              setShowMoreActions(false)
+              window.open(`/raw/${email.messageID}`, '_blank')
+            }}
+          >
+            View original
+          </div>
+        </span>
+      )}
+    </span>
   )
 }
