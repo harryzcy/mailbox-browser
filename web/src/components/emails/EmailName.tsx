@@ -1,3 +1,5 @@
+import { parseEmailName } from 'utils/emails'
+
 export default function EmailName({
   emails,
   showAddress = false
@@ -5,26 +7,23 @@ export default function EmailName({
   emails: string[] | null
   showAddress?: boolean
 }) {
-  if (!emails || emails.length === 0) {
-    return null
+  const parsed = parseEmailName(emails)
+  if (parsed.name === null && parsed.address === null) return null
+
+  if (showAddress) {
+    return parsed.address ?? ''
   }
 
-  const regex = /(.*?)<(.*?)>/g
-  const match = regex.exec(emails[0])
-  if (match) {
-    if (match[1].trim() === '') {
-      return match[2].trim()
-    }
-    if (!showAddress) return match[1].trim()
-    return (
-      <>
-        <span className="">{match[1].trim()}</span>
-        <span className="text-sm text-gray-500 dark:text-gray-400">
-          {' '}
-          &lt;{match[2].trim()}&gt;
-        </span>
-      </>
-    )
-  }
-  return emails[0]
+  if (parsed.name === null) return parsed.address ?? ''
+  if (parsed.address === null) return parsed.name
+
+  return (
+    <>
+      <span className="">{parsed.name}</span>
+      <span className="text-sm text-gray-500 dark:text-gray-400">
+        {' '}
+        &lt;{parsed.address}&gt;
+      </span>
+    </>
+  )
 }
