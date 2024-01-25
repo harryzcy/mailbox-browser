@@ -1,32 +1,28 @@
-import { exportedForTesting, getNameFromEmails } from './emails'
+import { exportedForTesting, parseEmailName } from './emails'
 
-describe('getNameFromEmails', () => {
+describe('parseEmailName', () => {
   it('simple case', () => {
-    const result = getNameFromEmails(['FirstName <foo@example.com>'], true)
-    expect(result).toBe('FirstName <foo@example.com>')
+    const result = parseEmailName(['FirstName <foo@example.com>'])
+    expect(result.name).toBe('FirstName')
+    expect(result.address).toBe('foo@example.com')
   })
 
   it('multiple space', () => {
-    const result = getNameFromEmails(
-      ['FirstName  \u003cfoo@example.com\u003e'],
-      true
-    )
-    expect(result).toBe('FirstName <foo@example.com>')
+    const result = parseEmailName(['FirstName  \u003cfoo@example.com\u003e'])
+    expect(result.name).toBe('FirstName')
+    expect(result.address).toBe('foo@example.com')
   })
 
   it('trim space', () => {
-    const result = getNameFromEmails(['< foo@example.com >  '], true)
-    expect(result).toBe('foo@example.com')
-  })
-
-  it('no address', () => {
-    const result = getNameFromEmails(['FirstName <foo@example.com>'])
-    expect(result).toBe('FirstName')
+    const result = parseEmailName(['< foo@example.com >  '])
+    expect(result.name).toBeNull()
+    expect(result.address).toBe('foo@example.com')
   })
 
   it('without name, always address', () => {
-    const result = getNameFromEmails(['<foo@example.com>'], false)
-    expect(result).toBe('foo@example.com')
+    const result = parseEmailName(['<foo@example.com>'])
+    expect(result.name).toBeNull()
+    expect(result.address).toBe('foo@example.com')
   })
 })
 

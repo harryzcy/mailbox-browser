@@ -16,23 +16,23 @@ import {
   silenceTags
 } from 'utils/elements'
 
-export function getNameFromEmails(
-  emails: string[] | null,
-  showAddress: boolean = false
-): string {
+export function parseEmailName(emails: string[] | null): {
+  name: string | null
+  address: string | null
+} {
   if (!emails || emails.length === 0) {
-    return ''
+    return { name: null, address: null }
   }
+
   const regex = /(.*?)<(.*?)>/g
   const match = regex.exec(emails[0])
-  if (match) {
-    if (match[1].trim() === '') {
-      return match[2].trim()
-    }
-    if (!showAddress) return match[1].trim()
-    return `${match[1].trim()} <${match[2].trim()}>`
+  if (!match) return { name: null, address: emails[0] }
+  const name = match[1].trim()
+  const address = match[2].trim()
+  return {
+    name: name === '' ? null : name,
+    address: address === '' ? null : address
   }
-  return emails[0]
 }
 
 export function parseEmailContent(

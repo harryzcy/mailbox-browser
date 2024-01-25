@@ -9,10 +9,16 @@ export function getCurrentYearMonth(): {
   }
 }
 
-export function formatDate(date: string, short: boolean = false): string {
+export function formatDate(
+  date: string,
+  {
+    short = false,
+    monthDayOnly = false
+  }: { short?: boolean; monthDayOnly?: boolean } = {}
+): string {
   if (!date) return ''
   if (short) return formatDateShort(date)
-  return formatDateLong(date)
+  return formatDateLong(date, monthDayOnly)
 }
 
 function formatDateShort(date: string): string {
@@ -46,12 +52,14 @@ function formatDateShort(date: string): string {
   return `${month}/${day}/${year}`
 }
 
-function formatDateLong(date: string): string {
+function formatDateLong(date: string, monthDayOnly: boolean): string {
   const dateObj = new Date(date)
 
-  const year = dateObj.getFullYear()
   const month = dateObj.toLocaleString('default', { month: 'short' })
   const day = dateObj.getDate()
+  if (monthDayOnly) return `${month} ${day}`
+
+  const year = dateObj.getFullYear()
   let hour = dateObj.getHours()
   const minutesStr = dateObj.getMinutes().toString().padStart(2, '0')
   const meridian = hour >= 12 ? 'PM' : 'AM'
@@ -63,5 +71,5 @@ export function formatDateFull(date: string): string {
   const dateObj = new Date(date)
   const dayOfWeek = dateObj.toLocaleString('default', { weekday: 'short' })
 
-  return `${dayOfWeek}, ${formatDateLong(date)}`
+  return `${dayOfWeek}, ${formatDateLong(date, false)}`
 }

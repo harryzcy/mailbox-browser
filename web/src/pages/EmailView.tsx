@@ -12,6 +12,7 @@ import { toast } from '@ui/use-toast'
 
 import { EmailDraft } from 'components/emails/EmailDraft'
 import EmailMenuBar from 'components/emails/EmailMenuBar'
+import EmailName from 'components/emails/EmailName'
 
 import { ConfigContext } from 'contexts/ConfigContext'
 import { DraftEmail, DraftEmailsContext } from 'contexts/DraftEmailContext'
@@ -32,8 +33,7 @@ import {
 } from 'services/emails'
 import { Thread } from 'services/threads'
 
-import { getNameFromEmails } from 'utils/emails'
-import { parseEmailContent } from 'utils/emails'
+import { parseEmailContent, parseEmailName } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
 export default function EmailView() {
@@ -328,6 +328,8 @@ function EmailBlock(props: EmailBlockProps) {
     }
   }, []) // only run once
 
+  const fromEmail = parseEmailName(email.from)
+
   return (
     <>
       <div className="mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
@@ -346,59 +348,42 @@ function EmailBlock(props: EmailBlockProps) {
         )}
 
         {/* header info for emails */}
-        <div className="preflight flex items-start justify-between">
-          <div className="dark:text-neutral-300">
-            <div>
-              <span>{getNameFromEmails(email.from, true)}</span>
+        <div className="preflight flex items-start">
+          <div className="dark:text-neutral-300 w-full">
+            <div className="grid mb-0.5 md:md-0 grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content,1fr,min-content] justify-between items-center">
+              <div className="md:whitespace-nowrap">{fromEmail.name}</div>
+              {fromEmail.address && (
+                <div className="col-span-2 md:col-span-1 -mt-1 md:mt-0 break-words">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    {' <'}
+                    {fromEmail.address}
+                    {'>'}
+                  </span>
+                </div>
+              )}
+
+              <div className="flex justify-end items-center text-sm text-neutral-500 dark:text-neutral-300">
+                <span className="md:hidden md:px-1">
+                  {formatDate(email.timeReceived, { monthDayOnly: true })}
+                </span>
+                <span className="hidden md:inline py-1 md:px-1 md:whitespace-nowrap">
+                  {formatDate(email.timeReceived)}
+                </span>
+
+                <EmailActions
+                  email={email}
+                  startForward={startForward}
+                  startReply={startReply}
+                  showMoreActions={showMoreActions}
+                  setShowMoreActions={setShowMoreActions}
+                  showMoreActionsRef={showMoreActionsRef}
+                />
+              </div>
             </div>
             <div className="text-sm">
-              <span>To: {getNameFromEmails(email.to, true)}</span>
+              <span>To: </span>
+              <EmailName emails={email.to} showAddress />
             </div>
-          </div>
-
-          <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-300">
-            <span className="p-1">{formatDate(email.timeReceived)}</span>
-            <span className="relative ml-4 inline-flex">
-              <span
-                className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
-                onClick={() => {
-                  startReply(email)
-                }}
-              >
-                <ArrowUturnLeftIcon />
-              </span>
-              <span
-                className="iline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
-                onClick={() => {
-                  startForward(email)
-                }}
-              >
-                <ArrowUturnRightIcon />
-              </span>
-              <span
-                className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
-                onClick={() => setShowMoreActions(!showMoreActions)}
-              >
-                <EllipsisVerticalIcon />
-              </span>
-
-              {showMoreActions && (
-                <span
-                  ref={showMoreActionsRef}
-                  className="absolute right-0 top-8 w-28 select-none rounded-md border bg-white py-1 dark:border-neutral-600 dark:bg-neutral-800"
-                >
-                  <div
-                    className="w-full cursor-pointer px-2 py-1 hover:bg-gray-100 dark:hover:bg-neutral-600"
-                    onClick={() => {
-                      setShowMoreActions(false)
-                      window.open(`/raw/${email.messageID}`, '_blank')
-                    }}
-                  >
-                    View original
-                  </div>
-                </span>
-              )}
-            </span>
           </div>
         </div>
 
@@ -420,7 +405,7 @@ function EmailBlock(props: EmailBlockProps) {
                 )
               }}
             >
-              <div className="w-fit mx-auto">
+              <div className="w-fit mx-auto max-w-full overflow-x-auto">
                 {parseEmailContent(
                   email,
                   configContext.state.config.disableProxy,
@@ -432,5 +417,66 @@ function EmailBlock(props: EmailBlockProps) {
         </div>
       </div>
     </>
+  )
+}
+
+function EmailActions(props: {
+  email: Email
+  startReply: (email: Email) => void
+  startForward: (email: Email) => void
+  showMoreActions: boolean
+  setShowMoreActions: (show: boolean) => void
+  showMoreActionsRef: React.RefObject<HTMLSpanElement>
+}) {
+  const {
+    email,
+    startReply,
+    startForward,
+    showMoreActions,
+    setShowMoreActions,
+    showMoreActionsRef
+  } = props
+  return (
+    <span className="relative ml-2 md:ml-4 inline-flex">
+      <span
+        className="inline-flex h-6 w-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        onClick={() => {
+          startReply(email)
+        }}
+      >
+        <ArrowUturnLeftIcon />
+      </span>
+      <span
+        className="inline-flex h-6 w-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        onClick={() => {
+          startForward(email)
+        }}
+      >
+        <ArrowUturnRightIcon />
+      </span>
+      <span
+        className="inline-flex h-6 w-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        onClick={() => setShowMoreActions(!showMoreActions)}
+      >
+        <EllipsisVerticalIcon />
+      </span>
+
+      {showMoreActions && (
+        <span
+          ref={showMoreActionsRef}
+          className="absolute right-0 top-8 w-28 select-none rounded-md border bg-white py-1 dark:border-neutral-600 dark:bg-neutral-800"
+        >
+          <div
+            className="w-full cursor-pointer px-2 py-1 hover:bg-gray-100 dark:hover:bg-neutral-600"
+            onClick={() => {
+              setShowMoreActions(false)
+              window.open(`/raw/${email.messageID}`, '_blank')
+            }}
+          >
+            View original
+          </div>
+        </span>
+      )}
+    </span>
   )
 }
