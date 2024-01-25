@@ -150,6 +150,7 @@ export default function EmailList() {
   const handleRead = async () => {
     const selectedEmails = emails.filter((e) => selected.includes(e.messageID))
     for (const email of selectedEmails) {
+      if (!email.unread) continue
       try {
         await readEmail(email.messageID)
       } catch (e) {
@@ -175,6 +176,7 @@ export default function EmailList() {
   const handleUnread = async () => {
     const selectedEmails = emails.filter((e) => selected.includes(e.messageID))
     for (const email of selectedEmails) {
+      if (email.unread) continue
       try {
         await unreadEmail(email.messageID)
       } catch (e) {
