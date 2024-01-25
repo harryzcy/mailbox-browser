@@ -326,7 +326,7 @@ function EmailBlock(props: EmailBlockProps) {
     if (email.unread) {
       markAsRead(email.messageID)
     }
-  }, []) // only run once
+  }, [])
 
   useEffect(() => {
     if (window.getSelection) {
