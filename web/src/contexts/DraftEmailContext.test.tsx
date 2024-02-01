@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import { useContext, useReducer } from 'react'
+import { ReactNode, useContext, useReducer } from 'react'
 import { act } from 'react-dom/test-utils'
 
 import { Email } from 'services/emails'
@@ -14,7 +14,7 @@ import {
 
 describe('DraftEmailContext', () => {
   const createWrapper = (state: State = initialState) => {
-    const wrapper = ({ children }: { children: JSX.Element }) => {
+    const wrapper = ({ children }: { children: ReactNode }) => {
       const [draftState, dispatch] = useReducer(draftEmailReducer, state)
 
       return (
