@@ -1,4 +1,4 @@
-FROM golang:1.21.6-alpine3.19@sha256:a6a7f1fcf12f5efa9e04b1e75020931a616cd707f14f62ab5262bfbe109aa84a as bff-builder
+FROM golang:1.21.7-alpine3.19@sha256:ae2f7d865ac8af7557b7b417b78a9017bf203ce80093f88a956117e7ad5043c0 as bff-builder
 
 ARG BUILD_VERSION
 ARG BUILD_COMMIT
