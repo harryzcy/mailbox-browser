@@ -35,8 +35,11 @@ RUN [[ -d dist ]] && echo "build exists, skipping" || \
 
 FROM alpine:3.19.1@sha256:c5b1261d6d3e43071626931fc004f70149baeba2c8ec672bd4f27761f8e1ad6b
 
-COPY --from=bff-builder /bin/bff /bin/bff
-COPY --from=web-builder /app/dist /bin/dist
+RUN addgroup -S bff && adduser -S bff -G bff
+USER bff
+
+COPY --from=bff-builder --chown=bff:bff /bin/bff /bin/bff
+COPY --from=web-builder --chown=bff:bff /app/dist /bin/dist
 
 ENV MODE=prod
 ENV STATIC_DIR /bin/dist
