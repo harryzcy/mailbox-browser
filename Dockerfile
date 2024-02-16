@@ -42,4 +42,6 @@ ENV MODE=prod
 ENV STATIC_DIR /bin/dist
 ENV PORT 8070
 
+HEALTHCHECK --interval=5s --timeout=3s --retries=3 CMD wget -qO- http://localhost:8070/ping || exit 1
+
 CMD ["/bin/bff"]
