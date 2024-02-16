@@ -3,6 +3,9 @@ name: Deploy
 on:
   push:
 
+permissions:
+  contents: read
+
 jobs:
   publish:
     runs-on: ubuntu-latest
