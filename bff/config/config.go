@@ -17,7 +17,6 @@ var (
 	AWSRegion             string
 	AWSAccessKeyID        string
 	AWSSecretAccessKey    string
-	AWSAPIID              string
 	AWSAPIGatewayEndpoint string
 
 	EmailAddresses []string
@@ -75,7 +74,6 @@ func load(logger *zap.Logger) error {
 	AWSAccessKeyID = getString(v, "aws.accessKeyID", "AWS_ACCESS_KEY_ID")
 	AWSSecretAccessKey = getString(v, "aws.secretAccessKey", "AWS_SECRET_ACCESS_KEY")
 	AWSAPIGatewayEndpoint = strings.TrimSuffix(getString(v, "aws.apiGateway.endpoint", "AWS_API_GATEWAY_ENDPOINT"), "/")
-	AWSAPIID = getString(v, "aws.apiGateway.apiID", "AWS_API_ID")
 
 	// comma separated list of email addresses or domains, required for email replies
 	EmailAddresses = strings.Split(getString(v, "email.addresses", "EMAIL_ADDRESSES"), ",")
