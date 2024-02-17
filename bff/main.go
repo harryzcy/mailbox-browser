@@ -44,8 +44,12 @@ func main() {
 		zap.String("type", "server-status"),
 	)
 	srv := &http.Server{
-		Addr:    ":8070",
-		Handler: r,
+		Addr:              ":8070",
+		Handler:           r,
+		ReadTimeout:       10 * time.Second,
+		ReadHeaderTimeout: 10 * time.Second,
+		WriteTimeout:      10 * time.Second,
+		IdleTimeout:       120 * time.Second,
 	}
 
 	// Start server in a separate goroutine
