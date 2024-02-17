@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	DEFAULT_HTTP_TIMEOUT = 10 * time.Second
+	DefaultHTTPTimeout = 10 * time.Second
 )
 
 var (
@@ -36,7 +36,7 @@ type Plugin struct {
 // LoadPluginConfigs loads all plugin configs from the urls in PLUGIN_CONFIGS.
 func LoadPluginConfigs() error {
 	client := &http.Client{
-		Timeout: DEFAULT_HTTP_TIMEOUT,
+		Timeout: DefaultHTTPTimeout,
 	}
 
 	plugins := make([]*Plugin, len(PluginConfigs))
