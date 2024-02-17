@@ -18,7 +18,7 @@ func MailboxProxy(ctx *gin.Context) {
 		return
 	}
 
-	resp, err := request.AWSRequest(ctx, request.RequestOptions{
+	resp, err := request.AWSRequest(ctx, request.Options{
 		Method:  method,
 		Path:    strings.TrimPrefix(ctx.Request.URL.Path, "/web"),
 		Query:   ctx.Request.URL.Query(),

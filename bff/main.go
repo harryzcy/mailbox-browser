@@ -15,10 +15,19 @@ import (
 
 func main() {
 	// Initialize logger
-	logger, _ := NewLogger()
+	logger, err := NewLogger()
+	if err != nil {
+		logger.Error("failed to initialize logger",
+			zap.Error(err),
+		)
+		os.Exit(1)
+	}
 
 	// Load config
 	if err := config.Init(logger); err != nil {
+		logger.Error("failed to initialize config",
+			zap.Error(err),
+		)
 		os.Exit(1)
 	}
 
@@ -35,8 +44,12 @@ func main() {
 		zap.String("type", "server-status"),
 	)
 	srv := &http.Server{
-		Addr:    ":8070",
-		Handler: r,
+		Addr:              ":8070",
+		Handler:           r,
+		ReadTimeout:       10 * time.Second,
+		ReadHeaderTimeout: 10 * time.Second,
+		WriteTimeout:      10 * time.Second,
+		IdleTimeout:       120 * time.Second,
 	}
 
 	// Start server in a separate goroutine

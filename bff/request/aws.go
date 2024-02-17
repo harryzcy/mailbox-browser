@@ -12,7 +12,7 @@ import (
 	"github.com/harryzcy/mailbox-browser/bff/config"
 )
 
-type RequestOptions struct {
+type Options struct {
 	Method  string
 	Path    string
 	Query   url.Values
@@ -20,8 +20,8 @@ type RequestOptions struct {
 }
 
 // AWSRequest sends a request to AWS API Gateway and returns the response.
-func AWSRequest(ctx context.Context, options RequestOptions) (*http.Response, error) {
-	endpoint := config.AWS_API_GATEWAY_ENDPOINT
+func AWSRequest(ctx context.Context, options Options) (*http.Response, error) {
+	endpoint := config.AWSAPIGatewayEndpoint
 
 	body := bytes.NewReader(options.Payload)
 	req, err := http.NewRequestWithContext(ctx, options.Method, endpoint+options.Path, body)
@@ -39,12 +39,12 @@ func AWSRequest(ctx context.Context, options RequestOptions) (*http.Response, er
 	err = signSDKRequest(ctx, req, &signSDKRequestOptions{
 		Credentials: credentials.StaticCredentialsProvider{
 			Value: aws.Credentials{
-				AccessKeyID:     config.AWS_ACCESS_KEY_ID,
-				SecretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+				AccessKeyID:     config.AWSAccessKeyID,
+				SecretAccessKey: config.AWSSecretAccessKey,
 			},
 		},
 		Payload: options.Payload,
-		Region:  config.AWS_REGION,
+		Region:  config.AWSRegion,
 	})
 	if err != nil {
 		return nil, err
