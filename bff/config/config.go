@@ -111,7 +111,7 @@ func getBool(v *viper.Viper, key, env string, defaultValue bool) bool {
 
 func getStringSlice(v *viper.Viper, key, env string) []string {
 	if value, ok := os.LookupEnv(env); ok {
-		value := strings.TrimSuffix(value, ",")
+		value = strings.TrimSuffix(value, ",")
 		return strings.Split(value, ",")
 	}
 	if v.IsSet(key) {
