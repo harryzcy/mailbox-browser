@@ -11,20 +11,20 @@ import (
 )
 
 var (
-	STATIC_DIR string
-	INDEX_HTML string
+	StaticDir string
+	IndexHTML string
 
-	AWS_REGION               string
-	AWS_ACCESS_KEY_ID        string
-	AWS_SECRET_ACCESS_KEY    string
-	AWS_API_ID               string
-	AWS_API_GATEWAY_ENDPOINT string
+	AWSRegion              string
+	AWSAccessKeyID         string
+	AWSSecretAccessKey     string
+	AWS_API_ID             string
+	AWS_APIGatewayEndpoint string
 
-	EMAIL_ADDRESSES  []string
-	PROXY_ENABLE     bool
-	IMAGES_AUTO_LOAD bool
+	EmailAddresses []string
+	ProxyEnable    bool
+	ImagesAutoLoad bool
 
-	PLUGIN_CONFIGS []string // comma separated list of plugin config urls
+	PluginConfigs []string // comma separated list of plugin config urls
 )
 
 type Hook struct {
@@ -68,21 +68,21 @@ func load(logger *zap.Logger) error {
 		}
 	}
 
-	STATIC_DIR = getString(v, "static.dir", "STATIC_DIR")
-	INDEX_HTML = filepath.Join(STATIC_DIR, "index.html")
+	StaticDir = getString(v, "static.dir", "STATIC_DIR")
+	IndexHTML = filepath.Join(StaticDir, "index.html")
 
-	AWS_REGION = getString(v, "aws.region", "AWS_REGION")
-	AWS_ACCESS_KEY_ID = getString(v, "aws.accessKeyID", "AWS_ACCESS_KEY_ID")
-	AWS_SECRET_ACCESS_KEY = getString(v, "aws.secretAccessKey", "AWS_SECRET_ACCESS_KEY")
-	AWS_API_GATEWAY_ENDPOINT = strings.TrimSuffix(getString(v, "aws.apiGateway.endpoint", "AWS_API_GATEWAY_ENDPOINT"), "/")
+	AWSRegion = getString(v, "aws.region", "AWS_REGION")
+	AWSAccessKeyID = getString(v, "aws.accessKeyID", "AWS_ACCESS_KEY_ID")
+	AWSSecretAccessKey = getString(v, "aws.secretAccessKey", "AWS_SECRET_ACCESS_KEY")
+	AWS_APIGatewayEndpoint = strings.TrimSuffix(getString(v, "aws.apiGateway.endpoint", "AWS_API_GATEWAY_ENDPOINT"), "/")
 	AWS_API_ID = getString(v, "aws.apiGateway.apiID", "AWS_API_ID")
 
 	// comma separated list of email addresses or domains, required for email replies
-	EMAIL_ADDRESSES = strings.Split(getString(v, "email.addresses", "EMAIL_ADDRESSES"), ",")
+	EmailAddresses = strings.Split(getString(v, "email.addresses", "EMAIL_ADDRESSES"), ",")
 
-	PROXY_ENABLE = getBool(v, "proxy.enable", "ENABLE_PROXY", true)
-	IMAGES_AUTO_LOAD = getBool(v, "images.autoLoad", "IMAGES_AUTO_LOAD", true)
-	PLUGIN_CONFIGS = getStringSlice(v, "plugin.configs", "PLUGIN_CONFIGS")
+	ProxyEnable = getBool(v, "proxy.enable", "ENABLE_PROXY", true)
+	ImagesAutoLoad = getBool(v, "images.autoLoad", "IMAGES_AUTO_LOAD", true)
+	PluginConfigs = getStringSlice(v, "plugin.configs", "PLUGIN_CONFIGS")
 
 	return nil
 }

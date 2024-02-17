@@ -39,8 +39,8 @@ func LoadPluginConfigs() error {
 		Timeout: DEFAULT_HTTP_TIMEOUT,
 	}
 
-	plugins := make([]*Plugin, len(PLUGIN_CONFIGS))
-	for i, url := range PLUGIN_CONFIGS {
+	plugins := make([]*Plugin, len(PluginConfigs))
+	for i, url := range PluginConfigs {
 		plugin, err := LoadPluginConfig(client, url)
 		if err != nil {
 			return err

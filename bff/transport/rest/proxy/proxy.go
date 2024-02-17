@@ -12,7 +12,7 @@ import (
 )
 
 func Proxy(ctx *gin.Context) {
-	if !config.PROXY_ENABLE {
+	if !config.ProxyEnable {
 		ginutil.Forbidden(ctx, errors.New("proxy disabled"))
 		return
 	}

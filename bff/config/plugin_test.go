@@ -38,12 +38,12 @@ func TestLoadPluginConfigs(t *testing.T) {
 	server := startServer(t)
 	defer server.Close()
 
-	originalPluginConfigs := PLUGIN_CONFIGS
+	originalPluginConfigs := PluginConfigs
 	defer func() {
-		PLUGIN_CONFIGS = originalPluginConfigs
+		PluginConfigs = originalPluginConfigs
 	}()
 
-	PLUGIN_CONFIGS = []string{server.URL + "/"}
+	PluginConfigs = []string{server.URL + "/"}
 
 	err := LoadPluginConfigs()
 	assert.Nil(t, err)

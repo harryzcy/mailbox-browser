@@ -15,10 +15,19 @@ import (
 
 func main() {
 	// Initialize logger
-	logger, _ := NewLogger()
+	logger, err := NewLogger()
+	if err != nil {
+		logger.Error("failed to initialize logger",
+			zap.Error(err),
+		)
+		os.Exit(1)
+	}
 
 	// Load config
 	if err := config.Init(logger); err != nil {
+		logger.Error("failed to initialize config",
+			zap.Error(err),
+		)
 		os.Exit(1)
 	}
 

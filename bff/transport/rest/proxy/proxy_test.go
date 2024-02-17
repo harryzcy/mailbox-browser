@@ -12,10 +12,10 @@ import (
 )
 
 func TestProxy(t *testing.T) {
-	original := config.PROXY_ENABLE
-	config.PROXY_ENABLE = false
+	original := config.ProxyEnable
+	config.ProxyEnable = false
 	defer func() {
-		config.PROXY_ENABLE = original
+		config.ProxyEnable = original
 	}()
 
 	w := httptest.NewRecorder()

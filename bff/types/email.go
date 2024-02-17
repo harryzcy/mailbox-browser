@@ -12,5 +12,5 @@ type Email struct {
 	Source        string   `json:"source"`
 	ReturnPath    string   `json:"returnPath"`
 	Text          string   `json:"text"`
-	Html          string   `json:"html"`
+	HTML          string   `json:"html"`
 }

@@ -11,15 +11,27 @@ import (
 )
 
 func chdir(dir string) {
-	wd, _ := os.Getwd()
+	wd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
 	for !strings.HasSuffix(wd, "/bff") {
-		_ = os.Chdir("..")
+		err = os.Chdir("..")
+		if err != nil {
+			panic(err)
+		}
 
-		wd, _ = os.Getwd()
+		wd, err = os.Getwd()
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	if dir != "" {
-		_ = os.Chdir(dir)
+		err = os.Chdir(dir)
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -27,37 +39,41 @@ func TestLoad(t *testing.T) {
 	chdir("testdata")
 	defer chdir("")
 
-	logger, _ := zap.NewDevelopment()
-	err := load(logger)
+	logger, err := zap.NewDevelopment()
 	assert.NoError(t, err)
-	assert.Equal(t, "/static", STATIC_DIR)
-	assert.Equal(t, "/static/index.html", INDEX_HTML)
-	assert.Equal(t, "us-west-2", AWS_REGION)
-	assert.Equal(t, "example-key-id", AWS_ACCESS_KEY_ID)
-	assert.Equal(t, "example-secret-key", AWS_SECRET_ACCESS_KEY)
+
+	err = load(logger)
+	assert.NoError(t, err)
+	assert.Equal(t, "/static", StaticDir)
+	assert.Equal(t, "/static/index.html", IndexHTML)
+	assert.Equal(t, "us-west-2", AWSRegion)
+	assert.Equal(t, "example-key-id", AWSAccessKeyID)
+	assert.Equal(t, "example-secret-key", AWSSecretAccessKey)
 	assert.Equal(t, "app-id", AWS_API_ID)
-	assert.Equal(t, "https://example.com", AWS_API_GATEWAY_ENDPOINT)
-	assert.Equal(t, []string{"example.com", "example.org"}, EMAIL_ADDRESSES)
-	assert.True(t, PROXY_ENABLE)
-	assert.Equal(t, "https://example.com/plugin1", PLUGIN_CONFIGS[0])
-	assert.Equal(t, "https://example.com/plugin2", PLUGIN_CONFIGS[1])
+	assert.Equal(t, "https://example.com", AWS_APIGatewayEndpoint)
+	assert.Equal(t, []string{"example.com", "example.org"}, EmailAddresses)
+	assert.True(t, ProxyEnable)
+	assert.Equal(t, "https://example.com/plugin1", PluginConfigs[0])
+	assert.Equal(t, "https://example.com/plugin2", PluginConfigs[1])
 }
 
 func TestLoad_NoFile(t *testing.T) {
 	chdir("config")
 	defer chdir("")
 
-	logger, _ := zap.NewDevelopment()
-	err := load(logger)
+	logger, err := zap.NewDevelopment()
 	assert.NoError(t, err)
-	assert.Equal(t, "", STATIC_DIR)
-	assert.Equal(t, "", AWS_REGION)
-	assert.Equal(t, "", AWS_ACCESS_KEY_ID)
-	assert.Equal(t, "", AWS_SECRET_ACCESS_KEY)
+
+	err = load(logger)
+	assert.NoError(t, err)
+	assert.Equal(t, "", StaticDir)
+	assert.Equal(t, "", AWSRegion)
+	assert.Equal(t, "", AWSAccessKeyID)
+	assert.Equal(t, "", AWSSecretAccessKey)
 	assert.Equal(t, "", AWS_API_ID)
-	assert.Equal(t, "", AWS_API_GATEWAY_ENDPOINT)
-	assert.Equal(t, []string{""}, EMAIL_ADDRESSES)
-	assert.True(t, PROXY_ENABLE)
+	assert.Equal(t, "", AWS_APIGatewayEndpoint)
+	assert.Equal(t, []string{""}, EmailAddresses)
+	assert.True(t, ProxyEnable)
 }
 
 func TestLoad_ViperError(t *testing.T) {
@@ -68,8 +84,10 @@ func TestLoad_ViperError(t *testing.T) {
 		configName = "config"
 	}()
 
-	logger, _ := zap.NewDevelopment()
-	err := load(logger)
+	logger, err := zap.NewDevelopment()
+	assert.NoError(t, err)
+
+	err = load(logger)
 	assert.Error(t, err)
 }
 

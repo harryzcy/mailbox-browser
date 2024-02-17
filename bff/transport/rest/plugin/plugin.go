@@ -65,7 +65,7 @@ func getEmails(ctx *gin.Context, emailIDs []string) ([]types.Email, error) {
 	var emails []types.Email
 
 	for _, emailID := range emailIDs {
-		resp, err := request.AWSRequest(ctx, request.RequestOptions{
+		resp, err := request.AWSRequest(ctx, request.Options{
 			Method: "GET",
 			Path:   "/emails/" + emailID,
 		})

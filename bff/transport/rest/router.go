@@ -45,9 +45,9 @@ func Init(logger *zap.Logger, mode string) *gin.Engine {
 
 	r.NoRoute(func(c *gin.Context) {
 		if strings.HasPrefix(c.Request.URL.Path, "/assets/") {
-			c.File(filepath.Join(config.STATIC_DIR, c.Request.URL.Path))
+			c.File(filepath.Join(config.StaticDir, c.Request.URL.Path))
 		} else {
-			c.File(config.INDEX_HTML)
+			c.File(config.IndexHTML)
 		}
 	})
 
