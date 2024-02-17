@@ -14,11 +14,11 @@ var (
 	StaticDir string
 	IndexHTML string
 
-	AWSRegion              string
-	AWSAccessKeyID         string
-	AWSSecretAccessKey     string
-	AWS_API_ID             string
-	AWS_APIGatewayEndpoint string
+	AWSRegion             string
+	AWSAccessKeyID        string
+	AWSSecretAccessKey    string
+	AWSAPIID              string
+	AWSAPIGatewayEndpoint string
 
 	EmailAddresses []string
 	ProxyEnable    bool
@@ -74,8 +74,8 @@ func load(logger *zap.Logger) error {
 	AWSRegion = getString(v, "aws.region", "AWS_REGION")
 	AWSAccessKeyID = getString(v, "aws.accessKeyID", "AWS_ACCESS_KEY_ID")
 	AWSSecretAccessKey = getString(v, "aws.secretAccessKey", "AWS_SECRET_ACCESS_KEY")
-	AWS_APIGatewayEndpoint = strings.TrimSuffix(getString(v, "aws.apiGateway.endpoint", "AWS_API_GATEWAY_ENDPOINT"), "/")
-	AWS_API_ID = getString(v, "aws.apiGateway.apiID", "AWS_API_ID")
+	AWSAPIGatewayEndpoint = strings.TrimSuffix(getString(v, "aws.apiGateway.endpoint", "AWS_API_GATEWAY_ENDPOINT"), "/")
+	AWSAPIID = getString(v, "aws.apiGateway.apiID", "AWS_API_ID")
 
 	// comma separated list of email addresses or domains, required for email replies
 	EmailAddresses = strings.Split(getString(v, "email.addresses", "EMAIL_ADDRESSES"), ",")

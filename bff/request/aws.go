@@ -21,7 +21,7 @@ type Options struct {
 
 // AWSRequest sends a request to AWS API Gateway and returns the response.
 func AWSRequest(ctx context.Context, options Options) (*http.Response, error) {
-	endpoint := config.AWS_APIGatewayEndpoint
+	endpoint := config.AWSAPIGatewayEndpoint
 
 	body := bytes.NewReader(options.Payload)
 	req, err := http.NewRequestWithContext(ctx, options.Method, endpoint+options.Path, body)
