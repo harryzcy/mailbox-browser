@@ -42,6 +42,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@ab904c41d6ece82784817410c45d8b8c02684457 # v3.1.6
+
   docker:
     name: Docker Build
     runs-on: ubuntu-latest
