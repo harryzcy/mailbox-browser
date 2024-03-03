@@ -55,8 +55,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build frontend
-        run: make build-web
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@68827325e0b33c7199eb31dd4e31fbe9023e06e3 # v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@0d103c3126aa41d772a8362f6aa67afac040f80c # v3
 
       - name: Get build variables
         run: |
@@ -79,5 +82,5 @@ jobs:
             BUILD_DATE=${{ env.BUILD_DATE }}
             BUILD_COMMIT=${{ env.BUILD_COMMIT }}
             BUILD_VERSION=${{ env.BUILD_VERSION }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64/v8
           push: false
