@@ -17,21 +17,16 @@ RUN set -ex && \
   -w -s" \
   -o /bin/bff
 
-FROM node:20.11.1-alpine3.19@sha256:c0a3badbd8a0a760de903e00cedbca94588e609299820557e72cba2a53dbaa2c as web-builder
+FROM --platform=$BUILDPLATFORM node:20.11.1-alpine3.19@sha256:c0a3badbd8a0a760de903e00cedbca94588e609299820557e72cba2a53dbaa2c as web-builder
 
 ARG BUILD_VERSION
 
 WORKDIR /app
 
 COPY web ./
-# if dist exists, skip the build
-RUN [[ -d dist ]] && echo "build exists, skipping" || \
-  ( \
-  echo "build does not exist, building" && \
-  npm ci && \
+RUN npm ci && \
   echo "export const browserVersion = \"${BUILD_VERSION}\"" > src/utils/info.ts && \
-  npm run build \
-  )
+  npm run build
 
 FROM alpine:3.19.1@sha256:c5b1261d6d3e43071626931fc004f70149baeba2c8ec672bd4f27761f8e1ad6b
 
