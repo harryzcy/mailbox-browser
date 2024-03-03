@@ -29,9 +29,7 @@ jobs:
         run: |
           # shellcheck disable=SC2129
           echo "BUILD_COMMIT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-          # shellcheck disable=SC2129
           echo "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> "$GITHUB_ENV"
-          # shellcheck disable=SC2129
           echo "BUILD_VERSION=$(git describe --tags --always)" >> "$GITHUB_ENV"
 
       - name: Check build variables
