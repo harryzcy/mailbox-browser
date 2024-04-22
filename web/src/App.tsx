@@ -37,6 +37,7 @@ const router = createBrowserRouter([
           {
             path: 'thread/:threadID',
             element: <EmailView />,
+            errorElement: <ErrorBoundary />,
             loader: ({ params }) => {
               if (!params.threadID) return redirect('/inbox')
               return defer({
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
           {
             path: ':messageID',
             element: <EmailView />,
+            errorElement: <ErrorBoundary />,
             loader: ({ params }) => {
               if (!params.messageID) return redirect('/inbox')
               return defer({
@@ -66,7 +68,8 @@ const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <EmailList />
+            element: <EmailList />,
+            errorElement: <ErrorBoundary />
           },
           {
             path: ':messageID',
@@ -84,6 +87,7 @@ const router = createBrowserRouter([
       {
         path: 'sent',
         element: <EmailRoot type="sent" />,
+        errorElement: <ErrorBoundary />,
         children: [
           {
             path: '',
@@ -107,6 +111,7 @@ const router = createBrowserRouter([
   {
     path: '/raw/:messageID',
     element: <EmailRawView />,
+    errorElement: <ErrorBoundary />,
     loader: ({ params }) => {
       if (!params.messageID) return redirect('/inbox')
       return defer({
