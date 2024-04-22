@@ -126,7 +126,7 @@ function ErrorBoundary() {
   const error = useRouteError()
   console.error(error)
   // Uncaught ReferenceError: path is not defined
-  return <div>Unknown Error!</div>
+  return <div>Unknown Error: {(error as Error)?.message}</div>
 }
 
 function App() {
