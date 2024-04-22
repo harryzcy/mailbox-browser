@@ -123,10 +123,15 @@ const router = createBrowserRouter([
 ])
 
 function ErrorBoundary() {
-  const error = useRouteError()
+  const error = useRouteError() as {
+    status: number
+    error: unknown
+    data: string
+  }
   console.error(error)
+  console.error(error?.error)
   // Uncaught ReferenceError: path is not defined
-  return <div>Unknown Error: {(error as Error)?.message}</div>
+  return <div>Unknown Error: {error?.data}</div>
 }
 
 function App() {
