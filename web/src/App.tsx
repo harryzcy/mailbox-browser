@@ -127,6 +127,8 @@ function ErrorBoundary() {
     status: number
     error: unknown
     data: string
+    internal: boolean
+    statusText: string
   }
   console.error(error)
   console.error(error?.error)
