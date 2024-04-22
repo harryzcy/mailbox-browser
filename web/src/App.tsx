@@ -2,7 +2,8 @@ import {
   RouterProvider,
   createBrowserRouter,
   defer,
-  redirect
+  redirect,
+  useRouteError
 } from 'react-router-dom'
 
 import EmailList from 'pages/EmailList'
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         path: '',
@@ -26,6 +28,7 @@ const router = createBrowserRouter([
       {
         path: 'inbox',
         element: <EmailRoot type="inbox" />,
+        errorElement: <ErrorBoundary />,
         children: [
           {
             path: '',
@@ -113,6 +116,13 @@ const router = createBrowserRouter([
     }
   }
 ])
+
+function ErrorBoundary() {
+  const error = useRouteError()
+  console.error(error)
+  // Uncaught ReferenceError: path is not defined
+  return <div>Unknown Error!</div>
+}
 
 function App() {
   return (
