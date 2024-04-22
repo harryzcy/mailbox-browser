@@ -2,7 +2,8 @@ import {
   RouterProvider,
   createBrowserRouter,
   defer,
-  redirect
+  redirect,
+  useRouteError
 } from 'react-router-dom'
 
 import EmailList from 'pages/EmailList'
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         path: '',
@@ -26,6 +28,7 @@ const router = createBrowserRouter([
       {
         path: 'inbox',
         element: <EmailRoot type="inbox" />,
+        errorElement: <ErrorBoundary />,
         children: [
           {
             path: '',
@@ -34,6 +37,7 @@ const router = createBrowserRouter([
           {
             path: 'thread/:threadID',
             element: <EmailView />,
+            errorElement: <ErrorBoundary />,
             loader: ({ params }) => {
               if (!params.threadID) return redirect('/inbox')
               return defer({
@@ -46,6 +50,7 @@ const router = createBrowserRouter([
           {
             path: ':messageID',
             element: <EmailView />,
+            errorElement: <ErrorBoundary />,
             loader: ({ params }) => {
               if (!params.messageID) return redirect('/inbox')
               return defer({
@@ -63,7 +68,8 @@ const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <EmailList />
+            element: <EmailList />,
+            errorElement: <ErrorBoundary />
           },
           {
             path: ':messageID',
@@ -81,6 +87,7 @@ const router = createBrowserRouter([
       {
         path: 'sent',
         element: <EmailRoot type="sent" />,
+        errorElement: <ErrorBoundary />,
         children: [
           {
             path: '',
@@ -104,6 +111,7 @@ const router = createBrowserRouter([
   {
     path: '/raw/:messageID',
     element: <EmailRawView />,
+    errorElement: <ErrorBoundary />,
     loader: ({ params }) => {
       if (!params.messageID) return redirect('/inbox')
       return defer({
@@ -113,6 +121,20 @@ const router = createBrowserRouter([
     }
   }
 ])
+
+function ErrorBoundary() {
+  const error = useRouteError() as {
+    status: number
+    error: unknown
+    data: string
+    internal: boolean
+    statusText: string
+  }
+  console.error(error)
+  console.error(error?.error)
+  // Uncaught ReferenceError: path is not defined
+  return <div>Unknown Error: {error?.data}</div>
+}
 
 function App() {
   return (
