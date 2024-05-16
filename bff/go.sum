@@ -1,7 +1,7 @@
-github.com/aws/aws-sdk-go-v2 v1.26.1 h1:5554eUqIYVWpU0YmeeYZ0wU64H2VLBs8TlhRB2L+EkA=
-github.com/aws/aws-sdk-go-v2 v1.26.1/go.mod h1:ffIFB97e2yNsv4aTSGkqtHnppsIJzw7G7BReUZ3jCXM=
-github.com/aws/aws-sdk-go-v2/credentials v1.17.13 h1:XDCJDzk/u5cN7Aple7D/MiAhx1Rjo/0nueJ0La8mRuE=
-github.com/aws/aws-sdk-go-v2/credentials v1.17.13/go.mod h1:FMNcjQrmuBYvOTZDtOLCIu0esmxjF7RuA/89iSXWzQI=
+github.com/aws/aws-sdk-go-v2 v1.26.2 h1:OTRAL8EPdNoOdiq5SUhCaHhVPBU2wxAUe5uwasoJGRM=
+github.com/aws/aws-sdk-go-v2 v1.26.2/go.mod h1:ffIFB97e2yNsv4aTSGkqtHnppsIJzw7G7BReUZ3jCXM=
+github.com/aws/aws-sdk-go-v2/credentials v1.17.14 h1:0y1IAEldTO2ZA3Lcq7u7y4Q2tUQlB3At2LZQijUHu3U=
+github.com/aws/aws-sdk-go-v2/credentials v1.17.14/go.mod h1:En2zXCfDZJgtbp2UnzHDgKMz+mSRc4pA3Ka+jxoJvaA=
 github.com/aws/smithy-go v1.20.2 h1:tbp628ireGtzcHDDmLT/6ADHidqnwgF57XOXZe6tp4Q=
 github.com/aws/smithy-go v1.20.2/go.mod h1:krry+ya/rV9RDcV/Q16kpu6ypI4K2czasz0NC3qS14E=
 github.com/bytedance/sonic v1.11.6 h1:oUp34TzMlL+OY1OUWxHqsdkgC/Zfc85zGqw9siXjrc0=
