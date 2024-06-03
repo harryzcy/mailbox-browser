@@ -3,7 +3,7 @@ module github.com/harryzcy/mailbox-browser/bff
 go 1.21
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.27.0
+	github.com/aws/aws-sdk-go-v2 v1.27.1
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.16
 	github.com/gin-contrib/zap v1.1.3
 	github.com/gin-gonic/gin v1.10.0
