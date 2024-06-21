@@ -24,7 +24,7 @@
     "@lexical/selection": "0.16.0",
     "@lexical/table": "0.16.0",
     "@lexical/utils": "0.16.0",
-    "@radix-ui/react-toast": "1.2.0",
+    "@radix-ui/react-toast": "1.2.1",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",
     "html-react-parser": "5.1.10",
