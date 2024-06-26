@@ -21,6 +21,6 @@
       "@ui/*": ["./src/components/ui/*"]
     }
   },
-  "include": ["src", "vite.config.ts", "tailwind.config.ts", "jest.config.ts"],
+  "include": ["src", "tailwind.config.ts", "jest.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
