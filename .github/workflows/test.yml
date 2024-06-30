@@ -26,6 +26,8 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x]
+    permissions:
+      id-token: write
     defaults:
       run:
         working-directory: web
