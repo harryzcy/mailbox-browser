@@ -16,6 +16,9 @@ permissions:
 jobs:
   go-test:
     name: Go Tests
+    permissions:
+      id-token: write
+      contents: read
     uses: harryzcy/github-actions/.github/workflows/go.yml@main
     with:
       working-directory: bff
