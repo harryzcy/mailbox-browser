@@ -1,6 +1,7 @@
 package plugin
 
 import (
+	"os"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -11,8 +12,7 @@ import (
 
 func TestMain(m *testing.M) {
 	gin.SetMode(gin.TestMode)
-
-	m.Run()
+	os.Exit(m.Run())
 }
 
 func TestFindPluginByName(t *testing.T) {
