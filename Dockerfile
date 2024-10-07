@@ -1,4 +1,4 @@
-FROM golang:1.23.2@sha256:adee809c2d0009a4199a11a1b2618990b244c6515149fe609e2788ddf164bd10 as bff-builder
+FROM golang:1.23.2@sha256:adee809c2d0009a4199a11a1b2618990b244c6515149fe609e2788ddf164bd10 AS bff-builder
 
 ARG BUILD_VERSION
 ARG BUILD_COMMIT
@@ -17,7 +17,7 @@ RUN set -ex && \
   -w -s" \
   -o /bin/bff
 
-FROM --platform=$BUILDPLATFORM node:22.9.0-alpine3.20@sha256:c9bb43423a6229aeddf3d16ae6aaa0ff71a0b2951ce18ec8fedb6f5d766cf286 as web-builder
+FROM --platform=$BUILDPLATFORM node:22.9.0-alpine3.20@sha256:c9bb43423a6229aeddf3d16ae6aaa0ff71a0b2951ce18ec8fedb6f5d766cf286 AS web-builder
 
 ARG BUILD_VERSION
 
@@ -37,8 +37,8 @@ COPY --from=bff-builder --chown=bff:bff /bin/bff /bin/bff
 COPY --from=web-builder --chown=bff:bff /app/dist /bin/dist
 
 ENV MODE=prod
-ENV STATIC_DIR /bin/dist
-ENV PORT 8070
+ENV STATIC_DIR=/bin/dist
+ENV PORT=8070
 
 HEALTHCHECK --interval=5s --timeout=3s --retries=3 CMD wget -qO- http://localhost:8070/ping || exit 1
 
