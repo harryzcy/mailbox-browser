@@ -37,7 +37,7 @@
     "tailwind-merge": "2.5.3",
     "tailwindcss": "3.4.13",
     "tailwindcss-animate": "1.0.7",
-    "yjs": "13.6.19"
+    "yjs": "13.6.20"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "6.5.0",
