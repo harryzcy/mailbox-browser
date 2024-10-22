@@ -31,6 +31,11 @@ export default tsEslint.config(
     },
     rules: {
       semi: [2, 'never']
+    },
+    settings: {
+      react: {
+        version: 'detect'
+      }
     }
   },
   {
