@@ -29,3 +29,9 @@ jobs:
     uses: harryzcy/github-actions/.github/workflows/prettier.yml@main
     with:
       working-directory: web
+
+  eslint:
+    name: Prettier
+    uses: harryzcy/github-actions/.github/workflows/npm-lint.yml@main
+    with:
+      working-directory: web
