@@ -34,16 +34,6 @@ export default tsEslint.config(
       semi: [2, 'never']
     }
   },
-  // {
-  //   files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
-  //   ...reactPlugin.configs.flat.recommended,
-  //   languageOptions: {
-  //     ...reactPlugin.configs.flat.recommended.languageOptions,
-  //     globals: {
-  //       ...globals.browser
-  //     }
-  //   }
-  // },
   {
     files: ['**/*.js'],
     ...tsEslint.configs.disableTypeChecked
