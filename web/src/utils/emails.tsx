@@ -74,7 +74,7 @@ export function parseEmailContent(
             if (child.nodeType !== 3) return null
             return new Text(transformCss(host, child.data))
           })
-          .filter((child) => child !== null) as Text[]
+          .filter((child) => child !== null)
       }
       if (domNode.name === 'img' && domNode.attribs.src) {
         if (domNode.attribs.src.startsWith('cid:')) {
@@ -126,6 +126,7 @@ function filterElementAttributes(
   domName: Element['name'],
   attribs: Element['attribs']
 ): Element['attribs'] {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (attribs === undefined) return attribs
   if (domName === 'img') {
     return Object.fromEntries(
@@ -183,9 +184,9 @@ function transformCss(host: string, code: string) {
   return result
 }
 
-function transformCssRules(host: string, rules?: Array<css.CssAtRuleAST>) {
+function transformCssRules(host: string, rules?: css.CssAtRuleAST[]) {
   const replaceDeclarations = (
-    declarations: Array<css.CssCommentAST | css.CssDeclarationAST>
+    declarations: (css.CssCommentAST | css.CssDeclarationAST)[]
   ) => {
     return declarations.map((declaration) => {
       if (declaration.type === css.CssTypes.declaration) {
@@ -199,7 +200,7 @@ function transformCssRules(host: string, rules?: Array<css.CssAtRuleAST>) {
 
   return rules?.map((rule) => {
     if (rule.type === css.CssTypes.rule) {
-      rule.selectors = rule.selectors?.map((selector) => {
+      rule.selectors = rule.selectors.map((selector) => {
         if (selector.startsWith('@')) {
           return selector
         }

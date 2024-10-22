@@ -1,6 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import { ReactNode, useContext, useReducer } from 'react'
-import { act } from 'react-dom/test-utils'
+import { ReactNode, act, useContext, useReducer } from 'react'
 
 import { Email } from 'services/emails'
 

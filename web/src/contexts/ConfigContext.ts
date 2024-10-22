@@ -16,7 +16,10 @@ export interface State {
   loaded: boolean
 }
 
-export type Action = { type: 'set'; config: Config }
+export interface Action {
+  type: 'set'
+  config: Config
+}
 
 export const initialConfigState: State = {
   config: {
@@ -30,6 +33,7 @@ export const initialConfigState: State = {
 
 export function configReducer(state: State, action: Action): State {
   switch (action.type) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     case 'set':
       return { config: action.config, loaded: true }
     default:

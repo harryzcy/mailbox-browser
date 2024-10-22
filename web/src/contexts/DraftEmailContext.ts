@@ -18,7 +18,7 @@ export interface DraftEmail {
   threadID?: string
 }
 
-export type State = {
+export interface State {
   activeEmail: DraftEmail | null
   emails: DraftEmail[]
 }
@@ -151,7 +151,7 @@ export function draftEmailReducer(state: State, action: Action): State {
     case 'open':
       return {
         activeEmail:
-          state.emails.find((email) => email.messageID === action.messageID) ||
+          state.emails.find((email) => email.messageID === action.messageID) ??
           null,
         emails: state.emails
       }
@@ -234,7 +234,7 @@ export const DraftEmailsContext = createContext<{
 const extractEmailBody = (html?: string) => {
   if (!html) return ''
   if (html.includes('<body>')) {
-    const body = /<body>(.*?)<\/body>/gs.exec(html)?.[1] || ''
+    const body = /<body>(.*?)<\/body>/gs.exec(html)?.[1] ?? ''
     return body
   }
   return html

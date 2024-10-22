@@ -7,9 +7,9 @@ export default function useIsInViewport<Element extends HTMLElement>(
 
   const observer = useMemo(
     () =>
-      new IntersectionObserver(([entry]) =>
+      new IntersectionObserver(([entry]) => {
         setIsIntersecting(entry.isIntersecting)
-      ),
+      }),
     [ref]
   )
 

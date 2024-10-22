@@ -16,7 +16,7 @@ import { EmailInfo, ListEmailsResponse, listEmails } from 'services/emails'
 
 import { getCurrentYearMonth } from 'utils/time'
 
-type InboxContext = {
+interface InboxContext {
   count: number
   setCount: (count: number) => void
   hasMore: boolean
@@ -62,7 +62,9 @@ export default function EmailRoot(props: EmailRootProps) {
     const abortController = new AbortController()
     setLoadingState('loading')
     void loadAndSetEmails()
-    return () => abortController.abort()
+    return () => {
+      abortController.abort()
+    }
   }, [props.type])
 
   const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
@@ -78,8 +80,8 @@ export default function EmailRoot(props: EmailRootProps) {
 
     const data = await listEmails({
       type: props.type,
-      year: input.year || year,
-      month: input.month || month,
+      year: input.year ?? year,
+      month: input.month ?? month,
       order: 'desc',
       nextCursor
     })

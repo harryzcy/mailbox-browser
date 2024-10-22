@@ -117,7 +117,7 @@ function convertEmailQuoteElement(domNode: Node): DOMConversionOutput {
   return { node }
 }
 
-type EmailQuoteProps = {
+interface EmailQuoteProps {
   html: string
 }
 

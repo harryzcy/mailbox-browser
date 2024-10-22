@@ -74,6 +74,7 @@ export default function EmailList() {
       setHasMore(data.hasMore)
       setNextCursor(data.nextCursor)
     } catch (e) {
+      console.error('Failed to load emails', e)
       toast({
         title: 'Failed to load emails'
       })
@@ -98,6 +99,7 @@ export default function EmailList() {
       setHasMore(data.hasMore)
       setNextCursor(data.nextCursor)
     } catch (e) {
+      console.error('Failed to load emails', e)
       toast({
         title: 'Failed to load emails'
       })
@@ -126,6 +128,7 @@ export default function EmailList() {
       setHasMore(data.hasMore)
       setNextCursor(data.nextCursor)
     } catch (e) {
+      console.error('Failed to load emails', e)
       toast({
         title: 'Failed to load emails'
       })
@@ -154,6 +157,7 @@ export default function EmailList() {
       try {
         await readEmail(email.messageID)
       } catch (e) {
+        console.error('Failed to mark email as read', e)
         toast({
           title: 'Failed to mark email as read'
         })
@@ -180,6 +184,7 @@ export default function EmailList() {
       try {
         await unreadEmail(email.messageID)
       } catch (e) {
+        console.error('Failed to mark email as unread', e)
         toast({
           title: 'Failed to mark email as unread'
         })
@@ -204,14 +209,21 @@ export default function EmailList() {
       <div ref={menuRef} className="preflight mb-4 px-2 md:px-0">
         <EmailMenuBar
           emailIDs={selected}
-          handleBack={() => setSelected([])}
+          handleBack={() => {
+            setSelected([])
+          }}
           showOperations={selected.length > 0}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           handleDelete={handleDelete}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           handleRead={handleRead}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           handleUnread={handleUnread}
           hasPrevious={hasPrevious}
           hasNext={true}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           goPrevious={goPrevious}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           goNext={goNext}
         >
           <span className="w-16">
@@ -232,6 +244,7 @@ export default function EmailList() {
           selected={selected}
           toggleSelected={toggleSelected}
           hasMore={hasMore}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           loadMoreEmails={loadMoreEmails}
         />
       </div>

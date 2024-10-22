@@ -11,7 +11,9 @@ export default tsEslint.config(
       'coverage/',
       'node_modules/',
       '.wrangler/',
-      '*.config.ts'
+      '*.config.js',
+      '*.config.ts',
+      '*.config.cjs'
     ]
   },
   eslint.configs.recommended,

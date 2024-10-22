@@ -40,6 +40,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         return
       }
       void openDraftEmail(email.messageID)
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     } else if (email.type === 'inbox' || email.type === 'sent') {
       if (email.threadID) {
         navigate(`/inbox/thread/${email.threadID}`)
@@ -80,7 +81,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         }
         onClick={openEmail}
       >
-        <span title={email.from && email.from.length > 0 ? email.from[0] : ''}>
+        <span title={email.from.length > 0 ? email.from[0] : ''}>
           <EmailName emails={email.from} />
         </span>
       </div>
@@ -103,7 +104,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         onClick={openEmail}
       >
         {formatDate(
-          email.timeReceived || email.timeUpdated || email.timeSent || '',
+          email.timeReceived ?? email.timeUpdated ?? email.timeSent ?? '',
           { short: true }
         )}
       </div>

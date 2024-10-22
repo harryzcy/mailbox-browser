@@ -19,7 +19,7 @@ export default function FullScreenContent(props: FullScreenContentProps) {
   const [draftEmail, setDraftEmail] = useState<DraftEmail | undefined>()
   const throttledDraftEmail = useThrottled(draftEmail)
 
-  const saveDraft = async (email: DraftEmail, send: boolean = false) => {
+  const saveDraft = async (email: DraftEmail, send = false) => {
     await saveEmail({
       messageID: email.messageID,
       subject: email.subject,

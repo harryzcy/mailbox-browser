@@ -16,6 +16,7 @@ export function useOutsideClick(
             contained = true
           }
         })
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!contained) {
           callback()
         }

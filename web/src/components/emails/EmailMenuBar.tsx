@@ -138,6 +138,7 @@ function ComposeButton() {
   return (
     <span
       className="mr-3 inline-flex h-full cursor-pointer items-center space-x-2 rounded-md border border-sky-200 bg-sky-200 px-3 py-1.5"
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onClick={handleCreate}
     >
       <span>
