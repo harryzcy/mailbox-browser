@@ -43,7 +43,9 @@ export default function EmailView() {
 
   const navigate = useNavigate()
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goPrevious = () => {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goNext = () => {}
 
   const { activeEmail: activeReplyEmail, dispatch: dispatchDraftEmail } =
@@ -163,6 +165,7 @@ export default function EmailView() {
       try {
         await readEmail(data.messageID)
       } catch (e) {
+        console.error('Failed to mark email as read', e)
         toast({
           title: 'Failed to mark email as read'
         })
@@ -178,6 +181,7 @@ export default function EmailView() {
       try {
         await unreadEmail(data.messageID)
       } catch (e) {
+        console.error('Failed to mark email as unread', e)
         toast({
           title: 'Failed to mark email as unread'
         })
@@ -259,7 +263,7 @@ export default function EmailView() {
                     {thread.subject}
                   </span>
                 </div>
-                {thread.emails?.map((email) => (
+                {thread.emails.map((email) => (
                   <EmailBlock
                     key={email.messageID}
                     email={email}
@@ -285,7 +289,7 @@ export default function EmailView() {
                         <span
                           className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
                           onClick={() => {
-                            openReply(thread.draft!)
+                            if (thread.draft) openReply(thread.draft)
                           }}
                         >
                           <PencilIcon />
@@ -303,7 +307,7 @@ export default function EmailView() {
   )
 }
 
-type EmailBlockProps = {
+interface EmailBlockProps {
   email: Email
   startReply: (email: Email) => void
   startForward: (email: Email) => void
@@ -314,7 +318,9 @@ function EmailBlock(props: EmailBlockProps) {
 
   const [showMoreActions, setShowMoreActions] = React.useState(false)
   const showMoreActionsRef = useRef<HTMLSpanElement>(null)
-  useOutsideClick(showMoreActionsRef, () => setShowMoreActions(false))
+  useOutsideClick(showMoreActionsRef, () => {
+    setShowMoreActions(false)
+  })
 
   const configContext = useContext(ConfigContext)
   const [showImages, setShowImages] = useState(
@@ -329,9 +335,7 @@ function EmailBlock(props: EmailBlockProps) {
   }, [])
 
   useEffect(() => {
-    if (window.getSelection) {
-      window.getSelection()?.removeAllRanges()
-    }
+    window.getSelection()?.removeAllRanges()
   }, [])
 
   const fromEmail = parseEmailName(email.from)
@@ -462,7 +466,9 @@ function EmailActions(props: {
       </span>
       <span
         className="inline-flex h-6 w-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
-        onClick={() => setShowMoreActions(!showMoreActions)}
+        onClick={() => {
+          setShowMoreActions(!showMoreActions)
+        }}
       >
         <EllipsisVerticalIcon />
       </span>

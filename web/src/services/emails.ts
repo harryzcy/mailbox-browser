@@ -12,7 +12,7 @@ export interface EmailInfo {
   unread?: boolean
 }
 
-export type ListEmailsProps = {
+export interface ListEmailsProps {
   type: 'inbox' | 'draft' | 'sent'
   year?: number
   month?: number
@@ -21,7 +21,7 @@ export type ListEmailsProps = {
   nextCursor?: string
 }
 
-export type ListEmailsResponse = {
+export interface ListEmailsResponse {
   count: number
   items: EmailInfo[]
   hasMore: boolean
@@ -57,14 +57,14 @@ export async function listEmails(
   return response.json() as Promise<ListEmailsResponse>
 }
 
-export type File = {
+export interface File {
   contentID: string
   contentType: string
   contentTypeParams: Record<string, string>
   filename: string
 }
 
-export type Email = {
+export interface Email {
   messageID: string
   type: 'inbox' | 'draft' | 'sent'
   subject: string
@@ -97,7 +97,7 @@ export type Email = {
   timeSent: string
 }
 
-export type EmailVerdict = {
+export interface EmailVerdict {
   spam: boolean
   dkim: boolean
   dmarc: boolean
@@ -110,7 +110,7 @@ export async function getEmail(id: string): Promise<Email> {
   return response.json() as Promise<Email>
 }
 
-export type CreateEmailProps = {
+export interface CreateEmailProps {
   subject: string
   from: string[]
   to: string[]

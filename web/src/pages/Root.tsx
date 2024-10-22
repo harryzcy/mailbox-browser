@@ -71,7 +71,12 @@ export default function Root() {
           </span>
         ) : (
           <span className="absolute md:hidden top-5 px-2">
-            <span className="p-2" onClick={() => setSidebarOnMobile(true)}>
+            <span
+              className="p-2"
+              onClick={() => {
+                setSidebarOnMobile(true)
+              }}
+            >
               <Bars3Icon className="h-4 w-4 dark:text-white" />
             </span>
           </span>

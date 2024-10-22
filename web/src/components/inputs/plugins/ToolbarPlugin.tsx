@@ -123,10 +123,13 @@ function positionEditorElement(editor: HTMLDivElement, rect: DOMRect | null) {
     editor.style.left = '-1000px'
   } else {
     editor.style.opacity = '1'
-    editor.style.top = `${rect.top + rect.height + window.scrollY + 10}px`
-    editor.style.left = `${
-      rect.left + window.pageXOffset - editor.offsetWidth / 2 + rect.width / 2
-    }px`
+    editor.style.top = `${(rect.top + rect.height + window.scrollY + 10).toString()}px`
+    editor.style.left = `${(
+      rect.left +
+      window.scrollX -
+      editor.offsetWidth / 2 +
+      rect.width / 2
+    ).toString()}px`
   }
 }
 
@@ -167,8 +170,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
     if (
       selection !== null &&
       !nativeSelection.isCollapsed &&
-      rootElement !== null &&
-      rootElement.contains(nativeSelection.anchorNode)
+      rootElement?.contains(nativeSelection.anchorNode)
     ) {
       const domRange = nativeSelection.getRangeAt(0)
       let rect
@@ -186,10 +188,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
         positionEditorElement(editorElem, rect)
       }
       setLastSelection(selection)
-    } else if (
-      !activeElement ||
-      !activeElement.className.includes('link-input')
-    ) {
+    } else if (!activeElement?.className.includes('link-input')) {
       positionEditorElement(editorElem, null)
       setLastSelection(null)
       setEditMode(false)
@@ -274,7 +273,9 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
               className="absolute bottom-0 right-0 top-0 flex cursor-pointer items-center justify-center px-2"
               role="button"
               tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
+              onMouseDown={(event) => {
+                event.preventDefault()
+              }}
               onClick={() => {
                 setEditMode(true)
               }}
@@ -288,7 +289,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
   )
 }
 
-type SelectProps = {
+interface SelectProps {
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
   className: string
   options: string[]
@@ -324,7 +325,7 @@ function getSelectedNode(selection: RangeSelection) {
   }
 }
 
-type BlockOptionsDropdownListProps = {
+interface BlockOptionsDropdownListProps {
   editor: LexicalEditor
   blockType: string
   toolbarRef: React.RefObject<HTMLDivElement>
@@ -345,8 +346,8 @@ function BlockOptionsDropdownList({
 
     if (toolbar !== null && dropDown !== null) {
       const { left } = toolbar.getBoundingClientRect()
-      dropDown.style.bottom = `${120}px`
-      dropDown.style.left = `${left + 112}px`
+      dropDown.style.bottom = `120px`
+      dropDown.style.left = `${(left + 112).toString()}px`
     }
   }, [dropDownRef, toolbarRef])
 
@@ -560,7 +561,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             : element.getType()
           setBlockType(type)
           if ($isCodeNode(element)) {
-            setCodeLanguage(element.getLanguage() || getDefaultCodeLanguage())
+            setCodeLanguage(element.getLanguage() ?? getDefaultCodeLanguage())
           }
         }
       }
@@ -686,9 +687,9 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         <>
           <button
             className="block-controls flex w-36 cursor-pointer items-center rounded-md px-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600"
-            onClick={() =>
+            onClick={() => {
               setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
-            }
+            }}
             aria-label="Formatting Options"
           >
             <span className="h-4 w-4">

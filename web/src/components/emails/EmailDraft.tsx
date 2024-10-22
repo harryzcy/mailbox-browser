@@ -64,6 +64,7 @@ export function EmailDraft(props: EmailDraftProps) {
           </span>
           <span className="mx-2 flex-1 border-b dark:border-neutral-600">
             <EmailAddressInput
+              // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
               addresses={email.from || []}
               handleChange={(emails) => {
                 handleEmailChange({ ...email, from: emails })
@@ -78,6 +79,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
         <span className="mx-2 flex-1 border-b dark:border-neutral-600">
           <EmailAddressInput
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             addresses={email.to || []}
             handleChange={(emails) => {
               handleEmailChange({ ...email, to: emails })
@@ -91,6 +93,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
         <span className="mx-2 flex-1 border-b dark:border-neutral-600">
           <EmailAddressInput
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             addresses={email.cc || []}
             handleChange={(emails) => {
               handleEmailChange({ ...email, cc: emails })
@@ -104,6 +107,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
         <span className="mx-2 flex-1 border-b dark:border-neutral-600">
           <EmailAddressInput
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             addresses={email.bcc || []}
             handleChange={(emails) => {
               handleEmailChange({ ...email, bcc: emails })
@@ -137,7 +141,7 @@ export function EmailDraft(props: EmailDraftProps) {
           }}
           handleSend={handleSend}
           handleDelete={() => {
-            handleDelete && handleDelete()
+            if (handleDelete) handleDelete()
           }}
         />
       </div>

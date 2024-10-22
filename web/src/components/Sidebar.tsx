@@ -19,7 +19,9 @@ const Sidebar = forwardRef<HTMLElement>(function Sidebar(props, ref) {
 
   const [mailboxVersion, setMailboxVersion] = useState('')
   useEffect(() => {
-    void getInfo().then((info) => setMailboxVersion(info.version))
+    void getInfo().then((info) => {
+      setMailboxVersion(info.version)
+    })
   }, [])
 
   return (

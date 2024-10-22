@@ -34,14 +34,14 @@ function formatDateShort(date: string): string {
     const hour = dateObj.getHours()
     const minutesStr = dateObj.getMinutes().toString().padStart(2, '0')
     const meridian = hour >= 12 ? 'PM' : 'AM'
-    return `${hour % 12 || 12}:${minutesStr} ${meridian}`
+    return `${(hour % 12 || 12).toString()}:${minutesStr} ${meridian}`
   }
 
   // If the date is in current year, show the month and day
   if (dateObj.getFullYear() == now.getFullYear()) {
     const month = dateObj.toLocaleString('default', { month: 'short' })
     const day = dateObj.getDate()
-    return `${month} ${day}`
+    return `${month} ${day.toString()}`
   }
 
   // Otherwise, show the full date
@@ -49,7 +49,7 @@ function formatDateShort(date: string): string {
   if (year > 2000) year -= 2000 // Show 2-digit year
   const month = dateObj.getMonth() + 1
   const day = dateObj.getDate()
-  return `${month}/${day}/${year}`
+  return `${month.toString()}/${day.toString()}/${year.toString()}`
 }
 
 function formatDateLong(date: string, monthDayOnly: boolean): string {
@@ -57,14 +57,14 @@ function formatDateLong(date: string, monthDayOnly: boolean): string {
 
   const month = dateObj.toLocaleString('default', { month: 'short' })
   const day = dateObj.getDate()
-  if (monthDayOnly) return `${month} ${day}`
+  if (monthDayOnly) return `${month} ${day.toString()}`
 
   const year = dateObj.getFullYear()
   let hour = dateObj.getHours()
   const minutesStr = dateObj.getMinutes().toString().padStart(2, '0')
   const meridian = hour >= 12 ? 'PM' : 'AM'
   hour = hour % 12 || 12 // Convert 0 to 12
-  return `${month} ${day}, ${year}, ${hour}:${minutesStr} ${meridian}`
+  return `${month} ${day.toString()}, ${year.toString()}, ${hour.toString()}:${minutesStr} ${meridian}`
 }
 
 export function formatDateFull(date: string): string {

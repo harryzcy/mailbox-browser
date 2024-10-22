@@ -22,6 +22,7 @@ export default function EmailRawView() {
         duration: 5000
       })
     } catch (e) {
+      console.error('Failed to re-parse email', e)
       toast({
         title: 'Failed to re-parse email',
         duration: 5000,
@@ -59,6 +60,7 @@ export default function EmailRawView() {
                     <span
                       role="button"
                       className="cursor-pointer rounded-md bg-blue-100 p-2 dark:bg-neutral-700"
+                      // eslint-disable-next-line @typescript-eslint/no-misused-promises
                       onClick={reparse}
                     >
                       <span>Re-Parse</span>

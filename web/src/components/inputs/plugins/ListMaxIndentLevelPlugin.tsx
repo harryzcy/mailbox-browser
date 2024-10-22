@@ -57,7 +57,7 @@ function isIndentPermitted(maxDepth: number) {
 export default function ListMaxIndentLevelPlugin({
   maxDepth
 }: {
-  maxDepth: number
+  maxDepth: number | null
 }) {
   const [editor] = useLexicalComposerContext()
 
