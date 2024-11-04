@@ -53,7 +53,7 @@ jobs:
           make build-cloudflare
 
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/wrangler-action@b2a0191ce60d21388e1a8dcc968b4e9966f938e1 # v3.11.0
+        uses: cloudflare/wrangler-action@e998fe3d9a589b7a05d3ca40c0c74cb7435e2ceb # v3.12.0
         if: ${{ github.actor != 'dependabot[bot]' }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
