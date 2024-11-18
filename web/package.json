@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@adobe/css-tools": "4.4.1",
-    "@heroicons/react": "2.1.5",
+    "@heroicons/react": "2.2.0",
     "@lexical/clipboard": "0.20.0",
     "@lexical/code": "0.20.0",
     "@lexical/html": "0.20.0",
