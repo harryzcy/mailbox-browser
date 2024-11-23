@@ -1,6 +1,6 @@
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 import EmailName from 'components/emails/EmailName'
 
