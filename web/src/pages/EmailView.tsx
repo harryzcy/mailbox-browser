@@ -6,7 +6,7 @@ import {
 } from '@heroicons/react/24/outline'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Await, useLoaderData, useNavigate } from 'react-router-dom'
+import { Await, useLoaderData, useNavigate } from 'react-router'
 
 import { toast } from '@ui/use-toast'
 
