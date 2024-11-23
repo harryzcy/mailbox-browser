@@ -33,20 +33,20 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     })
   }
 
-  const openEmail = () => {
+  const openEmail = async () => {
     if (email.type === 'draft') {
       if (email.threadID) {
-        navigate(`/inbox/thread/${email.threadID}`)
+        await navigate(`/inbox/thread/${email.threadID}`)
         return
       }
       void openDraftEmail(email.messageID)
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     } else if (email.type === 'inbox' || email.type === 'sent') {
       if (email.threadID) {
-        navigate(`/inbox/thread/${email.threadID}`)
+        await navigate(`/inbox/thread/${email.threadID}`)
         return
       }
-      navigate(`/inbox/${email.messageID}`)
+      await navigate(`/inbox/${email.messageID}`)
     }
   }
 
@@ -79,7 +79,9 @@ export default function EmailTableRow(props: EmailTableRowProps) {
           backgroundClassName +
           unreadClassName
         }
-        onClick={openEmail}
+        onClick={() => {
+          void openEmail()
+        }}
       >
         <span title={email.from.length > 0 ? email.from[0] : ''}>
           <EmailName emails={email.from} />
@@ -91,7 +93,9 @@ export default function EmailTableRow(props: EmailTableRowProps) {
           backgroundClassName +
           unreadClassName
         }
-        onClick={openEmail}
+        onClick={() => {
+          void openEmail()
+        }}
       >
         {email.subject}
       </div>
@@ -101,7 +105,9 @@ export default function EmailTableRow(props: EmailTableRowProps) {
           backgroundClassName +
           (email.unread ? ' md:font-bold' : ' md:dark:font-light')
         }
-        onClick={openEmail}
+        onClick={() => {
+          void openEmail()
+        }}
       >
         {formatDate(
           email.timeReceived ?? email.timeUpdated ?? email.timeSent ?? '',

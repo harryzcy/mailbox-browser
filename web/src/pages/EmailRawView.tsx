@@ -7,7 +7,7 @@ import { toast } from '@ui/use-toast'
 import { reparseEmail } from 'services/emails'
 
 export default function EmailRawView() {
-  const data = useLoaderData() as { messageID: string; raw: string }
+  const data: { messageID: string; raw: string } = useLoaderData()
 
   const [isRequesting, setIsRequesting] = React.useState(false)
 
