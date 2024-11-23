@@ -1,5 +1,5 @@
 import React from 'react'
-import { Await, useLoaderData } from 'react-router-dom'
+import { Await, useLoaderData } from 'react-router'
 
 import { Toaster } from '@ui/toaster'
 import { toast } from '@ui/use-toast'
@@ -7,7 +7,7 @@ import { toast } from '@ui/use-toast'
 import { reparseEmail } from 'services/emails'
 
 export default function EmailRawView() {
-  const data = useLoaderData() as { messageID: string; raw: string }
+  const data: { messageID: string; raw: string } = useLoaderData()
 
   const [isRequesting, setIsRequesting] = React.useState(false)
 

@@ -3,7 +3,7 @@
  * This is the root component for inbox, draft, and sent pages.
  */
 import { useContext, useEffect, useState } from 'react'
-import { Outlet, useOutletContext } from 'react-router-dom'
+import { Outlet, useOutletContext } from 'react-router'
 
 import DraftEmailsTabs from 'components/emails/DraftEmailsTabs'
 import FullScreenContent from 'components/emails/FullScreenContent'

@@ -4,7 +4,7 @@ import {
   PaperAirplaneIcon
 } from '@heroicons/react/24/outline'
 import { ReactElement, forwardRef, useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 
 import { getInfo } from 'services/info'
 

@@ -1,10 +1,9 @@
 import {
   RouterProvider,
   createBrowserRouter,
-  defer,
   redirect,
   useRouteError
-} from 'react-router-dom'
+} from 'react-router'
 
 import EmailList from 'pages/EmailList'
 import EmailRawView from 'pages/EmailRawView'
@@ -40,11 +39,11 @@ const router = createBrowserRouter([
             errorElement: <ErrorBoundary />,
             loader: ({ params }) => {
               if (!params.threadID) return redirect('/inbox')
-              return defer({
+              return {
                 type: 'thread',
                 threadID: params.threadID,
                 thread: getThread(params.threadID)
-              })
+              }
             }
           },
           {
@@ -53,11 +52,11 @@ const router = createBrowserRouter([
             errorElement: <ErrorBoundary />,
             loader: ({ params }) => {
               if (!params.messageID) return redirect('/inbox')
-              return defer({
+              return {
                 type: 'email',
                 messageID: params.messageID,
                 email: getEmail(params.messageID)
-              })
+              }
             }
           }
         ]
@@ -76,10 +75,10 @@ const router = createBrowserRouter([
             element: <EmailView />,
             loader: ({ params }) => {
               if (!params.messageID) return null
-              return defer({
+              return {
                 messageID: params.messageID,
                 email: getEmail(params.messageID)
-              })
+              }
             }
           }
         ]
@@ -98,10 +97,10 @@ const router = createBrowserRouter([
             element: <EmailView />,
             loader: ({ params }) => {
               if (!params.messageID) return redirect('/sent')
-              return defer({
+              return {
                 messageID: params.messageID,
                 email: getEmail(params.messageID)
-              })
+              }
             }
           }
         ]
@@ -114,10 +113,10 @@ const router = createBrowserRouter([
     errorElement: <ErrorBoundary />,
     loader: ({ params }) => {
       if (!params.messageID) return redirect('/inbox')
-      return defer({
+      return {
         messageID: params.messageID,
         raw: getEmailRaw(params.messageID)
-      })
+      }
     }
   }
 ])

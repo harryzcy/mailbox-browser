@@ -6,7 +6,7 @@ import {
 } from '@heroicons/react/24/outline'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Await, useLoaderData, useNavigate } from 'react-router-dom'
+import { Await, useLoaderData, useNavigate } from 'react-router'
 
 import { toast } from '@ui/use-toast'
 
@@ -37,9 +37,9 @@ import { parseEmailContent, parseEmailName } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
 export default function EmailView() {
-  const data = useLoaderData() as
+  const data:
     | { type: 'email'; messageID: string; email: Email }
-    | { type: 'thread'; threadID: string; thread: Thread }
+    | { type: 'thread'; threadID: string; thread: Thread } = useLoaderData()
 
   const navigate = useNavigate()
 
@@ -154,7 +154,7 @@ export default function EmailView() {
     } else {
       await trashEmail(data.messageID)
     }
-    navigate(-1)
+    await navigate(-1)
   }
 
   const handleRead = async () => {
@@ -189,13 +189,17 @@ export default function EmailView() {
     }
   }
 
+  const handleBack = async () => {
+    await navigate(-1)
+  }
+
   return (
     <>
       <div className="px-2 md:px-0 mb-4 preflight">
         <EmailMenuBar
           emailIDs={'messageID' in data ? [data.messageID] : []}
           handleBack={() => {
-            navigate(-1)
+            void handleBack()
           }}
           showOperations={true}
           handleDelete={() => {
