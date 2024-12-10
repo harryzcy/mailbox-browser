@@ -440,7 +440,7 @@ function EmailActions(props: {
   startForward: (email: Email) => void
   showMoreActions: boolean
   setShowMoreActions: (show: boolean) => void
-  showMoreActionsRef: React.RefObject<HTMLSpanElement>
+  showMoreActionsRef: React.RefObject<HTMLSpanElement | null>
 }) {
   const {
     email,
