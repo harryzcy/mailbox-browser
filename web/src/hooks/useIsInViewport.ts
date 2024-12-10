@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 
 export default function useIsInViewport<Element extends HTMLElement>(
-  ref: React.RefObject<Element>
+  ref: React.RefObject<Element | null>
 ) {
   const [isIntersecting, setIsIntersecting] = useState(false)
 
