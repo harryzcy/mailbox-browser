@@ -28,7 +28,7 @@
     "@radix-ui/react-toast": "1.2.3",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
-    "html-react-parser": "5.2.0",
+    "html-react-parser": "5.2.1",
     "lexical": "0.21.0",
     "lucide-react": "0.468.0",
     "react": "19.0.0",
