@@ -36,7 +36,7 @@
     "react-error-boundary": "4.1.2",
     "react-router": "7.0.2",
     "tailwind-merge": "2.5.5",
-    "tailwindcss": "3.4.16",
+    "tailwindcss": "3.4.17",
     "tailwindcss-animate": "1.0.7",
     "typescript-eslint": "8.18.1",
     "yjs": "13.6.20"
