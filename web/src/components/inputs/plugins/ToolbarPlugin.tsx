@@ -40,6 +40,7 @@ import {
   $setBlocksType
 } from '@lexical/selection'
 import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils'
+import DOMPurify from 'dompurify'
 import {
   $createParagraphNode,
   $getNodeByKey,
@@ -262,7 +263,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
         <>
           <div className="link-input block w-full">
             <a
-              href={linkUrl}
+              href={DOMPurify.sanitize(linkUrl)}
               target="_blank"
               rel="noopener noreferrer"
               className="mr-4 block overflow-hidden whitespace-nowrap text-blue-600 no-underline hover:underline"
