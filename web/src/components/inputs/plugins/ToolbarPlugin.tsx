@@ -64,7 +64,7 @@ import {
   useState
 } from 'react'
 import { createPortal } from 'react-dom'
-
+import DOMPurify from 'dompurify'
 import Bars3BottomCenterIcon from 'components/inputs/icons/Bars3BottomCenterIcon'
 import BoldIcon from 'components/inputs/icons/BoldIcon'
 import ItalicIcon from 'components/inputs/icons/ItalicIcon'
@@ -262,7 +262,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
         <>
           <div className="link-input block w-full">
             <a
-              href={linkUrl}
+              href={DOMPurify.sanitize(linkUrl)}
               target="_blank"
               rel="noopener noreferrer"
               className="mr-4 block overflow-hidden whitespace-nowrap text-blue-600 no-underline hover:underline"
