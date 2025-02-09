@@ -40,6 +40,7 @@ import {
   $setBlocksType
 } from '@lexical/selection'
 import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils'
+import DOMPurify from 'dompurify'
 import {
   $createParagraphNode,
   $getNodeByKey,
@@ -64,7 +65,7 @@ import {
   useState
 } from 'react'
 import { createPortal } from 'react-dom'
-import DOMPurify from 'dompurify'
+
 import Bars3BottomCenterIcon from 'components/inputs/icons/Bars3BottomCenterIcon'
 import BoldIcon from 'components/inputs/icons/BoldIcon'
 import ItalicIcon from 'components/inputs/icons/ItalicIcon'
