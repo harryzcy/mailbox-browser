@@ -275,7 +275,7 @@ const parseAddress = (
   }
   if (countSubstring(address, '<') == 1 && countSubstring(address, '>') == 1) {
     displayName = address.split('<')[0].trim()
-    email = address.split('<')[1].replace('>', '').trim()
+    email = address.split('<')[1].replaceAll('>', '').trim()
 
     if (displayName.startsWith('"') && displayName.endsWith('"')) {
       displayName = displayName.slice(1, -1)
