@@ -75,7 +75,10 @@ jobs:
 
   docker:
     name: Docker Build
-    runs-on: ubuntu-24.04
+    runs-on: ${{ contains(matrix.platforms, 'arm64') && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    strategy:
+      matrix:
+        platforms: [linux/amd64, linux/arm64/v8]
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
@@ -121,5 +124,5 @@ jobs:
             BUILD_DATE=${{ env.BUILD_DATE }}
             BUILD_COMMIT=${{ env.BUILD_COMMIT }}
             BUILD_VERSION=${{ env.BUILD_VERSION }}
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: ${{ matrix.platforms }}
           push: false
