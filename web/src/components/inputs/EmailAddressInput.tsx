@@ -49,7 +49,7 @@ export default function EmailAddressInput(props: EmailAddressInputProps) {
                 removeEmail(address)
               }}
             >
-              <XMarkIcon className="h-4 w-4" />
+              <XMarkIcon className="size-4" />
             </span>
           </span>
         )

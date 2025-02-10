@@ -77,7 +77,7 @@ export default function Root() {
                 setSidebarOnMobile(true)
               }}
             >
-              <Bars3Icon className="h-4 w-4 dark:text-white" />
+              <Bars3Icon className="size-4 dark:text-white" />
             </span>
           </span>
         )}

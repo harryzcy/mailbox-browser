@@ -63,7 +63,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         <span className="h-full flex items-center">
           <div
             className={
-              'h-4 w-4 border rounded ' +
+              'size-4 border rounded ' +
               (selected
                 ? 'border-neutral-900 dark:border-neutral-300'
                 : 'border-neutral-300 dark:border-neutral-500')

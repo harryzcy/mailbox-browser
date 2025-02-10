@@ -281,7 +281,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
                 setEditMode(true)
               }}
             >
-              <PencilSquareIcon className="h-4 w-4 text-neutral-500" />
+              <PencilSquareIcon className="size-4 text-neutral-500" />
             </div>
           </div>
         </>
@@ -507,7 +507,7 @@ function BlockOptionsDropdownList({
             className="min-w-32 flex shrink-0 flex-row content-center rounded-md p-2 hover:bg-neutral-200 dark:hover:bg-neutral-500"
             onClick={format}
           >
-            <span className="mr-2 h-4 w-4 self-center">{element}</span>
+            <span className="mr-2 size-4 self-center">{element}</span>
             <span className="flex w-48 flex-1 leading-5">{blockName}</span>
           </button>
         )
@@ -659,7 +659,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
       >
         <span>Send</span>
         <span>
-          <PaperAirplaneIcon className="h-4 w-4 self-center" />
+          <PaperAirplaneIcon className="size-4 self-center" />
         </span>
       </button>
 
@@ -673,7 +673,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         className="flex rounded-md p-2.5 enabled:hover:bg-neutral-300 disabled:cursor-not-allowed disabled:opacity-40 dark:enabled:hover:bg-neutral-600"
         aria-label="Undo"
       >
-        <ArrowUturnLeftIcon className="h-4 w-4 self-center" />
+        <ArrowUturnLeftIcon className="size-4 self-center" />
       </button>
       <button
         disabled={!canRedo}
@@ -683,7 +683,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         className="flex rounded-md p-2.5 enabled:hover:bg-neutral-300 disabled:cursor-not-allowed disabled:opacity-40 dark:enabled:hover:bg-neutral-600"
         aria-label="Redo"
       >
-        <ArrowUturnRightIcon className="h-4 w-4 self-center" />
+        <ArrowUturnRightIcon className="size-4 self-center" />
       </button>
       <Divider />
       {supportedBlockTypes.has(blockType) && (
@@ -695,13 +695,13 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             }}
             aria-label="Formatting Options"
           >
-            <span className="h-4 w-4">
+            <span className="size-4">
               {blockTypeToIcon[blockType as BlockType]}
             </span>
             <span className="ml-2 h-5 w-16 flex-1 text-left text-sm leading-5 text-inherit">
               {blockTypeToBlockName[blockType as BlockType]}
             </span>
-            <ChevronDownIcon className="h-4 w-4" />
+            <ChevronDownIcon className="size-4" />
           </button>
           {showBlockOptionsDropDown &&
             createPortal(
@@ -724,7 +724,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             options={codeLanguges}
             value={codeLanguage}
           />
-          <ChevronDownIcon className="-ml-5 h-4 w-4 self-center" />
+          <ChevronDownIcon className="-ml-5 size-4 self-center" />
         </span>
       ) : (
         <>
@@ -738,7 +738,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             }
             aria-label="Format Bold"
           >
-            <BoldIcon className="h-4 w-4 self-center" />
+            <BoldIcon className="size-4 self-center" />
           </button>
           <button
             onClick={() => {
@@ -750,7 +750,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             }
             aria-label="Format Italics"
           >
-            <ItalicIcon className="h-4 w-4 self-center" />
+            <ItalicIcon className="size-4 self-center" />
           </button>
           <button
             onClick={() => {
@@ -762,7 +762,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             }
             aria-label="Format Underline"
           >
-            <UnderlineIcon className="h-4 w-4 self-center" />
+            <UnderlineIcon className="size-4 self-center" />
           </button>
           <button
             onClick={() => {
@@ -774,7 +774,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             }
             aria-label="Format Strikethrough"
           >
-            <StrikeThroughIcon className="h-4 w-4 self-center" />
+            <StrikeThroughIcon className="size-4 self-center" />
           </button>
           <button
             onClick={() => {
@@ -786,7 +786,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             }
             aria-label="Insert Code"
           >
-            <CodeBracketIcon className="h-4 w-4 self-center" />
+            <CodeBracketIcon className="size-4 self-center" />
           </button>
           <button
             onClick={insertLink}
@@ -796,7 +796,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             }
             aria-label="Insert Link"
           >
-            <LinkIcon className="h-4 w-4 self-center" />
+            <LinkIcon className="size-4 self-center" />
           </button>
           {isLink &&
             createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
@@ -808,7 +808,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             className="flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600"
             aria-label="Left Align"
           >
-            <Bars3BottomLeftIcon className="h-4 w-4 self-center" />
+            <Bars3BottomLeftIcon className="size-4 self-center" />
           </button>
           <button
             onClick={() => {
@@ -817,7 +817,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             className="flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600"
             aria-label="Center Align"
           >
-            <Bars3BottomCenterIcon className="h-4 w-4 self-center" />
+            <Bars3BottomCenterIcon className="size-4 self-center" />
           </button>
           <button
             onClick={() => {
@@ -826,7 +826,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             className="flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600"
             aria-label="Right Align"
           >
-            <Bars3BottomRightIcon className="h-4 w-4 self-center" />
+            <Bars3BottomRightIcon className="size-4 self-center" />
           </button>
           <button
             onClick={() => {
@@ -835,7 +835,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             className="flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600"
             aria-label="Justify Align"
           >
-            <Bars3Icon className="h-4 w-4 self-center" />
+            <Bars3Icon className="size-4 self-center" />
           </button>{' '}
         </>
       )}
@@ -847,7 +847,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         className="ml-auto cursor-pointer rounded-md p-2.5 align-middle hover:bg-red-300 dark:hover:bg-red-600"
         aria-label="Trash"
       >
-        <TrashIcon className="h-4 w-4 self-center" />
+        <TrashIcon className="size-4 self-center" />
       </button>
     </div>
   )

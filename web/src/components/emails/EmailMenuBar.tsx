@@ -73,7 +73,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
               className="p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
               onClick={handleBack}
             >
-              <ChevronLeftIcon className="h-5 w-5" />
+              <ChevronLeftIcon className="size-5" />
             </span>
             <div className="flex items-center">
               <ActionBar
@@ -142,7 +142,7 @@ function ComposeButton() {
       onClick={handleCreate}
     >
       <span>
-        <EnvelopeIcon className="h-5 w-5 text-sky-800" />
+        <EnvelopeIcon className="size-5 text-sky-800" />
       </span>
       <span className="text-bold font-medium text-sky-900">Compose</span>
     </span>
@@ -179,19 +179,19 @@ function ActionBar(props: {
         className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
         onClick={handleDelete}
       >
-        <TrashIcon className="h-5 w-5" />
+        <TrashIcon className="size-5" />
       </span>
       <span
         className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
         onClick={handleRead}
       >
-        <EnvelopeIcon className="h-5 w-5" />
+        <EnvelopeIcon className="size-5" />
       </span>
       <span
         className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
         onClick={handleUnread}
       >
-        <EnvelopeOpenIcon className="h-5 w-5" />
+        <EnvelopeOpenIcon className="size-5" />
       </span>
       <span className="inline-flex h-1/2 w-2.5">
         <span className="m-auto block h-full w-[1px] bg-gray-300"></span>
@@ -203,7 +203,7 @@ function ActionBar(props: {
             setShowPluginMenu(!showPluginMenu)
           }}
         >
-          <EllipsisVerticalIcon className="h-5 w-5" />
+          <EllipsisVerticalIcon className="size-5" />
         </span>
         {showPluginMenu && (
           <div className="absolute left-0 top-9 w-40 rounded-md border bg-white dark:bg-neutral-800">
@@ -251,7 +251,7 @@ function YearMonthNavigation(props: {
         }
         onClick={goPrevious}
       >
-        <span className="h-5 w-5">
+        <span className="size-5">
           <ChevronLeftIcon />
         </span>
       </span>
@@ -269,7 +269,7 @@ function YearMonthNavigation(props: {
         }
         onClick={goNext}
       >
-        <span className="h-5 w-5">
+        <span className="size-5">
           <ChevronRightIcon />
         </span>
       </span>
