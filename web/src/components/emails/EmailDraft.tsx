@@ -45,13 +45,13 @@ export function EmailDraft(props: EmailDraftProps) {
               className="-my-2 -mr-1 cursor-pointer rounded-full p-1.5 hover:bg-neutral-300 dark:hover:bg-neutral-600"
               onClick={handleMinimize}
             >
-              <MinusIcon className="h-4 w-4" />
+              <MinusIcon className="size-4" />
             </span>
             <span
               className="-my-2 -mr-1 cursor-pointer rounded-full p-1.5 hover:bg-neutral-300 dark:hover:bg-neutral-600"
               onClick={handleClose}
             >
-              <XMarkIcon className="h-4 w-4" />
+              <XMarkIcon className="size-4" />
             </span>
           </span>
         </div>

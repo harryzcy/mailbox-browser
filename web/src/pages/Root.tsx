@@ -56,7 +56,7 @@ export default function Root() {
         <div
           className={
             'h-screen max-w-full flex-1 pt-4 md:px-8 md:pt-5 ' +
-            (sidebarOnMobile ? 'blur-sm' : '')
+            (sidebarOnMobile ? 'blur-xs' : '')
           }
         >
           <Outlet />
@@ -77,7 +77,7 @@ export default function Root() {
                 setSidebarOnMobile(true)
               }}
             >
-              <Bars3Icon className="h-4 w-4 dark:text-white" />
+              <Bars3Icon className="size-4 dark:text-white" />
             </span>
           </span>
         )}

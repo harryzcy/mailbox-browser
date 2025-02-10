@@ -49,7 +49,7 @@ const Sidebar = forwardRef<HTMLElement>(function Sidebar(props, ref) {
                   }`
                 }
               >
-                <span className="h-4 w-4">{icon}</span>
+                <span className="size-">{icon}</span>
                 <span>{name}</span>
               </NavLink>
             )

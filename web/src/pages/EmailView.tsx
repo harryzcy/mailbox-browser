@@ -291,7 +291,7 @@ export default function EmailView() {
                       <span className="text-red-300">[Draft]</span>
                       <span className="text-neutral-500 dark:text-neutral-300">
                         <span
-                          className="inline-flex h-8 w-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                          className="inline-flex size-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
                           onClick={() => {
                             if (thread.draft) openReply(thread.draft)
                           }}
@@ -364,7 +364,7 @@ function EmailBlock(props: EmailBlockProps) {
         {/* header info for emails */}
         <div className="preflight flex items-start">
           <div className="dark:text-neutral-300 w-full">
-            <div className="grid mb-0.5 md:md-0 grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content,1fr,min-content] justify-between items-center">
+            <div className="grid mb-0.5 md:md-0 grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content_1fr_min-content] justify-between items-center">
               <div className="md:whitespace-nowrap">{fromEmail.name}</div>
               {fromEmail.address && (
                 <div className="col-span-2 md:col-span-1 -mt-1 md:mt-0 break-words">
@@ -453,7 +453,7 @@ function EmailActions(props: {
   return (
     <span className="relative ml-2 md:ml-4 inline-flex">
       <span
-        className="inline-flex h-6 w-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
           startReply(email)
         }}
@@ -461,7 +461,7 @@ function EmailActions(props: {
         <ArrowUturnLeftIcon />
       </span>
       <span
-        className="inline-flex h-6 w-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
           startForward(email)
         }}
@@ -469,7 +469,7 @@ function EmailActions(props: {
         <ArrowUturnRightIcon />
       </span>
       <span
-        className="inline-flex h-6 w-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
           setShowMoreActions(!showMoreActions)
         }}
