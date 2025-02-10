@@ -22,6 +22,7 @@ jobs:
     uses: harryzcy/github-actions/.github/workflows/go.yml@main
     with:
       working-directory: bff
+      latest: 1
 
   jest-test:
     name: Jest Tests

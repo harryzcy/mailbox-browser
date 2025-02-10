@@ -1,6 +1,8 @@
 module github.com/harryzcy/mailbox-browser/bff
 
-go 1.22
+go 1.23
+
+toolchain go1.23.6
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.36.1
