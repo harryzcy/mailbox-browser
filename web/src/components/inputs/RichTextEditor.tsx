@@ -102,7 +102,7 @@ export default function RichTextEditor(props: RichTextEditorProps) {
           <RichTextPlugin
             contentEditable={
               <ContentEditable
-                className="relative min-h-full resize-none p-3 caret-inherit outline-none"
+                className="relative min-h-full resize-none p-3 caret-inherit outline-hidden"
                 style={{
                   tabSize: 1
                 }}

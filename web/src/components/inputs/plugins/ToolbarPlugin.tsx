@@ -234,12 +234,12 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
   return (
     <div
       ref={editorRef}
-      className="absolute z-50 -mt-[6px] w-full max-w-[300px] rounded-md bg-white p-2 opacity-0 shadow transition-opacity duration-300"
+      className="absolute z-50 -mt-[6px] w-full max-w-[300px] rounded-md bg-white p-2 opacity-0 shadow-2xs transition-opacity duration-300"
     >
       {isEditMode ? (
         <input
           ref={inputRef}
-          className="link-input block w-full outline-none"
+          className="link-input block w-full outline-hidden"
           value={linkUrl}
           onChange={(event) => {
             setLinkUrl(event.target.value)
@@ -719,7 +719,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
       {blockType === 'code' ? (
         <span className="flex">
           <Select
-            className="w-32 cursor-pointer select-none rounded-md bg-transparent p-2 align-middle text-sm capitalize text-neutral-500 outline-none dark:text-neutral-200 dark:hover:bg-neutral-600"
+            className="w-32 cursor-pointer select-none rounded-md bg-transparent p-2 align-middle text-sm capitalize text-neutral-500 outline-hidden dark:text-neutral-200 dark:hover:bg-neutral-600"
             onChange={onCodeLanguageSelect}
             options={codeLanguges}
             value={codeLanguage}

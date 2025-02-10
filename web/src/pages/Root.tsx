@@ -56,7 +56,7 @@ export default function Root() {
         <div
           className={
             'h-screen max-w-full flex-1 pt-4 md:px-8 md:pt-5 ' +
-            (sidebarOnMobile ? 'blur-sm' : '')
+            (sidebarOnMobile ? 'blur-xs' : '')
           }
         >
           <Outlet />

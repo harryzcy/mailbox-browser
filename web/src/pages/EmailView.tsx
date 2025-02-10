@@ -364,7 +364,7 @@ function EmailBlock(props: EmailBlockProps) {
         {/* header info for emails */}
         <div className="preflight flex items-start">
           <div className="dark:text-neutral-300 w-full">
-            <div className="grid mb-0.5 md:md-0 grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content,1fr,min-content] justify-between items-center">
+            <div className="grid mb-0.5 md:md-0 grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content_1fr_min-content] justify-between items-center">
               <div className="md:whitespace-nowrap">{fromEmail.name}</div>
               {fromEmail.address && (
                 <div className="col-span-2 md:col-span-1 -mt-1 md:mt-0 break-words">
