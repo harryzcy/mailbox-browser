@@ -26,7 +26,7 @@
     "@lexical/table": "0.27.1",
     "@lexical/utils": "0.27.1",
     "@radix-ui/react-toast": "1.2.6",
-    "@tailwindcss/postcss": "4.0.11",
+    "@tailwindcss/postcss": "4.0.12",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "dompurify": "3.2.4",
@@ -38,7 +38,7 @@
     "react-error-boundary": "5.0.0",
     "react-router": "7.3.0",
     "tailwind-merge": "3.0.2",
-    "tailwindcss": "4.0.11",
+    "tailwindcss": "4.0.12",
     "tailwindcss-animate": "1.0.7",
     "typescript-eslint": "8.26.0",
     "yjs": "13.6.24"
