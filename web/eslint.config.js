@@ -18,7 +18,6 @@ export default tsEslint.config(
   eslint.configs.recommended,
   ...tsEslint.configs.strictTypeChecked,
   ...tsEslint.configs.stylisticTypeChecked,
-  // @ts-ignore
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat['jsx-runtime'],
   {
