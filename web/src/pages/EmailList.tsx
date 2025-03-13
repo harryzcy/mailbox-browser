@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import { toast } from 'sonner'
 
 import EmailMenuBar from 'components/emails/EmailMenuBar'
 import EmailTableView from 'components/emails/EmailTableView'
-import { toast } from 'components/ui/use-toast'
 
 import { useOutsideClick } from 'hooks/useOutsideClick'
 
@@ -75,9 +75,7 @@ export default function EmailList() {
       setNextCursor(data.nextCursor)
     } catch (e) {
       console.error('Failed to load emails', e)
-      toast({
-        title: 'Failed to load emails'
-      })
+      toast.error('Failed to load emails')
     }
   }
 
@@ -100,9 +98,7 @@ export default function EmailList() {
       setNextCursor(data.nextCursor)
     } catch (e) {
       console.error('Failed to load emails', e)
-      toast({
-        title: 'Failed to load emails'
-      })
+      toast.error('Failed to load emails')
     }
   }
 
@@ -129,9 +125,7 @@ export default function EmailList() {
       setNextCursor(data.nextCursor)
     } catch (e) {
       console.error('Failed to load emails', e)
-      toast({
-        title: 'Failed to load emails'
-      })
+      toast.error('Failed to load emails')
     }
   }
 
@@ -158,9 +152,7 @@ export default function EmailList() {
         await readEmail(email.messageID)
       } catch (e) {
         console.error('Failed to mark email as read', e)
-        toast({
-          title: 'Failed to mark email as read'
-        })
+        toast.error('Failed to mark email as read')
       }
     }
     setEmails(
@@ -185,9 +177,7 @@ export default function EmailList() {
         await unreadEmail(email.messageID)
       } catch (e) {
         console.error('Failed to mark email as unread', e)
-        toast({
-          title: 'Failed to mark email as unread'
-        })
+        toast.error('Failed to mark email as unread')
       }
     }
     setEmails(

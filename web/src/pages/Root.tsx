@@ -2,7 +2,7 @@ import { Bars3Icon } from '@heroicons/react/24/outline'
 import { useReducer, useRef, useState } from 'react'
 import { Outlet } from 'react-router'
 
-import { Toaster } from '@ui/toaster'
+import { Toaster } from '@ui/sonner'
 
 import Sidebar from 'components/Sidebar'
 
