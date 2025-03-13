@@ -1,4 +1,3 @@
-// @ts-check
 import eslint from '@eslint/js'
 import reactPlugin from 'eslint-plugin-react'
 import tsEslint from 'typescript-eslint'
