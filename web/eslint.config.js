@@ -25,7 +25,7 @@ export default tsEslint.config(
       parserOptions: {
         project: true,
         tsconfigRootDir: import.meta.dirname,
-        ecmaVersion: 2021
+        ecmaVersion: 2024
       }
     },
     rules: {
