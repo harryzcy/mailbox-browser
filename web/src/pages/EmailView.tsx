@@ -7,8 +7,7 @@ import {
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Await, useLoaderData, useNavigate } from 'react-router'
-
-import { toast } from '@ui/use-toast'
+import { toast } from 'sonner'
 
 import { EmailDraft } from 'components/emails/EmailDraft'
 import EmailMenuBar from 'components/emails/EmailMenuBar'
@@ -166,9 +165,7 @@ export default function EmailView() {
         await readEmail(data.messageID)
       } catch (e) {
         console.error('Failed to mark email as read', e)
-        toast({
-          title: 'Failed to mark email as read'
-        })
+        toast.error('Failed to mark email as read')
       }
     }
   }
@@ -182,9 +179,7 @@ export default function EmailView() {
         await unreadEmail(data.messageID)
       } catch (e) {
         console.error('Failed to mark email as unread', e)
-        toast({
-          title: 'Failed to mark email as unread'
-        })
+        toast.error('Failed to mark email as unread')
       }
     }
   }
