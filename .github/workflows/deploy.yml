@@ -63,4 +63,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy --project-name mailbox-browser --branch ${{ steps.extract_branch.outputs.branch }} dist
           workingDirectory: cloudflare
-          wranglerVersion: "3"
+          wranglerVersion: "4"
