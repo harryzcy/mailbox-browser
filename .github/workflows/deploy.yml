@@ -25,6 +25,7 @@ jobs:
             api.cloudflare.com:443
             api.github.com:443
             github.com:443
+            nodejs.org:443
             objects.githubusercontent.com:443
             registry.npmjs.org:443
             sparrow.cloudflare.com:443
@@ -37,7 +38,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
-          node-version: 22
+          node-version: 23
           check-latest: true
 
       - name: Extract branch name
