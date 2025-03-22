@@ -20,14 +20,15 @@ jobs:
         with:
           disable-sudo: true
           disable-telemetry: true
-          egress-policy: block
-          allowed-endpoints: >
-            api.cloudflare.com:443
-            api.github.com:443
-            github.com:443
-            objects.githubusercontent.com:443
-            registry.npmjs.org:443
-            sparrow.cloudflare.com:443
+          egress-policy: audit
+          # egress-policy: block
+          # allowed-endpoints: >
+          #   api.cloudflare.com:443
+          #   api.github.com:443
+          #   github.com:443
+          #   objects.githubusercontent.com:443
+          #   registry.npmjs.org:443
+          #   sparrow.cloudflare.com:443
 
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
