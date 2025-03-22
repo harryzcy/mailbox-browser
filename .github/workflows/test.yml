@@ -50,6 +50,7 @@ jobs:
             github.com:443
             ingest.codecov.io:443
             keybase.io:443
+            nodejs.org:443
             registry.npmjs.org:443
             storage.googleapis.com:443
             uploader.codecov.io:443
