@@ -53,14 +53,16 @@ func LoadPluginConfigs() error {
 }
 
 // LoadPluginConfig loads a plugin config from a url.
-func LoadPluginConfig(client *http.Client, url string) (*Plugin, error) {
+func LoadPluginConfig(client *http.Client, url string) (plugin *Plugin, err error) {
 	resp, err := client.Get(url)
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
-
-	var plugin *Plugin
+	defer func() {
+		if closeErr := resp.Body.Close(); closeErr != nil {
+			err = closeErr
+		}
+	}()
 
 	err = json.NewDecoder(resp.Body).Decode(&plugin)
 	if err != nil {

@@ -94,7 +94,8 @@ func TestGetString(t *testing.T) {
 	v.Set("key", "value")
 	assert.Equal(t, "value", getString(v, "key", ""))
 
-	os.Setenv("key2", "value2")
+	err := os.Setenv("key2", "value2")
+	assert.NoError(t, err)
 	assert.Equal(t, "value2", getString(v, "key2", "key2"))
 }
 
@@ -103,10 +104,12 @@ func TestGetBool(t *testing.T) {
 	v.Set("key", true)
 	assert.True(t, getBool(v, "key", "", false))
 
-	os.Setenv("key2", "true")
+	err := os.Setenv("key2", "true")
+	assert.NoError(t, err)
 	assert.True(t, getBool(v, "key2", "key2", false))
 
-	os.Setenv("key3", "false")
+	err = os.Setenv("key3", "false")
+	assert.NoError(t, err)
 	assert.False(t, getBool(v, "key3", "key3", true))
 
 	assert.True(t, getBool(v, "key4", "key4", true))
