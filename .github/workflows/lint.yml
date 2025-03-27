@@ -31,7 +31,7 @@ jobs:
       working-directory: web
 
   eslint:
-    name: Prettier
+    name: ESLint
     uses: harryzcy/github-actions/.github/workflows/npm-lint.yml@main
     with:
       working-directory: web
