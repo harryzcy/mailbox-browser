@@ -71,7 +71,8 @@ func getEmails(ctx *gin.Context, emailIDs []string) (emails []types.Email, err e
 			return nil, err
 		}
 		defer func() {
-			if closeErr := resp.Body.Close(); closeErr != nil {
+			closeErr := resp.Body.Close()
+			if err == nil {
 				err = closeErr
 			}
 		}()

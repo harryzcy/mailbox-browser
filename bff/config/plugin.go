@@ -59,7 +59,8 @@ func LoadPluginConfig(client *http.Client, url string) (plugin *Plugin, err erro
 		return nil, err
 	}
 	defer func() {
-		if closeErr := resp.Body.Close(); closeErr != nil {
+		closeErr := resp.Body.Close()
+		if err == nil {
 			err = closeErr
 		}
 	}()
