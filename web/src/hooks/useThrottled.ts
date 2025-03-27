@@ -31,8 +31,8 @@ const useThrottled = <T>(
       lastTriggered.current = Date.now()
       setThrottledValue(value)
       cancel()
-    } else if (!timeoutRef.current) {
-      timeoutRef.current = setTimeout(() => {
+    } else {
+      timeoutRef.current ??= setTimeout(() => {
         remainingTime = getRemainingTime(lastTriggered.current, throttleMs)
 
         if (remainingTime === 0) {
