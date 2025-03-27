@@ -61,9 +61,7 @@ func findPluginByName(name string) *config.Plugin {
 	return nil
 }
 
-func getEmails(ctx *gin.Context, emailIDs []string) ([]types.Email, error) {
-	var emails []types.Email
-
+func getEmails(ctx *gin.Context, emailIDs []string) (emails []types.Email, err error) {
 	for _, emailID := range emailIDs {
 		resp, err := request.AWSRequest(ctx, request.Options{
 			Method: "GET",
@@ -72,7 +70,11 @@ func getEmails(ctx *gin.Context, emailIDs []string) ([]types.Email, error) {
 		if err != nil {
 			return nil, err
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if closeErr := resp.Body.Close(); closeErr != nil {
+				err = closeErr
+			}
+		}()
 
 		var email types.Email
 		err = json.NewDecoder(resp.Body).Decode(&email)
