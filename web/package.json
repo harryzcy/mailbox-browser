@@ -29,7 +29,7 @@
     "@tailwindcss/vite": "4.1.1",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
-    "dompurify": "3.2.4",
+    "dompurify": "3.2.5",
     "html-react-parser": "5.2.3",
     "lexical": "0.29.0",
     "lucide-react": "0.487.0",
