@@ -48,7 +48,7 @@ func TestLoad(t *testing.T) {
 	assert.Equal(t, "/static/index.html", IndexHTML)
 	assert.Equal(t, "us-west-2", AWSRegion)
 	assert.Equal(t, "example-key-id", AWSAccessKeyID)
-	assert.Equal(t, "example-secret-key", AWSSecretAccessKey)
+	assert.Equal(t, "example", AWSSecretAccessKey)
 	assert.Equal(t, "https://example.com", AWSAPIGatewayEndpoint)
 	assert.Equal(t, []string{"example.com", "example.org"}, EmailAddresses)
 	assert.True(t, ProxyEnable)

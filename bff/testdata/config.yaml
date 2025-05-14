@@ -1,7 +1,7 @@
 aws:
   region: us-west-2
   accessKeyID: example-key-id
-  secretAccessKey: example-secret-key
+  secretAccessKey: example
   apiGateway:
     apiID: app-id
     endpoint: https://example.com
