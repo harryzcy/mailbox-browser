@@ -26,7 +26,7 @@
     "@lexical/table": "0.31.2",
     "@lexical/utils": "0.31.2",
     "@radix-ui/react-toast": "1.2.14",
-    "@tailwindcss/vite": "4.1.7",
+    "@tailwindcss/vite": "4.1.8",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "dompurify": "3.2.6",
@@ -40,7 +40,7 @@
     "react-router": "7.6.1",
     "sonner": "2.0.3",
     "tailwind-merge": "3.3.0",
-    "tailwindcss": "4.1.7",
+    "tailwindcss": "4.1.8",
     "tailwindcss-animate": "1.0.7",
     "typescript-eslint": "8.33.0",
     "yjs": "13.6.27"
