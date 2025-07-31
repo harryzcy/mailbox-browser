@@ -1,4 +1,4 @@
-package misc
+package miscendpoint
 
 import (
 	"github.com/gin-gonic/gin"
