@@ -11,7 +11,7 @@ import (
 	"github.com/harryzcy/mailbox-browser/bff/idgen"
 	"github.com/harryzcy/mailbox-browser/bff/request"
 	"github.com/harryzcy/mailbox-browser/bff/transport/rest/ginutil"
-	"github.com/harryzcy/mailbox-browser/bff/types"
+	core "github.com/harryzcy/mailbox-browser/bff/types"
 )
 
 type InvokeRequest struct {
@@ -61,7 +61,7 @@ func findPluginByName(name string) *config.Plugin {
 	return nil
 }
 
-func getEmails(ctx *gin.Context, emailIDs []string) (emails []types.Email, err error) {
+func getEmails(ctx *gin.Context, emailIDs []string) (emails []core.Email, err error) {
 	for _, emailID := range emailIDs {
 		resp, err := request.AWSRequest(ctx, request.Options{
 			Method: "GET",
@@ -77,7 +77,7 @@ func getEmails(ctx *gin.Context, emailIDs []string) (emails []types.Email, err e
 			}
 		}()
 
-		var email types.Email
+		var email core.Email
 		err = json.NewDecoder(resp.Body).Decode(&email)
 		if err != nil {
 			return nil, err
@@ -89,14 +89,14 @@ func getEmails(ctx *gin.Context, emailIDs []string) (emails []types.Email, err e
 	return emails, nil
 }
 
-func invokePlugin(client http.Client, plugin *config.Plugin, emails []types.Email) error {
+func invokePlugin(client http.Client, plugin *config.Plugin, emails []core.Email) error {
 	if len(emails) == 0 {
 		return nil
 	}
 
-	payload := types.PluginWebhookPayload{
+	payload := core.PluginWebhookPayload{
 		ID: idgen.NewID(),
-		Hook: types.HookInfo{
+		Hook: core.HookInfo{
 			Name: plugin.Name,
 		},
 	}

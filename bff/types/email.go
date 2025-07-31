@@ -1,4 +1,4 @@
-package types
+package core
 
 type Email struct {
 	MessageID     string   `json:"messageID"`
