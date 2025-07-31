@@ -8,10 +8,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/harryzcy/mailbox-browser/bff/config"
+	"github.com/harryzcy/mailbox-browser/bff/core"
 	"github.com/harryzcy/mailbox-browser/bff/idgen"
 	"github.com/harryzcy/mailbox-browser/bff/request"
 	"github.com/harryzcy/mailbox-browser/bff/transport/rest/ginutil"
-	core "github.com/harryzcy/mailbox-browser/bff/types"
 )
 
 type InvokeRequest struct {
