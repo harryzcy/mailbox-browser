@@ -12,7 +12,7 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@adobe/css-tools": "4.4.3",
+    "@adobe/css-tools": "4.4.4",
     "@heroicons/react": "2.2.0",
     "@lexical/clipboard": "0.34.0",
     "@lexical/code": "0.34.0",
