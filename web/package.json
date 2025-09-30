@@ -46,7 +46,7 @@
     "yjs": "13.6.27"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "6.8.0",
+    "@testing-library/jest-dom": "6.9.0",
     "@testing-library/react": "16.3.0",
     "@trivago/prettier-plugin-sort-imports": "5.2.2",
     "@types/jest": "30.0.0",
