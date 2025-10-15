@@ -1,4 +1,4 @@
-FROM golang:1.25.3@sha256:7d73c4c57127279b23f3f70cbb368bf0fe08f7ab32af5daf5764173d25e78b74 AS bff-builder
+FROM golang:1.25.3@sha256:2e3aca25948111e2a3e4acd66b5c5abebecdea6a434eead036152631e4d0b3a0 AS bff-builder
 
 ARG BUILD_VERSION
 ARG BUILD_COMMIT
