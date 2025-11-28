@@ -42,7 +42,7 @@
     "tailwind-merge": "3.4.0",
     "tailwindcss": "4.1.17",
     "tailwindcss-animate": "1.0.7",
-    "typescript-eslint": "8.47.0",
+    "typescript-eslint": "8.48.0",
     "yjs": "13.6.27"
   },
   "devDependencies": {
@@ -52,8 +52,8 @@
     "@types/jest": "30.0.0",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
-    "@typescript-eslint/eslint-plugin": "8.47.0",
-    "@typescript-eslint/parser": "8.47.0",
+    "@typescript-eslint/eslint-plugin": "8.48.0",
+    "@typescript-eslint/parser": "8.48.0",
     "@vitejs/plugin-react": "5.1.1",
     "eslint": "9.39.1",
     "eslint-config-prettier": "10.1.8",
