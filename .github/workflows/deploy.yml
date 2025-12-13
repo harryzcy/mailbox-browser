@@ -55,6 +55,13 @@ jobs:
         run: |
           make build-cloudflare
 
+      - name: Get Wrangler Version
+        id: get_wrangler_version
+        run: |
+          cd cloudflare
+          WRANGLER_VERSION=$(npm list wrangler --depth=0 | grep wrangler | awk -F@ '{print $2}')
+          echo "wrangler_version=$WRANGLER_VERSION" >> "$GITHUB_OUTPUT"
+
       - name: Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
         if: ${{ github.actor != 'dependabot[bot]' }}
@@ -63,4 +70,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy --project-name mailbox-browser --branch ${{ steps.extract_branch.outputs.branch }} dist
           workingDirectory: cloudflare
-          wranglerVersion: "4"
+          wranglerVersion: ${{ steps.get_wrangler_version.outputs.wrangler_version }}
