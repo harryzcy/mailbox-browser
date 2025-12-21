@@ -15,7 +15,7 @@ interface EmailTableViewProps {
 }
 
 export default function EmailTableView(props: EmailTableViewProps) {
-  const { emails = [], toggleSelected, loadMoreEmails } = props
+  const { emails, toggleSelected, loadMoreEmails } = props
 
   const loadMoreRef = useRef<HTMLDivElement>(null)
   const shouldLoadMore = useIsInViewport(loadMoreRef)
