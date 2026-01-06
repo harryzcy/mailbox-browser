@@ -43,7 +43,7 @@
     "tailwindcss": "4.1.18",
     "tailwindcss-animate": "1.0.7",
     "typescript-eslint": "8.51.0",
-    "yjs": "13.6.28"
+    "yjs": "13.6.29"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "6.9.1",
