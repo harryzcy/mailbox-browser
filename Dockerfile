@@ -17,7 +17,7 @@ RUN set -ex && \
   -w -s" \
   -o /bin/bff
 
-FROM --platform=$BUILDPLATFORM node:25.4.0-alpine3.23@sha256:d1cdf008963e1627f47c4426c33481e538190300ad2514e9f8d5c75755888521 AS web-builder
+FROM --platform=$BUILDPLATFORM node:25.5.0-alpine3.23@sha256:260b19691dc84090cf0c7773a38d2bce92e1aa86a184868eaed85675053e8c8e AS web-builder
 
 ARG BUILD_VERSION
 
