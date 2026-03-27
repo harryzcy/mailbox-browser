@@ -17,9 +17,9 @@ import { PaperAirplaneIcon, TrashIcon } from '@heroicons/react/24/outline'
 import {
   $createCodeNode,
   $isCodeNode,
-  getCodeLanguages,
   getDefaultCodeLanguage
 } from '@lexical/code'
+import { getCodeLanguages } from '@lexical/code-prism'
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link'
 import {
   $isListNode,
