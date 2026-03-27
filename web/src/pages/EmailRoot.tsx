@@ -48,11 +48,11 @@ interface EmailRootProps {
 }
 
 export default function EmailRoot(props: EmailRootProps) {
-  const [count, setCount] = useState<number>(0)
-  const [hasMore, setHasMore] = useState<boolean>(true)
+  const [count, setCount] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
   const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
   const [emails, setEmails] = useState<EmailInfo[]>([])
-  const [scrollYPosition, setScrollYPosition] = useState<number>(0)
+  const [scrollYPosition, setScrollYPosition] = useState(0)
 
   const [loadingState, setLoadingState] = useState<
     'idle' | 'loading' | 'loaded' | 'error'
@@ -68,8 +68,8 @@ export default function EmailRoot(props: EmailRootProps) {
   }, [props.type])
 
   const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
-  const [year, setYear] = useState<number>(initialYear)
-  const [month, setMonth] = useState<number>(initialMonth)
+  const [year, setYear] = useState(initialYear)
+  const [month, setMonth] = useState(initialMonth)
 
   const loadEmails = async (input: {
     year?: number

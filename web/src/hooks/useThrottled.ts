@@ -13,8 +13,8 @@ const useThrottled = <T>(
   value: T,
   throttleMs: number = DEFAULT_THROTTLE_MS
 ) => {
-  const [throttledValue, setThrottledValue] = useState<T>(value)
-  const lastTriggered = useRef<number>(Date.now())
+  const [throttledValue, setThrottledValue] = useState(value)
+  const lastTriggered = useRef(Date.now())
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const cancel = useCallback(() => {
