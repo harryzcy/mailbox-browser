@@ -52,7 +52,7 @@ export default function EmailList() {
     }
   }
 
-  const [hasPrevious, setHasPrevious] = useState<boolean>(false)
+  const [hasPrevious, setHasPrevious] = useState(false)
 
   const goPrevious = async () => {
     if (!hasPrevious) return

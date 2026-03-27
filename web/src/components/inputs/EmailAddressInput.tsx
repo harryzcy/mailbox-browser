@@ -10,7 +10,7 @@ export interface EmailAddressInputProps {
 export default function EmailAddressInput(props: EmailAddressInputProps) {
   const { addresses, placeholder, handleChange } = props
 
-  const [stash, setStash] = useState<string>('')
+  const [stash, setStash] = useState('')
 
   const removeEmail = (email: string) => {
     const emails = addresses.filter((address) => address !== email)
