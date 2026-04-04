@@ -33,7 +33,21 @@ export default defineConfig({
     tsconfigPaths: true
   },
   test: {
-    globals: true,
-    environment: 'happy-dom'
+    projects: [
+      {
+        extends: true,
+        test: {
+          environment: 'happy-dom',
+          include: ['src/**/*.test.tsx']
+        }
+      },
+      {
+        extends: true,
+        test: {
+          environment: 'node',
+          include: ['src/**/*.test.ts']
+        }
+      }
+    ]
   }
 })
