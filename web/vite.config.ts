@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
@@ -20,7 +21,6 @@ proxyRoutes.forEach((route) => {
   }
 })
 
-// https://vitejs.dev/config/
 export default defineConfig({
   server: {
     proxy
@@ -31,5 +31,10 @@ export default defineConfig({
       '@ui': path.resolve(__dirname, './src/components/ui')
     },
     tsconfigPaths: true
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './vitest-setup.js'
   }
 })
