@@ -59,7 +59,7 @@
     "eslint": "9.39.4",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-react": "7.37.5",
-    "jest-environment-jsdom": "30.3.0",
+    "happy-dom": "20.8.9",
     "jiti": "2.6.1",
     "prettier": "3.8.1",
     "prettier-plugin-tailwindcss": "0.7.2",
