@@ -24,8 +24,8 @@ jobs:
       working-directory: bff
       latest: 1
 
-  jest-test:
-    name: Jest Tests
+  vitest-test:
+    name: Vitest Tests
     runs-on: ubuntu-24.04
     strategy:
       matrix:
