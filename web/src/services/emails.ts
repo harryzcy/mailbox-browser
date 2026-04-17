@@ -28,6 +28,7 @@ export interface ListEmailsResponse {
   items: EmailInfo[]
   hasMore: boolean
   nextCursor?: string
+  loadingState?: 'idle' | 'loading' | 'loaded' | 'error'
 }
 
 function generateListEmailsParamString(props: ListEmailsProps): string {
@@ -53,7 +54,7 @@ function generateListEmailsParamString(props: ListEmailsProps): string {
   return params.toString()
 }
 
-export async function useEmails(props: ListEmailsProps) {
+export function useEmails(props: ListEmailsProps): Promise<ListEmailsResponse> {
   const { data, error, isLoading } = useSWR(
     ['emails', props],
     async () => {
@@ -77,9 +78,9 @@ export async function useEmails(props: ListEmailsProps) {
   }
 
   return {
-    emails: data?.items,
-    count: data?.count,
-    hasMore: data?.hasMore,
+    items: data?.items || [],
+    count: data?.count || 0,
+    hasMore: data?.hasMore || false,
     nextCursor: data?.nextCursor,
     loadingState
   }
