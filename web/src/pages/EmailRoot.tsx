@@ -58,15 +58,6 @@ export default function EmailRoot(props: EmailRootProps) {
     'idle' | 'loading' | 'loaded' | 'error'
   >('idle')
 
-  useEffect(() => {
-    const abortController = new AbortController()
-    setLoadingState('loading')
-    void loadAndSetEmails()
-    return () => {
-      abortController.abort()
-    }
-  }, [props.type])
-
   const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
   const [year, setYear] = useState(initialYear)
   const [month, setMonth] = useState(initialMonth)
@@ -95,17 +86,6 @@ export default function EmailRoot(props: EmailRootProps) {
 
     setLoadingState('loaded')
     return data
-  }
-
-  const loadAndSetEmails = async (nextCursor?: string) => {
-    setLoadingState('loading')
-    const data = await loadEmails({
-      nextCursor
-    })
-    setEmails(data.items)
-    setCount(data.count)
-    setHasMore(data.hasMore)
-    setNextCursor(data.nextCursor)
   }
 
   const removeEmailFromList = (messageID: string) => {
