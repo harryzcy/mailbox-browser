@@ -2,7 +2,7 @@
  * EmailRoot.tsx
  * This is the root component for inbox, draft, and sent pages.
  */
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router'
 
 import DraftEmailsTabs from 'components/emails/DraftEmailsTabs'
@@ -62,50 +62,42 @@ export default function EmailRoot(props: EmailRootProps) {
   const [year, setYear] = useState(initialYear)
   const [month, setMonth] = useState(initialMonth)
 
-  const loadEmails = useCallback(
-    async (input: { year?: number; month?: number; nextCursor?: string }) => {
-      const { nextCursor } = input
+  const loadEmails = async (input: {
+    year?: number
+    month?: number
+    nextCursor?: string
+  }) => {
+    const { nextCursor } = input
 
-      const data = await listEmails({
-        type: props.type,
-        year: input.year ?? year,
-        month: input.month ?? month,
-        order: 'desc',
-        nextCursor
-      })
+    const data = await listEmails({
+      type: props.type,
+      year: input.year ?? year,
+      month: input.month ?? month,
+      order: 'desc',
+      nextCursor
+    })
 
-      if (input.year) {
-        setYear(input.year)
-      }
-      if (input.month) {
-        setMonth(input.month)
-      }
+    if (input.year) {
+      setYear(input.year)
+    }
+    if (input.month) {
+      setMonth(input.month)
+    }
 
-      setLoadingState('loaded')
-      return data
-    },
-    [props.type, year, month]
-  )
+    setLoadingState('loaded')
+    return data
+  }
 
-  const loadAndSetEmails = useCallback(
-    async (nextCursor?: string) => {
-      setLoadingState('loading')
-      try {
-        const data = await loadEmails({
-          nextCursor
-        })
-        setEmails(data.items)
-        setCount(data.count)
-        setHasMore(data.hasMore)
-        setNextCursor(data.nextCursor)
-        setLoadingState('loaded')
-      } catch (error) {
-        console.error('Error loading emails:', error)
-        setLoadingState('error')
-      }
-    },
-    [loadEmails]
-  )
+  const loadAndSetEmails = async (nextCursor?: string) => {
+    setLoadingState('loading')
+    const data = await loadEmails({
+      nextCursor
+    })
+    setEmails(data.items)
+    setCount(data.count)
+    setHasMore(data.hasMore)
+    setNextCursor(data.nextCursor)
+  }
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -114,7 +106,7 @@ export default function EmailRoot(props: EmailRootProps) {
     return () => {
       abortController.abort()
     }
-  }, [props.type, loadAndSetEmails])
+  }, [props.type])
 
   const removeEmailFromList = (messageID: string) => {
     setEmails(emails.filter((email) => email.messageID !== messageID))
