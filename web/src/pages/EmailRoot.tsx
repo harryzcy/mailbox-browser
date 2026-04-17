@@ -81,7 +81,10 @@ export default function EmailRoot(props: EmailRootProps) {
   const emailsData = useEmailsEffect()
   useEffect(() => {
     console.log('emailsData', emailsData)
-    setEmails(emailsData.items)
+    if (emailsData.loadingState === 'loaded') {
+      setEmails(emailsData.items)
+      setCount(emailsData.count)
+    }
   }, [emailsData.loadingState])
 
   const loadEmails = async (input: {
@@ -89,6 +92,7 @@ export default function EmailRoot(props: EmailRootProps) {
     month?: number
     nextCursor?: string
   }) => {
+    return []
     const { nextCursor } = input
 
     const data = await listEmails({

@@ -113,20 +113,20 @@ export default function EmailList() {
 
   const loadMoreEmails = async () => {
     if (!hasMore) return
-    try {
-      const data = await loadEmails({
-        year,
-        month,
-        nextCursor
-      })
-      setEmails([...emails, ...data.items])
-      setCount(data.count + count)
-      setHasMore(data.hasMore)
-      setNextCursor(data.nextCursor)
-    } catch (e) {
-      console.error('Failed to load emails', e)
-      toast.error('Failed to load emails')
-    }
+    // try {
+    //   const data = await loadEmails({
+    //     year,
+    //     month,
+    //     nextCursor
+    //   })
+    //   setEmails([...emails, ...data.items])
+    //   setCount(data.count + count)
+    //   setHasMore(data.hasMore)
+    //   setNextCursor(data.nextCursor)
+    // } catch (e) {
+    //   console.error('Failed to load emails', e)
+    //   toast.error('Failed to load emails')
+    // }
   }
 
   const handleDelete = async () => {
