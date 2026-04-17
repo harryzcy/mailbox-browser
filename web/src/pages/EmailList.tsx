@@ -19,7 +19,6 @@ import { useInboxContext } from './EmailRoot'
 
 export default function EmailList() {
   const {
-    count,
     setCount,
     hasMore,
     setHasMore,
