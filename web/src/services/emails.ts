@@ -56,7 +56,7 @@ function generateListEmailsParamString(props: ListEmailsProps): string {
 
 export function useEmails(props: ListEmailsProps): ListEmailsResponse {
   const { data, error, isLoading } = useSWR(
-    ['emails', props],
+    ['emails', generateListEmailsParamString(props)],
     async () => {
       return await listEmails(props)
     },
