@@ -28,7 +28,10 @@ export interface ListEmailsResponse {
   items: EmailInfo[]
   hasMore: boolean
   nextCursor?: string
-  loadingState?: 'idle' | 'loading' | 'loaded' | 'error'
+}
+
+export interface UseEmailsResponse extends ListEmailsResponse {
+  loadingState: 'idle' | 'loading' | 'loaded' | 'error'
 }
 
 function generateListEmailsParamString(props: ListEmailsProps): string {
@@ -54,7 +57,7 @@ function generateListEmailsParamString(props: ListEmailsProps): string {
   return params.toString()
 }
 
-export function useEmails(props: ListEmailsProps): ListEmailsResponse {
+export function useEmails(props: ListEmailsProps): UseEmailsResponse {
   const key = ['emails', generateListEmailsParamString(props)]
   const { data, error, isLoading } = useSWR(
     key,
