@@ -78,6 +78,12 @@ export default function EmailRoot(props: EmailRootProps) {
     return data
   }
 
+  const emailsData = useEmailsEffect()
+  useEffect(() => {
+    console.log('emailsData', emailsData)
+    setEmails(emailsData.items)
+  }, [emailsData.loadingState])
+
   const loadEmails = async (input: {
     year?: number
     month?: number
