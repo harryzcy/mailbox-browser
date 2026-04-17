@@ -54,11 +54,11 @@ function generateListEmailsParamString(props: ListEmailsProps): string {
   return params.toString()
 }
 
-export function useEmails(props: ListEmailsProps): Promise<ListEmailsResponse> {
+export function useEmails(props: ListEmailsProps): ListEmailsResponse {
   const { data, error, isLoading } = useSWR(
     ['emails', props],
     async () => {
-      return listEmails(props)
+      return await listEmails(props)
     },
     {
       revalidateOnFocus: false,
