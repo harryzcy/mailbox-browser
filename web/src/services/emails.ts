@@ -58,9 +58,7 @@ export function useEmails(props: ListEmailsProps): Promise<ListEmailsResponse> {
   const { data, error, isLoading } = useSWR(
     ['emails', props],
     async () => {
-      const params = generateListEmailsParamString(props)
-      const response = await fetch('/web/emails?' + params)
-      return response.json() as Promise<ListEmailsResponse>
+      return listEmails(props)
     },
     {
       revalidateOnFocus: false,
