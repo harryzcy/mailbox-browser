@@ -2,7 +2,7 @@
  * EmailRoot.tsx
  * This is the root component for inbox, draft, and sent pages.
  */
-import { use, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router'
 
 import DraftEmailsTabs from 'components/emails/DraftEmailsTabs'
