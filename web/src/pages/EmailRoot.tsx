@@ -2,7 +2,7 @@
  * EmailRoot.tsx
  * This is the root component for inbox, draft, and sent pages.
  */
-import { useContext, useEffect, useState } from 'react'
+import { use, useContext, useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router'
 
 import DraftEmailsTabs from 'components/emails/DraftEmailsTabs'
@@ -12,7 +12,12 @@ import { ConfigContext } from 'contexts/ConfigContext'
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
 import { getConfig } from 'services/config'
-import { EmailInfo, ListEmailsResponse, listEmails } from 'services/emails'
+import {
+  EmailInfo,
+  ListEmailsResponse,
+  listEmails,
+  useEmails
+} from 'services/emails'
 
 import { getCurrentYearMonth } from 'utils/time'
 
@@ -62,14 +67,11 @@ export default function EmailRoot(props: EmailRootProps) {
     'idle' | 'loading' | 'loaded' | 'error'
   >('idle')
 
-  useEffect(() => {
-    const abortController = new AbortController()
-    setLoadingState('loading')
-    void loadAndSetEmails()
-    return () => {
-      abortController.abort()
-    }
-  }, [props.type])
+  const emailsData = useEmails({
+    type: props.type,
+    year,
+    month
+  })
 
   const loadEmails = async (input: {
     year?: number
@@ -95,17 +97,6 @@ export default function EmailRoot(props: EmailRootProps) {
 
     setLoadingState('loaded')
     return data
-  }
-
-  const loadAndSetEmails = async (nextCursor?: string) => {
-    setLoadingState('loading')
-    const data = await loadEmails({
-      nextCursor
-    })
-    setEmails(data.items)
-    setCount(data.count)
-    setHasMore(data.hasMore)
-    setNextCursor(data.nextCursor)
   }
 
   const removeEmailFromList = (messageID: string) => {
