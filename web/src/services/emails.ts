@@ -76,9 +76,9 @@ export function useEmails(props: ListEmailsProps): Promise<ListEmailsResponse> {
   }
 
   return {
-    items: data?.items || [],
-    count: data?.count || 0,
-    hasMore: data?.hasMore || false,
+    items: data?.items ?? [],
+    count: data?.count ?? 0,
+    hasMore: data?.hasMore ?? false,
     nextCursor: data?.nextCursor,
     loadingState
   }
