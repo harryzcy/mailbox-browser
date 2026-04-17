@@ -48,6 +48,10 @@ interface EmailRootProps {
 }
 
 export default function EmailRoot(props: EmailRootProps) {
+  const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
+  const [year, setYear] = useState(initialYear)
+  const [month, setMonth] = useState(initialMonth)
+
   const [count, setCount] = useState(0)
   const [hasMore, setHasMore] = useState(true)
   const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
@@ -66,10 +70,6 @@ export default function EmailRoot(props: EmailRootProps) {
       abortController.abort()
     }
   }, [props.type])
-
-  const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
-  const [year, setYear] = useState(initialYear)
-  const [month, setMonth] = useState(initialMonth)
 
   const loadEmails = async (input: {
     year?: number
