@@ -1,3 +1,5 @@
+import useSWR from 'swr'
+
 export interface EmailInfo {
   messageID: string
   type: 'inbox' | 'draft' | 'sent'
@@ -28,9 +30,7 @@ export interface ListEmailsResponse {
   nextCursor?: string
 }
 
-export async function listEmails(
-  props: ListEmailsProps
-): Promise<ListEmailsResponse> {
+function generateListEmailsParamString(props: ListEmailsProps): string {
   const { type, year, month, order, pageSize, nextCursor } = props
   const params = new URLSearchParams({
     type
@@ -50,8 +50,46 @@ export async function listEmails(
   if (nextCursor) {
     params.append('nextCursor', nextCursor)
   }
+  return params.toString()
+}
 
-  const response = await fetch('/web/emails?' + params.toString(), {
+export async function useEmails(props: ListEmailsProps) {
+  const { data, error, isLoading } = useSWR(
+    ['emails', props],
+    async () => {
+      const params = generateListEmailsParamString(props)
+      const response = await fetch('/web/emails?' + params)
+      return response.json() as Promise<ListEmailsResponse>
+    },
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
+    }
+  )
+
+  let loadingState: 'idle' | 'loading' | 'loaded' | 'error' = 'idle'
+  if (isLoading) {
+    loadingState = 'loading'
+  } else if (error) {
+    loadingState = 'error'
+  } else if (data) {
+    loadingState = 'loaded'
+  }
+
+  return {
+    emails: data?.items,
+    count: data?.count,
+    hasMore: data?.hasMore,
+    nextCursor: data?.nextCursor,
+    loadingState
+  }
+}
+
+export async function listEmails(
+  props: ListEmailsProps
+): Promise<ListEmailsResponse> {
+  const params = generateListEmailsParamString(props)
+  const response = await fetch('/web/emails?' + params, {
     method: 'GET'
   })
   return response.json() as Promise<ListEmailsResponse>
