@@ -81,12 +81,12 @@ export default function EmailRoot(props: EmailRootProps) {
   const emailsData = useEmailsEffect()
 
   useEffect(() => {
-    console.log('emailsData', emailsData)
+    console.log('84 emailsData', emailsData)
     if (emailsData.loadingState === 'loaded') {
       setEmails(emailsData.items)
       setCount(emailsData.count)
       setHasMore(emailsData.hasMore)
-      setNextCursor(emailsData.nextCursor)
+      // setNextCursor(emailsData.nextCursor)
     }
   }, [emailsData.loadingState])
 
