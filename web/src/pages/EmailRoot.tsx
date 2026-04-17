@@ -67,11 +67,16 @@ export default function EmailRoot(props: EmailRootProps) {
     'idle' | 'loading' | 'loaded' | 'error'
   >('idle')
 
-  const emailsData = useEmails({
-    type: props.type,
-    year,
-    month
-  })
+  const useEmailsEffect = () => {
+    const data = useEmails({
+      type: props.type,
+      year,
+      month,
+      order: 'desc',
+      nextCursor
+    })
+    return data
+  }
 
   const loadEmails = async (input: {
     year?: number
