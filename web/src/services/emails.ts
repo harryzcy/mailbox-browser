@@ -140,9 +140,23 @@ export interface CreateEmailProps {
   replyEmailID?: string
 }
 
-export async function getEmailRaw(messageID: string): Promise<string> {
-  const response = await fetch(`/web/emails/${messageID}/raw`)
-  return response.text()
+interface UseEmailRawResult {
+  raw: string | undefined
+  isLoading: boolean
+}
+
+export function useEmailRaw(messageID: string): UseEmailRawResult {
+  const { data, isLoading } = useSWR<string, Error>(
+    `email-raw-${messageID}`,
+    async () => {
+      const response = await fetch(`/web/emails/${messageID}/raw`)
+      return response.text()
+    }
+  )
+  return {
+    raw: data,
+    isLoading
+  }
 }
 
 export async function createEmail(email: CreateEmailProps): Promise<Email> {
