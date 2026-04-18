@@ -55,7 +55,6 @@ const router = createBrowserRouter([
               return {
                 type: 'email',
                 messageID: params.messageID
-                // email: getEmail(params.messageID)
               }
             }
           }
@@ -76,8 +75,8 @@ const router = createBrowserRouter([
             loader: ({ params }) => {
               if (!params.messageID) return null
               return {
+                type: 'email',
                 messageID: params.messageID
-                // email: getEmail(params.messageID)
               }
             }
           }
@@ -98,8 +97,8 @@ const router = createBrowserRouter([
             loader: ({ params }) => {
               if (!params.messageID) return redirect('/sent')
               return {
+                type: 'email',
                 messageID: params.messageID
-                // email: getEmail(params.messageID)
               }
             }
           }
