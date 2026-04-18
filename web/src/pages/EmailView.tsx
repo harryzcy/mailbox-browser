@@ -13,13 +13,13 @@ import { EmailDraft } from 'components/emails/EmailDraft'
 import EmailMenuBar from 'components/emails/EmailMenuBar'
 import EmailName from 'components/emails/EmailName'
 
-import { ConfigContext } from 'contexts/ConfigContext'
 import { DraftEmail, DraftEmailsContext } from 'contexts/DraftEmailContext'
 
 import { useOutsideClick } from 'hooks/useOutsideClick'
 
 import { useInboxContext } from 'pages/EmailRoot'
 
+import { useConfig } from 'services/config'
 import {
   CreateEmailProps,
   Email,
@@ -56,7 +56,7 @@ export default function EmailView() {
     useContext(DraftEmailsContext)
   const [isInitialReplyOpen, setIsInitialReplyOpen] = useState(false)
 
-  const configContext = useContext(ConfigContext)
+  const { config } = useConfig()
 
   const startDraft = async (draftID: string, replyEmail?: Email) => {
     const body = {
@@ -90,7 +90,7 @@ export default function EmailView() {
       type: 'new-reply',
       messageID: draftID,
       replyEmail: email,
-      allowedAddresses: configContext.state.config.emailAddresses
+      allowedAddresses: config?.emailAddresses ?? []
     })
 
     await startDraft(draftID)
@@ -327,10 +327,9 @@ function EmailBlock(props: EmailBlockProps) {
     setShowMoreActions(false)
   })
 
-  const configContext = useContext(ConfigContext)
-  const [showImages, setShowImages] = useState(
-    configContext.state.config.imagesAutoLoad
-  )
+  const { config } = useConfig()
+
+  const [showImages, setShowImages] = useState(config?.imagesAutoLoad ?? false)
 
   const { markAsRead } = useInboxContext()
   useEffect(() => {
@@ -423,7 +422,7 @@ function EmailBlock(props: EmailBlockProps) {
               <div className="w-fit mx-auto max-w-full overflow-x-auto">
                 {parseEmailContent(
                   email,
-                  configContext.state.config.disableProxy,
+                  config?.disableProxy ?? false,
                   showImages
                 )}
               </div>

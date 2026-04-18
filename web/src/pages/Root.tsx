@@ -7,11 +7,6 @@ import { Toaster } from '@ui/sonner'
 import Sidebar from 'components/Sidebar'
 
 import {
-  ConfigContext,
-  configReducer,
-  initialConfigState
-} from 'contexts/ConfigContext'
-import {
   DraftEmailsContext,
   draftEmailReducer,
   initialState
@@ -20,10 +15,6 @@ import {
 import { useOutsideClick } from 'hooks/useOutsideClick'
 
 export default function Root() {
-  const [configState, configDispatch] = useReducer(
-    configReducer,
-    initialConfigState
-  )
   const [draftEmailsState, draftEmailsDispatch] = useReducer(
     draftEmailReducer,
     initialState
@@ -36,12 +27,7 @@ export default function Root() {
   })
 
   return (
-    <ConfigContext.Provider
-      value={{
-        state: configState,
-        dispatch: configDispatch
-      }}
-    >
+    <>
       <DraftEmailsContext.Provider
         value={{
           emails: draftEmailsState.emails,
@@ -86,6 +72,6 @@ export default function Root() {
       <div className="preflight">
         <Toaster />
       </div>
-    </ConfigContext.Provider>
+    </>
   )
 }

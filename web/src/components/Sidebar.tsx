@@ -3,10 +3,10 @@ import {
   InboxIcon,
   PaperAirplaneIcon
 } from '@heroicons/react/24/outline'
-import { ReactElement, forwardRef, useEffect, useState } from 'react'
+import { ReactElement, forwardRef } from 'react'
 import { NavLink } from 'react-router'
 
-import { getInfo } from 'services/info'
+import { useInfo } from 'services/info'
 
 import { browserVersion } from 'utils/info'
 
@@ -17,12 +17,7 @@ const Sidebar = forwardRef<HTMLElement>(function Sidebar(props, ref) {
     ['Sent', '/sent', <PaperAirplaneIcon key="sent" />]
   ]
 
-  const [mailboxVersion, setMailboxVersion] = useState('')
-  useEffect(() => {
-    void getInfo().then((info) => {
-      setMailboxVersion(info.version)
-    })
-  }, [])
+  const { data: info } = useInfo()
 
   return (
     <aside
@@ -59,7 +54,7 @@ const Sidebar = forwardRef<HTMLElement>(function Sidebar(props, ref) {
 
       <div className="grid grid-cols-2 items-center justify-center space-x-1 py-2 text-xs text-gray-400 dark:text-neutral-500 md:py-6">
         <span className="justify-self-end">Mailbox</span>
-        <span>{mailboxVersion}</span>
+        <span>{info?.version ?? 'Unknown'}</span>
         <span className="justify-self-end">Browser</span>
         <span>{browserVersion}</span>
       </div>
