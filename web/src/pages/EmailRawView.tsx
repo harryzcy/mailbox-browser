@@ -52,7 +52,7 @@ export default function EmailRawView() {
           ) : (
             raw && (
               <>
-                <pre className="block w-full whitespace-pre-wrap break-words">
+                <pre className="block w-full whitespace-pre-wrap wrap-break-word">
                   {raw}
                 </pre>
                 <div className="absolute right-0 top-2 space-x-3 p-3 dark:text-neutral-400">
