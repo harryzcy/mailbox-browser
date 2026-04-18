@@ -57,11 +57,6 @@ export function parseEmailContent(
       if (['html', 'head', 'body'].includes(domNode.name)) {
         return <>{domToReact(domNode.children as DOMNode[], options)}</>
       }
-      if (!domNode.name) {
-        console.warn('Element without name found, skipping')
-        console.warn(domNode.type)
-        return
-      }
       if (!allowedTags.includes(domNode.name)) {
         if (!silenceTags.includes(domNode.name)) {
           console.warn(`Unsupported tag: ${domNode.name}`)
