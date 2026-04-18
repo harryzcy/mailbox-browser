@@ -119,6 +119,11 @@ export function useEmail(messageID: string): Email | undefined {
   return data
 }
 
+export async function getEmail(messageID: string): Promise<Email> {
+  const response = await fetch(`/web/emails/${messageID}`)
+  return response.json() as Promise<Email>
+}
+
 export interface CreateEmailProps {
   subject: string
   from: string[]

@@ -26,11 +26,11 @@ export default function EmailTableRow(props: EmailTableRowProps) {
   const navigate = useNavigate()
 
   const openDraftEmail = async (messageID: string) => {
-    // const emailDetail = await getEmail(messageID)
-    // draftEmailsContext.dispatch({
-    //   type: 'load',
-    //   email: emailDetail
-    // })
+    const emailDetail = await getEmail(messageID)
+    draftEmailsContext.dispatch({
+      type: 'load',
+      email: emailDetail
+    })
   }
 
   const openEmail = async () => {
