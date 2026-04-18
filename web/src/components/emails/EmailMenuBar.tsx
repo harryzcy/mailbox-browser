@@ -7,10 +7,10 @@ import {
 } from '@heroicons/react/24/outline'
 import { useContext, useEffect, useState } from 'react'
 
-import { Plugin } from 'contexts/ConfigContext'
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
 import { useConfig } from 'services/config'
+import { Plugin } from 'services/config'
 import { createEmail, generateLocalDraftID } from 'services/emails'
 import * as plugins from 'services/plugins'
 
