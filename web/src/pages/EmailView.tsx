@@ -45,7 +45,7 @@ export default function EmailView() {
 
   const navigate = useNavigate()
 
-  const email = useEmail(data.type === 'email' ? data.messageID : '')
+  const email = useEmail(data.type === 'email' ? data.messageID : null)
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goPrevious = () => {}
