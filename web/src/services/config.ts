@@ -1,3 +1,5 @@
+import useSWR from 'swr'
+
 export interface Config {
   emailAddresses: string[]
   disableProxy: boolean
@@ -14,7 +16,18 @@ export interface Plugin {
   }
 }
 
-export async function getConfig(): Promise<Config> {
-  const response = await fetch('/config')
-  return response.json() as Promise<Config>
+export function useConfig() {
+  const { data, error, isLoading } = useSWR<Config, Error>(
+    'config',
+    async () => {
+      const response = await fetch('/config')
+      return response.json() as Promise<Config>
+    }
+  )
+
+  return {
+    config: data,
+    isLoading,
+    error
+  }
 }

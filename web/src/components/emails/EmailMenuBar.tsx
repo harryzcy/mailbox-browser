@@ -7,9 +7,10 @@ import {
 } from '@heroicons/react/24/outline'
 import { useContext, useEffect, useState } from 'react'
 
-import { ConfigContext, Plugin } from 'contexts/ConfigContext'
+import { Plugin } from 'contexts/ConfigContext'
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
+import { useConfig } from 'services/config'
 import { createEmail, generateLocalDraftID } from 'services/emails'
 import * as plugins from 'services/plugins'
 
@@ -158,7 +159,7 @@ function ActionBar(props: {
 }) {
   const { emailIDs, handleDelete, handleRead, handleUnread, showOperations } =
     props
-  const configContext = useContext(ConfigContext)
+  const { config } = useConfig()
   const [showPluginMenu, setShowPluginMenu] = useState(false)
   useEffect(() => {
     setShowPluginMenu(false)
@@ -207,10 +208,10 @@ function ActionBar(props: {
         </span>
         {showPluginMenu && (
           <div className="absolute left-0 top-9 w-40 rounded-md border bg-white dark:bg-neutral-800">
-            {configContext.state.config.plugins.length === 0 ? (
+            {config?.plugins.length === 0 ? (
               <div className="w-full p-2">No plugins installed</div>
             ) : (
-              configContext.state.config.plugins.map((plugin) => (
+              config?.plugins.map((plugin) => (
                 <div
                   key={plugin.name}
                   className="w-full p-2 hover:bg-neutral-100 hover:text-sky-900 dark:hover:bg-neutral-700 dark:hover:text-gray-100"

@@ -13,7 +13,7 @@ export interface Plugin {
 
 export interface State {
   config: Config
-  loaded: boolean
+  // loaded: boolean
 }
 
 export interface Action {
@@ -27,8 +27,8 @@ export const initialConfigState: State = {
     disableProxy: false,
     imagesAutoLoad: false,
     plugins: []
-  },
-  loaded: false
+  }
+  // loaded: false
 }
 
 export function configReducer(state: State, action: Action): State {
