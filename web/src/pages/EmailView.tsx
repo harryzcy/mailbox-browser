@@ -28,19 +28,24 @@ import {
   readEmail,
   saveEmail,
   trashEmail,
-  unreadEmail
+  unreadEmail,
+  useEmail
 } from 'services/emails'
 import { Thread } from 'services/threads'
 
 import { parseEmailContent, parseEmailName } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
+type EmailViewLoaderData =
+  | { type: 'email'; messageID: string }
+  | { type: 'thread'; threadID: string; thread: Thread }
+
 export default function EmailView() {
-  const data:
-    | { type: 'email'; messageID: string; email: Email }
-    | { type: 'thread'; threadID: string; thread: Thread } = useLoaderData()
+  const data: EmailViewLoaderData = useLoaderData()
 
   const navigate = useNavigate()
+
+  const email = useEmail(data.type === 'email' ? data.messageID : null)
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goPrevious = () => {}
@@ -220,8 +225,9 @@ export default function EmailView() {
           </div>
         }
       >
-        {data.type == 'email' && (
-          <Await resolve={data.email}>
+        {/* TODO: improve suspense handling & integration with swr */}
+        {data.type == 'email' && email && (
+          <Await resolve={email}>
             {(email: Email) => (
               <div className="h-full overflow-y-scroll pb-5 px-2 md:px-0">
                 <div className="mb-2 px-3">

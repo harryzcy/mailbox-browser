@@ -11,7 +11,7 @@ import EmailRoot from 'pages/EmailRoot'
 import EmailView from 'pages/EmailView'
 import Root from 'pages/Root'
 
-import { getEmail, getEmailRaw } from 'services/emails'
+import { getEmailRaw } from 'services/emails'
 import { getThread } from 'services/threads'
 
 const router = createBrowserRouter([
@@ -54,8 +54,7 @@ const router = createBrowserRouter([
               if (!params.messageID) return redirect('/inbox')
               return {
                 type: 'email',
-                messageID: params.messageID,
-                email: getEmail(params.messageID)
+                messageID: params.messageID
               }
             }
           }
@@ -76,8 +75,8 @@ const router = createBrowserRouter([
             loader: ({ params }) => {
               if (!params.messageID) return null
               return {
-                messageID: params.messageID,
-                email: getEmail(params.messageID)
+                type: 'email',
+                messageID: params.messageID
               }
             }
           }
@@ -98,8 +97,8 @@ const router = createBrowserRouter([
             loader: ({ params }) => {
               if (!params.messageID) return redirect('/sent')
               return {
-                messageID: params.messageID,
-                email: getEmail(params.messageID)
+                type: 'email',
+                messageID: params.messageID
               }
             }
           }
