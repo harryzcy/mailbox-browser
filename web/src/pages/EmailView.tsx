@@ -28,19 +28,30 @@ import {
   readEmail,
   saveEmail,
   trashEmail,
-  unreadEmail
+  unreadEmail,
+  useEmail
 } from 'services/emails'
 import { Thread } from 'services/threads'
 
 import { parseEmailContent, parseEmailName } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
+type EmailViewLoaderData =
+  | { type: 'email'; messageID: string }
+  | { type: 'thread'; threadID: string; thread: Thread }
+
+const useEmailIfNeeded = (data: EmailViewLoaderData) => {
+  if (data.type !== 'email') return undefined
+  const email = useEmail(data.messageID)
+  return email
+}
+
 export default function EmailView() {
-  const data:
-    | { type: 'email'; messageID: string; email: Email }
-    | { type: 'thread'; threadID: string; thread: Thread } = useLoaderData()
+  const data: EmailViewLoaderData = useLoaderData()
 
   const navigate = useNavigate()
+
+  const email = useEmailIfNeeded(data)
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goPrevious = () => {}
@@ -220,8 +231,8 @@ export default function EmailView() {
           </div>
         }
       >
-        {data.type == 'email' && (
-          <Await resolve={data.email}>
+        {data.type == 'email' && email && (
+          <Await resolve={email}>
             {(email: Email) => (
               <div className="h-full overflow-y-scroll pb-5 px-2 md:px-0">
                 <div className="mb-2 px-3">

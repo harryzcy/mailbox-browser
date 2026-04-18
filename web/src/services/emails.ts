@@ -1,3 +1,5 @@
+import useSWR from 'swr'
+
 export interface EmailInfo {
   messageID: string
   type: 'inbox' | 'draft' | 'sent'
@@ -105,9 +107,16 @@ export interface EmailVerdict {
   virus: boolean
 }
 
-export async function getEmail(id: string): Promise<Email> {
-  const response = await fetch(`/web/emails/${id}`)
-  return response.json() as Promise<Email>
+export function useEmail(id: string): Email | undefined {
+  const { data } = useSWR<Email, Error>(
+    `email-${id}`,
+    async () => {
+      const response = await fetch(`/web/emails/${id}`)
+      return response.json() as Promise<Email>
+    },
+    { suspense: true }
+  )
+  return data
 }
 
 export interface CreateEmailProps {
