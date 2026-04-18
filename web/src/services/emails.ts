@@ -107,11 +107,11 @@ export interface EmailVerdict {
   virus: boolean
 }
 
-export function useEmail(id: string): Email | undefined {
+export function useEmail(messageID: string): Email | undefined {
   const { data } = useSWR<Email, Error>(
-    `email-${id}`,
+    `email-${messageID}`,
     async () => {
-      const response = await fetch(`/web/emails/${id}`)
+      const response = await fetch(`/web/emails/${messageID}`)
       return response.json() as Promise<Email>
     },
     { suspense: true }
