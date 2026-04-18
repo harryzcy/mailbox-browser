@@ -11,7 +11,6 @@ import EmailRoot from 'pages/EmailRoot'
 import EmailView from 'pages/EmailView'
 import Root from 'pages/Root'
 
-import { getEmailRaw } from 'services/emails'
 import { getThread } from 'services/threads'
 
 const router = createBrowserRouter([
@@ -113,8 +112,7 @@ const router = createBrowserRouter([
     loader: ({ params }) => {
       if (!params.messageID) return redirect('/inbox')
       return {
-        messageID: params.messageID,
-        raw: getEmailRaw(params.messageID)
+        messageID: params.messageID
       }
     }
   }
