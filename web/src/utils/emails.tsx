@@ -1,4 +1,5 @@
 import * as css from '@adobe/css-tools'
+import { isTag, isText } from 'domhandler'
 import parse, {
   DOMNode,
   Element,
@@ -47,38 +48,39 @@ export function parseEmailContent(
   const options: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
       // DOMNode = Comment | Element | ProcessingInstruction | Text;
-      if (
-        domNode instanceof Comment ||
-        domNode instanceof ProcessingInstruction
-      ) {
-        return
-      }
-      if (domNode instanceof Text) {
+      if (isText(domNode)) {
         return domNode.data
       }
-      const element = domNode as Element
-      if (['html', 'head', 'body'].includes(element.name)) {
-        return <>{domToReact(element.children as DOMNode[], options)}</>
+      if (!isTag(domNode)) {
+        return
       }
-      if (!allowedTags.includes(element.name)) {
-        if (!silenceTags.includes(element.name)) {
-          console.warn(`Unsupported tag: ${element.name}`)
+      if (['html', 'head', 'body'].includes(domNode.name)) {
+        return <>{domToReact(domNode.children as DOMNode[], options)}</>
+      }
+      if (!domNode.name) {
+        console.warn('Element without name found, skipping')
+        console.warn(domNode.type)
+        return
+      }
+      if (!allowedTags.includes(domNode.name)) {
+        if (!silenceTags.includes(domNode.name)) {
+          console.warn(`Unsupported tag: ${domNode.name}`)
         }
         return <></>
       }
-      if (element.name === 'a') {
-        element.attribs.target = '_blank'
-        element.attribs.rel = 'noopener noreferrer'
+      if (domNode.name === 'a') {
+        domNode.attribs.target = '_blank'
+        domNode.attribs.rel = 'noopener noreferrer'
         return
       }
 
       // handle inline styles
-      if (element.attribs.style) {
-        element.attribs.style = transformStyles(host, element.attribs.style)
+      if (domNode.attribs.style) {
+        domNode.attribs.style = transformStyles(host, domNode.attribs.style)
       }
 
-      if (element.name === 'style') {
-        element.children = element.children
+      if (domNode.name === 'style') {
+        domNode.children = domNode.children
           .map((child) => {
             // nodeType 3 is text in domhandler package
             if (child.nodeType !== 3) return null
@@ -86,9 +88,9 @@ export function parseEmailContent(
           })
           .filter((child) => child !== null)
       }
-      if (element.name === 'img' && element.attribs.src) {
-        if (element.attribs.src.startsWith('cid:')) {
-          const cid = element.attribs.src.replace('cid:', '')
+      if (domNode.name === 'img' && domNode.attribs.src) {
+        if (domNode.attribs.src.startsWith('cid:')) {
+          const cid = domNode.attribs.src.replace('cid:', '')
           let disposition = ''
           if (containContentID(email.attachments, cid)) {
             disposition = 'attachments'
@@ -99,18 +101,18 @@ export function parseEmailContent(
           }
 
           if (disposition !== '') {
-            element.attribs.src = `${window.location.origin}/web/emails/${email.messageID}/${disposition}/${cid}`
+            domNode.attribs.src = `${window.location.origin}/web/emails/${email.messageID}/${disposition}/${cid}`
           }
         } else {
           if (!loadImage) {
-            element.attribs.src = ''
+            domNode.attribs.src = ''
           } else if (!disableProxy) {
-            element.attribs['data-original-src'] = element.attribs.src
-            element.attribs.src = makeProxyURL(host, element.attribs.src)
+            domNode.attribs['data-original-src'] = domNode.attribs.src
+            domNode.attribs.src = makeProxyURL(host, domNode.attribs.src)
           }
         }
 
-        element.attribs = filterElementAttributes(element.name, element.attribs)
+        domNode.attribs = filterElementAttributes(domNode.name, domNode.attribs)
       }
     }
   }

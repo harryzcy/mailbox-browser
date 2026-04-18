@@ -83,7 +83,7 @@ export const allowedTags = [
 ]
 
 // Tags that should be removed from the document, without logging a warning.
-export const silenceTags = ['title', 'script']
+export const silenceTags = ['title', 'script', '!doctype']
 
 // Attributes that are allowed on all tags.
 export const globalAttributes = [
