@@ -40,18 +40,12 @@ type EmailViewLoaderData =
   | { type: 'email'; messageID: string }
   | { type: 'thread'; threadID: string; thread: Thread }
 
-const useEmailIfNeeded = (data: EmailViewLoaderData) => {
-  if (data.type !== 'email') return undefined
-  const email = useEmail(data.messageID)
-  return email
-}
-
 export default function EmailView() {
   const data: EmailViewLoaderData = useLoaderData()
 
   const navigate = useNavigate()
 
-  const email = useEmailIfNeeded(data)
+  const email = useEmail(data.type === 'email' ? data.messageID : '')
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goPrevious = () => {}

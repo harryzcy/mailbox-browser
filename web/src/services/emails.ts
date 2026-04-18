@@ -107,10 +107,13 @@ export interface EmailVerdict {
   virus: boolean
 }
 
-export function useEmail(messageID: string): Email | undefined {
+export function useEmail(messageID: string | null): Email | undefined {
   const { data } = useSWR<Email, Error>(
-    `email-${messageID}`,
+    messageID ? `email-${messageID}` : null,
     async () => {
+      if (!messageID) {
+        throw new Error('Fetching is disabled when messageID is null')
+      }
       const response = await fetch(`/web/emails/${messageID}`)
       return response.json() as Promise<Email>
     },
