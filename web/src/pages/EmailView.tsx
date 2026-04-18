@@ -225,6 +225,7 @@ export default function EmailView() {
           </div>
         }
       >
+        {/* TODO: improve suspense handling & integration with swr */}
         {data.type == 'email' && email && (
           <Await resolve={email}>
             {(email: Email) => (
