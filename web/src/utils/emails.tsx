@@ -1,4 +1,5 @@
 import * as css from '@adobe/css-tools'
+import { isTag, isText } from 'domhandler'
 import parse, {
   DOMNode,
   Element,
@@ -46,7 +47,13 @@ export function parseEmailContent(
 
   const options: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
-      if (!(domNode instanceof Element)) return
+      // DOMNode = Comment | Element | ProcessingInstruction | Text;
+      if (isText(domNode)) {
+        return domNode.data
+      }
+      if (!isTag(domNode)) {
+        return
+      }
       if (['html', 'head', 'body'].includes(domNode.name)) {
         return <>{domToReact(domNode.children as DOMNode[], options)}</>
       }
