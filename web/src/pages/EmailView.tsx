@@ -25,11 +25,11 @@ import {
   Email,
   generateLocalDraftID,
   readEmail,
-  saveEmail,
   trashEmail,
   unreadEmail,
   useCreateEmail,
-  useEmail
+  useEmail,
+  useSaveEmail
 } from 'services/emails'
 import { useThread } from 'services/threads'
 
@@ -132,10 +132,12 @@ export default function EmailView() {
     })
   }
 
+  const { trigger: triggerSaveEmail } = useSaveEmail()
+
   const handleSend = async () => {
     const email = activeReplyEmail
     if (!email) return
-    await saveEmail({
+    await triggerSaveEmail({
       messageID: email.messageID,
       subject: email.subject,
       from: email.from,
