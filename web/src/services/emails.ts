@@ -8,7 +8,7 @@ export interface EmailInfo {
   timeUpdated: string | null
   timeSent: string | null
   subject: string
-  from: string[]
+  from?: string[]
   to: string[]
   threadID: string
   isThreadLatest: true | undefined
