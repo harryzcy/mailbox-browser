@@ -128,19 +128,6 @@ export async function getEmail(messageID: string): Promise<Email> {
   return response.json() as Promise<Email>
 }
 
-export interface CreateEmailProps {
-  subject: string
-  from: string[]
-  to: string[]
-  cc: string[]
-  bcc: string[]
-  replyTo: string[]
-  text: string
-  html: string
-  send: boolean
-  replyEmailID?: string
-}
-
 interface UseEmailRawResult {
   raw: string | undefined
   isLoading: boolean
@@ -158,6 +145,19 @@ export function useEmailRaw(messageID: string): UseEmailRawResult {
     raw: data,
     isLoading
   }
+}
+
+export interface CreateEmailProps {
+  subject: string
+  from: string[]
+  to: string[]
+  cc: string[]
+  bcc: string[]
+  replyTo: string[]
+  text: string
+  html: string
+  send: boolean
+  replyEmailID?: string
 }
 
 export interface CreateEmailResult {
