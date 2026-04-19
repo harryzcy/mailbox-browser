@@ -11,7 +11,7 @@ import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
 import { useConfig } from 'services/config'
 import { Plugin } from 'services/config'
-import { createEmail, generateLocalDraftID } from 'services/emails'
+import { generateLocalDraftID, useCreateEmail } from 'services/emails'
 import * as plugins from 'services/plugins'
 
 interface EmailMenuBarProps {
@@ -107,6 +107,8 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
 function ComposeButton() {
   const { dispatch: dispatchDraftEmail } = useContext(DraftEmailsContext)
 
+  const { trigger: triggerCreateEmail } = useCreateEmail()
+
   const handleCreate = async () => {
     const draftID = generateLocalDraftID()
 
@@ -127,7 +129,7 @@ function ComposeButton() {
       send: false
     }
 
-    const email = await createEmail(body)
+    const email = await triggerCreateEmail(body)
 
     dispatchDraftEmail({
       type: 'update',
