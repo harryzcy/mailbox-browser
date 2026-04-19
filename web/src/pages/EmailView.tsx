@@ -31,14 +31,14 @@ import {
   unreadEmail,
   useEmail
 } from 'services/emails'
-import { Thread } from 'services/threads'
+import { useThread } from 'services/threads'
 
 import { parseEmailContent, parseEmailName } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
 type EmailViewLoaderData =
   | { type: 'email'; messageID: string }
-  | { type: 'thread'; threadID: string; thread: Thread }
+  | { type: 'thread'; threadID: string }
 
 export default function EmailView() {
   const data: EmailViewLoaderData = useLoaderData()
@@ -46,6 +46,7 @@ export default function EmailView() {
   const navigate = useNavigate()
 
   const email = useEmail(data.type === 'email' ? data.messageID : null)
+  const { thread } = useThread(data.type === 'thread' ? data.threadID : null)
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goPrevious = () => {}
@@ -259,53 +260,49 @@ export default function EmailView() {
           </Await>
         )}
 
-        {data.type == 'thread' && (
-          <Await resolve={data.thread}>
-            {(thread: Thread) => (
-              <div className="h-full overflow-scroll pb-5">
-                <div className="mb-2 px-3">
-                  <span className="text-xl font-normal dark:text-neutral-200">
-                    {thread.subject}
+        {data.type == 'thread' && thread && (
+          <div className="h-full overflow-scroll pb-5">
+            <div className="mb-2 px-3">
+              <span className="text-xl font-normal dark:text-neutral-200">
+                {thread.subject}
+              </span>
+            </div>
+            {thread.emails.map((email) => (
+              <EmailBlock
+                key={email.messageID}
+                email={email}
+                startReply={(email) => void startReply(email)}
+                startForward={(email) => void startForward(email)}
+              />
+            ))}
+            {activeReplyEmail && (
+              <EmailDraft
+                email={activeReplyEmail}
+                isReply
+                handleEmailChange={handleEmailChange}
+                handleSend={() => {
+                  void handleSend()
+                }}
+              />
+            )}
+            {thread.draftID && !activeReplyEmail && (
+              <div className="preflight mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800 w-full">
+                <div className="flex items-start justify-between">
+                  <span className="text-red-300">[Draft]</span>
+                  <span className="text-neutral-500 dark:text-neutral-300">
+                    <span
+                      className="inline-flex size-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                      onClick={() => {
+                        if (thread.draft) openReply(thread.draft)
+                      }}
+                    >
+                      <PencilIcon />
+                    </span>
                   </span>
                 </div>
-                {thread.emails.map((email) => (
-                  <EmailBlock
-                    key={email.messageID}
-                    email={email}
-                    startReply={(email) => void startReply(email)}
-                    startForward={(email) => void startForward(email)}
-                  />
-                ))}
-                {activeReplyEmail && (
-                  <EmailDraft
-                    email={activeReplyEmail}
-                    isReply
-                    handleEmailChange={handleEmailChange}
-                    handleSend={() => {
-                      void handleSend()
-                    }}
-                  />
-                )}
-                {thread.draftID && !activeReplyEmail && (
-                  <div className="preflight mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800 w-full">
-                    <div className="flex items-start justify-between">
-                      <span className="text-red-300">[Draft]</span>
-                      <span className="text-neutral-500 dark:text-neutral-300">
-                        <span
-                          className="inline-flex size-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
-                          onClick={() => {
-                            if (thread.draft) openReply(thread.draft)
-                          }}
-                        >
-                          <PencilIcon />
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                )}
               </div>
             )}
-          </Await>
+          </div>
         )}
       </React.Suspense>
     </>
