@@ -194,25 +194,42 @@ export type SaveEmailProps = CreateEmailProps & {
   messageID: string
 }
 
-export async function saveEmail(email: SaveEmailProps): Promise<Email> {
-  const response = await fetch(`/web/emails/${email.messageID}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      subject: email.subject,
-      from: email.from,
-      to: email.to,
-      cc: email.cc,
-      bcc: email.bcc,
-      replyTo: email.replyTo,
-      text: email.text,
-      html: email.html,
-      send: email.send
+export interface SaveEmailResult {
+  trigger: TriggerWithArgs<Email, Error, string, SaveEmailProps>
+  isMutating: boolean
+}
+
+export function useSaveEmail(): SaveEmailResult {
+  const { trigger, isMutating } = useSWRMutation<
+    Email,
+    Error,
+    string | null,
+    SaveEmailProps
+  >('/web/emails/:messageID', async (_, { arg }: { arg: SaveEmailProps }) => {
+    const url = `/web/emails/${arg.messageID}`
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        subject: arg.subject,
+        from: arg.from,
+        to: arg.to,
+        cc: arg.cc,
+        bcc: arg.bcc,
+        replyTo: arg.replyTo,
+        text: arg.text,
+        html: arg.html,
+        send: arg.send
+      })
     })
+    return response.json() as Promise<Email>
   })
-  return response.json() as Promise<Email>
+  return {
+    trigger,
+    isMutating
+  }
 }
 
 export async function deleteEmail(messageID: string): Promise<void> {
