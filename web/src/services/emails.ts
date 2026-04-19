@@ -1,4 +1,5 @@
 import useSWR from 'swr'
+import useSWRMutation, { TriggerWithArgs } from 'swr/mutation'
 
 export interface EmailInfo {
   messageID: string
@@ -159,13 +160,38 @@ export function useEmailRaw(messageID: string): UseEmailRawResult {
   }
 }
 
-export async function createEmail(email: CreateEmailProps): Promise<Email> {
+export interface CreateEmailResult {
+  trigger: TriggerWithArgs<Email, Error, string, CreateEmailProps>
+  isMutating: boolean
+}
+
+export function useCreateEmail(): CreateEmailResult {
   // TODO: should return error
+  const { trigger, isMutating } = useSWRMutation(
+    '/web/emails',
+    async (url, { arg }: { arg: CreateEmailProps }) => {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...arg,
+          generateText: 'off'
+        })
+      })
+      return response.json() as Promise<Email>
+    }
+  )
+
+  return {
+    trigger,
+    isMutating
+  }
+}
+
+export async function createEmail(email: CreateEmailProps): Promise<Email> {
   const response = await fetch('/web/emails', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify({
       ...email,
       generateText: 'off'
