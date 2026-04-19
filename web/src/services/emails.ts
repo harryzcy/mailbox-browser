@@ -190,16 +190,6 @@ export function useCreateEmail(): CreateEmailResult {
   }
 }
 
-export async function createEmail(email: CreateEmailProps): Promise<Email> {
-  const response = await fetch('/web/emails', {
-    body: JSON.stringify({
-      ...email,
-      generateText: 'off'
-    })
-  })
-  return response.json() as Promise<Email>
-}
-
 export type SaveEmailProps = CreateEmailProps & {
   messageID: string
 }

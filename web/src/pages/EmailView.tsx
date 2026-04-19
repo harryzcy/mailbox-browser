@@ -23,12 +23,12 @@ import { useConfig } from 'services/config'
 import {
   CreateEmailProps,
   Email,
-  createEmail,
   generateLocalDraftID,
   readEmail,
   saveEmail,
   trashEmail,
   unreadEmail,
+  useCreateEmail,
   useEmail
 } from 'services/emails'
 import { useThread } from 'services/threads'
@@ -59,6 +59,9 @@ export default function EmailView() {
 
   const { config } = useConfig()
 
+  const { trigger: triggerCreateEmail, isMutating: isCreatingEmail } =
+    useCreateEmail()
+
   const startDraft = async (draftID: string, replyEmail?: Email) => {
     const body = {
       subject: '',
@@ -75,7 +78,7 @@ export default function EmailView() {
       body.replyEmailID = replyEmail.messageID
     }
 
-    const email = await createEmail(body)
+    const email = await triggerCreateEmail(body)
 
     dispatchDraftEmail({
       type: 'update',
