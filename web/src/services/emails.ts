@@ -166,7 +166,6 @@ export interface CreateEmailResult {
 }
 
 export function useCreateEmail(): CreateEmailResult {
-  // TODO: should return error
   return useSWRMutation<Email, Error, '/web/emails', CreateEmailProps>(
     '/web/emails',
     async (url, { arg }: { arg: CreateEmailProps }) => {
