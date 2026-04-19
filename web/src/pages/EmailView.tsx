@@ -59,8 +59,7 @@ export default function EmailView() {
 
   const { config } = useConfig()
 
-  const { trigger: triggerCreateEmail, isMutating: isCreatingEmail } =
-    useCreateEmail()
+  const { trigger: triggerCreateEmail } = useCreateEmail()
 
   const startDraft = async (draftID: string, replyEmail?: Email) => {
     const body = {

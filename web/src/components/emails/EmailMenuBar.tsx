@@ -107,8 +107,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
 function ComposeButton() {
   const { dispatch: dispatchDraftEmail } = useContext(DraftEmailsContext)
 
-  const { trigger: triggerCreateEmail, isMutating: isCreatingEmail } =
-    useCreateEmail()
+  const { trigger: triggerCreateEmail } = useCreateEmail()
 
   const handleCreate = async () => {
     const draftID = generateLocalDraftID()
