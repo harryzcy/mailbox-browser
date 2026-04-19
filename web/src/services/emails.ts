@@ -167,7 +167,7 @@ export interface CreateEmailResult {
 
 export function useCreateEmail(): CreateEmailResult {
   // TODO: should return error
-  const { trigger, isMutating } = useSWRMutation(
+  return useSWRMutation<Email, Error, '/web/emails', CreateEmailProps>(
     '/web/emails',
     async (url, { arg }: { arg: CreateEmailProps }) => {
       const response = await fetch(url, {
@@ -183,11 +183,6 @@ export function useCreateEmail(): CreateEmailResult {
       return response.json() as Promise<Email>
     }
   )
-
-  return {
-    trigger,
-    isMutating
-  }
 }
 
 export type SaveEmailProps = CreateEmailProps & {
