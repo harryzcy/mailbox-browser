@@ -83,8 +83,8 @@ export default function EmailTableRow(props: EmailTableRowProps) {
           void openEmail()
         }}
       >
-        <span title={email.from.length > 0 ? email.from[0] : ''}>
-          <EmailName emails={email.from} />
+        <span title={email.from && email.from.length > 0 ? email.from[0] : ''}>
+          <EmailName emails={email.from ?? []} />
         </span>
       </div>
       <div
