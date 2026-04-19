@@ -1,4 +1,5 @@
 import useSWR from 'swr'
+import useSWRMutation, { TriggerWithArgs } from 'swr/mutation'
 
 export interface EmailInfo {
   messageID: string
@@ -127,19 +128,6 @@ export async function getEmail(messageID: string): Promise<Email> {
   return response.json() as Promise<Email>
 }
 
-export interface CreateEmailProps {
-  subject: string
-  from: string[]
-  to: string[]
-  cc: string[]
-  bcc: string[]
-  replyTo: string[]
-  text: string
-  html: string
-  send: boolean
-  replyEmailID?: string
-}
-
 interface UseEmailRawResult {
   raw: string | undefined
   isLoading: boolean
@@ -159,19 +147,47 @@ export function useEmailRaw(messageID: string): UseEmailRawResult {
   }
 }
 
-export async function createEmail(email: CreateEmailProps): Promise<Email> {
-  // TODO: should return error
-  const response = await fetch('/web/emails', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      ...email,
-      generateText: 'off'
+export interface CreateEmailProps {
+  subject: string
+  from: string[]
+  to: string[]
+  cc: string[]
+  bcc: string[]
+  replyTo: string[]
+  text: string
+  html: string
+  send: boolean
+  replyEmailID?: string
+}
+
+export interface CreateEmailResult {
+  trigger: TriggerWithArgs<Email, Error, '/web/emails', CreateEmailProps>
+  isMutating: boolean
+}
+
+export function useCreateEmail(): CreateEmailResult {
+  const { trigger, isMutating } = useSWRMutation<
+    Email,
+    Error,
+    '/web/emails',
+    CreateEmailProps
+  >('/web/emails', async (url, { arg }: { arg: CreateEmailProps }) => {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...arg,
+        generateText: 'off'
+      })
     })
+    return response.json() as Promise<Email>
   })
-  return response.json() as Promise<Email>
+  return {
+    trigger,
+    isMutating
+  }
 }
 
 export type SaveEmailProps = CreateEmailProps & {
