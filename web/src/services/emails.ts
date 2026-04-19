@@ -1,3 +1,5 @@
+import useSWR from 'swr'
+
 export interface EmailInfo {
   messageID: string
   type: 'inbox' | 'draft' | 'sent'
@@ -105,8 +107,23 @@ export interface EmailVerdict {
   virus: boolean
 }
 
-export async function getEmail(id: string): Promise<Email> {
-  const response = await fetch(`/web/emails/${id}`)
+export function useEmail(messageID: string | null): Email | undefined {
+  const { data } = useSWR<Email, Error>(
+    messageID ? `email-${messageID}` : null,
+    async () => {
+      if (!messageID) {
+        throw new Error('Fetching is disabled when messageID is null')
+      }
+      const response = await fetch(`/web/emails/${messageID}`)
+      return response.json() as Promise<Email>
+    },
+    { suspense: true }
+  )
+  return data
+}
+
+export async function getEmail(messageID: string): Promise<Email> {
+  const response = await fetch(`/web/emails/${messageID}`)
   return response.json() as Promise<Email>
 }
 
@@ -123,9 +140,23 @@ export interface CreateEmailProps {
   replyEmailID?: string
 }
 
-export async function getEmailRaw(messageID: string): Promise<string> {
-  const response = await fetch(`/web/emails/${messageID}/raw`)
-  return response.text()
+interface UseEmailRawResult {
+  raw: string | undefined
+  isLoading: boolean
+}
+
+export function useEmailRaw(messageID: string): UseEmailRawResult {
+  const { data, isLoading } = useSWR<string, Error>(
+    `email-raw-${messageID}`,
+    async () => {
+      const response = await fetch(`/web/emails/${messageID}/raw`)
+      return response.text()
+    }
+  )
+  return {
+    raw: data,
+    isLoading
+  }
 }
 
 export async function createEmail(email: CreateEmailProps): Promise<Email> {

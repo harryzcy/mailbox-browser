@@ -2,16 +2,14 @@
  * EmailRoot.tsx
  * This is the root component for inbox, draft, and sent pages.
  */
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router'
 
 import DraftEmailsTabs from 'components/emails/DraftEmailsTabs'
 import FullScreenContent from 'components/emails/FullScreenContent'
 
-import { ConfigContext } from 'contexts/ConfigContext'
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
-import { getConfig } from 'services/config'
 import { EmailInfo, ListEmailsResponse, listEmails } from 'services/emails'
 
 import { getCurrentYearMonth } from 'utils/time'
@@ -127,22 +125,7 @@ export default function EmailRoot(props: EmailRootProps) {
     setScrollYPosition
   }
 
-  const configContext = useContext(ConfigContext)
   const draftEmailsContext = useContext(DraftEmailsContext)
-
-  const loadConfig = async () => {
-    if (configContext.state.loaded) {
-      return
-    }
-    configContext.dispatch({
-      type: 'set',
-      config: await getConfig()
-    })
-  }
-
-  useEffect(() => {
-    void loadConfig()
-  })
 
   return (
     <>

@@ -13,13 +13,13 @@ import { EmailDraft } from 'components/emails/EmailDraft'
 import EmailMenuBar from 'components/emails/EmailMenuBar'
 import EmailName from 'components/emails/EmailName'
 
-import { ConfigContext } from 'contexts/ConfigContext'
 import { DraftEmail, DraftEmailsContext } from 'contexts/DraftEmailContext'
 
 import { useOutsideClick } from 'hooks/useOutsideClick'
 
 import { useInboxContext } from 'pages/EmailRoot'
 
+import { useConfig } from 'services/config'
 import {
   CreateEmailProps,
   Email,
@@ -28,19 +28,25 @@ import {
   readEmail,
   saveEmail,
   trashEmail,
-  unreadEmail
+  unreadEmail,
+  useEmail
 } from 'services/emails'
-import { Thread } from 'services/threads'
+import { useThread } from 'services/threads'
 
 import { parseEmailContent, parseEmailName } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
+type EmailViewLoaderData =
+  | { type: 'email'; messageID: string }
+  | { type: 'thread'; threadID: string }
+
 export default function EmailView() {
-  const data:
-    | { type: 'email'; messageID: string; email: Email }
-    | { type: 'thread'; threadID: string; thread: Thread } = useLoaderData()
+  const data: EmailViewLoaderData = useLoaderData()
 
   const navigate = useNavigate()
+
+  const email = useEmail(data.type === 'email' ? data.messageID : null)
+  const { thread } = useThread(data.type === 'thread' ? data.threadID : null)
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goPrevious = () => {}
@@ -51,7 +57,7 @@ export default function EmailView() {
     useContext(DraftEmailsContext)
   const [isInitialReplyOpen, setIsInitialReplyOpen] = useState(false)
 
-  const configContext = useContext(ConfigContext)
+  const { config } = useConfig()
 
   const startDraft = async (draftID: string, replyEmail?: Email) => {
     const body = {
@@ -85,7 +91,7 @@ export default function EmailView() {
       type: 'new-reply',
       messageID: draftID,
       replyEmail: email,
-      allowedAddresses: configContext.state.config.emailAddresses
+      allowedAddresses: config?.emailAddresses ?? []
     })
 
     await startDraft(draftID)
@@ -220,8 +226,9 @@ export default function EmailView() {
           </div>
         }
       >
-        {data.type == 'email' && (
-          <Await resolve={data.email}>
+        {/* TODO: improve suspense handling & integration with swr */}
+        {data.type == 'email' && email && (
+          <Await resolve={email}>
             {(email: Email) => (
               <div className="h-full overflow-y-scroll pb-5 px-2 md:px-0">
                 <div className="mb-2 px-3">
@@ -253,53 +260,49 @@ export default function EmailView() {
           </Await>
         )}
 
-        {data.type == 'thread' && (
-          <Await resolve={data.thread}>
-            {(thread: Thread) => (
-              <div className="h-full overflow-scroll pb-5">
-                <div className="mb-2 px-3">
-                  <span className="text-xl font-normal dark:text-neutral-200">
-                    {thread.subject}
+        {data.type == 'thread' && thread && (
+          <div className="h-full overflow-scroll pb-5">
+            <div className="mb-2 px-3">
+              <span className="text-xl font-normal dark:text-neutral-200">
+                {thread.subject}
+              </span>
+            </div>
+            {thread.emails.map((email) => (
+              <EmailBlock
+                key={email.messageID}
+                email={email}
+                startReply={(email) => void startReply(email)}
+                startForward={(email) => void startForward(email)}
+              />
+            ))}
+            {activeReplyEmail && (
+              <EmailDraft
+                email={activeReplyEmail}
+                isReply
+                handleEmailChange={handleEmailChange}
+                handleSend={() => {
+                  void handleSend()
+                }}
+              />
+            )}
+            {thread.draftID && !activeReplyEmail && (
+              <div className="preflight mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800 w-full">
+                <div className="flex items-start justify-between">
+                  <span className="text-red-300">[Draft]</span>
+                  <span className="text-neutral-500 dark:text-neutral-300">
+                    <span
+                      className="inline-flex size-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                      onClick={() => {
+                        if (thread.draft) openReply(thread.draft)
+                      }}
+                    >
+                      <PencilIcon />
+                    </span>
                   </span>
                 </div>
-                {thread.emails.map((email) => (
-                  <EmailBlock
-                    key={email.messageID}
-                    email={email}
-                    startReply={(email) => void startReply(email)}
-                    startForward={(email) => void startForward(email)}
-                  />
-                ))}
-                {activeReplyEmail && (
-                  <EmailDraft
-                    email={activeReplyEmail}
-                    isReply
-                    handleEmailChange={handleEmailChange}
-                    handleSend={() => {
-                      void handleSend()
-                    }}
-                  />
-                )}
-                {thread.draftID && !activeReplyEmail && (
-                  <div className="preflight mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800 w-full">
-                    <div className="flex items-start justify-between">
-                      <span className="text-red-300">[Draft]</span>
-                      <span className="text-neutral-500 dark:text-neutral-300">
-                        <span
-                          className="inline-flex size-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
-                          onClick={() => {
-                            if (thread.draft) openReply(thread.draft)
-                          }}
-                        >
-                          <PencilIcon />
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                )}
               </div>
             )}
-          </Await>
+          </div>
         )}
       </React.Suspense>
     </>
@@ -321,10 +324,9 @@ function EmailBlock(props: EmailBlockProps) {
     setShowMoreActions(false)
   })
 
-  const configContext = useContext(ConfigContext)
-  const [showImages, setShowImages] = useState(
-    configContext.state.config.imagesAutoLoad
-  )
+  const { config } = useConfig()
+
+  const [showImages, setShowImages] = useState(config?.imagesAutoLoad ?? false)
 
   const { markAsRead } = useInboxContext()
   useEffect(() => {
@@ -417,7 +419,7 @@ function EmailBlock(props: EmailBlockProps) {
               <div className="w-fit mx-auto max-w-full overflow-x-auto">
                 {parseEmailContent(
                   email,
-                  configContext.state.config.disableProxy,
+                  config?.disableProxy ?? false,
                   showImages
                 )}
               </div>
