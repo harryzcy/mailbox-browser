@@ -1,4 +1,5 @@
 import useSWR from 'swr'
+import useSWRMutation, { TriggerWithArgs } from 'swr/mutation'
 
 export interface EmailInfo {
   messageID: string
@@ -7,7 +8,7 @@ export interface EmailInfo {
   timeUpdated: string | null
   timeSent: string | null
   subject: string
-  from: string[]
+  from?: string[]
   to: string[]
   threadID: string
   isThreadLatest: true | undefined
@@ -127,19 +128,6 @@ export async function getEmail(messageID: string): Promise<Email> {
   return response.json() as Promise<Email>
 }
 
-export interface CreateEmailProps {
-  subject: string
-  from: string[]
-  to: string[]
-  cc: string[]
-  bcc: string[]
-  replyTo: string[]
-  text: string
-  html: string
-  send: boolean
-  replyEmailID?: string
-}
-
 interface UseEmailRawResult {
   raw: string | undefined
   isLoading: boolean
@@ -159,44 +147,89 @@ export function useEmailRaw(messageID: string): UseEmailRawResult {
   }
 }
 
-export async function createEmail(email: CreateEmailProps): Promise<Email> {
-  // TODO: should return error
-  const response = await fetch('/web/emails', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      ...email,
-      generateText: 'off'
+export interface CreateEmailProps {
+  subject: string
+  from: string[]
+  to: string[]
+  cc: string[]
+  bcc: string[]
+  replyTo: string[]
+  text: string
+  html: string
+  send: boolean
+  replyEmailID?: string
+}
+
+export interface CreateEmailResult {
+  trigger: TriggerWithArgs<Email, Error, '/web/emails', CreateEmailProps>
+  isMutating: boolean
+}
+
+export function useCreateEmail(): CreateEmailResult {
+  const { trigger, isMutating } = useSWRMutation<
+    Email,
+    Error,
+    '/web/emails',
+    CreateEmailProps
+  >('/web/emails', async (url, { arg }: { arg: CreateEmailProps }) => {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...arg,
+        generateText: 'off'
+      })
     })
+    return response.json() as Promise<Email>
   })
-  return response.json() as Promise<Email>
+  return {
+    trigger,
+    isMutating
+  }
 }
 
 export type SaveEmailProps = CreateEmailProps & {
   messageID: string
 }
 
-export async function saveEmail(email: SaveEmailProps): Promise<Email> {
-  const response = await fetch(`/web/emails/${email.messageID}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      subject: email.subject,
-      from: email.from,
-      to: email.to,
-      cc: email.cc,
-      bcc: email.bcc,
-      replyTo: email.replyTo,
-      text: email.text,
-      html: email.html,
-      send: email.send
+export interface SaveEmailResult {
+  trigger: TriggerWithArgs<Email, Error, string, SaveEmailProps>
+  isMutating: boolean
+}
+
+export function useSaveEmail(): SaveEmailResult {
+  const { trigger, isMutating } = useSWRMutation<
+    Email,
+    Error,
+    string | null,
+    SaveEmailProps
+  >('/web/emails/:messageID', async (_, { arg }: { arg: SaveEmailProps }) => {
+    const url = `/web/emails/${arg.messageID}`
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        subject: arg.subject,
+        from: arg.from,
+        to: arg.to,
+        cc: arg.cc,
+        bcc: arg.bcc,
+        replyTo: arg.replyTo,
+        text: arg.text,
+        html: arg.html,
+        send: arg.send
+      })
     })
+    return response.json() as Promise<Email>
   })
-  return response.json() as Promise<Email>
+  return {
+    trigger,
+    isMutating
+  }
 }
 
 export async function deleteEmail(messageID: string): Promise<void> {

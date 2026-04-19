@@ -4,7 +4,7 @@ import { DraftEmail, DraftEmailsContext } from 'contexts/DraftEmailContext'
 
 import useThrottled from 'hooks/useThrottled'
 
-import { deleteEmail, saveEmail } from 'services/emails'
+import { deleteEmail, useSaveEmail } from 'services/emails'
 
 import { EmailDraft } from './EmailDraft'
 
@@ -19,8 +19,10 @@ export default function FullScreenContent(props: FullScreenContentProps) {
   const [draftEmail, setDraftEmail] = useState<DraftEmail | undefined>()
   const throttledDraftEmail = useThrottled(draftEmail)
 
+  const { trigger: triggerSaveEmail } = useSaveEmail()
+
   const saveDraft = async (email: DraftEmail, send = false) => {
-    await saveEmail({
+    await triggerSaveEmail({
       messageID: email.messageID,
       subject: email.subject,
       from: email.from,
