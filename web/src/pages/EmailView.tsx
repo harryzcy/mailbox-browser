@@ -31,7 +31,7 @@ import {
   unreadEmail,
   useEmail
 } from 'services/emails'
-import { Thread, useThread } from 'services/threads'
+import { useThread } from 'services/threads'
 
 import { parseEmailContent, parseEmailName } from 'utils/emails'
 import { formatDate } from 'utils/time'
