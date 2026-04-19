@@ -166,22 +166,28 @@ export interface CreateEmailResult {
 }
 
 export function useCreateEmail(): CreateEmailResult {
-  return useSWRMutation<Email, Error, '/web/emails', CreateEmailProps>(
+  const { trigger, isMutating } = useSWRMutation<
+    Email,
+    Error,
     '/web/emails',
-    async (url, { arg }: { arg: CreateEmailProps }) => {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ...arg,
-          generateText: 'off'
-        })
+    CreateEmailProps
+  >('/web/emails', async (url, { arg }: { arg: CreateEmailProps }) => {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...arg,
+        generateText: 'off'
       })
-      return response.json() as Promise<Email>
-    }
-  )
+    })
+    return response.json() as Promise<Email>
+  })
+  return {
+    trigger,
+    isMutating
+  }
 }
 
 export type SaveEmailProps = CreateEmailProps & {
