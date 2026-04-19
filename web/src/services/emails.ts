@@ -161,7 +161,7 @@ export function useEmailRaw(messageID: string): UseEmailRawResult {
 }
 
 export interface CreateEmailResult {
-  trigger: TriggerWithArgs<Email, Error, string, CreateEmailProps>
+  trigger: TriggerWithArgs<Email, Error, '/web/emails', CreateEmailProps>
   isMutating: boolean
 }
 
