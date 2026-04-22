@@ -13,7 +13,7 @@ jobs:
     name: Release on GitHub
     permissions:
       contents: write
-    uses: harryzcy/github-actions/.github/workflows/release.yml@25d834bc6f100ee46b88756cb6ec46204f04705a # main
+    uses: harryzcy/github-actions/.github/workflows/release.yml@96c175a408fc7de445f2051d28c38ab6094b001f # main
 
   release-docker:
     name: Release on Docker Hub
@@ -23,7 +23,7 @@ jobs:
       packages: write
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@6c3c2f2c1c457b00c10c4848d6f5491db3b629df # v2.18.0
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
         with:
           disable-sudo: true
           disable-telemetry: true
