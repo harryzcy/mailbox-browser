@@ -10,7 +10,12 @@ import FullScreenContent from 'components/emails/FullScreenContent'
 
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
-import { EmailInfo, ListEmailsResponse, listEmails } from 'services/emails'
+import {
+  EmailInfo,
+  ListEmailsResponse,
+  listEmails,
+  useEmails
+} from 'services/emails'
 
 import { getCurrentYearMonth } from 'utils/time'
 
@@ -46,6 +51,10 @@ interface EmailRootProps {
 }
 
 export default function EmailRoot(props: EmailRootProps) {
+  const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
+  const [year, setYear] = useState(initialYear)
+  const [month, setMonth] = useState(initialMonth)
+
   const [count, setCount] = useState(0)
   const [hasMore, setHasMore] = useState(true)
   const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
@@ -56,15 +65,35 @@ export default function EmailRoot(props: EmailRootProps) {
     'idle' | 'loading' | 'loaded' | 'error'
   >('idle')
 
-  const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
-  const [year, setYear] = useState(initialYear)
-  const [month, setMonth] = useState(initialMonth)
+  const useEmailsEffect = () => {
+    const data = useEmails({
+      type: props.type,
+      year,
+      month,
+      order: 'desc',
+      nextCursor
+    })
+    return data
+  }
+
+  const emailsData = useEmailsEffect()
+
+  useEffect(() => {
+    console.log('84 emailsData', emailsData)
+    if (emailsData.loadingState === 'loaded') {
+      setEmails(emailsData.items)
+      setCount(emailsData.count)
+      setHasMore(emailsData.hasMore)
+      // setNextCursor(emailsData.nextCursor)
+    }
+  }, [emailsData.loadingState])
 
   const loadEmails = async (input: {
     year?: number
     month?: number
     nextCursor?: string
   }) => {
+    return []
     const { nextCursor } = input
 
     const data = await listEmails({
