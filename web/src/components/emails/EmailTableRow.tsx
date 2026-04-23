@@ -8,9 +8,8 @@ import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
 import { EmailInfo, getEmail, preloadEmail } from 'services/emails'
 
+import { EMAIL_PRELOAD_DELAY } from 'utils/constants'
 import { formatDate } from 'utils/time'
-
-const PRELOAD_DELAY = 500 // in milliseconds
 
 interface EmailTableRowProps {
   email: EmailInfo
@@ -64,7 +63,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       setTimeout(() => {
         console.log('Preloading email', email.messageID)
         void preloadEmail(email.messageID)
-      }, PRELOAD_DELAY)
+      }, EMAIL_PRELOAD_DELAY)
     )
   }
 
