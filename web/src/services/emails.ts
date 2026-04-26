@@ -1,6 +1,8 @@
 import useSWR, { preload } from 'swr'
 import useSWRMutation, { TriggerWithArgs } from 'swr/mutation'
 
+import { ENABLE_PRELOAD } from 'utils/constants'
+
 export interface EmailInfo {
   messageID: string
   type: 'inbox' | 'draft' | 'sent'
@@ -123,6 +125,9 @@ export function useEmail(messageID: string | null): Email | undefined {
 }
 
 export async function preloadEmail(messageID: string): Promise<void> {
+  if (!ENABLE_PRELOAD) {
+    return
+  }
   await preload(`/web/emails/${messageID}`, emailFetcher)
 }
 
