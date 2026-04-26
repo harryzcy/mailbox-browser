@@ -3,13 +3,12 @@
  * This is the root component for inbox, draft, and sent pages.
  */
 import { useContext, useState } from 'react'
-import { Outlet } from 'react-router'
 
 import DraftEmailsTabs from 'components/emails/DraftEmailsTabs'
 import FullScreenContent from 'components/emails/FullScreenContent'
 
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
-import { InboxContext } from 'contexts/InboxContext'
+import { InboxContext, InboxContextOutlet } from 'contexts/InboxContext'
 
 import { EmailInfo, listEmails } from 'services/emails'
 
@@ -112,7 +111,7 @@ export default function EmailRoot(props: EmailRootProps) {
                 : 'Sent'}
           </h1>
         </div>
-        <Outlet context={outletContext} />
+        <InboxContextOutlet context={outletContext} />
       </div>
 
       <div className="preflight">

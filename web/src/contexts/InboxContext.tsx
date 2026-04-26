@@ -1,4 +1,4 @@
-import { useOutletContext } from 'react-router'
+import { Outlet, useOutletContext } from 'react-router'
 
 import { EmailInfo, ListEmailsResponse } from 'services/emails'
 
@@ -27,4 +27,12 @@ export interface InboxContext {
 
 export function useInboxContext() {
   return useOutletContext<InboxContext>()
+}
+
+interface InboxContextProviderProps {
+  context: InboxContext
+}
+
+export function InboxContextOutlet(props: InboxContextProviderProps) {
+  return <Outlet context={props.context} />
 }
