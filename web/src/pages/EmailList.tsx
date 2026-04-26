@@ -4,6 +4,8 @@ import { toast } from 'sonner'
 import EmailMenuBar from 'components/emails/EmailMenuBar'
 import EmailTableView from 'components/emails/EmailTableView'
 
+import { useInboxContext } from 'contexts/InboxContext'
+
 import { useOutsideClick } from 'hooks/useOutsideClick'
 
 import {
@@ -14,8 +16,6 @@ import {
 } from 'services/emails'
 
 import { getCurrentYearMonth } from 'utils/time'
-
-import { useInboxContext } from './EmailRoot'
 
 export default function EmailList() {
   const {
