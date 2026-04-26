@@ -73,8 +73,6 @@ export default function EmailRoot(props: EmailRootProps) {
     if (input.month) {
       setMonth(input.month)
     }
-
-    setLoadingState('loaded')
     return data
   }
 
