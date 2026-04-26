@@ -2,92 +2,25 @@
  * EmailRoot.tsx
  * This is the root component for inbox, draft, and sent pages.
  */
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 
 import DraftEmailsTabs from 'components/emails/DraftEmailsTabs'
 import FullScreenContent from 'components/emails/FullScreenContent'
 
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
-import { InboxContext, InboxContextOutlet } from 'contexts/InboxContext'
-
-import { EmailInfo, listEmails } from 'services/emails'
-
-import { getCurrentYearMonth } from 'utils/time'
+import { InboxContextOutlet, useInboxContext } from 'contexts/InboxContext'
 
 interface EmailRootProps {
   type: 'inbox' | 'draft' | 'sent'
 }
 
 export default function EmailRoot(props: EmailRootProps) {
-  const [count, setCount] = useState(0)
-  const [hasMore, setHasMore] = useState(true)
-  const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
-  const [emails, setEmails] = useState<EmailInfo[]>([])
-  const [scrollYPosition, setScrollYPosition] = useState(0)
-
-  const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
-  const [year, setYear] = useState(initialYear)
-  const [month, setMonth] = useState(initialMonth)
-
-  const loadEmails = async (input: {
-    year?: number
-    month?: number
-    nextCursor?: string
-  }) => {
-    const { nextCursor } = input
-
-    const data = await listEmails({
-      type: props.type,
-      year: input.year ?? year,
-      month: input.month ?? month,
-      order: 'desc',
-      nextCursor
-    })
-
-    if (input.year) {
-      setYear(input.year)
-    }
-    if (input.month) {
-      setMonth(input.month)
-    }
-    return data
-  }
+  const inboxContext = useInboxContext()
 
   const removeEmailFromList = (messageID: string) => {
-    setEmails(emails.filter((email) => email.messageID !== messageID))
-  }
-
-  const markAsRead = (messageID: string) => {
-    setEmails(
-      emails.map((email) => {
-        if (email.messageID === messageID) {
-          return {
-            ...email,
-            unread: false
-          }
-        }
-        return email
-      })
+    inboxContext.setEmails(
+      inboxContext.emails.filter((email) => email.messageID !== messageID)
     )
-  }
-
-  const outletContext: InboxContext = {
-    count,
-    setCount,
-    hasMore,
-    setHasMore,
-    nextCursor,
-    setNextCursor,
-    emails,
-    setEmails,
-    year,
-    setYear,
-    month,
-    setMonth,
-    loadEmails,
-    markAsRead,
-    scrollYPosition,
-    setScrollYPosition
   }
 
   const draftEmailsContext = useContext(DraftEmailsContext)
@@ -111,7 +44,7 @@ export default function EmailRoot(props: EmailRootProps) {
                 : 'Sent'}
           </h1>
         </div>
-        <InboxContextOutlet context={outletContext} />
+        <InboxContextOutlet type={props.type} />
       </div>
 
       <div className="preflight">
