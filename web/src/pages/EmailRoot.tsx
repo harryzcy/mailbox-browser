@@ -1,6 +1,7 @@
 /*
  * EmailRoot.tsx
- * This is the root component for inbox, draft, and sent pages.
+ * This is the root component for the entire right section of the page, only excluding the sidebar on the left.
+ * It is used for the inbox, draft, and sent pages, and it contains the Outlet for the email list and email view components.
  */
 import { useContext } from 'react'
 
