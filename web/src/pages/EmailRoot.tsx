@@ -23,10 +23,6 @@ interface InboxContext {
   setNextCursor: (nextCursor: string | undefined) => void
   emails: EmailInfo[]
   setEmails: (emails: EmailInfo[]) => void
-  loadingState: 'idle' | 'loading' | 'loaded' | 'error'
-  setLoadingState: (
-    loadingState: 'idle' | 'loading' | 'loaded' | 'error'
-  ) => void
   year: number
   setYear: (year: number) => void
   month: number
@@ -51,10 +47,6 @@ export default function EmailRoot(props: EmailRootProps) {
   const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
   const [emails, setEmails] = useState<EmailInfo[]>([])
   const [scrollYPosition, setScrollYPosition] = useState(0)
-
-  const [loadingState, setLoadingState] = useState<
-    'idle' | 'loading' | 'loaded' | 'error'
-  >('idle')
 
   const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
   const [year, setYear] = useState(initialYear)
@@ -113,8 +105,6 @@ export default function EmailRoot(props: EmailRootProps) {
     setNextCursor,
     emails,
     setEmails,
-    loadingState,
-    setLoadingState,
     year,
     setYear,
     month,
