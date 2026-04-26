@@ -3,39 +3,17 @@
  * This is the root component for inbox, draft, and sent pages.
  */
 import { useContext, useState } from 'react'
-import { Outlet, useOutletContext } from 'react-router'
+import { Outlet } from 'react-router'
 
 import DraftEmailsTabs from 'components/emails/DraftEmailsTabs'
 import FullScreenContent from 'components/emails/FullScreenContent'
 
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
+import { InboxContext } from 'contexts/InboxContext'
 
-import { EmailInfo, ListEmailsResponse, listEmails } from 'services/emails'
+import { EmailInfo, listEmails } from 'services/emails'
 
 import { getCurrentYearMonth } from 'utils/time'
-
-interface InboxContext {
-  count: number
-  setCount: (count: number) => void
-  hasMore: boolean
-  setHasMore: (hasMore: boolean) => void
-  nextCursor: string | undefined
-  setNextCursor: (nextCursor: string | undefined) => void
-  emails: EmailInfo[]
-  setEmails: (emails: EmailInfo[]) => void
-  year: number
-  setYear: (year: number) => void
-  month: number
-  setMonth: (month: number) => void
-  loadEmails: (input: {
-    year: number
-    month: number
-    nextCursor?: string
-  }) => Promise<ListEmailsResponse>
-  markAsRead: (messageID: string) => void
-  scrollYPosition: number
-  setScrollYPosition: (yPosition: number) => void
-}
 
 interface EmailRootProps {
   type: 'inbox' | 'draft' | 'sent'
@@ -150,8 +128,4 @@ export default function EmailRoot(props: EmailRootProps) {
       </div>
     </>
   )
-}
-
-export function useInboxContext() {
-  return useOutletContext<InboxContext>()
 }

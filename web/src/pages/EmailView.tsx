@@ -14,10 +14,9 @@ import EmailMenuBar from 'components/emails/EmailMenuBar'
 import EmailName from 'components/emails/EmailName'
 
 import { DraftEmail, DraftEmailsContext } from 'contexts/DraftEmailContext'
+import { useInboxContext } from 'contexts/InboxContext'
 
 import { useOutsideClick } from 'hooks/useOutsideClick'
-
-import { useInboxContext } from 'pages/EmailRoot'
 
 import { useConfig } from 'services/config'
 import {
