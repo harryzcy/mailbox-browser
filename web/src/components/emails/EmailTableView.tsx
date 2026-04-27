@@ -11,18 +11,17 @@ interface EmailTableViewProps {
   selected: string[]
   toggleSelected: (messageID: string) => void
   hasMore: boolean
-  loadMoreEmails: () => void
+  setLoadMoreEmails: (loadMore: boolean) => void
 }
 
 export default function EmailTableView(props: EmailTableViewProps) {
-  const { emails, toggleSelected, loadMoreEmails } = props
+  const { emails, toggleSelected, setLoadMoreEmails } = props
 
   const loadMoreRef = useRef<HTMLDivElement>(null)
   const shouldLoadMore = useIsInViewport(loadMoreRef)
+
   useEffect(() => {
-    if (shouldLoadMore) {
-      loadMoreEmails()
-    }
+    setLoadMoreEmails(shouldLoadMore)
   }, [shouldLoadMore])
 
   return (
