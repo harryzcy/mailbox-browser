@@ -4,7 +4,11 @@ import { toast } from 'sonner'
 
 import { EmailInfo, ListEmailsResponse, listEmails } from 'services/emails'
 
-import { getCurrentYearMonth } from 'utils/time'
+import {
+  getCurrentYearMonth,
+  getNextMonthYear,
+  getPreviousMonthYear
+} from 'utils/time'
 
 export interface InboxContext {
   count: number
@@ -28,6 +32,9 @@ export interface InboxContext {
   scrollYPosition: number
   setScrollYPosition: (yPosition: number) => void
   setLoadMoreEmails: (loadMore: boolean) => void
+  hasPreviousPage: boolean
+  goNextPage: () => Promise<void>
+  goPreviousPage: () => Promise<void>
 }
 
 export function useInboxContext() {
@@ -114,6 +121,54 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     )
   }
 
+  const goNextPage = async () => {
+    // Order is reversed, next button goes to previous month
+    const { month: newMonth, year: newYear } = getPreviousMonthYear(month, year)
+    try {
+      const data = await loadEmails({
+        year: newYear,
+        month: newMonth
+      })
+      setEmails(data.items)
+      setCount(data.count)
+      setHasMore(data.hasMore)
+      setNextCursor(data.nextCursor)
+    } catch (e) {
+      console.error('Failed to load emails', e)
+      toast.error('Failed to load emails')
+    }
+  }
+
+  const goPreviousPage = async () => {
+    if (!hasPreviousPage) return
+    // Order is reversed, back button goes to next month
+    const { month: newMonth, year: newYear } = getNextMonthYear(month, year)
+    try {
+      const data = await loadEmails({
+        year: newYear,
+        month: newMonth
+      })
+      setEmails(data.items)
+      setCount(data.count)
+      setHasMore(data.hasMore)
+      setNextCursor(data.nextCursor)
+    } catch (e) {
+      console.error('Failed to load emails', e)
+      toast.error('Failed to load emails')
+    }
+  }
+
+  const checkHasPrevious = () => {
+    const { year: currentYear, month: currentMonth } = getCurrentYearMonth()
+    return currentYear > year || (currentYear === year && currentMonth > month)
+  }
+
+  const [hasPreviousPage, setHasPreviousPage] = useState(false)
+
+  useEffect(() => {
+    setHasPreviousPage(checkHasPrevious())
+  }, [year, month])
+
   const outletContext: InboxContext = {
     count,
     setCount,
@@ -131,7 +186,10 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     markAsRead,
     scrollYPosition,
     setScrollYPosition,
-    setLoadMoreEmails: setShouldLoadMoreEmails
+    setLoadMoreEmails: setShouldLoadMoreEmails,
+    hasPreviousPage: hasPreviousPage,
+    goNextPage,
+    goPreviousPage
   }
 
   return <Outlet context={outletContext} />

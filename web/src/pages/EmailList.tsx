@@ -15,20 +15,17 @@ import {
   unreadEmail
 } from 'services/emails'
 
-import { getCurrentYearMonth, getNextMonthYear } from 'utils/time'
-
 export default function EmailList() {
   const {
-    setCount,
     hasMore,
-    setHasMore,
-    setNextCursor,
     emails,
     setEmails,
     year,
     month,
-    loadEmails,
-    setLoadMoreEmails
+    setLoadMoreEmails,
+    hasPreviousPage,
+    goNextPage,
+    goPreviousPage
   } = useInboxContext()
 
   const [selected, setSelected] = useState<string[]>([])
@@ -49,53 +46,6 @@ export default function EmailList() {
     } else {
       setSelected([...selected, messageID])
     }
-  }
-
-  const [hasPrevious, setHasPrevious] = useState(false)
-
-  const goPrevious = async () => {
-    if (!hasPrevious) return
-    // Order is reversed, back button goes to next month
-    const { month: newMonth, year: newYear } = getNextMonthYear(month, year)
-    try {
-      const data = await loadEmails({
-        year: newYear,
-        month: newMonth
-      })
-      setEmails(data.items)
-      setCount(data.count)
-      setHasMore(data.hasMore)
-      setNextCursor(data.nextCursor)
-    } catch (e) {
-      console.error('Failed to load emails', e)
-      toast.error('Failed to load emails')
-    }
-  }
-
-  const goNext = async () => {
-    const { month: newMonth, year: newYear } = getNextMonthYear(month, year)
-    try {
-      const data = await loadEmails({
-        year: newYear,
-        month: newMonth
-      })
-      setEmails(data.items)
-      setCount(data.count)
-      setHasMore(data.hasMore)
-      setNextCursor(data.nextCursor)
-    } catch (e) {
-      console.error('Failed to load emails', e)
-      toast.error('Failed to load emails')
-    }
-  }
-
-  useEffect(() => {
-    setHasPrevious(checkHasPrevious())
-  }, [year, month])
-
-  const checkHasPrevious = () => {
-    const { year: currentYear, month: currentMonth } = getCurrentYearMonth()
-    return currentYear > year || (currentYear === year && currentMonth > month)
   }
 
   const handleDelete = async () => {
@@ -178,12 +128,12 @@ export default function EmailList() {
           handleRead={handleRead}
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           handleUnread={handleUnread}
-          hasPrevious={hasPrevious}
+          hasPrevious={hasPreviousPage}
           hasNext={true}
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          goPrevious={goPrevious}
+          goPrevious={goPreviousPage}
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          goNext={goNext}
+          goNext={goNextPage}
         >
           <span className="w-16">
             {year}-{month.toString().padStart(2, '0')}
