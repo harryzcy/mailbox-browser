@@ -19,17 +19,16 @@ import { getCurrentYearMonth } from 'utils/time'
 
 export default function EmailList() {
   const {
-    count,
     setCount,
     hasMore,
     setHasMore,
-    nextCursor,
     setNextCursor,
     emails,
     setEmails,
     year,
     month,
-    loadEmails
+    loadEmails,
+    setLoadMoreEmails
   } = useInboxContext()
 
   const [selected, setSelected] = useState<string[]>([])
@@ -109,24 +108,6 @@ export default function EmailList() {
   const checkHasPrevious = () => {
     const { year: currentYear, month: currentMonth } = getCurrentYearMonth()
     return currentYear > year || (currentYear === year && currentMonth > month)
-  }
-
-  const loadMoreEmails = async () => {
-    if (!hasMore) return
-    try {
-      const data = await loadEmails({
-        year,
-        month,
-        nextCursor
-      })
-      setEmails([...emails, ...data.items])
-      setCount(data.count + count)
-      setHasMore(data.hasMore)
-      setNextCursor(data.nextCursor)
-    } catch (e) {
-      console.error('Failed to load emails', e)
-      toast.error('Failed to load emails')
-    }
   }
 
   const handleDelete = async () => {
@@ -234,8 +215,7 @@ export default function EmailList() {
           selected={selected}
           toggleSelected={toggleSelected}
           hasMore={hasMore}
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          loadMoreEmails={loadMoreEmails}
+          setLoadMoreEmails={setLoadMoreEmails}
         />
       </div>
     </>

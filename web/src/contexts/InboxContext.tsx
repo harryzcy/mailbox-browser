@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router'
+import { toast } from 'sonner'
 
 import { EmailInfo, ListEmailsResponse, listEmails } from 'services/emails'
 
@@ -26,6 +27,7 @@ export interface InboxContext {
   markAsRead: (messageID: string) => void
   scrollYPosition: number
   setScrollYPosition: (yPosition: number) => void
+  setLoadMoreEmails: (loadMore: boolean) => void
 }
 
 export function useInboxContext() {
@@ -72,6 +74,32 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     return data
   }
 
+  const [shouldLoadMoreEmails, setShouldLoadMoreEmails] = useState(false)
+
+  const loadMoreEmails = async () => {
+    if (!hasMore) return
+    try {
+      const data = await loadEmails({
+        year,
+        month,
+        nextCursor
+      })
+      setEmails([...emails, ...data.items])
+      setCount(data.count + count)
+      setHasMore(data.hasMore)
+      setNextCursor(data.nextCursor)
+    } catch (e) {
+      console.error('Failed to load emails', e)
+      toast.error('Failed to load emails')
+    }
+  }
+
+  useEffect(() => {
+    if (shouldLoadMoreEmails) {
+      void loadMoreEmails()
+    }
+  }, [shouldLoadMoreEmails])
+
   const markAsRead = (messageID: string) => {
     setEmails(
       emails.map((email) => {
@@ -102,7 +130,8 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     loadEmails,
     markAsRead,
     scrollYPosition,
-    setScrollYPosition
+    setScrollYPosition,
+    setLoadMoreEmails: setShouldLoadMoreEmails
   }
 
   return <Outlet context={outletContext} />
