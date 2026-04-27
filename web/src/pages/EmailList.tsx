@@ -15,7 +15,7 @@ import {
   unreadEmail
 } from 'services/emails'
 
-import { getCurrentYearMonth } from 'utils/time'
+import { getCurrentYearMonth, getNextMonthYear } from 'utils/time'
 
 export default function EmailList() {
   const {
@@ -55,14 +55,8 @@ export default function EmailList() {
 
   const goPrevious = async () => {
     if (!hasPrevious) return
-
-    let newMonth = month + 1
-    let newYear = year
-    if (newMonth === 13) {
-      newMonth = 1
-      newYear = year + 1
-    }
-
+    // Order is reversed, back button goes to next month
+    const { month: newMonth, year: newYear } = getNextMonthYear(month, year)
     try {
       const data = await loadEmails({
         year: newYear,
@@ -79,13 +73,7 @@ export default function EmailList() {
   }
 
   const goNext = async () => {
-    let newMonth = month - 1
-    let newYear = year
-    if (newMonth === 0) {
-      newMonth = 12
-      newYear = year - 1
-    }
-
+    const { month: newMonth, year: newYear } = getNextMonthYear(month, year)
     try {
       const data = await loadEmails({
         year: newYear,
