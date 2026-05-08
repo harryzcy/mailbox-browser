@@ -32,7 +32,7 @@
     "clsx": "2.1.1",
     "domhandler": "6.0.1",
     "dompurify": "3.4.2",
-    "html-react-parser": "6.0.1",
+    "html-react-parser": "6.1.0",
     "lexical": "0.44.0",
     "lucide-react": "1.14.0",
     "next-themes": "0.4.6",
