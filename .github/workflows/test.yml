@@ -19,7 +19,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    uses: harryzcy/github-actions/.github/workflows/go.yml@3fcec52bfb900ad7ab335a35eebeb5cd8d9126ea # main
+    uses: harryzcy/github-actions/.github/workflows/go.yml@38ef6ea13dbde6399db653abb69139ac6a6be481 # main
     with:
       working-directory: bff
       latest: 1
@@ -37,7 +37,7 @@ jobs:
         working-directory: web
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
+        uses: step-security/harden-runner@9ca718d3bf646d6534007c269a635b3e54cadf99 # v2.19.2
         with:
           disable-sudo: true
           disable-telemetry: true
@@ -83,7 +83,7 @@ jobs:
         platforms: [amd64, arm64/v8]
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
+        uses: step-security/harden-runner@9ca718d3bf646d6534007c269a635b3e54cadf99 # v2.19.2
         with:
           disable-sudo: true
           disable-telemetry: true
