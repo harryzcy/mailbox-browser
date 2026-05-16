@@ -1,5 +1,7 @@
-import useSWR from 'swr'
+import useSWR, { preload } from 'swr'
 import useSWRMutation, { TriggerWithArgs } from 'swr/mutation'
+
+import { ENABLE_PRELOAD } from 'utils/constants'
 
 export interface EmailInfo {
   messageID: string
@@ -108,19 +110,25 @@ export interface EmailVerdict {
   virus: boolean
 }
 
+const emailFetcher = async (url: string): Promise<Email> => {
+  const response = await fetch(url)
+  if (!response.ok) {
+    throw new Error(`Failed to fetch email with URL ${url}`)
+  }
+  return (await response.json()) as Email
+}
+
 export function useEmail(messageID: string | null): Email | undefined {
-  const { data } = useSWR<Email, Error>(
-    messageID ? `email-${messageID}` : null,
-    async () => {
-      if (!messageID) {
-        throw new Error('Fetching is disabled when messageID is null')
-      }
-      const response = await fetch(`/web/emails/${messageID}`)
-      return response.json() as Promise<Email>
-    },
-    { suspense: true }
-  )
+  const url = messageID ? `/web/emails/${messageID}` : null
+  const { data } = useSWR<Email, Error>(url, emailFetcher)
   return data
+}
+
+export async function preloadEmail(messageID: string): Promise<void> {
+  if (!ENABLE_PRELOAD) {
+    return
+  }
+  await preload(`/web/emails/${messageID}`, emailFetcher)
 }
 
 export async function getEmail(messageID: string): Promise<Email> {

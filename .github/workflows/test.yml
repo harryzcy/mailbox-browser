@@ -19,7 +19,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    uses: harryzcy/github-actions/.github/workflows/go.yml@25d834bc6f100ee46b88756cb6ec46204f04705a # main
+    uses: harryzcy/github-actions/.github/workflows/go.yml@38ef6ea13dbde6399db653abb69139ac6a6be481 # main
     with:
       working-directory: bff
       latest: 1
@@ -37,7 +37,7 @@ jobs:
         working-directory: web
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@6c3c2f2c1c457b00c10c4848d6f5491db3b629df # v2.18.0
+        uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5 # v2.19.3
         with:
           disable-sudo: true
           disable-telemetry: true
@@ -60,7 +60,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Setup Node
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -83,7 +83,7 @@ jobs:
         platforms: [amd64, arm64/v8]
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@6c3c2f2c1c457b00c10c4848d6f5491db3b629df # v2.18.0
+        uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5 # v2.19.3
         with:
           disable-sudo: true
           disable-telemetry: true

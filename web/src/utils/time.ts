@@ -73,3 +73,23 @@ export function formatDateFull(date: string): string {
 
   return `${dayOfWeek}, ${formatDateLong(date, false)}`
 }
+
+export function getNextMonthYear(
+  month: number,
+  year: number
+): { month: number; year: number } {
+  if (month === 12) {
+    return { month: 1, year: year + 1 }
+  }
+  return { month: month + 1, year }
+}
+
+export function getPreviousMonthYear(
+  month: number,
+  year: number
+): { month: number; year: number } {
+  if (month === 1) {
+    return { month: 12, year: year - 1 }
+  }
+  return { month: month - 1, year }
+}

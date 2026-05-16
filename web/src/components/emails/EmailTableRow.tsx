@@ -1,13 +1,14 @@
 import { CheckIcon } from '@heroicons/react/20/solid'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import EmailName from 'components/emails/EmailName'
 
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
-import { EmailInfo, getEmail } from 'services/emails'
+import { EmailInfo, getEmail, preloadEmail } from 'services/emails'
 
+import { EMAIL_PRELOAD_DELAY } from 'utils/constants'
 import { formatDate } from 'utils/time'
 
 interface EmailTableRowProps {
@@ -50,6 +51,29 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     }
   }
 
+  const [mouseOverDelayHandler, setMouseOverDelayHandler] = useState<
+    number | null
+  >(null)
+
+  const handleMouseEnter = () => {
+    if (mouseOverDelayHandler) {
+      clearTimeout(mouseOverDelayHandler)
+    }
+    setMouseOverDelayHandler(
+      setTimeout(() => {
+        console.log('Preloading email', email.messageID)
+        void preloadEmail(email.messageID)
+      }, EMAIL_PRELOAD_DELAY)
+    )
+  }
+
+  const handleMouseLeave = () => {
+    if (mouseOverDelayHandler) {
+      clearTimeout(mouseOverDelayHandler)
+      setMouseOverDelayHandler(null)
+    }
+  }
+
   return (
     <div className="group contents">
       <div
@@ -82,6 +106,8 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         onClick={() => {
           void openEmail()
         }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <span title={email.from && email.from.length > 0 ? email.from[0] : ''}>
           <EmailName emails={email.from ?? []} />
