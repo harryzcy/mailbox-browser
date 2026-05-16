@@ -1,5 +1,5 @@
 import eslint from '@eslint/js'
-import reactPlugin from 'eslint-plugin-react'
+import reactHooks from 'eslint-plugin-react-hooks'
 import tsEslint from 'typescript-eslint'
 
 export default tsEslint.config(
@@ -17,8 +17,7 @@ export default tsEslint.config(
   eslint.configs.recommended,
   ...tsEslint.configs.strictTypeChecked,
   ...tsEslint.configs.stylisticTypeChecked,
-  reactPlugin.configs.flat.recommended,
-  reactPlugin.configs.flat['jsx-runtime'],
+  reactHooks.configs.flat.recommended,
   {
     languageOptions: {
       parserOptions: {
