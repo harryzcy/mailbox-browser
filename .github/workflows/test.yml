@@ -87,7 +87,7 @@ jobs:
         with:
           disable-sudo: true
           disable-telemetry: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: >
             auth.docker.io:443
             github.com:443
