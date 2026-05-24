@@ -19,7 +19,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    uses: harryzcy/github-actions/.github/workflows/go.yml@38ef6ea13dbde6399db653abb69139ac6a6be481 # main
+    uses: harryzcy/github-actions/.github/workflows/go.yml@82e295c74461251e108d45d2894649b4ca6a8340 # main
     with:
       working-directory: bff
       latest: 1
@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        node-version: [22.x, 24.x]
+        node-version: [26]
     permissions:
       id-token: write
     defaults:
@@ -40,7 +40,6 @@ jobs:
         uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5 # v2.19.3
         with:
           disable-sudo: true
-          disable-telemetry: true
           egress-policy: block
           allowed-endpoints: >
             api.codecov.io:443
@@ -55,6 +54,7 @@ jobs:
             storage.googleapis.com:443
             uploader.codecov.io:443
             objects.githubusercontent.com:443
+            release-assets.githubusercontent.com:443
 
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -71,7 +71,7 @@ jobs:
         run: npm test
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
+        uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v6.0.1
         with:
           use_oidc: true
 
@@ -86,12 +86,12 @@ jobs:
         uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5 # v2.19.3
         with:
           disable-sudo: true
-          disable-telemetry: true
           egress-policy: block
           allowed-endpoints: >
             auth.docker.io:443
             github.com:443
             production.cloudflare.docker.com:443
+            production.cloudfront.docker.com:443
             proxy.golang.org:443
             registry-1.docker.io:443
             registry.npmjs.org:443

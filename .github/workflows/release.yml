@@ -13,7 +13,7 @@ jobs:
     name: Release on GitHub
     permissions:
       contents: write
-    uses: harryzcy/github-actions/.github/workflows/release.yml@38ef6ea13dbde6399db653abb69139ac6a6be481 # main
+    uses: harryzcy/github-actions/.github/workflows/release.yml@82e295c74461251e108d45d2894649b4ca6a8340 # main
 
   release-docker:
     name: Release on Docker Hub
@@ -26,7 +26,6 @@ jobs:
         uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5 # v2.19.3
         with:
           disable-sudo: true
-          disable-telemetry: true
           egress-policy: audit
 
       - name: Checkout
