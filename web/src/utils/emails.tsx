@@ -190,11 +190,19 @@ function transformCss(host: string, code: string) {
 
   return result
 }
+type RuleDeclarations = (
+  | css.CssCommentAST
+  | css.CssDeclarationAST
+  | css.CssAtRuleAST
+)[]
+type FontFaceDeclrations = (css.CssCommentAST | css.CssDeclarationAST)[]
 
 function transformCssRules(host: string, rules?: css.CssAtRuleAST[]) {
-  const replaceDeclarations = (
-    declarations: (css.CssCommentAST | css.CssDeclarationAST)[]
-  ) => {
+  const replaceDeclarations = <
+    T extends RuleDeclarations | FontFaceDeclrations
+  >(
+    declarations: T
+  ): T => {
     return declarations.map((declaration) => {
       if (declaration.type === css.CssTypes.declaration) {
         if (isURLProperty(declaration.property)) {
@@ -202,7 +210,7 @@ function transformCssRules(host: string, rules?: css.CssAtRuleAST[]) {
         }
       }
       return declaration
-    })
+    }) as T
   }
 
   return rules?.map((rule) => {
@@ -219,7 +227,12 @@ function transformCssRules(host: string, rules?: css.CssAtRuleAST[]) {
     } else if (rule.type === css.CssTypes.fontFace) {
       rule.declarations = replaceDeclarations(rule.declarations)
     } else if ('rules' in rule) {
-      rule.rules = transformCssRules(host, rule.rules)
+      rule.rules = transformCssRules(
+        host,
+        rule.rules?.filter((r) => {
+          return r.type !== css.CssTypes.declaration
+        })
+      )
     }
     return rule
   })
