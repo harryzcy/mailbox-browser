@@ -12,7 +12,7 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "@adobe/css-tools": "4.4.4",
+    "@adobe/css-tools": "4.5.0",
     "@heroicons/react": "2.2.0",
     "@lexical/clipboard": "0.44.0",
     "@lexical/code": "0.44.0",
