@@ -185,7 +185,7 @@ function transformCss(host: string, code: string) {
   const obj = css.parse(code, { silent: true })
 
   const cssRules = transformCssRules(host, obj.stylesheet.rules)
-  if (cssRules) obj.stylesheet.rules = cssRules
+  obj.stylesheet.rules = cssRules
   const result = css.stringify(obj, { compress: false })
 
   return result
@@ -197,7 +197,9 @@ type RuleDeclarations = (
 )[]
 type FontFaceDeclrations = (css.CssCommentAST | css.CssDeclarationAST)[]
 
-function transformCssRules(host: string, rules?: css.CssAtRuleAST[]) {
+function transformCssRules<
+  T extends css.CssAtRuleAST[] | (css.CssAtRuleAST | css.CssDeclarationAST)[]
+>(host: string, rules: T): T {
   const replaceDeclarations = <
     T extends RuleDeclarations | FontFaceDeclrations
   >(
@@ -213,7 +215,7 @@ function transformCssRules(host: string, rules?: css.CssAtRuleAST[]) {
     }) as T
   }
 
-  return rules?.map((rule) => {
+  return rules.map((rule) => {
     if (rule.type === css.CssTypes.rule) {
       rule.selectors = rule.selectors.map((selector) => {
         if (selector.startsWith('@')) {
@@ -227,15 +229,12 @@ function transformCssRules(host: string, rules?: css.CssAtRuleAST[]) {
     } else if (rule.type === css.CssTypes.fontFace) {
       rule.declarations = replaceDeclarations(rule.declarations)
     } else if ('rules' in rule) {
-      rule.rules = transformCssRules(
-        host,
-        rule.rules?.filter((r) => {
-          return r.type !== css.CssTypes.declaration
-        })
-      )
+      if (rule.rules) {
+        rule.rules = transformCssRules(host, rule.rules)
+      }
     }
     return rule
-  })
+  }) as T
 }
 
 function makeProxyURL(host: string, url: string) {
