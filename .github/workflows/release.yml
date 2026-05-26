@@ -13,7 +13,7 @@ jobs:
     name: Release on GitHub
     permissions:
       contents: write
-    uses: harryzcy/github-actions/.github/workflows/release.yml@30df3c6587f94bcd4f39ef54a085a1cad082780a # main
+    uses: harryzcy/github-actions/.github/workflows/release.yml@4b1a8cebf62d55102a11b7823db49d0dcc82fa51 # main
 
   release-docker:
     name: Release on Docker Hub
