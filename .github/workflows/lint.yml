@@ -16,22 +16,22 @@ permissions:
 jobs:
   super-linter:
     name: Super Linter
-    uses: harryzcy/github-actions/.github/workflows/linter.yml@d93d9917fa745a4996d968874c2bd88bbd8239fe # main
+    uses: harryzcy/github-actions/.github/workflows/linter.yml@88f6d74880d1878315508426dde7a8aaf6cb3d88 # main
 
   go-lint:
     name: Go Lint
-    uses: harryzcy/github-actions/.github/workflows/golangci-lint.yml@d93d9917fa745a4996d968874c2bd88bbd8239fe # main
+    uses: harryzcy/github-actions/.github/workflows/golangci-lint.yml@88f6d74880d1878315508426dde7a8aaf6cb3d88 # main
     with:
       working-directory: bff
 
   prettier:
     name: Prettier
-    uses: harryzcy/github-actions/.github/workflows/prettier.yml@d93d9917fa745a4996d968874c2bd88bbd8239fe # main
+    uses: harryzcy/github-actions/.github/workflows/prettier.yml@88f6d74880d1878315508426dde7a8aaf6cb3d88 # main
     with:
       working-directory: web
 
   eslint:
     name: ESLint
-    uses: harryzcy/github-actions/.github/workflows/npm-lint.yml@d93d9917fa745a4996d968874c2bd88bbd8239fe # main
+    uses: harryzcy/github-actions/.github/workflows/npm-lint.yml@88f6d74880d1878315508426dde7a8aaf6cb3d88 # main
     with:
       working-directory: web
