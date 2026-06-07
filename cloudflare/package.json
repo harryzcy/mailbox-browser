@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20260603.1",
+    "@cloudflare/workers-types": "4.20260604.1",
     "typescript": "6.0.3",
     "wrangler": "4.97.0"
   },
