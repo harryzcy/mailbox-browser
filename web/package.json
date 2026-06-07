@@ -60,7 +60,7 @@
     "eslint": "9.39.4",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-react": "7.37.5",
-    "happy-dom": "20.10.0",
+    "happy-dom": "20.10.1",
     "jiti": "2.7.0",
     "prettier": "3.8.3",
     "prettier-plugin-tailwindcss": "0.8.0",
