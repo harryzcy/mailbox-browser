@@ -36,8 +36,7 @@ import { parseEmailContent, parseEmailName } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
 type EmailViewLoaderData =
-  | { type: 'email'; messageID: string }
-  | { type: 'thread'; threadID: string }
+  { type: 'email'; messageID: string } | { type: 'thread'; threadID: string }
 
 export default function EmailView() {
   const data: EmailViewLoaderData = useLoaderData()

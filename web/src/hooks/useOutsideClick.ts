@@ -5,8 +5,7 @@ import { useEffect } from 'react'
  */
 export function useOutsideClick(
   refs:
-    | React.RefObject<HTMLElement | null>
-    | React.RefObject<HTMLElement | null>[],
+    React.RefObject<HTMLElement | null> | React.RefObject<HTMLElement | null>[],
   callback: () => void
 ) {
   useEffect(() => {

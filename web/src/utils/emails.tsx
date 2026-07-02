@@ -191,9 +191,7 @@ function transformCss(host: string, code: string) {
   return result
 }
 type RuleDeclarations = (
-  | css.CssCommentAST
-  | css.CssDeclarationAST
-  | css.CssAtRuleAST
+  css.CssCommentAST | css.CssDeclarationAST | css.CssAtRuleAST
 )[]
 type FontFaceDeclrations = (css.CssCommentAST | css.CssDeclarationAST)[]
 
