@@ -1,4 +1,4 @@
-FROM golang:1.26.5@sha256:079e59808d2d252516e27e3f3a9c003740dee7f75e55aa71528766d52bcfc16a AS bff-builder
+FROM library/golang:1.26.5@sha256:079e59808d2d252516e27e3f3a9c003740dee7f75e55aa71528766d52bcfc16a AS bff-builder
 
 ARG BUILD_VERSION
 ARG BUILD_COMMIT
@@ -17,7 +17,7 @@ RUN set -ex && \
   -w -s" \
   -o /bin/bff
 
-FROM --platform=$BUILDPLATFORM node:26.5.0-alpine3.23@sha256:0473b6671ff22c8eeb570c0e1e51408595d3171e73f8002c269b763f0a943149 AS web-builder
+FROM --platform=$BUILDPLATFORM library/node:26.5.0@sha256:0473b6671ff22c8eeb570c0e1e51408595d3171e73f8002c269b763f0a943149 AS web-builder
 
 ARG BUILD_VERSION
 
@@ -28,7 +28,7 @@ RUN npm ci && \
   echo "export const browserVersion = \"${BUILD_VERSION}\"" > src/utils/info.ts && \
   npm run build
 
-FROM alpine:3.24.1@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
+FROM library/alpine:3.24.1@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
 
 RUN addgroup -S bff && adduser -S bff -G bff
 USER bff
