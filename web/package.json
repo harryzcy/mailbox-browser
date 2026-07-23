@@ -26,7 +26,7 @@
     "@lexical/selection": "0.48.0",
     "@lexical/table": "0.48.0",
     "@lexical/utils": "0.48.0",
-    "@radix-ui/react-toast": "1.2.19",
+    "@radix-ui/react-toast": "1.2.20",
     "@tailwindcss/vite": "4.3.3",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
