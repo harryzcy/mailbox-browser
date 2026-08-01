@@ -1,4 +1,5 @@
 import useSWR, { preload } from 'swr'
+import useSWRInfinite from 'swr/infinite'
 import useSWRMutation, { TriggerWithArgs } from 'swr/mutation'
 
 import { ENABLE_PRELOAD } from 'utils/constants'
@@ -31,6 +32,66 @@ export interface ListEmailsResponse {
   items: EmailInfo[]
   hasMore: boolean
   nextCursor?: string
+}
+
+export interface UseEmailsProps {
+  type: 'inbox' | 'draft' | 'sent'
+  year?: number
+  month?: number
+  order?: 'asc' | 'desc'
+  pageSize?: number
+}
+
+export function useEmails(props: UseEmailsProps) {
+  const getKey = (
+    pageIndex: number,
+    previousPageData: ListEmailsResponse | null
+  ) => {
+    const { type, year, month, order, pageSize } = props
+
+    const params = new URLSearchParams({
+      type
+    })
+    if (year) {
+      params.append('year', year.toString())
+    }
+    if (month) {
+      params.append('month', month.toString())
+    }
+    if (order) {
+      params.append('order', order)
+    }
+    if (pageSize) {
+      params.append('pageSize', pageSize.toString())
+    }
+    if (pageIndex !== 0 && previousPageData) {
+      const { nextCursor, hasMore } = previousPageData
+      if (!hasMore) {
+        return null
+      }
+      if (!nextCursor) {
+        return null
+      }
+      params.append('nextCursor', nextCursor)
+    }
+    return '/web/emails?' + params.toString()
+  }
+
+  const fetcher = async (url: string): Promise<ListEmailsResponse> => {
+    const response = await fetch(url, {
+      method: 'GET'
+    })
+    return response.json() as Promise<ListEmailsResponse>
+  }
+
+  const { data, size, setSize, isLoading } = useSWRInfinite(getKey, fetcher)
+  return {
+    emails: data ? data.flatMap((d) => d.items) : [],
+    pageSize: size,
+    setPageSize: setSize,
+    isLoading: isLoading,
+    hasMore: data ? data[data.length - 1].hasMore : false
+  }
 }
 
 export async function listEmails(

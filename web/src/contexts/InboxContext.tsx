@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router'
 import { toast } from 'sonner'
 
-import { EmailInfo, ListEmailsResponse, listEmails } from 'services/emails'
+import {
+  EmailInfo,
+  ListEmailsResponse,
+  listEmails,
+  useEmails
+} from 'services/emails'
 
 import {
   getCurrentYearMonth,
@@ -14,7 +19,7 @@ export interface InboxContext {
   count: number
   setCount: (count: number) => void
   hasMore: boolean
-  setHasMore: (hasMore: boolean) => void
+  // setHasMore: (hasMore: boolean) => void
   nextCursor: string | undefined
   setNextCursor: (nextCursor: string | undefined) => void
   emails: EmailInfo[]
@@ -47,7 +52,7 @@ interface InboxContextOutletProps {
 
 export function InboxContextOutlet(props: InboxContextOutletProps) {
   const [count, setCount] = useState(0)
-  const [hasMore, setHasMore] = useState(true)
+  // const [hasMore, setHasMore] = useState(true)
   const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
   const [scrollYPosition, setScrollYPosition] = useState(0)
 
@@ -56,6 +61,13 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
   const [month, setMonth] = useState(initialMonth)
 
   const [emails, setEmails] = useState<EmailInfo[]>([])
+
+  const { setPageSize, pageSize, isLoading, hasMore } = useEmails({
+    type: props.type,
+    year,
+    month,
+    order: 'desc'
+  })
 
   const loadEmails = async (input: {
     year?: number
@@ -83,79 +95,80 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
 
   const [shouldLoadMoreEmails, setShouldLoadMoreEmails] = useState(false)
 
-  const loadMoreEmails = async () => {
+  const loadMoreEmails = () => {
     if (!hasMore) return
-    try {
-      const data = await loadEmails({
-        year,
-        month,
-        nextCursor
-      })
-      setEmails([...emails, ...data.items])
-      setCount(data.count + count)
-      setHasMore(data.hasMore)
-      setNextCursor(data.nextCursor)
-    } catch (e) {
-      console.error('Failed to load emails', e)
-      toast.error('Failed to load emails')
-    }
+    setPageSize(pageSize + 1)
+    // try {
+    //   const data = await loadEmails({
+    //     year,
+    //     month,
+    //     nextCursor
+    //   })
+    //   setEmails([...emails, ...data.items])
+    //   setCount(data.count + count)
+    //   setHasMore(data.hasMore)
+    //   setNextCursor(data.nextCursor)
+    // } catch (e) {
+    //   console.error('Failed to load emails', e)
+    //   toast.error('Failed to load emails')
+    // }
   }
 
   useEffect(() => {
     if (shouldLoadMoreEmails) {
-      void loadMoreEmails()
+      loadMoreEmails()
     }
   }, [shouldLoadMoreEmails])
 
   const markAsRead = (messageID: string) => {
-    setEmails(
-      emails.map((email) => {
-        if (email.messageID === messageID) {
-          return {
-            ...email,
-            unread: false
-          }
-        }
-        return email
-      })
-    )
+    // setEmails(
+    //   emails.map((email) => {
+    //     if (email.messageID === messageID) {
+    //       return {
+    //         ...email,
+    //         unread: false
+    //       }
+    //     }
+    //     return email
+    //   })
+    // )
   }
 
   const goNextPage = async () => {
     // Order is reversed, next button goes to previous month
     const { month: newMonth, year: newYear } = getPreviousMonthYear(month, year)
-    try {
-      const data = await loadEmails({
-        year: newYear,
-        month: newMonth
-      })
-      setEmails(data.items)
-      setCount(data.count)
-      setHasMore(data.hasMore)
-      setNextCursor(data.nextCursor)
-    } catch (e) {
-      console.error('Failed to load emails', e)
-      toast.error('Failed to load emails')
-    }
+    // try {
+    //   const data = await loadEmails({
+    //     year: newYear,
+    //     month: newMonth
+    //   })
+    //   setEmails(data.items)
+    //   setCount(data.count)
+    //   setHasMore(data.hasMore)
+    //   setNextCursor(data.nextCursor)
+    // } catch (e) {
+    //   console.error('Failed to load emails', e)
+    //   toast.error('Failed to load emails')
+    // }
   }
 
   const goPreviousPage = async () => {
     if (!hasPreviousPage) return
     // Order is reversed, back button goes to next month
     const { month: newMonth, year: newYear } = getNextMonthYear(month, year)
-    try {
-      const data = await loadEmails({
-        year: newYear,
-        month: newMonth
-      })
-      setEmails(data.items)
-      setCount(data.count)
-      setHasMore(data.hasMore)
-      setNextCursor(data.nextCursor)
-    } catch (e) {
-      console.error('Failed to load emails', e)
-      toast.error('Failed to load emails')
-    }
+    // try {
+    //   const data = await loadEmails({
+    //     year: newYear,
+    //     month: newMonth
+    //   })
+    //   setEmails(data.items)
+    //   setCount(data.count)
+    //   setHasMore(data.hasMore)
+    //   setNextCursor(data.nextCursor)
+    // } catch (e) {
+    //   console.error('Failed to load emails', e)
+    //   toast.error('Failed to load emails')
+    // }
   }
 
   const checkHasPrevious = () => {
@@ -173,7 +186,7 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     count,
     setCount,
     hasMore,
-    setHasMore,
+    // setHasMore,
     nextCursor,
     setNextCursor,
     emails,
