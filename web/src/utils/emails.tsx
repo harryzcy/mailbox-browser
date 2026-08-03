@@ -25,7 +25,7 @@ export function parseEmailName(emails: string[] | null): {
     return { name: null, address: null }
   }
 
-  const regex = /(.*?)<(.*?)>/g
+  const regex = /(.*?)<(.*?)>/gu
   const match = regex.exec(emails[0])
   if (!match) return { name: null, address: emails[0] }
   const name = match[1].trim()
@@ -61,6 +61,10 @@ export function parseEmailContent(
         if (!silenceTags.includes(domNode.name)) {
           console.warn(`Unsupported tag: ${domNode.name}`)
         }
+        // html-react-parser only substitutes a replacement that passes
+        // isValidElement, so this must stay an element. Returning null would
+        // fall through and render the disallowed tag.
+        // oxlint-disable-next-line jsx-no-useless-fragment
         return <></>
       }
       if (domNode.name === 'a') {
@@ -113,6 +117,8 @@ export function parseEmailContent(
   }
   const element = parse(email.html, options)
   if (Array.isArray(element)) {
+    // Wraps the array so every branch returns a single renderable node.
+    // oxlint-disable-next-line jsx-no-useless-fragment
     return <>{element}</>
   } else if (typeof element === 'string') {
     return element
@@ -133,7 +139,6 @@ function filterElementAttributes(
   domName: Element['name'],
   attribs: Element['attribs']
 ): Element['attribs'] {
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (attribs === undefined) return attribs
   if (domName === 'img') {
     return Object.fromEntries(
@@ -199,10 +204,10 @@ function transformCssRules<
   T extends css.CssAtRuleAST[] | (css.CssAtRuleAST | css.CssDeclarationAST)[]
 >(host: string, rules: T): T {
   const replaceDeclarations = <
-    T extends RuleDeclarations | FontFaceDeclrations
+    D extends RuleDeclarations | FontFaceDeclrations
   >(
-    declarations: T
-  ): T => {
+    declarations: D
+  ): D => {
     return declarations.map((declaration) => {
       if (declaration.type === css.CssTypes.declaration) {
         if (isURLProperty(declaration.property)) {
@@ -210,7 +215,7 @@ function transformCssRules<
         }
       }
       return declaration
-    }) as T
+    }) as D
   }
 
   return rules.map((rule) => {
@@ -265,12 +270,15 @@ function isURLProperty(property: string) {
 }
 
 function makeCSSURL(host: string, value: string) {
-  return value.replace(/url\( *['"]?(.*?)['"]? *\)/g, (match, url: string) => {
-    if (url.startsWith('https://') || url.startsWith('http://')) {
-      return `url(${makeProxyURL(host, url)})`
+  return value.replaceAll(
+    /url\( *['"]?(.*?)['"]? *\)/gu,
+    (match, url: string) => {
+      if (url.startsWith('https://') || url.startsWith('http://')) {
+        return `url(${makeProxyURL(host, url)})`
+      }
+      return match
     }
-    return match
-  })
+  )
 }
 
 export const exportedForTesting = {

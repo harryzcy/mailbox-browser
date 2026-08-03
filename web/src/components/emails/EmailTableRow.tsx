@@ -41,7 +41,6 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         return
       }
       void openDraftEmail(email.messageID)
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     } else if (email.type === 'inbox' || email.type === 'sent') {
       if (email.threadID) {
         await navigate(`/inbox/thread/${email.threadID}`)
@@ -76,6 +75,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
 
   return (
     <div className="group contents">
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         className={
           'cursor-pointer border-t border-neutral-200 px-3 md:px-4 py-2 group-first:border-0 dark:border-neutral-900 row-span-2 md:row-span-1' +
@@ -97,6 +97,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
           </div>
         </span>
       </div>
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         className={
           'cursor-pointer truncate border-t border-neutral-200 pl-1 pr-4 py-1 pt-2 md:py-2 group-first:border-0 dark:border-neutral-900' +
@@ -113,6 +114,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
           <EmailName emails={email.from ?? []} />
         </span>
       </div>
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         className={
           'cursor-pointer truncate md:border-t border-neutral-200 pl-1 pr-4 pb-2 md:py-2 group-first:border-0 dark:border-neutral-900 col-span-2 md:col-span-1' +
@@ -125,6 +127,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       >
         {email.subject}
       </div>
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         className={
           'cursor-pointer border-t border-neutral-200 px-4 py-1 pt-3 md:pt-2 text-right group-first:border-0 dark:border-neutral-900 text-xs md:text-base' +

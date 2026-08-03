@@ -177,7 +177,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
       let rect
       if (nativeSelection.anchorNode === rootElement) {
         let inner: Element = rootElement
-        while (inner.firstElementChild != null) {
+        while (inner.firstElementChild !== null) {
           inner = inner.firstElementChild
         }
         rect = inner.getBoundingClientRect()
@@ -260,31 +260,31 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
           }}
         />
       ) : (
-        <>
-          <div className="link-input block w-full">
-            <a
-              href={DOMPurify.sanitize(linkUrl)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mr-4 block overflow-hidden whitespace-nowrap text-blue-600 no-underline hover:underline"
-            >
-              {linkUrl}
-            </a>
-            <div
-              className="absolute bottom-0 right-0 top-0 flex cursor-pointer items-center justify-center px-2"
-              role="button"
-              tabIndex={0}
-              onMouseDown={(event) => {
-                event.preventDefault()
-              }}
-              onClick={() => {
-                setEditMode(true)
-              }}
-            >
-              <PencilSquareIcon className="size-4 text-neutral-500" />
-            </div>
+        <div className="link-input block w-full">
+          <a
+            href={DOMPurify.sanitize(linkUrl)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mr-4 block overflow-hidden whitespace-nowrap text-blue-600 no-underline hover:underline"
+          >
+            {linkUrl}
+          </a>
+          {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events */}
+          <div
+            className="absolute bottom-0 right-0 top-0 flex cursor-pointer items-center justify-center px-2"
+            // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
+            role="button"
+            tabIndex={0}
+            onMouseDown={(event) => {
+              event.preventDefault()
+            }}
+            onClick={() => {
+              setEditMode(true)
+            }}
+          >
+            <PencilSquareIcon className="size-4 text-neutral-500" />
           </div>
-        </>
+        </div>
       )}
     </div>
   )
@@ -300,6 +300,7 @@ interface SelectProps {
 function Select({ onChange, className, options, value }: SelectProps) {
   return (
     <select className={className} onChange={onChange} value={value}>
+      {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
       <option hidden={true} value="" />
       {options.map((option) => (
         <option key={option} value={option}>
@@ -321,9 +322,8 @@ function getSelectedNode(selection: RangeSelection) {
   const isBackward = selection.isBackward()
   if (isBackward) {
     return $isAtNodeEnd(focus) ? anchorNode : focusNode
-  } else {
-    return $isAtNodeEnd(anchor) ? focusNode : anchorNode
   }
+  return $isAtNodeEnd(anchor) ? focusNode : anchorNode
 }
 
 interface BlockOptionsDropdownListProps {
@@ -345,7 +345,6 @@ function BlockOptionsDropdownList({
     const toolbar = toolbarRef.current
     const dropDown = dropDownRef.current
 
-    // @eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (toolbar !== null && dropDown !== null) {
       const { left } = toolbar.getBoundingClientRect()
       dropDown.style.bottom = `120px`
@@ -357,7 +356,6 @@ function BlockOptionsDropdownList({
     const dropDown = dropDownRef.current
     const toolbar = toolbarRef.current
 
-    // @eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (dropDown !== null && toolbar !== null) {
       const handle = (event: MouseEvent) => {
         const target = event.target
@@ -418,18 +416,18 @@ function BlockOptionsDropdownList({
 
   const formatBulletList = () => {
     if (blockType !== 'ul') {
-      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined)
+      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND)
     } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined)
+      editor.dispatchCommand(REMOVE_LIST_COMMAND)
     }
     setShowBlockOptionsDropDown(false)
   }
 
   const formatNumberedList = () => {
     if (blockType !== 'ol') {
-      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined)
+      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND)
     } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined)
+      editor.dispatchCommand(REMOVE_LIST_COMMAND)
     }
     setShowBlockOptionsDropDown(false)
   }
@@ -668,7 +666,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
       <button
         disabled={!canUndo}
         onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND, undefined)
+          editor.dispatchCommand(UNDO_COMMAND)
         }}
         className="flex rounded-md p-2.5 enabled:hover:bg-neutral-300 disabled:cursor-not-allowed disabled:opacity-40 dark:enabled:hover:bg-neutral-600"
         aria-label="Undo"
@@ -678,7 +676,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
       <button
         disabled={!canRedo}
         onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND, undefined)
+          editor.dispatchCommand(REDO_COMMAND)
         }}
         className="flex rounded-md p-2.5 enabled:hover:bg-neutral-300 disabled:cursor-not-allowed disabled:opacity-40 dark:enabled:hover:bg-neutral-600"
         aria-label="Redo"

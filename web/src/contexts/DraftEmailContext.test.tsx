@@ -15,10 +15,12 @@ import {
 describe('DraftEmailContext', () => {
   const createWrapper = (state: State = initialState) => {
     const wrapper = ({ children }: { children: ReactNode }) => {
+      // oxlint-disable-next-line react-hooks/rules-of-hooks
       const [draftState, dispatch] = useReducer(draftEmailReducer, state)
 
       return (
         <DraftEmailsContext.Provider
+          // oxlint-disable-next-line react/jsx-no-constructed-context-values
           value={{
             emails: draftState.emails,
             activeEmail: draftState.activeEmail,

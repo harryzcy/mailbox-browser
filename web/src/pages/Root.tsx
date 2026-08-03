@@ -29,6 +29,7 @@ export default function Root() {
   return (
     <>
       <DraftEmailsContext.Provider
+        // oxlint-disable-next-line react/jsx-no-constructed-context-values
         value={{
           emails: draftEmailsState.emails,
           activeEmail: draftEmailsState.activeEmail,
@@ -57,6 +58,7 @@ export default function Root() {
           </span>
         ) : (
           <span className="absolute md:hidden top-5 px-2">
+            {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <span
               className="p-2"
               onClick={() => {

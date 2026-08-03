@@ -70,6 +70,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
       <div className="flex md:hidden select-none items-stretch justify-between">
         {showOperations ? (
           <>
+            {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <span
               className="p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
               onClick={handleBack}
@@ -139,6 +140,7 @@ function ComposeButton() {
   }
 
   return (
+    // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <span
       className="mr-3 inline-flex h-full cursor-pointer items-center space-x-2 rounded-md border border-sky-200 bg-sky-200 px-3 py-1.5"
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -178,18 +180,21 @@ function ActionBar(props: {
 
   return (
     <>
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
         onClick={handleDelete}
       >
         <TrashIcon className="size-5" />
       </span>
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
         onClick={handleRead}
       >
         <EnvelopeIcon className="size-5" />
       </span>
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
         onClick={handleUnread}
@@ -200,6 +205,7 @@ function ActionBar(props: {
         <span className="m-auto block h-full w-[1px] bg-gray-300"></span>
       </span>
       <span className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100">
+        {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
         <span
           className="-m-2 p-2"
           onClick={() => {
@@ -214,6 +220,7 @@ function ActionBar(props: {
               <div className="w-full p-2">No plugins installed</div>
             ) : (
               config?.plugins.map((plugin) => (
+                // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                 <div
                   key={plugin.name}
                   className="w-full p-2 hover:bg-neutral-100 hover:text-sky-900 dark:hover:bg-neutral-700 dark:hover:text-gray-100"
@@ -245,6 +252,7 @@ function YearMonthNavigation(props: {
       className="inline-flex divide-x rounded-md border dark:divide-x-0 dark:border-sky-900"
       aria-label="pagination"
     >
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className={
           'inline-flex items-center rounded-l-md p-2 dark:bg-cyan-900 ' +
@@ -263,6 +271,7 @@ function YearMonthNavigation(props: {
           {children}
         </span>
       )}
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className={
           'inline-flex items-center rounded-r-md p-2 dark:bg-cyan-900 ' +

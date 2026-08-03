@@ -46,9 +46,7 @@ export default function EmailView() {
   const email = useEmail(data.type === 'email' ? data.messageID : null)
   const { thread } = useThread(data.type === 'thread' ? data.threadID : null)
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goPrevious = () => {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goNext = () => {}
 
   const { activeEmail: activeReplyEmail, dispatch: dispatchDraftEmail } =
@@ -75,32 +73,32 @@ export default function EmailView() {
       body.replyEmailID = replyEmail.messageID
     }
 
-    const email = await triggerCreateEmail(body)
+    const createdEmail = await triggerCreateEmail(body)
 
     dispatchDraftEmail({
       type: 'update',
       messageID: draftID,
-      email
+      email: createdEmail
     })
   }
 
-  const startReply = async (email: Email) => {
+  const startReply = async (targetEmail: Email) => {
     setIsInitialReplyOpen(true)
     const draftID = generateLocalDraftID()
     dispatchDraftEmail({
       type: 'new-reply',
       messageID: draftID,
-      replyEmail: email,
+      replyEmail: targetEmail,
       allowedAddresses: config?.emailAddresses ?? []
     })
 
     await startDraft(draftID)
   }
 
-  const openReply = (email: Email) => {
+  const openReply = (targetEmail: Email) => {
     dispatchDraftEmail({
       type: 'load',
-      email: email
+      email: targetEmail
     })
   }
 
@@ -111,46 +109,46 @@ export default function EmailView() {
     draftElemRef.current.scrollIntoView()
   }, [isInitialReplyOpen])
 
-  const startForward = async (email: Email) => {
+  const startForward = async (targetEmail: Email) => {
     const draftID = generateLocalDraftID()
     dispatchDraftEmail({
       type: 'new-forward',
       messageID: draftID,
-      forwardEmail: email
+      forwardEmail: targetEmail
     })
 
     await startDraft(draftID)
   }
 
-  const handleEmailChange = (email: DraftEmail) => {
+  const handleEmailChange = (draftEmail: DraftEmail) => {
     dispatchDraftEmail({
       type: 'update',
-      messageID: email.messageID,
-      email
+      messageID: draftEmail.messageID,
+      email: draftEmail
     })
   }
 
   const { trigger: triggerSaveEmail } = useSaveEmail()
 
   const handleSend = async () => {
-    const email = activeReplyEmail
-    if (!email) return
+    const draftEmail = activeReplyEmail
+    if (!draftEmail) return
     await triggerSaveEmail({
-      messageID: email.messageID,
-      subject: email.subject,
-      from: email.from,
-      to: email.to,
-      cc: email.cc,
-      bcc: email.bcc,
-      replyTo: email.from,
-      html: email.html,
-      text: email.text,
+      messageID: draftEmail.messageID,
+      subject: draftEmail.subject,
+      from: draftEmail.from,
+      to: draftEmail.to,
+      cc: draftEmail.cc,
+      bcc: draftEmail.bcc,
+      replyTo: draftEmail.from,
+      html: draftEmail.html,
+      text: draftEmail.text,
       send: true // save and send
     })
 
     dispatchDraftEmail({
       type: 'remove',
-      messageID: email.messageID
+      messageID: draftEmail.messageID
     })
   }
 
@@ -229,23 +227,23 @@ export default function EmailView() {
         }
       >
         {/* TODO: improve suspense handling & integration with swr */}
-        {data.type == 'email' && email && (
+        {data.type === 'email' && email && (
           <Await resolve={email}>
-            {(email: Email) => (
+            {(resolvedEmail: Email) => (
               <div className="h-full overflow-y-scroll pb-5 px-2 md:px-0">
                 <div className="mb-2 px-3">
                   <span className="text-xl font-normal dark:text-neutral-200">
-                    {email.subject}
+                    {resolvedEmail.subject}
                   </span>
                 </div>
                 <EmailBlock
-                  email={email}
-                  startReply={(email) => void startReply(email)}
-                  startForward={(email) => void startForward(email)}
+                  email={resolvedEmail}
+                  startReply={(targetEmail) => void startReply(targetEmail)}
+                  startForward={(targetEmail) => void startForward(targetEmail)}
                 />
                 {activeReplyEmail &&
                   activeReplyEmail.replyEmail?.messageID ===
-                    email.messageID && (
+                    resolvedEmail.messageID && (
                     <div ref={draftElemRef}>
                       <EmailDraft
                         email={activeReplyEmail}
@@ -262,19 +260,19 @@ export default function EmailView() {
           </Await>
         )}
 
-        {data.type == 'thread' && thread && (
+        {data.type === 'thread' && thread && (
           <div className="h-full overflow-scroll pb-5">
             <div className="mb-2 px-3">
               <span className="text-xl font-normal dark:text-neutral-200">
                 {thread.subject}
               </span>
             </div>
-            {thread.emails.map((email) => (
+            {thread.emails.map((threadEmail) => (
               <EmailBlock
-                key={email.messageID}
-                email={email}
-                startReply={(email) => void startReply(email)}
-                startForward={(email) => void startForward(email)}
+                key={threadEmail.messageID}
+                email={threadEmail}
+                startReply={(targetEmail) => void startReply(targetEmail)}
+                startForward={(targetEmail) => void startForward(targetEmail)}
               />
             ))}
             {activeReplyEmail && (
@@ -292,6 +290,7 @@ export default function EmailView() {
                 <div className="flex items-start justify-between">
                   <span className="text-red-300">[Draft]</span>
                   <span className="text-neutral-500 dark:text-neutral-300">
+                    {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                     <span
                       className="inline-flex size-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
                       onClick={() => {
@@ -335,6 +334,9 @@ function EmailBlock(props: EmailBlockProps) {
     if (email.unread) {
       markAsRead(email.messageID)
     }
+    // Mark-as-read is a one-shot on open. markAsRead is redefined every render
+    // and calls setEmails, so depending on it would re-fire this effect.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -344,92 +346,92 @@ function EmailBlock(props: EmailBlockProps) {
   const fromEmail = parseEmailName(email.from)
 
   return (
-    <>
-      <div className="mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
-        {!showImages && (
-          <div className="preflight flex gap-2 border rounded-t-md -mx-3 -mt-3 px-3 py-1 mb-3 bg-gray-200 dark:bg-gray-700">
-            <span>Images are not displayed</span>
-            <span
-              className="text-blue-600 dark:text-blue-200 cursor-pointer"
-              onClick={() => {
-                setShowImages(true)
-              }}
-            >
-              Display images below
-            </span>
-          </div>
-        )}
-
-        {/* header info for emails */}
-        <div className="preflight flex items-start">
-          <div className="dark:text-neutral-300 w-full">
-            <div className="grid mb-0.5 md:md-0 grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content_1fr_min-content] justify-between items-center">
-              <div className="md:whitespace-nowrap">{fromEmail.name}</div>
-              {fromEmail.address && (
-                <div className="col-span-2 md:col-span-1 -mt-1 md:mt-0 break-words">
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    {' <'}
-                    {fromEmail.address}
-                    {'>'}
-                  </span>
-                </div>
-              )}
-
-              <div className="flex justify-end items-center text-sm text-neutral-500 dark:text-neutral-300">
-                <span className="md:hidden md:px-1">
-                  {formatDate(email.timeReceived, { monthDayOnly: true })}
-                </span>
-                <span className="hidden md:inline py-1 md:px-1 md:whitespace-nowrap">
-                  {formatDate(email.timeReceived)}
-                </span>
-
-                <EmailActions
-                  email={email}
-                  startForward={startForward}
-                  startReply={startReply}
-                  showMoreActions={showMoreActions}
-                  setShowMoreActions={setShowMoreActions}
-                  showMoreActionsRef={showMoreActionsRef}
-                />
-              </div>
-            </div>
-            <div className="text-sm">
-              <span>To: </span>
-              <EmailName emails={email.to} showAddress />
-            </div>
-          </div>
-        </div>
-
-        {/* email body */}
-        <div className="mt-4">
-          <div
-            className={
-              'email-sandbox dark:text-neutral-300' +
-              (!email.html ? ' whitespace-pre-line' : '')
-            }
+    <div className="mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
+      {!showImages && (
+        <div className="preflight flex gap-2 border rounded-t-md -mx-3 -mt-3 px-3 py-1 mb-3 bg-gray-200 dark:bg-gray-700">
+          <span>Images are not displayed</span>
+          {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+          <span
+            className="text-blue-600 dark:text-blue-200 cursor-pointer"
+            onClick={() => {
+              setShowImages(true)
+            }}
           >
-            <ErrorBoundary
-              fallbackRender={({ error }) => {
-                console.error(error)
-                return (
-                  <p className="text-rose-600 dark:text-rose-400 italic">
-                    Rendering failed
-                  </p>
-                )
-              }}
-            >
-              <div className="w-fit mx-auto max-w-full overflow-x-auto">
-                {parseEmailContent(
-                  email,
-                  config?.disableProxy ?? false,
-                  showImages
-                )}
+            Display images below
+          </span>
+        </div>
+      )}
+
+      {/* header info for emails */}
+      <div className="preflight flex items-start">
+        <div className="dark:text-neutral-300 w-full">
+          <div className="grid mb-0.5 md:md-0 grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content_1fr_min-content] justify-between items-center">
+            <div className="md:whitespace-nowrap">{fromEmail.name}</div>
+            {fromEmail.address && (
+              <div className="col-span-2 md:col-span-1 -mt-1 md:mt-0 break-words">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
+                  {' <'}
+                  {fromEmail.address}
+                  {'>'}
+                </span>
               </div>
-            </ErrorBoundary>
+            )}
+
+            <div className="flex justify-end items-center text-sm text-neutral-500 dark:text-neutral-300">
+              <span className="md:hidden md:px-1">
+                {formatDate(email.timeReceived, { monthDayOnly: true })}
+              </span>
+              <span className="hidden md:inline py-1 md:px-1 md:whitespace-nowrap">
+                {formatDate(email.timeReceived)}
+              </span>
+
+              <EmailActions
+                email={email}
+                startForward={startForward}
+                startReply={startReply}
+                showMoreActions={showMoreActions}
+                setShowMoreActions={setShowMoreActions}
+                showMoreActionsRef={showMoreActionsRef}
+              />
+            </div>
+          </div>
+          <div className="text-sm">
+            <span>To: </span>
+            <EmailName emails={email.to} showAddress />
           </div>
         </div>
       </div>
-    </>
+
+      {/* email body */}
+      <div className="mt-4">
+        <div
+          className={
+            'email-sandbox dark:text-neutral-300' +
+            (!email.html ? ' whitespace-pre-line' : '')
+          }
+        >
+          <ErrorBoundary
+            // oxlint-disable-next-line react/no-unstable-nested-components
+            fallbackRender={({ error }) => {
+              console.error(error)
+              return (
+                <p className="text-rose-600 dark:text-rose-400 italic">
+                  Rendering failed
+                </p>
+              )
+            }}
+          >
+            <div className="w-fit mx-auto max-w-full overflow-x-auto">
+              {parseEmailContent(
+                email,
+                config?.disableProxy ?? false,
+                showImages
+              )}
+            </div>
+          </ErrorBoundary>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -451,6 +453,7 @@ function EmailActions(props: {
   } = props
   return (
     <span className="relative ml-2 md:ml-4 inline-flex">
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
@@ -459,6 +462,7 @@ function EmailActions(props: {
       >
         <ArrowUturnLeftIcon />
       </span>
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
@@ -467,6 +471,7 @@ function EmailActions(props: {
       >
         <ArrowUturnRightIcon />
       </span>
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
@@ -481,6 +486,7 @@ function EmailActions(props: {
           ref={showMoreActionsRef}
           className="absolute right-0 top-8 w-28 select-none rounded-md border bg-white py-1 dark:border-neutral-600 dark:bg-neutral-800"
         >
+          {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
           <div
             className="w-full cursor-pointer px-2 py-1 hover:bg-gray-100 dark:hover:bg-neutral-600"
             onClick={() => {

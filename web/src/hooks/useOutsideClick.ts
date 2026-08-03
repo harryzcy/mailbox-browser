@@ -13,17 +13,14 @@ export function useOutsideClick(
       if (Array.isArray(refs)) {
         let contained = false
         refs.forEach((ref) => {
-          // @eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
           if (!ref.current || ref.current.contains(event.target as Node)) {
             contained = true
           }
         })
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!contained) {
           callback()
         }
       } else {
-        // @eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (refs.current && !refs.current.contains(event.target as Node)) {
           callback()
         }
@@ -34,5 +31,5 @@ export function useOutsideClick(
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [refs])
+  }, [refs, callback])
 }

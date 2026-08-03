@@ -22,7 +22,7 @@ export default function EmailTableView(props: EmailTableViewProps) {
 
   useEffect(() => {
     setLoadMoreEmails(shouldLoadMore)
-  }, [shouldLoadMore])
+  }, [shouldLoadMore, setLoadMoreEmails])
 
   return (
     <div className="grid grid-flow-dense grid-cols-[min-content_1fr_1fr] md:grid-cols-[min-content_1fr_4fr_1fr] items-stretch select-none rounded bg-neutral-50 py-1 shadow-md dark:bg-neutral-800 dark:text-neutral-300 md:rounded-md">

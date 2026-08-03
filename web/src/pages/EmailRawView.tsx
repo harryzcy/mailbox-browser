@@ -56,7 +56,9 @@ export default function EmailRawView() {
                   {raw}
                 </pre>
                 <div className="absolute right-0 top-2 space-x-3 p-3 dark:text-neutral-400">
+                  {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus */}
                   <span
+                    // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
                     role="button"
                     className="cursor-pointer rounded-md bg-blue-100 p-2 dark:bg-neutral-700"
                     // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -64,7 +66,9 @@ export default function EmailRawView() {
                   >
                     <span>Re-Parse</span>
                   </span>
+                  {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus */}
                   <span
+                    // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
                     role="button"
                     className="cursor-pointer rounded-md bg-blue-100 p-2 dark:bg-neutral-700"
                     onClick={() => {
@@ -73,7 +77,9 @@ export default function EmailRawView() {
                   >
                     <span>Copy</span>
                   </span>
+                  {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus */}
                   <span
+                    // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
                     role="button"
                     className="cursor-pointer rounded-md bg-blue-100 p-2 dark:bg-neutral-700"
                     onClick={() => {

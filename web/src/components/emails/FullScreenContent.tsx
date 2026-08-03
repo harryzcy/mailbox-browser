@@ -44,6 +44,10 @@ export default function FullScreenContent(props: FullScreenContentProps) {
     }
 
     void save()
+    // Deliberately keyed off the throttled value only: it decides *when* to save,
+    // while the body reads the latest draftEmail to decide *what* to save.
+    // Depending on draftEmail would save on every keystroke and defeat the throttle.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [throttledDraftEmail])
 
   const handleEmailChange = (email: DraftEmail) => {

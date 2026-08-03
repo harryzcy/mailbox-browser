@@ -10,7 +10,7 @@ export default function useIsInViewport<Element extends HTMLElement>(
       new IntersectionObserver(([entry]) => {
         setIsIntersecting(entry.isIntersecting)
       }),
-    [ref]
+    []
   )
 
   useEffect(() => {

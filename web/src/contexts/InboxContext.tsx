@@ -48,7 +48,7 @@ interface InboxContextOutletProps {
 export function InboxContextOutlet(props: InboxContextOutletProps) {
   const [count, setCount] = useState(0)
   const [hasMore, setHasMore] = useState(true)
-  const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
+  const [nextCursor, setNextCursor] = useState<string>()
   const [scrollYPosition, setScrollYPosition] = useState(0)
 
   const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
@@ -62,14 +62,14 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     month?: number
     nextCursor?: string
   }) => {
-    const { nextCursor } = input
+    const { nextCursor: inputNextCursor } = input
 
     const data = await listEmails({
       type: props.type,
       year: input.year ?? year,
       month: input.month ?? month,
       order: 'desc',
-      nextCursor
+      nextCursor: inputNextCursor
     })
 
     if (input.year) {
@@ -105,6 +105,10 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     if (shouldLoadMoreEmails) {
       void loadMoreEmails()
     }
+    // loadMoreEmails is redefined every render and calls setEmails/setCount, so
+    // depending on it would re-run this effect on its own output and loop for as
+    // long as shouldLoadMoreEmails stays true. Fire only on the flag changing.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldLoadMoreEmails])
 
   const markAsRead = (messageID: string) => {
@@ -158,15 +162,13 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     }
   }
 
-  const checkHasPrevious = () => {
-    const { year: currentYear, month: currentMonth } = getCurrentYearMonth()
-    return currentYear > year || (currentYear === year && currentMonth > month)
-  }
-
   const [hasPreviousPage, setHasPreviousPage] = useState(false)
 
   useEffect(() => {
-    setHasPreviousPage(checkHasPrevious())
+    const { year: currentYear, month: currentMonth } = getCurrentYearMonth()
+    setHasPreviousPage(
+      currentYear > year || (currentYear === year && currentMonth > month)
+    )
   }, [year, month])
 
   const outletContext: InboxContext = {
