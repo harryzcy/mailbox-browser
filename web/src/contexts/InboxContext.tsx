@@ -48,7 +48,7 @@ interface InboxContextOutletProps {
 export function InboxContextOutlet(props: InboxContextOutletProps) {
   const [count, setCount] = useState(0)
   const [hasMore, setHasMore] = useState(true)
-  const [nextCursor, setNextCursor] = useState<string | undefined>(undefined)
+  const [nextCursor, setNextCursor] = useState<string>()
   const [scrollYPosition, setScrollYPosition] = useState(0)
 
   const { year: initialYear, month: initialMonth } = getCurrentYearMonth()

@@ -76,7 +76,7 @@ export default function RichTextEditor(props: RichTextEditorProps) {
       EmailQuoteNode
     ],
     editorState: (editor) => {
-      if (!props.initialHtml) return undefined
+      if (!props.initialHtml) return
       updateHTML(editor, props.initialHtml, true)
     }
   }

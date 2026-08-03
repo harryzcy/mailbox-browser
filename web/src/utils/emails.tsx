@@ -25,7 +25,7 @@ export function parseEmailName(emails: string[] | null): {
     return { name: null, address: null }
   }
 
-  const regex = /(.*?)<(.*?)>/g
+  const regex = /(.*?)<(.*?)>/gu
   const match = regex.exec(emails[0])
   if (!match) return { name: null, address: emails[0] }
   const name = match[1].trim()
@@ -265,7 +265,7 @@ function isURLProperty(property: string) {
 }
 
 function makeCSSURL(host: string, value: string) {
-  return value.replace(/url\( *['"]?(.*?)['"]? *\)/g, (match, url: string) => {
+  return value.replaceAll(/url\( *['"]?(.*?)['"]? *\)/gu, (match, url: string) => {
     if (url.startsWith('https://') || url.startsWith('http://')) {
       return `url(${makeProxyURL(host, url)})`
     }

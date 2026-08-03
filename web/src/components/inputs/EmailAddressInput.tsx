@@ -30,7 +30,7 @@ export default function EmailAddressInput(props: EmailAddressInputProps) {
   }
 
   const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/u
     return re.test(email)
   }
 

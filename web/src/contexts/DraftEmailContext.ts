@@ -234,7 +234,7 @@ export const DraftEmailsContext = createContext<{
 const extractEmailBody = (html?: string) => {
   if (!html) return ''
   if (html.includes('<body>')) {
-    const body = /<body>(.*?)<\/body>/gs.exec(html)?.[1] ?? ''
+    const body = /<body>(.*?)<\/body>/gsu.exec(html)?.[1] ?? ''
     return body
   }
   return html

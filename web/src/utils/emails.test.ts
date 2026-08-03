@@ -10,7 +10,7 @@ describe('parseEmailName', () => {
   })
 
   it('multiple space', () => {
-    const result = parseEmailName(['FirstName  \u003cfoo@example.com\u003e'])
+    const result = parseEmailName(['FirstName  \u003Cfoo@example.com\u003E'])
     expect(result.name).toBe('FirstName')
     expect(result.address).toBe('foo@example.com')
   })

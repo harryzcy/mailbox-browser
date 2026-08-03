@@ -260,31 +260,29 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
           }}
         />
       ) : (
-        <>
-          <div className="link-input block w-full">
-            <a
-              href={DOMPurify.sanitize(linkUrl)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mr-4 block overflow-hidden whitespace-nowrap text-blue-600 no-underline hover:underline"
-            >
-              {linkUrl}
-            </a>
-            <div
-              className="absolute bottom-0 right-0 top-0 flex cursor-pointer items-center justify-center px-2"
-              role="button"
-              tabIndex={0}
-              onMouseDown={(event) => {
-                event.preventDefault()
-              }}
-              onClick={() => {
-                setEditMode(true)
-              }}
-            >
-              <PencilSquareIcon className="size-4 text-neutral-500" />
-            </div>
+        <div className="link-input block w-full">
+          <a
+            href={DOMPurify.sanitize(linkUrl)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mr-4 block overflow-hidden whitespace-nowrap text-blue-600 no-underline hover:underline"
+          >
+            {linkUrl}
+          </a>
+          <div
+            className="absolute bottom-0 right-0 top-0 flex cursor-pointer items-center justify-center px-2"
+            role="button"
+            tabIndex={0}
+            onMouseDown={(event) => {
+              event.preventDefault()
+            }}
+            onClick={() => {
+              setEditMode(true)
+            }}
+          >
+            <PencilSquareIcon className="size-4 text-neutral-500" />
           </div>
-        </>
+        </div>
       )}
     </div>
   )
@@ -321,9 +319,8 @@ function getSelectedNode(selection: RangeSelection) {
   const isBackward = selection.isBackward()
   if (isBackward) {
     return $isAtNodeEnd(focus) ? anchorNode : focusNode
-  } else {
-    return $isAtNodeEnd(anchor) ? focusNode : anchorNode
   }
+  return $isAtNodeEnd(anchor) ? focusNode : anchorNode
 }
 
 interface BlockOptionsDropdownListProps {
@@ -418,18 +415,18 @@ function BlockOptionsDropdownList({
 
   const formatBulletList = () => {
     if (blockType !== 'ul') {
-      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined)
+      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND)
     } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined)
+      editor.dispatchCommand(REMOVE_LIST_COMMAND)
     }
     setShowBlockOptionsDropDown(false)
   }
 
   const formatNumberedList = () => {
     if (blockType !== 'ol') {
-      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined)
+      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND)
     } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined)
+      editor.dispatchCommand(REMOVE_LIST_COMMAND)
     }
     setShowBlockOptionsDropDown(false)
   }
@@ -668,7 +665,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
       <button
         disabled={!canUndo}
         onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND, undefined)
+          editor.dispatchCommand(UNDO_COMMAND)
         }}
         className="flex rounded-md p-2.5 enabled:hover:bg-neutral-300 disabled:cursor-not-allowed disabled:opacity-40 dark:enabled:hover:bg-neutral-600"
         aria-label="Undo"
@@ -678,7 +675,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
       <button
         disabled={!canRedo}
         onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND, undefined)
+          editor.dispatchCommand(REDO_COMMAND)
         }}
         className="flex rounded-md p-2.5 enabled:hover:bg-neutral-300 disabled:cursor-not-allowed disabled:opacity-40 dark:enabled:hover:bg-neutral-600"
         aria-label="Redo"

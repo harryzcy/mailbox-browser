@@ -6,7 +6,7 @@ const getRemainingTime = (lastTriggeredTime: number, throttleMs: number) => {
   const elapsedTime = Date.now() - lastTriggeredTime
   const remainingTime = throttleMs - elapsedTime
 
-  return remainingTime < 0 ? 0 : remainingTime
+  return Math.max(0, remainingTime)
 }
 
 const useThrottled = <T>(
