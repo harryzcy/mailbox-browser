@@ -73,32 +73,32 @@ export default function EmailView() {
       body.replyEmailID = replyEmail.messageID
     }
 
-    const email = await triggerCreateEmail(body)
+    const createdEmail = await triggerCreateEmail(body)
 
     dispatchDraftEmail({
       type: 'update',
       messageID: draftID,
-      email
+      email: createdEmail
     })
   }
 
-  const startReply = async (email: Email) => {
+  const startReply = async (targetEmail: Email) => {
     setIsInitialReplyOpen(true)
     const draftID = generateLocalDraftID()
     dispatchDraftEmail({
       type: 'new-reply',
       messageID: draftID,
-      replyEmail: email,
+      replyEmail: targetEmail,
       allowedAddresses: config?.emailAddresses ?? []
     })
 
     await startDraft(draftID)
   }
 
-  const openReply = (email: Email) => {
+  const openReply = (targetEmail: Email) => {
     dispatchDraftEmail({
       type: 'load',
-      email: email
+      email: targetEmail
     })
   }
 
@@ -109,46 +109,46 @@ export default function EmailView() {
     draftElemRef.current.scrollIntoView()
   }, [isInitialReplyOpen])
 
-  const startForward = async (email: Email) => {
+  const startForward = async (targetEmail: Email) => {
     const draftID = generateLocalDraftID()
     dispatchDraftEmail({
       type: 'new-forward',
       messageID: draftID,
-      forwardEmail: email
+      forwardEmail: targetEmail
     })
 
     await startDraft(draftID)
   }
 
-  const handleEmailChange = (email: DraftEmail) => {
+  const handleEmailChange = (draftEmail: DraftEmail) => {
     dispatchDraftEmail({
       type: 'update',
-      messageID: email.messageID,
-      email
+      messageID: draftEmail.messageID,
+      email: draftEmail
     })
   }
 
   const { trigger: triggerSaveEmail } = useSaveEmail()
 
   const handleSend = async () => {
-    const email = activeReplyEmail
-    if (!email) return
+    const draftEmail = activeReplyEmail
+    if (!draftEmail) return
     await triggerSaveEmail({
-      messageID: email.messageID,
-      subject: email.subject,
-      from: email.from,
-      to: email.to,
-      cc: email.cc,
-      bcc: email.bcc,
-      replyTo: email.from,
-      html: email.html,
-      text: email.text,
+      messageID: draftEmail.messageID,
+      subject: draftEmail.subject,
+      from: draftEmail.from,
+      to: draftEmail.to,
+      cc: draftEmail.cc,
+      bcc: draftEmail.bcc,
+      replyTo: draftEmail.from,
+      html: draftEmail.html,
+      text: draftEmail.text,
       send: true // save and send
     })
 
     dispatchDraftEmail({
       type: 'remove',
-      messageID: email.messageID
+      messageID: draftEmail.messageID
     })
   }
 
@@ -229,21 +229,21 @@ export default function EmailView() {
         {/* TODO: improve suspense handling & integration with swr */}
         {data.type == 'email' && email && (
           <Await resolve={email}>
-            {(email: Email) => (
+            {(resolvedEmail: Email) => (
               <div className="h-full overflow-y-scroll pb-5 px-2 md:px-0">
                 <div className="mb-2 px-3">
                   <span className="text-xl font-normal dark:text-neutral-200">
-                    {email.subject}
+                    {resolvedEmail.subject}
                   </span>
                 </div>
                 <EmailBlock
-                  email={email}
-                  startReply={(email) => void startReply(email)}
-                  startForward={(email) => void startForward(email)}
+                  email={resolvedEmail}
+                  startReply={(targetEmail) => void startReply(targetEmail)}
+                  startForward={(targetEmail) => void startForward(targetEmail)}
                 />
                 {activeReplyEmail &&
                   activeReplyEmail.replyEmail?.messageID ===
-                    email.messageID && (
+                    resolvedEmail.messageID && (
                     <div ref={draftElemRef}>
                       <EmailDraft
                         email={activeReplyEmail}
@@ -267,12 +267,12 @@ export default function EmailView() {
                 {thread.subject}
               </span>
             </div>
-            {thread.emails.map((email) => (
+            {thread.emails.map((threadEmail) => (
               <EmailBlock
-                key={email.messageID}
-                email={email}
-                startReply={(email) => void startReply(email)}
-                startForward={(email) => void startForward(email)}
+                key={threadEmail.messageID}
+                email={threadEmail}
+                startReply={(targetEmail) => void startReply(targetEmail)}
+                startForward={(targetEmail) => void startForward(targetEmail)}
               />
             ))}
             {activeReplyEmail && (

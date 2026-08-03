@@ -204,10 +204,10 @@ function transformCssRules<
   T extends css.CssAtRuleAST[] | (css.CssAtRuleAST | css.CssDeclarationAST)[]
 >(host: string, rules: T): T {
   const replaceDeclarations = <
-    T extends RuleDeclarations | FontFaceDeclrations
+    D extends RuleDeclarations | FontFaceDeclrations
   >(
-    declarations: T
-  ): T => {
+    declarations: D
+  ): D => {
     return declarations.map((declaration) => {
       if (declaration.type === css.CssTypes.declaration) {
         if (isURLProperty(declaration.property)) {
@@ -215,7 +215,7 @@ function transformCssRules<
         }
       }
       return declaration
-    }) as T
+    }) as D
   }
 
   return rules.map((rule) => {

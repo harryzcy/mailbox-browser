@@ -62,14 +62,14 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     month?: number
     nextCursor?: string
   }) => {
-    const { nextCursor } = input
+    const { nextCursor: inputNextCursor } = input
 
     const data = await listEmails({
       type: props.type,
       year: input.year ?? year,
       month: input.month ?? month,
       order: 'desc',
-      nextCursor
+      nextCursor: inputNextCursor
     })
 
     if (input.year) {
