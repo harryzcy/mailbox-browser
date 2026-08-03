@@ -227,7 +227,7 @@ export default function EmailView() {
         }
       >
         {/* TODO: improve suspense handling & integration with swr */}
-        {data.type == 'email' && email && (
+        {data.type === 'email' && email && (
           <Await resolve={email}>
             {(resolvedEmail: Email) => (
               <div className="h-full overflow-y-scroll pb-5 px-2 md:px-0">
@@ -260,7 +260,7 @@ export default function EmailView() {
           </Await>
         )}
 
-        {data.type == 'thread' && thread && (
+        {data.type === 'thread' && thread && (
           <div className="h-full overflow-scroll pb-5">
             <div className="mb-2 px-3">
               <span className="text-xl font-normal dark:text-neutral-200">

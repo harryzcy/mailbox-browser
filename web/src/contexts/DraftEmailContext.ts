@@ -187,7 +187,7 @@ export function draftEmailReducer(state: State, action: Action): State {
       // otherwise, keep it the same
       return {
         activeEmail:
-          state.activeEmail?.messageID == action.messageID
+          state.activeEmail?.messageID === action.messageID
             ? null
             : state.activeEmail,
         emails: state.emails.filter(
@@ -273,7 +273,10 @@ const parseAddress = (
   const countSubstring = (str: string, sub: string) => {
     return str.split(sub).length - 1
   }
-  if (countSubstring(address, '<') == 1 && countSubstring(address, '>') == 1) {
+  if (
+    countSubstring(address, '<') === 1 &&
+    countSubstring(address, '>') === 1
+  ) {
     displayName = address.split('<')[0].trim()
     email = address.split('<')[1].replaceAll('>', '').trim()
 

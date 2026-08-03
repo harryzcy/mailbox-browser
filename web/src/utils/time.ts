@@ -27,9 +27,9 @@ function formatDateShort(date: string): string {
 
   // If the date is today, show the time
   if (
-    dateObj.getFullYear() == now.getFullYear() &&
-    dateObj.getMonth() == now.getMonth() &&
-    dateObj.getDate() == now.getDate()
+    dateObj.getFullYear() === now.getFullYear() &&
+    dateObj.getMonth() === now.getMonth() &&
+    dateObj.getDate() === now.getDate()
   ) {
     const hour = dateObj.getHours()
     const minutesStr = dateObj.getMinutes().toString().padStart(2, '0')
@@ -38,7 +38,7 @@ function formatDateShort(date: string): string {
   }
 
   // If the date is in current year, show the month and day
-  if (dateObj.getFullYear() == now.getFullYear()) {
+  if (dateObj.getFullYear() === now.getFullYear()) {
     const month = dateObj.toLocaleString('default', { month: 'short' })
     const day = dateObj.getDate()
     return `${month} ${day.toString()}`

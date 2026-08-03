@@ -177,7 +177,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
       let rect
       if (nativeSelection.anchorNode === rootElement) {
         let inner: Element = rootElement
-        while (inner.firstElementChild != null) {
+        while (inner.firstElementChild !== null) {
           inner = inner.firstElementChild
         }
         rect = inner.getBoundingClientRect()
