@@ -62,7 +62,6 @@
 
     // Real findings, not yet addressed. Warn so they stay visible without failing CI.
     "eslint/eqeqeq": "warn",
-    "eslint/no-shadow": "warn",
     "jsx-a11y/click-events-have-key-events": "warn",
     "jsx-a11y/control-has-associated-label": "warn",
     "jsx-a11y/interactive-supports-focus": "warn",
