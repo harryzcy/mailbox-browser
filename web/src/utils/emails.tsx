@@ -61,6 +61,10 @@ export function parseEmailContent(
         if (!silenceTags.includes(domNode.name)) {
           console.warn(`Unsupported tag: ${domNode.name}`)
         }
+        // html-react-parser only substitutes a replacement that passes
+        // isValidElement, so this must stay an element. Returning null would
+        // fall through and render the disallowed tag.
+        // oxlint-disable-next-line jsx-no-useless-fragment
         return <></>
       }
       if (domNode.name === 'a') {
@@ -113,6 +117,8 @@ export function parseEmailContent(
   }
   const element = parse(email.html, options)
   if (Array.isArray(element)) {
+    // Wraps the array so every branch returns a single renderable node.
+    // oxlint-disable-next-line jsx-no-useless-fragment
     return <>{element}</>
   } else if (typeof element === 'string') {
     return element
@@ -265,12 +271,15 @@ function isURLProperty(property: string) {
 }
 
 function makeCSSURL(host: string, value: string) {
-  return value.replaceAll(/url\( *['"]?(.*?)['"]? *\)/gu, (match, url: string) => {
-    if (url.startsWith('https://') || url.startsWith('http://')) {
-      return `url(${makeProxyURL(host, url)})`
+  return value.replaceAll(
+    /url\( *['"]?(.*?)['"]? *\)/gu,
+    (match, url: string) => {
+      if (url.startsWith('https://') || url.startsWith('http://')) {
+        return `url(${makeProxyURL(host, url)})`
+      }
+      return match
     }
-    return match
-  })
+  )
 }
 
 export const exportedForTesting = {

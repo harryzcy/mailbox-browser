@@ -344,92 +344,90 @@ function EmailBlock(props: EmailBlockProps) {
   const fromEmail = parseEmailName(email.from)
 
   return (
-    <>
-      <div className="mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
-        {!showImages && (
-          <div className="preflight flex gap-2 border rounded-t-md -mx-3 -mt-3 px-3 py-1 mb-3 bg-gray-200 dark:bg-gray-700">
-            <span>Images are not displayed</span>
-            <span
-              className="text-blue-600 dark:text-blue-200 cursor-pointer"
-              onClick={() => {
-                setShowImages(true)
-              }}
-            >
-              Display images below
-            </span>
-          </div>
-        )}
-
-        {/* header info for emails */}
-        <div className="preflight flex items-start">
-          <div className="dark:text-neutral-300 w-full">
-            <div className="grid mb-0.5 md:md-0 grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content_1fr_min-content] justify-between items-center">
-              <div className="md:whitespace-nowrap">{fromEmail.name}</div>
-              {fromEmail.address && (
-                <div className="col-span-2 md:col-span-1 -mt-1 md:mt-0 break-words">
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    {' <'}
-                    {fromEmail.address}
-                    {'>'}
-                  </span>
-                </div>
-              )}
-
-              <div className="flex justify-end items-center text-sm text-neutral-500 dark:text-neutral-300">
-                <span className="md:hidden md:px-1">
-                  {formatDate(email.timeReceived, { monthDayOnly: true })}
-                </span>
-                <span className="hidden md:inline py-1 md:px-1 md:whitespace-nowrap">
-                  {formatDate(email.timeReceived)}
-                </span>
-
-                <EmailActions
-                  email={email}
-                  startForward={startForward}
-                  startReply={startReply}
-                  showMoreActions={showMoreActions}
-                  setShowMoreActions={setShowMoreActions}
-                  showMoreActionsRef={showMoreActionsRef}
-                />
-              </div>
-            </div>
-            <div className="text-sm">
-              <span>To: </span>
-              <EmailName emails={email.to} showAddress />
-            </div>
-          </div>
-        </div>
-
-        {/* email body */}
-        <div className="mt-4">
-          <div
-            className={
-              'email-sandbox dark:text-neutral-300' +
-              (!email.html ? ' whitespace-pre-line' : '')
-            }
+    <div className="mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
+      {!showImages && (
+        <div className="preflight flex gap-2 border rounded-t-md -mx-3 -mt-3 px-3 py-1 mb-3 bg-gray-200 dark:bg-gray-700">
+          <span>Images are not displayed</span>
+          <span
+            className="text-blue-600 dark:text-blue-200 cursor-pointer"
+            onClick={() => {
+              setShowImages(true)
+            }}
           >
-            <ErrorBoundary
-              fallbackRender={({ error }) => {
-                console.error(error)
-                return (
-                  <p className="text-rose-600 dark:text-rose-400 italic">
-                    Rendering failed
-                  </p>
-                )
-              }}
-            >
-              <div className="w-fit mx-auto max-w-full overflow-x-auto">
-                {parseEmailContent(
-                  email,
-                  config?.disableProxy ?? false,
-                  showImages
-                )}
+            Display images below
+          </span>
+        </div>
+      )}
+
+      {/* header info for emails */}
+      <div className="preflight flex items-start">
+        <div className="dark:text-neutral-300 w-full">
+          <div className="grid mb-0.5 md:md-0 grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content_1fr_min-content] justify-between items-center">
+            <div className="md:whitespace-nowrap">{fromEmail.name}</div>
+            {fromEmail.address && (
+              <div className="col-span-2 md:col-span-1 -mt-1 md:mt-0 break-words">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
+                  {' <'}
+                  {fromEmail.address}
+                  {'>'}
+                </span>
               </div>
-            </ErrorBoundary>
+            )}
+
+            <div className="flex justify-end items-center text-sm text-neutral-500 dark:text-neutral-300">
+              <span className="md:hidden md:px-1">
+                {formatDate(email.timeReceived, { monthDayOnly: true })}
+              </span>
+              <span className="hidden md:inline py-1 md:px-1 md:whitespace-nowrap">
+                {formatDate(email.timeReceived)}
+              </span>
+
+              <EmailActions
+                email={email}
+                startForward={startForward}
+                startReply={startReply}
+                showMoreActions={showMoreActions}
+                setShowMoreActions={setShowMoreActions}
+                showMoreActionsRef={showMoreActionsRef}
+              />
+            </div>
+          </div>
+          <div className="text-sm">
+            <span>To: </span>
+            <EmailName emails={email.to} showAddress />
           </div>
         </div>
       </div>
-    </>
+
+      {/* email body */}
+      <div className="mt-4">
+        <div
+          className={
+            'email-sandbox dark:text-neutral-300' +
+            (!email.html ? ' whitespace-pre-line' : '')
+          }
+        >
+          <ErrorBoundary
+            fallbackRender={({ error }) => {
+              console.error(error)
+              return (
+                <p className="text-rose-600 dark:text-rose-400 italic">
+                  Rendering failed
+                </p>
+              )
+            }}
+          >
+            <div className="w-fit mx-auto max-w-full overflow-x-auto">
+              {parseEmailContent(
+                email,
+                config?.disableProxy ?? false,
+                showImages
+              )}
+            </div>
+          </ErrorBoundary>
+        </div>
+      </div>
+    </div>
   )
 }
 
