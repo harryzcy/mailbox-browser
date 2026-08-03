@@ -139,7 +139,6 @@ function filterElementAttributes(
   domName: Element['name'],
   attribs: Element['attribs']
 ): Element['attribs'] {
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (attribs === undefined) return attribs
   if (domName === 'img') {
     return Object.fromEntries(

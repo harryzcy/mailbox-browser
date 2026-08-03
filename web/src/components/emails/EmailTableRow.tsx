@@ -41,7 +41,6 @@ export default function EmailTableRow(props: EmailTableRowProps) {
         return
       }
       void openDraftEmail(email.messageID)
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     } else if (email.type === 'inbox' || email.type === 'sent') {
       if (email.threadID) {
         await navigate(`/inbox/thread/${email.threadID}`)

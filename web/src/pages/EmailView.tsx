@@ -46,9 +46,7 @@ export default function EmailView() {
   const email = useEmail(data.type === 'email' ? data.messageID : null)
   const { thread } = useThread(data.type === 'thread' ? data.threadID : null)
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goPrevious = () => {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const goNext = () => {}
 
   const { activeEmail: activeReplyEmail, dispatch: dispatchDraftEmail } =

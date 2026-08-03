@@ -342,7 +342,6 @@ function BlockOptionsDropdownList({
     const toolbar = toolbarRef.current
     const dropDown = dropDownRef.current
 
-    // @eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (toolbar !== null && dropDown !== null) {
       const { left } = toolbar.getBoundingClientRect()
       dropDown.style.bottom = `120px`
@@ -354,7 +353,6 @@ function BlockOptionsDropdownList({
     const dropDown = dropDownRef.current
     const toolbar = toolbarRef.current
 
-    // @eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (dropDown !== null && toolbar !== null) {
       const handle = (event: MouseEvent) => {
         const target = event.target
