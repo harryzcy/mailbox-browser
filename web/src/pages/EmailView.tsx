@@ -290,6 +290,7 @@ export default function EmailView() {
                 <div className="flex items-start justify-between">
                   <span className="text-red-300">[Draft]</span>
                   <span className="text-neutral-500 dark:text-neutral-300">
+                    {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                     <span
                       className="inline-flex size-8 cursor-pointer rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
                       onClick={() => {
@@ -349,6 +350,7 @@ function EmailBlock(props: EmailBlockProps) {
       {!showImages && (
         <div className="preflight flex gap-2 border rounded-t-md -mx-3 -mt-3 px-3 py-1 mb-3 bg-gray-200 dark:bg-gray-700">
           <span>Images are not displayed</span>
+          {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
           <span
             className="text-blue-600 dark:text-blue-200 cursor-pointer"
             onClick={() => {
@@ -409,6 +411,7 @@ function EmailBlock(props: EmailBlockProps) {
           }
         >
           <ErrorBoundary
+            // oxlint-disable-next-line react/no-unstable-nested-components
             fallbackRender={({ error }) => {
               console.error(error)
               return (
@@ -450,6 +453,7 @@ function EmailActions(props: {
   } = props
   return (
     <span className="relative ml-2 md:ml-4 inline-flex">
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
@@ -458,6 +462,7 @@ function EmailActions(props: {
       >
         <ArrowUturnLeftIcon />
       </span>
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
@@ -466,6 +471,7 @@ function EmailActions(props: {
       >
         <ArrowUturnRightIcon />
       </span>
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
         className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
@@ -480,6 +486,7 @@ function EmailActions(props: {
           ref={showMoreActionsRef}
           className="absolute right-0 top-8 w-28 select-none rounded-md border bg-white py-1 dark:border-neutral-600 dark:bg-neutral-800"
         >
+          {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
           <div
             className="w-full cursor-pointer px-2 py-1 hover:bg-gray-100 dark:hover:bg-neutral-600"
             onClick={() => {

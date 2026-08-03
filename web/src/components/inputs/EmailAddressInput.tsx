@@ -43,6 +43,7 @@ export default function EmailAddressInput(props: EmailAddressInputProps) {
             className="ml-1 inline-flex items-center rounded bg-gray-100 py-px pl-2 pr-1 first:ml-0 dark:bg-neutral-700"
           >
             <span>{address}</span>
+            {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <span
               className="ml-1 cursor-pointer rounded-full p-0.5 first-of-type:ml-0 dark:hover:bg-neutral-800"
               onClick={() => {

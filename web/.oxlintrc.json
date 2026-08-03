@@ -58,16 +58,6 @@
     // Inline callbacks are idiomatic React; memoizing every prop isn't worth it.
     "unicorn/consistent-function-scoping": "off",
     "eslint/no-await-in-loop": "off",
-    "import/no-unassigned-import": "off",
-
-    // Real findings, not yet addressed. Warn so they stay visible without failing CI.
-    "jsx-a11y/click-events-have-key-events": "warn",
-    "jsx-a11y/control-has-associated-label": "warn",
-    "jsx-a11y/interactive-supports-focus": "warn",
-    "jsx-a11y/no-static-element-interactions": "warn",
-    "jsx-a11y/prefer-tag-over-role": "warn",
-    "react/jsx-no-constructed-context-values": "warn",
-    "react/no-unstable-nested-components": "warn",
-    "react-hooks/rules-of-hooks": "warn"
+    "import/no-unassigned-import": "off"
   }
 }

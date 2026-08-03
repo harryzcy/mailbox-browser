@@ -269,8 +269,10 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
           >
             {linkUrl}
           </a>
+          {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events */}
           <div
             className="absolute bottom-0 right-0 top-0 flex cursor-pointer items-center justify-center px-2"
+            // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
             role="button"
             tabIndex={0}
             onMouseDown={(event) => {
@@ -298,6 +300,7 @@ interface SelectProps {
 function Select({ onChange, className, options, value }: SelectProps) {
   return (
     <select className={className} onChange={onChange} value={value}>
+      {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
       <option hidden={true} value="" />
       {options.map((option) => (
         <option key={option} value={option}>

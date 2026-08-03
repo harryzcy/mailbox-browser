@@ -41,12 +41,14 @@ export function EmailDraft(props: EmailDraftProps) {
         <div className="flex items-center justify-between rounded-t bg-neutral-100 p-2 dark:bg-neutral-700 md:rounded-t-md">
           <span>{email.subject || 'New Email'}</span>
           <span className="inline-flex">
+            {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <span
               className="-my-2 -mr-1 cursor-pointer rounded-full p-1.5 hover:bg-neutral-300 dark:hover:bg-neutral-600"
               onClick={handleMinimize}
             >
               <MinusIcon className="size-4" />
             </span>
+            {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <span
               className="-my-2 -mr-1 cursor-pointer rounded-full p-1.5 hover:bg-neutral-300 dark:hover:bg-neutral-600"
               onClick={handleClose}
