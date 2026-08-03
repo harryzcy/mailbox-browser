@@ -68,7 +68,6 @@
     "jsx-a11y/prefer-tag-over-role": "warn",
     "react/jsx-no-constructed-context-values": "warn",
     "react/no-unstable-nested-components": "warn",
-    "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "warn"
   }
 }

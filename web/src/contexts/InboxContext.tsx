@@ -162,15 +162,13 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     }
   }
 
-  const checkHasPrevious = () => {
-    const { year: currentYear, month: currentMonth } = getCurrentYearMonth()
-    return currentYear > year || (currentYear === year && currentMonth > month)
-  }
-
   const [hasPreviousPage, setHasPreviousPage] = useState(false)
 
   useEffect(() => {
-    setHasPreviousPage(checkHasPrevious())
+    const { year: currentYear, month: currentMonth } = getCurrentYearMonth()
+    setHasPreviousPage(
+      currentYear > year || (currentYear === year && currentMonth > month)
+    )
   }, [year, month])
 
   const outletContext: InboxContext = {

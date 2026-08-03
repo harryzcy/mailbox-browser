@@ -38,7 +38,11 @@ export default function EmailList() {
   const { scrollYPosition, setScrollYPosition } = useInboxContext()
   useEffect(() => {
     emailViewRef.current?.scrollTo(0, scrollYPosition)
-  }, [emailViewRef.current])
+    // Restores the saved position once on mount. scrollYPosition is written by
+    // this list's own onScroll handler, so depending on it would make every
+    // scroll event scroll the list again.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const toggleSelected = (messageID: string) => {
     if (selected.includes(messageID)) {
