@@ -1,0 +1,9 @@
+# https://pkg.go.dev/vuln/GO-2026-5932
+# golang.org/x/crypto/openpgp is unmaintained and unsafe by design. The advisory
+# affects every version of golang.org/x/crypto and has no fixed version, so it
+# cannot be resolved by upgrading.
+#
+# The bff module pulls golang.org/x/crypto in transitively (gin, quic-go,
+# viper), and none of the openpgp packages are in the build closure:
+#   cd bff && go list -deps ./... | grep openpgp   # no matches
+GO-2026-5932
