@@ -105,6 +105,10 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     if (shouldLoadMoreEmails) {
       void loadMoreEmails()
     }
+    // loadMoreEmails is redefined every render and calls setEmails/setCount, so
+    // depending on it would re-run this effect on its own output and loop for as
+    // long as shouldLoadMoreEmails stays true. Fire only on the flag changing.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldLoadMoreEmails])
 
   const markAsRead = (messageID: string) => {

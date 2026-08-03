@@ -333,6 +333,9 @@ function EmailBlock(props: EmailBlockProps) {
     if (email.unread) {
       markAsRead(email.messageID)
     }
+    // Mark-as-read is a one-shot on open. markAsRead is redefined every render
+    // and calls setEmails, so depending on it would re-fire this effect.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
