@@ -5,8 +5,8 @@ go 1.25.0
 toolchain go1.26.6
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.43.5
-	github.com/aws/aws-sdk-go-v2/credentials v1.19.35
+	github.com/aws/aws-sdk-go-v2 v1.43.6
+	github.com/aws/aws-sdk-go-v2/credentials v1.19.36
 	github.com/gin-contrib/zap v1.1.7
 	github.com/gin-gonic/gin v1.12.0
 	github.com/spf13/viper v1.21.0
@@ -16,7 +16,7 @@ require (
 )
 
 require (
-	github.com/aws/smithy-go v1.27.7 // indirect
+	github.com/aws/smithy-go v1.27.8 // indirect
 	github.com/bytedance/gopkg v0.1.4 // indirect
 	github.com/bytedance/sonic v1.15.2 // indirect
 	github.com/bytedance/sonic/loader v0.5.2 // indirect
