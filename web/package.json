@@ -51,7 +51,7 @@
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
     "@vitejs/plugin-react": "6.1.0",
-    "@vitest/coverage-v8": "4.1.10",
+    "@vitest/coverage-v8": "4.1.11",
     "happy-dom": "20.11.6",
     "oxlint": "1.78.0",
     "oxlint-tsgolint": "7.0.2001",
@@ -59,6 +59,6 @@
     "prettier-plugin-tailwindcss": "0.8.1",
     "typescript": "7.0.2",
     "vite": "8.2.2",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   }
 }
