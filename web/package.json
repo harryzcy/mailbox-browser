@@ -52,7 +52,7 @@
     "@types/react-dom": "19.2.4",
     "@vitejs/plugin-react": "6.1.0",
     "@vitest/coverage-v8": "4.1.10",
-    "happy-dom": "20.11.2",
+    "happy-dom": "20.11.6",
     "oxlint": "1.78.0",
     "oxlint-tsgolint": "7.0.2001",
     "prettier": "3.9.6",
