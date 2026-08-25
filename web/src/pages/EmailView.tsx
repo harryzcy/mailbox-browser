@@ -105,8 +105,8 @@ export default function EmailView() {
   const draftElemRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!draftElemRef.current) return
-    draftElemRef.current.scrollIntoView()
+    if (!isInitialReplyOpen) return
+    draftElemRef.current?.scrollIntoView()
   }, [isInitialReplyOpen])
 
   const startForward = async (targetEmail: Email) => {

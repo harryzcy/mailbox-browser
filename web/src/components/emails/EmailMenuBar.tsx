@@ -5,7 +5,7 @@ import {
   EnvelopeOpenIcon,
   TrashIcon
 } from '@heroicons/react/24/outline'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
@@ -48,13 +48,14 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
       <div className="hidden md:flex select-none items-stretch justify-between">
         <div className="flex items-center space-x-1">
           <ComposeButton />
-          <ActionBar
-            emailIDs={emailIDs}
-            handleDelete={handleDelete}
-            handleRead={handleRead}
-            handleUnread={handleUnread}
-            showOperations={showOperations}
-          />
+          {showOperations && (
+            <ActionBar
+              emailIDs={emailIDs}
+              handleDelete={handleDelete}
+              handleRead={handleRead}
+              handleUnread={handleUnread}
+            />
+          )}
         </div>
 
         <YearMonthNavigation
@@ -83,7 +84,6 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
                 handleDelete={handleDelete}
                 handleRead={handleRead}
                 handleUnread={handleUnread}
-                showOperations={showOperations}
               />
             </div>
           </>
@@ -159,23 +159,14 @@ function ActionBar(props: {
   handleDelete: () => void
   handleRead: () => void
   handleUnread: () => void
-  showOperations: boolean
 }) {
-  const { emailIDs, handleDelete, handleRead, handleUnread, showOperations } =
-    props
+  const { emailIDs, handleDelete, handleRead, handleUnread } = props
   const { config } = useConfig()
   const [showPluginMenu, setShowPluginMenu] = useState(false)
-  useEffect(() => {
-    setShowPluginMenu(false)
-  }, [showOperations])
 
   const invokePlugin = (plugin: Plugin) => {
     setShowPluginMenu(false)
     void plugins.invoke(plugin.name, emailIDs)
-  }
-
-  if (!showOperations) {
-    return null
   }
 
   return (
