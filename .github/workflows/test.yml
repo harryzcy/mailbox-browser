@@ -19,7 +19,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    uses: harryzcy/github-actions/.github/workflows/go.yml@13a4c40f9699ea2915746978b58bb42160f771b6 # main
+    uses: harryzcy/github-actions/.github/workflows/go.yml@129e079b7d1fa823cbf277f0030f6dbb516c9098 # main
     with:
       working-directory: bff
       latest: 1
@@ -100,7 +100,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
 
       - name: Get build variables
         run: |
