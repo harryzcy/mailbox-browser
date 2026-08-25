@@ -104,9 +104,11 @@ export default function EmailView() {
 
   const draftElemRef = useRef<HTMLDivElement>(null)
 
+  // isInitialReplyOpen is a trigger, not a value this effect reads.
   useEffect(() => {
     if (!draftElemRef.current) return
     draftElemRef.current.scrollIntoView()
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
   }, [isInitialReplyOpen])
 
   const startForward = async (targetEmail: Email) => {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const DEFAULT_THROTTLE_MS = 3000
 
@@ -14,37 +14,23 @@ const useThrottled = <T>(
   throttleMs: number = DEFAULT_THROTTLE_MS
 ) => {
   const [throttledValue, setThrottledValue] = useState(value)
-  const lastTriggered = useRef(Date.now())
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  const cancel = useCallback(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-      timeoutRef.current = null
-    }
-  }, [])
+  const lastTriggered = useRef<number | null>(null)
 
   useEffect(() => {
-    let remainingTime = getRemainingTime(lastTriggered.current, throttleMs)
+    // The first effect run starts the throttle window; reading the clock here
+    // rather than during render keeps the render pure.
+    lastTriggered.current ??= Date.now()
 
-    if (remainingTime === 0) {
+    const remainingTime = getRemainingTime(lastTriggered.current, throttleMs)
+    const timeout = setTimeout(() => {
       lastTriggered.current = Date.now()
       setThrottledValue(value)
-      cancel()
-    } else {
-      timeoutRef.current ??= setTimeout(() => {
-        remainingTime = getRemainingTime(lastTriggered.current, throttleMs)
+    }, remainingTime)
 
-        if (remainingTime === 0) {
-          lastTriggered.current = Date.now()
-          setThrottledValue(value)
-          cancel()
-        }
-      }, remainingTime)
+    return () => {
+      clearTimeout(timeout)
     }
-
-    return cancel
-  }, [cancel, throttleMs, value])
+  }, [throttleMs, value])
 
   return throttledValue
 }
