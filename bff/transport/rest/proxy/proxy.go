@@ -2,7 +2,6 @@ package proxy
 
 import (
 	"errors"
-	"net/http"
 	"net/http/httputil"
 	"net/url"
 
@@ -28,16 +27,13 @@ func Proxy(ctx *gin.Context) {
 		ginutil.InternalError(ctx, err)
 		return
 	}
-	proxy := httputil.NewSingleHostReverseProxy(&url.URL{
-		Scheme: remote.Scheme,
-		Host:   remote.Host,
-	})
-	proxy.Director = func(req *http.Request) {
-		req.Header = ctx.Request.Header
-		req.Host = remote.Host
-		req.URL.Scheme = remote.Scheme
-		req.URL.Host = remote.Host
-		req.URL.Path = remote.Path
+	proxy := &httputil.ReverseProxy{
+		Rewrite: func(req *httputil.ProxyRequest) {
+			req.Out.Host = remote.Host
+			req.Out.URL.Scheme = remote.Scheme
+			req.Out.URL.Host = remote.Host
+			req.Out.URL.Path = remote.Path
+		},
 	}
 
 	proxy.ServeHTTP(ctx.Writer, ctx.Request)
