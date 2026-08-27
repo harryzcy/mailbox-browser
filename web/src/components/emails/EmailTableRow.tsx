@@ -93,7 +93,7 @@ export default function EmailTableRow(props: EmailTableRowProps) {
                 : 'border-neutral-300 dark:border-neutral-500')
             }
           >
-            {selected && <CheckIcon className="h-3.5 w-3.5" />}
+            {selected && <CheckIcon className="size-3.5 " />}
           </div>
         </span>
       </div>

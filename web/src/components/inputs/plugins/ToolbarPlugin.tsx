@@ -234,7 +234,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
   return (
     <div
       ref={editorRef}
-      className="absolute z-50 -mt-[6px] w-full max-w-[300px] rounded-md bg-white p-2 opacity-0 shadow-2xs transition-opacity duration-300"
+      className="absolute z-50 -mt-1.5 w-full max-w-75 rounded-md bg-white p-2 opacity-0 shadow-2xs transition-opacity duration-300"
     >
       {isEditMode ? (
         <input
@@ -271,7 +271,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
           </a>
           {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events */}
           <div
-            className="absolute bottom-0 right-0 top-0 flex cursor-pointer items-center justify-center px-2"
+            className="absolute inset-y-0 right-0  flex cursor-pointer items-center justify-center px-2"
             // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
             role="button"
             tabIndex={0}
@@ -645,7 +645,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
 
   return (
     <div
-      className="toolbar -mx-2 mt-2 flex rounded-b bg-white px-1 py-1 text-neutral-700 dark:bg-neutral-700 dark:text-neutral-200 md:rounded-b-md"
+      className="toolbar -mx-2 mt-2 flex rounded-b bg-white p-1  text-neutral-700 dark:bg-neutral-700 dark:text-neutral-200 md:rounded-b-md"
       ref={toolbarRef}
     >
       <button
@@ -696,7 +696,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             <span className="size-4">
               {blockTypeToIcon[blockType as BlockType]}
             </span>
-            <span className="ml-2 h-5 w-16 flex-1 text-left text-sm leading-5 text-inherit">
+            <span className="ml-2 h-5 w-16 flex-1 text-left text-sm/5  text-inherit">
               {blockTypeToBlockName[blockType as BlockType]}
             </span>
             <ChevronDownIcon className="size-4" />

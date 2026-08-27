@@ -12,7 +12,7 @@ export default function DraftEmailsTabs() {
   return (
     <div
       className={
-        'fixed -mx-8 h-[3rem] w-full px-8 pt-2' +
+        'fixed -mx-8 h-12 w-full px-8 pt-2' +
         (draftEmailsContext.activeEmail === null
           ? ' bg-neutral-50 dark:bg-neutral-900'
           : '')

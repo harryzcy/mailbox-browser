@@ -34,7 +34,7 @@ export default function EmailRawView() {
 
   return (
     <div className="preflight">
-      <div className="w-full px-2 py-2 md:px-8 md:py-5">
+      <div className="w-full p-2  md:px-8 md:py-5">
         <h1 className="text-lg font-light tracking-wider dark:text-white md:px-1 md:pb-4">
           Original Email
         </h1>

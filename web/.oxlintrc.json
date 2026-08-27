@@ -1,5 +1,11 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "jsPlugins": ["eslint-plugin-better-tailwindcss"],
+  "settings": {
+    "better-tailwindcss": {
+      "entryPoint": "src/index.css"
+    }
+  },
   "plugins": [
     "typescript",
     "unicorn",
@@ -58,6 +64,11 @@
     // Inline callbacks are idiomatic React; memoizing every prop isn't worth it.
     "unicorn/consistent-function-scoping": "off",
     "eslint/no-await-in-loop": "off",
-    "import/no-unassigned-import": "off"
+    "import/no-unassigned-import": "off",
+
+    "better-tailwindcss/enforce-canonical-classes": [
+      "error",
+      { "rootFontSize": 16 }
+    ]
   }
 }
