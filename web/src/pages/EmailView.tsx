@@ -370,7 +370,7 @@ function EmailBlock(props: EmailBlockProps) {
           <div className="grid mb-0.5 md:md-0 grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content_1fr_min-content] justify-between items-center">
             <div className="md:whitespace-nowrap">{fromEmail.name}</div>
             {fromEmail.address && (
-              <div className="col-span-2 md:col-span-1 -mt-1 md:mt-0 break-words">
+              <div className="col-span-2 md:col-span-1 -mt-1 md:mt-0 wrap-break-word">
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   {' <'}
                   {fromEmail.address}
@@ -457,7 +457,7 @@ function EmailActions(props: {
     <span className="relative ml-2 md:ml-4 inline-flex">
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
-        className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex size-6 md:size-8  p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
           startReply(email)
         }}
@@ -466,7 +466,7 @@ function EmailActions(props: {
       </span>
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
-        className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex size-6 md:size-8  p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
           startForward(email)
         }}
@@ -475,7 +475,7 @@ function EmailActions(props: {
       </span>
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
-        className="inline-flex size-6 md:h-8 md:w-8 p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex size-6 md:size-8  p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
           setShowMoreActions(!showMoreActions)
         }}

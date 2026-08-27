@@ -97,7 +97,7 @@ export default function RichTextEditor(props: RichTextEditorProps) {
 
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className="relative flex h-full min-h-[12rem] w-full flex-col rounded text-left font-normal leading-5 md:rounded-md">
+      <div className="relative flex size-full min-h-48  flex-col rounded text-left font-normal leading-5 md:rounded-md">
         <div className="relative flex-1 overflow-scroll overscroll-contain">
           <RichTextPlugin
             contentEditable={

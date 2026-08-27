@@ -193,7 +193,7 @@ function ActionBar(props: {
         <EnvelopeOpenIcon className="size-5" />
       </span>
       <span className="inline-flex h-1/2 w-2.5">
-        <span className="m-auto block h-full w-[1px] bg-gray-300"></span>
+        <span className="m-auto block h-full w-px bg-gray-300"></span>
       </span>
       <span className="inline-flex cursor-pointer rounded-md p-2 text-gray-600 hover:bg-neutral-100 hover:text-sky-900 dark:text-gray-300 dark:hover:bg-neutral-700 dark:hover:text-gray-100">
         {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
