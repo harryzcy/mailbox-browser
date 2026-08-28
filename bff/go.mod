@@ -3,8 +3,8 @@ module github.com/harryzcy/mailbox-browser/bff
 go 1.27.0
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.43.7
-	github.com/aws/aws-sdk-go-v2/credentials v1.19.37
+	github.com/aws/aws-sdk-go-v2 v1.43.8
+	github.com/aws/aws-sdk-go-v2/credentials v1.19.38
 	github.com/gin-contrib/zap v1.1.7
 	github.com/gin-gonic/gin v1.12.0
 	github.com/spf13/viper v1.21.0
@@ -14,7 +14,7 @@ require (
 )
 
 require (
-	github.com/aws/smithy-go v1.27.9 // indirect
+	github.com/aws/smithy-go v1.27.10 // indirect
 	github.com/bytedance/gopkg v0.1.4 // indirect
 	github.com/bytedance/sonic v1.15.2 // indirect
 	github.com/bytedance/sonic/loader v0.5.2 // indirect
