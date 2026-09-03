@@ -30,7 +30,7 @@ import theme from 'components/inputs/themes/LexicalTheme'
 
 function Placeholder() {
   return (
-    <div className="pointer-events-none absolute left-3 top-3 inline-block select-none truncate text-slate-400 dark:text-neutral-400">
+    <div className="pointer-events-none absolute top-3 left-3 inline-block truncate text-slate-400 select-none dark:text-neutral-400">
       Email body...
     </div>
   )
@@ -97,7 +97,7 @@ export default function RichTextEditor(props: RichTextEditorProps) {
 
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className="relative flex size-full min-h-48  flex-col rounded text-left font-normal leading-5 md:rounded-md">
+      <div className="relative flex size-full min-h-48 flex-col rounded text-left leading-5 font-normal md:rounded-md">
         <div className="relative flex-1 overflow-scroll overscroll-contain">
           <RichTextPlugin
             contentEditable={

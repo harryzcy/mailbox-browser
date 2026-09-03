@@ -22,7 +22,7 @@ const Sidebar = forwardRef<HTMLElement>(function Sidebar(props, ref) {
   return (
     <aside
       ref={ref}
-      className="flex h-screen flex-none select-none flex-col justify-between text-base w-60 bg-white dark:bg-neutral-900"
+      className="flex h-screen w-60 flex-none flex-col justify-between bg-white text-base select-none dark:bg-neutral-900"
     >
       <div>
         <div className="flex flex-col content-center p-6">
@@ -30,7 +30,7 @@ const Sidebar = forwardRef<HTMLElement>(function Sidebar(props, ref) {
             Mailbox Browser
           </h1>
         </div>
-        <nav className="pl-6 pr-8 pt-1">
+        <nav className="pt-1 pr-8 pl-6">
           {navItems.map(([name, path, icon]) => {
             return (
               <NavLink
@@ -44,7 +44,7 @@ const Sidebar = forwardRef<HTMLElement>(function Sidebar(props, ref) {
                   }`
                 }
               >
-                <span className="size-">{icon}</span>
+                <span>{icon}</span>
                 <span>{name}</span>
               </NavLink>
             )
@@ -52,7 +52,7 @@ const Sidebar = forwardRef<HTMLElement>(function Sidebar(props, ref) {
         </nav>
       </div>
 
-      <div className="grid grid-cols-2 items-center justify-center space-x-1 py-2 text-xs text-gray-400 dark:text-neutral-500 md:py-6">
+      <div className="grid grid-cols-2 items-center justify-center space-x-1 py-2 text-xs text-gray-400 md:py-6 dark:text-neutral-500">
         <span className="justify-self-end">Mailbox</span>
         <span>{info?.version ?? 'Unknown'}</span>
         <span className="justify-self-end">Browser</span>

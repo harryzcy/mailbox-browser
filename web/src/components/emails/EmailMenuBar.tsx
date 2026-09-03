@@ -5,6 +5,7 @@ import {
   EnvelopeOpenIcon,
   TrashIcon
 } from '@heroicons/react/24/outline'
+import { clsx } from 'clsx'
 import { useContext, useState } from 'react'
 
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
@@ -45,7 +46,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
 
   return (
     <>
-      <div className="hidden md:flex select-none items-stretch justify-between">
+      <div className="hidden items-stretch justify-between select-none md:flex">
         <div className="flex items-center space-x-1">
           <ComposeButton />
           {showOperations && (
@@ -68,7 +69,7 @@ export default function EmailMenuBar(props: EmailMenuBarProps) {
         </YearMonthNavigation>
       </div>
 
-      <div className="flex md:hidden select-none items-stretch justify-between">
+      <div className="flex items-stretch justify-between select-none md:hidden">
         {showOperations ? (
           <>
             {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
@@ -149,7 +150,7 @@ function ComposeButton() {
       <span>
         <EnvelopeIcon className="size-5 text-sky-800" />
       </span>
-      <span className="text-bold font-medium text-sky-900">Compose</span>
+      <span className="font-medium text-sky-900">Compose</span>
     </span>
   )
 }
@@ -206,7 +207,7 @@ function ActionBar(props: {
           <EllipsisVerticalIcon className="size-5" />
         </span>
         {showPluginMenu && (
-          <div className="absolute left-0 top-9 w-40 rounded-md border bg-white dark:bg-neutral-800">
+          <div className="absolute top-9 left-0 w-40 rounded-md border bg-white dark:bg-neutral-800">
             {config?.plugins.length === 0 ? (
               <div className="w-full p-2">No plugins installed</div>
             ) : (
@@ -245,12 +246,12 @@ function YearMonthNavigation(props: {
     >
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
-        className={
-          'inline-flex items-center rounded-l-md p-2 dark:bg-cyan-900 ' +
-          (!hasPrevious
+        className={clsx(
+          'inline-flex items-center rounded-l-md p-2 dark:bg-cyan-900',
+          !hasPrevious
             ? 'cursor-not-allowed text-gray-400'
-            : 'cursor-pointer dark:text-cyan-50')
-        }
+            : 'cursor-pointer dark:text-cyan-50'
+        )}
         onClick={goPrevious}
       >
         <span className="size-5">
@@ -258,18 +259,18 @@ function YearMonthNavigation(props: {
         </span>
       </span>
       {children && (
-        <span className="mx-px inline-flex select-none px-3 py-2 text-center text-sm dark:bg-cyan-900 dark:text-cyan-50">
+        <span className="mx-px inline-flex px-3 py-2 text-center text-sm select-none dark:bg-cyan-900 dark:text-cyan-50">
           {children}
         </span>
       )}
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
-        className={
-          'inline-flex items-center rounded-r-md p-2 dark:bg-cyan-900 ' +
-          (!hasNext
+        className={clsx(
+          'inline-flex items-center rounded-r-md p-2 dark:bg-cyan-900',
+          !hasNext
             ? 'cursor-not-allowed text-gray-400'
-            : 'cursor-pointer dark:text-cyan-50')
-        }
+            : 'cursor-pointer dark:text-cyan-50'
+        )}
         onClick={goNext}
       >
         <span className="size-5">

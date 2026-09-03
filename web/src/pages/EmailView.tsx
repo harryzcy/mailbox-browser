@@ -4,6 +4,7 @@ import {
   EllipsisVerticalIcon,
   PencilIcon
 } from '@heroicons/react/24/outline'
+import { clsx } from 'clsx'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Await, useLoaderData, useNavigate } from 'react-router'
@@ -198,7 +199,7 @@ export default function EmailView() {
 
   return (
     <>
-      <div className="px-2 md:px-0 mb-4 preflight">
+      <div className="preflight mb-4 px-2 md:px-0">
         <EmailMenuBar
           emailIDs={'messageID' in data ? [data.messageID] : []}
           handleBack={() => {
@@ -223,7 +224,7 @@ export default function EmailView() {
 
       <React.Suspense
         fallback={
-          <div className="px-2 md:px-0 mb-4 overflow-scroll rounded-md bg-neutral-50 p-3 dark:bg-neutral-800 dark:text-neutral-200">
+          <div className="mb-4 overflow-scroll rounded-md bg-neutral-50 p-3 px-2 md:px-0 dark:bg-neutral-800 dark:text-neutral-200">
             <span className="px-2">Loading...</span>
           </div>
         }
@@ -232,7 +233,7 @@ export default function EmailView() {
         {data.type === 'email' && email && (
           <Await resolve={email}>
             {(resolvedEmail: Email) => (
-              <div className="h-full overflow-y-scroll pb-5 px-2 md:px-0">
+              <div className="h-full overflow-y-scroll px-2 pb-5 md:px-0">
                 <div className="mb-2 px-3">
                   <span className="text-xl font-normal dark:text-neutral-200">
                     {resolvedEmail.subject}
@@ -288,7 +289,7 @@ export default function EmailView() {
               />
             )}
             {thread.draftID && !activeReplyEmail && (
-              <div className="preflight mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800 w-full">
+              <div className="preflight mb-4 w-full rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
                 <div className="flex items-start justify-between">
                   <span className="text-red-300">[Draft]</span>
                   <span className="text-neutral-500 dark:text-neutral-300">
@@ -350,11 +351,11 @@ function EmailBlock(props: EmailBlockProps) {
   return (
     <div className="mb-4 rounded-md bg-neutral-50 p-3 dark:bg-neutral-800">
       {!showImages && (
-        <div className="preflight flex gap-2 border rounded-t-md -mx-3 -mt-3 px-3 py-1 mb-3 bg-gray-200 dark:bg-gray-700">
+        <div className="preflight -mx-3 -mt-3 mb-3 flex gap-2 rounded-t-md border bg-gray-200 px-3 py-1 dark:bg-gray-700">
           <span>Images are not displayed</span>
           {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
           <span
-            className="text-blue-600 dark:text-blue-200 cursor-pointer"
+            className="cursor-pointer text-blue-600 dark:text-blue-200"
             onClick={() => {
               setShowImages(true)
             }}
@@ -366,11 +367,11 @@ function EmailBlock(props: EmailBlockProps) {
 
       {/* header info for emails */}
       <div className="preflight flex items-start">
-        <div className="dark:text-neutral-300 w-full">
-          <div className="grid mb-0.5 md:md-0 grid-flow-dense gap-x-1 grid-cols-2 md:grid-cols-[min-content_1fr_min-content] justify-between items-center">
+        <div className="w-full dark:text-neutral-300">
+          <div className="mb-0.5 grid grid-flow-dense grid-cols-2 items-center justify-between gap-x-1 md:grid-cols-[min-content_1fr_min-content]">
             <div className="md:whitespace-nowrap">{fromEmail.name}</div>
             {fromEmail.address && (
-              <div className="col-span-2 md:col-span-1 -mt-1 md:mt-0 wrap-break-word">
+              <div className="col-span-2 -mt-1 wrap-break-word md:col-span-1 md:mt-0">
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   {' <'}
                   {fromEmail.address}
@@ -379,11 +380,11 @@ function EmailBlock(props: EmailBlockProps) {
               </div>
             )}
 
-            <div className="flex justify-end items-center text-sm text-neutral-500 dark:text-neutral-300">
+            <div className="flex items-center justify-end text-sm text-neutral-500 dark:text-neutral-300">
               <span className="md:hidden md:px-1">
                 {formatDate(email.timeReceived, { monthDayOnly: true })}
               </span>
-              <span className="hidden md:inline py-1 md:px-1 md:whitespace-nowrap">
+              <span className="hidden py-1 md:inline md:px-1 md:whitespace-nowrap">
                 {formatDate(email.timeReceived)}
               </span>
 
@@ -407,23 +408,23 @@ function EmailBlock(props: EmailBlockProps) {
       {/* email body */}
       <div className="mt-4">
         <div
-          className={
-            'email-sandbox dark:text-neutral-300' +
-            (!email.html ? ' whitespace-pre-line' : '')
-          }
+          className={clsx(
+            'email-sandbox dark:text-neutral-300',
+            !email.html && 'whitespace-pre-line'
+          )}
         >
           <ErrorBoundary
             // oxlint-disable-next-line react/no-unstable-nested-components
             fallbackRender={({ error }) => {
               console.error(error)
               return (
-                <p className="text-rose-600 dark:text-rose-400 italic">
+                <p className="text-rose-600 italic dark:text-rose-400">
                   Rendering failed
                 </p>
               )
             }}
           >
-            <div className="w-fit mx-auto max-w-full overflow-x-auto">
+            <div className="mx-auto w-fit max-w-full overflow-x-auto">
               {parseEmailContent(
                 email,
                 config?.disableProxy ?? false,
@@ -454,10 +455,10 @@ function EmailActions(props: {
     showMoreActionsRef
   } = props
   return (
-    <span className="relative ml-2 md:ml-4 inline-flex">
+    <span className="relative ml-2 inline-flex md:ml-4">
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
-        className="inline-flex size-6 md:size-8  p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex size-6 cursor-pointer rounded-full p-1 hover:bg-neutral-200 md:size-8 md:p-2 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
           startReply(email)
         }}
@@ -466,7 +467,7 @@ function EmailActions(props: {
       </span>
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
-        className="inline-flex size-6 md:size-8  p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex size-6 cursor-pointer rounded-full p-1 hover:bg-neutral-200 md:size-8 md:p-2 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
           startForward(email)
         }}
@@ -475,7 +476,7 @@ function EmailActions(props: {
       </span>
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span
-        className="inline-flex size-6 md:size-8  p-1 md:p-2 cursor-pointer rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+        className="inline-flex size-6 cursor-pointer rounded-full p-1 hover:bg-neutral-200 md:size-8 md:p-2 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
         onClick={() => {
           setShowMoreActions(!showMoreActions)
         }}
@@ -486,7 +487,7 @@ function EmailActions(props: {
       {showMoreActions && (
         <span
           ref={showMoreActionsRef}
-          className="absolute right-0 top-8 w-28 select-none rounded-md border bg-white py-1 dark:border-neutral-600 dark:bg-neutral-800"
+          className="absolute top-8 right-0 w-28 rounded-md border bg-white py-1 select-none dark:border-neutral-600 dark:bg-neutral-800"
         >
           {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
           <div
