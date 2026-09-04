@@ -1,4 +1,15 @@
+import betterTailwindcss from 'eslint-plugin-better-tailwindcss'
 import { defineConfig } from 'oxlint'
+
+// Non-Tailwind classes: CSS scoping roots and markers that JS queries by name.
+const CUSTOM_CLASSES = [
+  'block-controls',
+  'email-sandbox',
+  'link-input',
+  'preflight',
+  'toaster',
+  'toolbar'
+]
 
 export default defineConfig({
   jsPlugins: ['eslint-plugin-better-tailwindcss'],
@@ -40,6 +51,27 @@ export default defineConfig({
     '*.config.cjs'
   ],
   rules: {
+    ...betterTailwindcss.configs['recommended-error'].rules,
+
+    // Matches the tailwindCSS.lint.suggestCanonicalClasses editor diagnostic.
+    'better-tailwindcss/enforce-canonical-classes': [
+      'error',
+      { rootFontSize: 16 }
+    ],
+
+    'better-tailwindcss/no-unknown-classes': [
+      'error',
+      { ignore: [`^(?:${CUSTOM_CLASSES.join('|')})$`] }
+    ],
+
+    // Off: its fixer wraps plain string literals across newlines, emitting
+    // invalid JS, and prettier owns formatting anyway.
+    'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+
+    // Off: the only replacement it offers is `rounded` -> `rounded-sm`, but
+    // index.css overrides --radius, so rounded-sm is 6px where rounded is 4px.
+    'better-tailwindcss/no-deprecated-classes': 'off',
+
     // The new JSX transform makes the React import unnecessary.
     'react/react-in-jsx-scope': 'off',
 
@@ -65,11 +97,6 @@ export default defineConfig({
     // Inline callbacks are idiomatic React; memoizing every prop isn't worth it.
     'unicorn/consistent-function-scoping': 'off',
     'eslint/no-await-in-loop': 'off',
-    'import/no-unassigned-import': 'off',
-
-    'better-tailwindcss/enforce-canonical-classes': [
-      'error',
-      { rootFontSize: 16 }
-    ]
+    'import/no-unassigned-import': 'off'
   }
 })

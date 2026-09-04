@@ -3,6 +3,7 @@
  * This is the root component for the entire right section of the page, only excluding the sidebar on the left.
  * It is used for the inbox, draft, and sent pages, and it contains the Outlet for the email list and email view components.
  */
+import { clsx } from 'clsx'
 import { useContext } from 'react'
 
 import DraftEmailsTabs from 'components/emails/DraftEmailsTabs'
@@ -29,15 +30,15 @@ export default function EmailRoot(props: EmailRootProps) {
   return (
     <>
       <div
-        className={
-          'flex flex-col ' +
-          (draftEmailsContext.emails.length > 0
+        className={clsx(
+          'flex flex-col',
+          draftEmailsContext.emails.length > 0
             ? 'h-[calc(100%-3rem)]'
-            : 'h-full')
-        }
+            : 'h-full'
+        )}
       >
         <div className="preflight">
-          <h1 className="text-lg w-full font-light tracking-wider text-center md:text-left dark:text-white px-2 pb-3 md:px-2 md:pb-4">
+          <h1 className="w-full px-2 pb-3 text-center text-lg font-light tracking-wider md:px-2 md:pb-4 md:text-left dark:text-white">
             {props.type === 'inbox'
               ? 'Inbox'
               : props.type === 'draft'

@@ -33,12 +33,12 @@ export function EmailDraft(props: EmailDraftProps) {
 
   return (
     <div
-      className={`flex w-full flex-col rounded bg-neutral-50 text-neutral-800 shadow-md dark:bg-neutral-800 dark:text-neutral-100 md:rounded-md ${
+      className={`flex w-full flex-col rounded bg-neutral-50 text-neutral-800 shadow-md md:rounded-md dark:bg-neutral-800 dark:text-neutral-100 ${
         !isReply ? 'h-full max-h-full' : ''
       }`}
     >
       {!isReply && (
-        <div className="flex items-center justify-between rounded-t bg-neutral-100 p-2 dark:bg-neutral-700 md:rounded-t-md">
+        <div className="flex items-center justify-between rounded-t bg-neutral-100 p-2 md:rounded-t-md dark:bg-neutral-700">
           <span>{email.subject || 'New Email'}</span>
           <span className="inline-flex">
             {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
@@ -61,7 +61,7 @@ export function EmailDraft(props: EmailDraftProps) {
 
       {!isReply && (
         <div className="flex px-2 pt-2">
-          <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center dark:bg-neutral-900 md:rounded-md">
+          <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center md:rounded-md dark:bg-neutral-900">
             From
           </span>
           <span className="mx-2 flex-1 border-b dark:border-neutral-600">
@@ -75,7 +75,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </div>
       )}
       <div className="flex px-2 pt-2">
-        <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center dark:bg-neutral-900 md:rounded-md">
+        <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center md:rounded-md dark:bg-neutral-900">
           To
         </span>
         <span className="mx-2 flex-1 border-b dark:border-neutral-600">
@@ -88,7 +88,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
       </div>
       <div className="flex px-2 pt-2">
-        <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center dark:bg-neutral-900 md:rounded-md">
+        <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center md:rounded-md dark:bg-neutral-900">
           Cc
         </span>
         <span className="mx-2 flex-1 border-b dark:border-neutral-600">
@@ -101,7 +101,7 @@ export function EmailDraft(props: EmailDraftProps) {
         </span>
       </div>
       <div className="flex px-2 pt-2">
-        <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center dark:bg-neutral-900 md:rounded-md">
+        <span className="ml-2 w-16 rounded bg-neutral-200 px-3 py-1 text-center md:rounded-md dark:bg-neutral-900">
           Bcc
         </span>
         <span className="mx-2 flex-1 border-b dark:border-neutral-600">

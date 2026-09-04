@@ -40,6 +40,7 @@ import {
   $setBlocksType
 } from '@lexical/selection'
 import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils'
+import { clsx } from 'clsx'
 import DOMPurify from 'dompurify'
 import {
   $createParagraphNode,
@@ -271,7 +272,7 @@ function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
           </a>
           {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events */}
           <div
-            className="absolute inset-y-0 right-0  flex cursor-pointer items-center justify-center px-2"
+            className="absolute inset-y-0 right-0 flex cursor-pointer items-center justify-center px-2"
             // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
             role="button"
             tabIndex={0}
@@ -495,14 +496,14 @@ function BlockOptionsDropdownList({
 
   return (
     <div
-      className="min-w-32 min-h-10 absolute z-10 block cursor-pointer rounded-md bg-white text-slate-800 shadow-md dark:bg-neutral-600 dark:text-slate-200"
+      className="absolute z-10 block min-h-10 min-w-32 cursor-pointer rounded-md bg-white text-slate-800 shadow-md dark:bg-neutral-600 dark:text-slate-200"
       ref={dropDownRef}
     >
       {blockTypeList.map(([blockClass, blockName, format, element]) => {
         return (
           <button
             key={blockClass}
-            className="min-w-32 flex shrink-0 flex-row content-center rounded-md p-2 hover:bg-neutral-200 dark:hover:bg-neutral-500"
+            className="flex min-w-32 shrink-0 flex-row content-center rounded-md p-2 hover:bg-neutral-200 dark:hover:bg-neutral-500"
             onClick={format}
           >
             <span className="mr-2 size-4 self-center">{element}</span>
@@ -645,14 +646,14 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
 
   return (
     <div
-      className="toolbar -mx-2 mt-2 flex rounded-b bg-white p-1  text-neutral-700 dark:bg-neutral-700 dark:text-neutral-200 md:rounded-b-md"
+      className="toolbar -mx-2 mt-2 flex rounded-b bg-white p-1 text-neutral-700 md:rounded-b-md dark:bg-neutral-700 dark:text-neutral-200"
       ref={toolbarRef}
     >
       <button
         onClick={() => {
           props.handleSend()
         }}
-        className="inline-flex cursor-pointer items-center space-x-2 rounded-md border-0 bg-blue-200 pl-5 pr-4 text-black"
+        className="inline-flex cursor-pointer items-center space-x-2 rounded-md border-0 bg-blue-200 pr-4 pl-5 text-black"
         aria-label="Send"
       >
         <span>Send</span>
@@ -696,7 +697,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             <span className="size-4">
               {blockTypeToIcon[blockType as BlockType]}
             </span>
-            <span className="ml-2 h-5 w-16 flex-1 text-left text-sm/5  text-inherit">
+            <span className="ml-2 h-5 w-16 flex-1 text-left text-sm/5 text-inherit">
               {blockTypeToBlockName[blockType as BlockType]}
             </span>
             <ChevronDownIcon className="size-4" />
@@ -717,7 +718,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
       {blockType === 'code' ? (
         <span className="flex">
           <Select
-            className="w-32 cursor-pointer select-none rounded-md bg-transparent p-2 align-middle text-sm capitalize text-neutral-500 outline-hidden dark:text-neutral-200 dark:hover:bg-neutral-600"
+            className="w-32 cursor-pointer rounded-md bg-transparent p-2 align-middle text-sm text-neutral-500 capitalize outline-hidden select-none dark:text-neutral-200 dark:hover:bg-neutral-600"
             onChange={onCodeLanguageSelect}
             options={codeLanguges}
             value={codeLanguage}
@@ -730,10 +731,10 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
             }}
-            className={
-              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
-              (isBold ? 'bg-neutral-200 dark:bg-neutral-600' : '')
-            }
+            className={clsx(
+              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600',
+              isBold && 'bg-neutral-200 dark:bg-neutral-600'
+            )}
             aria-label="Format Bold"
           >
             <BoldIcon className="size-4 self-center" />
@@ -742,10 +743,10 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
             }}
-            className={
-              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
-              (isItalic ? 'bg-neutral-200 dark:bg-neutral-600' : '')
-            }
+            className={clsx(
+              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600',
+              isItalic && 'bg-neutral-200 dark:bg-neutral-600'
+            )}
             aria-label="Format Italics"
           >
             <ItalicIcon className="size-4 self-center" />
@@ -754,10 +755,10 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
             }}
-            className={
-              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
-              (isUnderline ? 'bg-neutral-200 dark:bg-neutral-600' : '')
-            }
+            className={clsx(
+              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600',
+              isUnderline && 'bg-neutral-200 dark:bg-neutral-600'
+            )}
             aria-label="Format Underline"
           >
             <UnderlineIcon className="size-4 self-center" />
@@ -766,10 +767,10 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
             }}
-            className={
-              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
-              (isStrikethrough ? 'bg-neutral-200 dark:bg-neutral-600' : '')
-            }
+            className={clsx(
+              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600',
+              isStrikethrough && 'bg-neutral-200 dark:bg-neutral-600'
+            )}
             aria-label="Format Strikethrough"
           >
             <StrikeThroughIcon className="size-4 self-center" />
@@ -778,20 +779,20 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
             }}
-            className={
-              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
-              (isCode ? 'bg-neutral-200 dark:bg-neutral-600' : '')
-            }
+            className={clsx(
+              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600',
+              isCode && 'bg-neutral-200 dark:bg-neutral-600'
+            )}
             aria-label="Insert Code"
           >
             <CodeBracketIcon className="size-4 self-center" />
           </button>
           <button
             onClick={insertLink}
-            className={
-              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600 ' +
-              (isLink ? 'bg-neutral-200 dark:bg-neutral-600' : '')
-            }
+            className={clsx(
+              'flex rounded-md p-2.5 enabled:hover:bg-neutral-300 dark:enabled:hover:bg-neutral-600',
+              isLink && 'bg-neutral-200 dark:bg-neutral-600'
+            )}
             aria-label="Insert Link"
           >
             <LinkIcon className="size-4 self-center" />

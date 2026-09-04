@@ -129,7 +129,7 @@ export function parseEmailContent(
   }
   // fallback to text if html parsing fails
   return (
-    <pre className="block w-full whitespace-pre-wrap wrap-break-word font-sans">
+    <pre className="block w-full font-sans wrap-break-word whitespace-pre-wrap">
       {email.text}
     </pre>
   )

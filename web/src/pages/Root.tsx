@@ -1,4 +1,5 @@
 import { Bars3Icon } from '@heroicons/react/24/outline'
+import { clsx } from 'clsx'
 import { useReducer, useRef, useState } from 'react'
 import { Outlet } from 'react-router'
 
@@ -36,28 +37,28 @@ export default function Root() {
           dispatch: draftEmailsDispatch
         }}
       >
-        <div className="hidden md:block preflight">
+        <div className="preflight hidden md:block">
           <Sidebar />
         </div>
 
         <div
-          className={
-            'h-screen max-w-full flex-1 pt-4 md:px-8 md:pt-5 ' +
-            (sidebarOnMobile ? 'blur-xs' : '')
-          }
+          className={clsx(
+            'h-screen max-w-full flex-1 pt-4 md:px-8 md:pt-5',
+            sidebarOnMobile && 'blur-xs'
+          )}
         >
           <Outlet />
         </div>
 
         {/* sidebar on mobile - absolute positioning */}
         {sidebarOnMobile ? (
-          <span className="absolute md:hidden w-full">
+          <span className="absolute w-full md:hidden">
             <div className="preflight">
               <Sidebar ref={mobileSidebarRef} />
             </div>
           </span>
         ) : (
-          <span className="absolute md:hidden top-5 px-2">
+          <span className="absolute top-5 px-2 md:hidden">
             {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <span
               className="p-2"

@@ -34,15 +34,15 @@ export default function EmailRawView() {
 
   return (
     <div className="preflight">
-      <div className="w-full p-2  md:px-8 md:py-5">
-        <h1 className="text-lg font-light tracking-wider dark:text-white md:px-1 md:pb-4">
+      <div className="w-full p-2 md:px-8 md:py-5">
+        <h1 className="text-lg font-light tracking-wider md:px-1 md:pb-4 dark:text-white">
           Original Email
         </h1>
         <div className="flex rounded-md dark:text-neutral-300">
           <span className="flex-initial rounded-l bg-blue-200 px-2 py-1 dark:bg-neutral-700/70">
             MessageID
           </span>
-          <span className="flex-1 rounded-r bg-blue-50 px-2 py-1 dark:bg-neutral-800 md:px-4">
+          <span className="flex-1 rounded-r bg-blue-50 px-2 py-1 md:px-4 dark:bg-neutral-800">
             {data.messageID}
           </span>
         </div>
@@ -52,10 +52,10 @@ export default function EmailRawView() {
           ) : (
             raw && (
               <>
-                <pre className="block w-full whitespace-pre-wrap wrap-anywhere">
+                <pre className="block w-full wrap-anywhere whitespace-pre-wrap">
                   {raw}
                 </pre>
-                <div className="absolute right-0 top-2 space-x-3 p-3 dark:text-neutral-400">
+                <div className="absolute top-2 right-0 space-x-3 p-3 dark:text-neutral-400">
                   {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus */}
                   <span
                     // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role

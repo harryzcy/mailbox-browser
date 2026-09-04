@@ -1,3 +1,4 @@
+import { clsx } from 'clsx'
 import { useEffect, useRef } from 'react'
 
 import useIsInViewport from 'hooks/useIsInViewport'
@@ -25,7 +26,7 @@ export default function EmailTableView(props: EmailTableViewProps) {
   }, [shouldLoadMore, setLoadMoreEmails])
 
   return (
-    <div className="grid grid-flow-dense grid-cols-[min-content_1fr_1fr] md:grid-cols-[min-content_1fr_4fr_1fr] items-stretch select-none rounded bg-neutral-50 py-1 shadow-md dark:bg-neutral-800 dark:text-neutral-300 md:rounded-md">
+    <div className="grid grid-flow-dense grid-cols-[min-content_1fr_1fr] items-stretch rounded bg-neutral-50 py-1 shadow-md select-none md:grid-cols-[min-content_1fr_4fr_1fr] md:rounded-md dark:bg-neutral-800 dark:text-neutral-300">
       {emails.map((email) => {
         return (
           <EmailTableRow
@@ -41,10 +42,10 @@ export default function EmailTableView(props: EmailTableViewProps) {
 
       <div
         ref={loadMoreRef}
-        className={
-          'col-span-3 md:col-span-4 px-4 py-1 pb-1 pr-4 text-center text-sm font-bold dark:border-neutral-900 dark:text-neutral-500' +
-          (emails.length === 0 ? '' : ' border-t pt-2')
-        }
+        className={clsx(
+          'col-span-3 px-4 py-1 pr-4 pb-1 text-center text-sm font-bold md:col-span-4 dark:border-neutral-900 dark:text-neutral-500',
+          emails.length > 0 && 'border-t pt-2'
+        )}
       >
         {props.hasMore ? 'Loading...' : 'No more emails'}
       </div>

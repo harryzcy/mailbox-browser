@@ -1,4 +1,5 @@
 import { CheckIcon } from '@heroicons/react/20/solid'
+import { clsx } from 'clsx'
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router'
 
@@ -19,8 +20,8 @@ interface EmailTableRowProps {
 
 export default function EmailTableRow(props: EmailTableRowProps) {
   const { email, toggleSelect, selected } = props
-  const backgroundClassName = selected ? ' bg-blue-100 dark:bg-neutral-700' : ''
-  const unreadClassName = email.unread ? ' font-bold' : ' dark:font-light'
+  const backgroundClassName = selected ? 'bg-blue-100 dark:bg-neutral-700' : ''
+  const unreadClassName = email.unread ? 'font-bold' : 'dark:font-light'
 
   const draftEmailsContext = useContext(DraftEmailsContext)
 
@@ -77,33 +78,33 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     <div className="group contents">
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
-        className={
-          'cursor-pointer border-t border-neutral-200 px-3 md:px-4 py-2 group-first:border-0 dark:border-neutral-900 row-span-2 md:row-span-1' +
-          backgroundClassName +
+        className={clsx(
+          'row-span-2 cursor-pointer border-t border-neutral-200 px-3 py-2 group-first:border-0 md:row-span-1 md:px-4 dark:border-neutral-900',
+          backgroundClassName,
           unreadClassName
-        }
+        )}
         onClick={toggleSelect}
       >
-        <span className="h-full flex items-center">
+        <span className="flex h-full items-center">
           <div
-            className={
-              'size-4 border rounded ' +
-              (selected
+            className={clsx(
+              'size-4 rounded border',
+              selected
                 ? 'border-neutral-900 dark:border-neutral-300'
-                : 'border-neutral-300 dark:border-neutral-500')
-            }
+                : 'border-neutral-300 dark:border-neutral-500'
+            )}
           >
-            {selected && <CheckIcon className="size-3.5 " />}
+            {selected && <CheckIcon className="size-3.5" />}
           </div>
         </span>
       </div>
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
-        className={
-          'cursor-pointer truncate border-t border-neutral-200 pl-1 pr-4 py-1 pt-2 md:py-2 group-first:border-0 dark:border-neutral-900' +
-          backgroundClassName +
+        className={clsx(
+          'cursor-pointer truncate border-t border-neutral-200 py-1 pt-2 pr-4 pl-1 group-first:border-0 md:py-2 dark:border-neutral-900',
+          backgroundClassName,
           unreadClassName
-        }
+        )}
         onClick={() => {
           void openEmail()
         }}
@@ -116,11 +117,11 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
-        className={
-          'cursor-pointer truncate md:border-t border-neutral-200 pl-1 pr-4 pb-2 md:py-2 group-first:border-0 dark:border-neutral-900 col-span-2 md:col-span-1' +
-          backgroundClassName +
+        className={clsx(
+          'col-span-2 cursor-pointer truncate border-neutral-200 pr-4 pb-2 pl-1 group-first:border-0 md:col-span-1 md:border-t md:py-2 dark:border-neutral-900',
+          backgroundClassName,
           unreadClassName
-        }
+        )}
         onClick={() => {
           void openEmail()
         }}
@@ -129,11 +130,11 @@ export default function EmailTableRow(props: EmailTableRowProps) {
       </div>
       {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
-        className={
-          'cursor-pointer border-t border-neutral-200 px-4 py-1 pt-3 md:pt-2 text-right group-first:border-0 dark:border-neutral-900 text-xs md:text-base' +
-          backgroundClassName +
-          (email.unread ? ' md:font-bold' : ' md:dark:font-light')
-        }
+        className={clsx(
+          'cursor-pointer border-t border-neutral-200 px-4 py-1 pt-3 text-right text-xs group-first:border-0 md:pt-2 md:text-base dark:border-neutral-900',
+          backgroundClassName,
+          email.unread ? 'md:font-bold' : 'md:dark:font-light'
+        )}
         onClick={() => {
           void openEmail()
         }}
