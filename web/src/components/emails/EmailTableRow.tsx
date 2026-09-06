@@ -61,7 +61,6 @@ export default function EmailTableRow(props: EmailTableRowProps) {
     }
     setMouseOverDelayHandler(
       setTimeout(() => {
-        console.log('Preloading email', email.messageID)
         void preloadEmail(email.messageID)
       }, EMAIL_PRELOAD_DELAY)
     )
