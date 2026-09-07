@@ -1,24 +1,20 @@
 import { CodeHighlightNode, CodeNode } from '@lexical/code'
+import { HistoryExtension } from '@lexical/history'
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html'
 import { AutoLinkNode, LinkNode } from '@lexical/link'
 import { ListItemNode, ListNode } from '@lexical/list'
 import { TRANSFORMERS } from '@lexical/markdown'
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
-import {
-  InitialConfigType,
-  LexicalComposer
-} from '@lexical/react/LexicalComposer'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
-import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import { LexicalExtensionComposer } from '@lexical/react/LexicalExtensionComposer'
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
-import { HeadingNode, QuoteNode } from '@lexical/rich-text'
+import { HeadingNode, QuoteNode, RichTextExtension } from '@lexical/rich-text'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
-import { $getRoot, EditorState, LexicalEditor } from 'lexical'
+import { $getRoot, EditorState, LexicalEditor, defineExtension } from 'lexical'
+import { useState } from 'react'
 
 import { EmailQuoteNode } from 'components/inputs/EmailQuoteNode'
 import 'components/inputs/RichTextEditor.css'
@@ -28,12 +24,25 @@ import ListMaxIndentLevelPlugin from 'components/inputs/plugins/ListMaxIndentLev
 import ToolbarPlugin from 'components/inputs/plugins/ToolbarPlugin'
 import theme from 'components/inputs/themes/LexicalTheme'
 
+const PLACEHOLDER_TEXT = 'Email body...'
+
 function Placeholder() {
   return (
     <div className="pointer-events-none absolute top-3 left-3 inline-block truncate text-slate-400 select-none dark:text-neutral-400">
-      Email body...
+      {PLACEHOLDER_TEXT}
     </div>
   )
+}
+
+function updateHTML(editor: LexicalEditor, value: string, clear: boolean) {
+  const root = $getRoot()
+  const parser = new DOMParser()
+  const dom = parser.parseFromString(value, 'text/html')
+  const nodes = $generateNodesFromDOM(editor, dom)
+  if (clear) {
+    root.clear()
+  }
+  root.append(...nodes)
 }
 
 interface RichTextEditorProps {
@@ -44,42 +53,40 @@ interface RichTextEditorProps {
 }
 
 export default function RichTextEditor(props: RichTextEditorProps) {
-  const updateHTML = (editor: LexicalEditor, value: string, clear: boolean) => {
-    const root = $getRoot()
-    const parser = new DOMParser()
-    const dom = parser.parseFromString(value, 'text/html')
-    const nodes = $generateNodesFromDOM(editor, dom)
-    if (clear) {
-      root.clear()
-    }
-    root.append(...nodes)
-  }
-
-  const editorConfig: InitialConfigType = {
-    theme,
-    namespace: 'email-editor',
-    onError(error: Error) {
-      throw error
-    },
-    nodes: [
-      HeadingNode,
-      ListNode,
-      ListItemNode,
-      QuoteNode,
-      CodeNode,
-      CodeHighlightNode,
-      TableNode,
-      TableCellNode,
-      TableRowNode,
-      AutoLinkNode,
-      LinkNode,
-      EmailQuoteNode
-    ],
-    editorState: (editor) => {
-      if (!props.initialHtml) return
-      updateHTML(editor, props.initialHtml, true)
-    }
-  }
+  // Built once, on mount. The extension identity determines the editor's
+  // lifetime, and handleChange feeds the editor's own output back into
+  // initialHtml on every keystroke, so rebuilding on a new initialHtml would
+  // discard whatever the user had typed.
+  const [extension] = useState(() => {
+    const initialHtml = props.initialHtml
+    return defineExtension({
+      $initialEditorState: (editor: LexicalEditor) => {
+        if (!initialHtml) return
+        updateHTML(editor, initialHtml, true)
+      },
+      dependencies: [RichTextExtension, HistoryExtension],
+      name: '[root]',
+      namespace: 'email-editor',
+      nodes: [
+        HeadingNode,
+        ListNode,
+        ListItemNode,
+        QuoteNode,
+        CodeNode,
+        CodeHighlightNode,
+        TableNode,
+        TableCellNode,
+        TableRowNode,
+        AutoLinkNode,
+        LinkNode,
+        EmailQuoteNode
+      ],
+      onError(error: Error) {
+        throw error
+      },
+      theme
+    })
+  })
 
   const onChange = (_: EditorState, editor: LexicalEditor) => {
     editor.update(() => {
@@ -96,22 +103,17 @@ export default function RichTextEditor(props: RichTextEditorProps) {
   }
 
   return (
-    <LexicalComposer initialConfig={editorConfig}>
+    <LexicalExtensionComposer extension={extension} contentEditable={null}>
       <div className="relative flex size-full min-h-48 flex-col rounded text-left leading-5 font-normal md:rounded-md">
         <div className="relative flex-1 overflow-scroll overscroll-contain">
-          <RichTextPlugin
-            contentEditable={
-              <ContentEditable
-                className="relative min-h-full resize-none p-3 caret-inherit outline-hidden"
-                style={{
-                  tabSize: 1
-                }}
-              />
-            }
+          <ContentEditable
+            className="relative min-h-full resize-none p-3 caret-inherit outline-hidden"
+            style={{
+              tabSize: 1
+            }}
+            aria-placeholder={PLACEHOLDER_TEXT}
             placeholder={<Placeholder />}
-            ErrorBoundary={LexicalErrorBoundary}
           />
-          <HistoryPlugin />
           <OnChangePlugin onChange={onChange} ignoreSelectionChange />
           <AutoFocusPlugin />
           <CodeHighlightPlugin />
@@ -126,6 +128,6 @@ export default function RichTextEditor(props: RichTextEditorProps) {
           handleDelete={props.handleDelete}
         />
       </div>
-    </LexicalComposer>
+    </LexicalExtensionComposer>
   )
 }

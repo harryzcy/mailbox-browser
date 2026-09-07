@@ -20,6 +20,7 @@ import {
   getDefaultCodeLanguage
 } from '@lexical/code'
 import { getCodeLanguages } from '@lexical/code-prism'
+import { HistoryExtension } from '@lexical/history'
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link'
 import {
   $isListNode,
@@ -29,6 +30,7 @@ import {
   REMOVE_LIST_COMMAND
 } from '@lexical/list'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { useExtensionSignalValue } from '@lexical/react/useExtensionSignalValue'
 import {
   $createHeadingNode,
   $createQuoteNode,
@@ -47,8 +49,6 @@ import {
   $getNodeByKey,
   $getSelection,
   $isRangeSelection,
-  CAN_REDO_COMMAND,
-  CAN_UNDO_COMMAND,
   FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   LexicalEditor,
@@ -523,8 +523,8 @@ interface ToolbarPluginProps {
 export default function ToolbarPlugin(props: ToolbarPluginProps) {
   const [editor] = useLexicalComposerContext()
   const toolbarRef = useRef(null)
-  const [canUndo, setCanUndo] = useState(false)
-  const [canRedo, setCanRedo] = useState(false)
+  const canUndo = useExtensionSignalValue(HistoryExtension, 'canUndo')
+  const canRedo = useExtensionSignalValue(HistoryExtension, 'canRedo')
   const [blockType, setBlockType] = useState('paragraph')
   const [selectedElementKey, setSelectedElementKey] = useState<string | null>(
     null
@@ -603,22 +603,6 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (_payload, newEditor) => {
           updateToolbar()
-          return false
-        },
-        LowPriority
-      ),
-      editor.registerCommand(
-        CAN_UNDO_COMMAND,
-        (payload) => {
-          setCanUndo(payload)
-          return false
-        },
-        LowPriority
-      ),
-      editor.registerCommand(
-        CAN_REDO_COMMAND,
-        (payload) => {
-          setCanRedo(payload)
           return false
         },
         LowPriority
