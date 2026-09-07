@@ -589,9 +589,14 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(({ editorState }) => {
-        editorState.read(() => {
-          updateToolbar()
-        })
+        // {editor} is required: updateToolbar calls $isParentElementRTL, which
+        // needs an active editor to resolve computed styles.
+        editorState.read(
+          () => {
+            updateToolbar()
+          },
+          { editor }
+        )
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
