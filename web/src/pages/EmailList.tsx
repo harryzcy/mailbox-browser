@@ -20,7 +20,8 @@ export default function EmailList() {
     hasMore,
     emails,
     removeEmails,
-    setUnread,
+    markAsRead,
+    markAsUnread,
     year,
     month,
     setLoadMoreEmails,
@@ -79,7 +80,7 @@ export default function EmailList() {
         toast.error('Failed to mark email as read')
       }
     }
-    setUnread(selected, false)
+    markAsRead(selected)
     setSelected([])
   }
 
@@ -94,7 +95,7 @@ export default function EmailList() {
         toast.error('Failed to mark email as unread')
       }
     }
-    setUnread(selected, true)
+    markAsUnread(selected)
     setSelected([])
   }
 

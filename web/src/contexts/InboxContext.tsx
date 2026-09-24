@@ -16,7 +16,8 @@ export interface InboxContext {
   year: number
   month: number
   removeEmails: (messageIDs: string[]) => void
-  setUnread: (messageIDs: string[], unread: boolean) => void
+  markAsRead: (messageIDs: string[]) => void
+  markAsUnread: (messageIDs: string[]) => void
   scrollYPosition: number
   setScrollYPosition: (yPosition: number) => void
   setLoadMoreEmails: (loadMore: boolean) => void
@@ -101,12 +102,22 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     setEmails(emails.filter((email) => !messageIDs.includes(email.messageID)))
   }
 
-  const setUnread = (messageIDs: string[], unread: boolean) => {
+  const updateReadState = (messageIDs: string[], read: boolean) => {
     setEmails(
       emails.map((email) =>
-        messageIDs.includes(email.messageID) ? { ...email, unread } : email
+        messageIDs.includes(email.messageID)
+          ? { ...email, unread: !read }
+          : email
       )
     )
+  }
+
+  const markAsRead = (messageIDs: string[]) => {
+    updateReadState(messageIDs, true)
+  }
+
+  const markAsUnread = (messageIDs: string[]) => {
+    updateReadState(messageIDs, false)
   }
 
   const goNextPage = async () => {
@@ -159,7 +170,8 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     year,
     month,
     removeEmails,
-    setUnread,
+    markAsRead,
+    markAsUnread,
     scrollYPosition,
     setScrollYPosition,
     setLoadMoreEmails: setShouldLoadMoreEmails,
