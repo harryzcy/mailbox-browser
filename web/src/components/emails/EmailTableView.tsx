@@ -12,6 +12,7 @@ interface EmailTableViewProps {
   selected: string[]
   toggleSelected: (messageID: string) => void
   hasMore: boolean
+  loadFailed: boolean
   setLoadMoreEmails: (loadMore: boolean) => void
 }
 
@@ -47,7 +48,11 @@ export default function EmailTableView(props: EmailTableViewProps) {
           emails.length > 0 && 'border-t pt-2'
         )}
       >
-        {props.hasMore ? 'Loading...' : 'No more emails'}
+        {props.loadFailed
+          ? 'Failed to load emails'
+          : props.hasMore
+            ? 'Loading...'
+            : 'No more emails'}
       </div>
     </div>
   )

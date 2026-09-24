@@ -18,6 +18,7 @@ import {
 export default function EmailList() {
   const {
     hasMore,
+    loadFailed,
     emails,
     removeEmails,
     markAsRead,
@@ -137,6 +138,7 @@ export default function EmailList() {
           selected={selected}
           toggleSelected={toggleSelected}
           hasMore={hasMore}
+          loadFailed={loadFailed}
           setLoadMoreEmails={setLoadMoreEmails}
         />
       </div>
