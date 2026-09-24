@@ -10,9 +10,9 @@ import { useOutsideClick } from 'hooks/useOutsideClick'
 
 import {
   deleteEmail,
-  readEmail,
-  trashEmail,
-  unreadEmail
+  markEmailAsRead,
+  markEmailAsUnread,
+  trashEmail
 } from 'services/emails'
 
 export default function EmailList() {
@@ -20,9 +20,9 @@ export default function EmailList() {
     hasMore,
     loadFailed,
     emails,
-    removeEmails,
-    markAsRead,
-    markAsUnread,
+    removeFromList,
+    markReadInList,
+    markUnreadInList,
     year,
     month,
     setLoadMoreEmails,
@@ -66,7 +66,7 @@ export default function EmailList() {
         await trashEmail(email.messageID)
       }
     }
-    removeEmails(selected)
+    removeFromList(selected)
     setSelected([])
   }
 
@@ -75,13 +75,13 @@ export default function EmailList() {
     for (const email of selectedEmails) {
       if (!email.unread) continue
       try {
-        await readEmail(email.messageID)
+        await markEmailAsRead(email.messageID)
       } catch (e) {
         console.error('Failed to mark email as read', e)
         toast.error('Failed to mark email as read')
       }
     }
-    markAsRead(selected)
+    markReadInList(selected)
     setSelected([])
   }
 
@@ -90,13 +90,13 @@ export default function EmailList() {
     for (const email of selectedEmails) {
       if (email.unread) continue
       try {
-        await unreadEmail(email.messageID)
+        await markEmailAsUnread(email.messageID)
       } catch (e) {
         console.error('Failed to mark email as unread', e)
         toast.error('Failed to mark email as unread')
       }
     }
-    markAsUnread(selected)
+    markUnreadInList(selected)
     setSelected([])
   }
 

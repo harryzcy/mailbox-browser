@@ -24,9 +24,9 @@ import {
   CreateEmailProps,
   Email,
   generateLocalDraftID,
-  readEmail,
+  markEmailAsRead,
+  markEmailAsUnread,
   trashEmail,
-  unreadEmail,
   useCreateEmail,
   useEmail,
   useSaveEmail
@@ -56,7 +56,7 @@ export default function EmailView() {
 
   const { config } = useConfig()
 
-  const { markAsRead, markAsUnread } = useInboxContext()
+  const { markReadInList, markUnreadInList } = useInboxContext()
 
   const { trigger: triggerCreateEmail } = useCreateEmail()
 
@@ -173,8 +173,8 @@ export default function EmailView() {
       throw new Error('Not yet supported')
     } else {
       try {
-        await readEmail(data.messageID)
-        markAsRead([data.messageID])
+        await markEmailAsRead(data.messageID)
+        markReadInList([data.messageID])
       } catch (e) {
         console.error('Failed to mark email as read', e)
         toast.error('Failed to mark email as read')
@@ -188,8 +188,8 @@ export default function EmailView() {
       throw new Error('Not yet supported')
     } else {
       try {
-        await unreadEmail(data.messageID)
-        markAsUnread([data.messageID])
+        await markEmailAsUnread(data.messageID)
+        markUnreadInList([data.messageID])
       } catch (e) {
         console.error('Failed to mark email as unread', e)
         toast.error('Failed to mark email as unread')
@@ -336,13 +336,14 @@ function EmailBlock(props: EmailBlockProps) {
 
   const [showImages, setShowImages] = useState(config?.imagesAutoLoad ?? false)
 
-  const { markAsRead } = useInboxContext()
+  const { markReadInList } = useInboxContext()
   useEffect(() => {
     if (email.unread) {
-      markAsRead([email.messageID])
+      markReadInList([email.messageID])
     }
-    // Mark-as-read is a one-shot on open. markAsRead is redefined every render
-    // and updates the email list, so depending on it would re-fire this effect.
+    // Mark-as-read is a one-shot on open. markReadInList is redefined every
+    // render and updates the email list, so depending on it would re-fire this
+    // effect.
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
