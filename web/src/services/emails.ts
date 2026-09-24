@@ -1,4 +1,5 @@
 import useSWR, { preload } from 'swr'
+import useSWRInfinite from 'swr/infinite'
 import useSWRMutation, { TriggerWithArgs } from 'swr/mutation'
 
 import { isFeatureEnabled } from 'services/featureFlags'
@@ -56,13 +57,61 @@ export function listEmailsURL(props: ListEmailsProps): string {
   return '/web/emails?' + params.toString()
 }
 
-export async function listEmails(
-  props: ListEmailsProps
-): Promise<ListEmailsResponse> {
-  const response = await fetch(listEmailsURL(props), {
-    method: 'GET'
-  })
-  return response.json() as Promise<ListEmailsResponse>
+const listEmailsFetcher = async (url: string): Promise<ListEmailsResponse> => {
+  const response = await fetch(url)
+  if (!response.ok) {
+    throw new Error(`Failed to fetch emails with URL ${url}`)
+  }
+  return (await response.json()) as ListEmailsResponse
+}
+
+export interface UseEmailsResult {
+  emails: EmailInfo[]
+  hasMore: boolean
+  loadMore: () => void
+  isLoadingMore: boolean
+  updateEmails: (update: (emails: EmailInfo[]) => EmailInfo[]) => void
+}
+
+export function useEmails(
+  props: Omit<ListEmailsProps, 'nextCursor'>,
+  onError: (error: Error) => void
+): UseEmailsResult {
+  const getKey = (
+    pageIndex: number,
+    previousPageData: ListEmailsResponse | null
+  ) => {
+    if (pageIndex === 0) return listEmailsURL(props)
+    if (!previousPageData?.hasMore || !previousPageData.nextCursor) return null
+    return listEmailsURL({ ...props, nextCursor: previousPageData.nextCursor })
+  }
+
+  const { data, size, setSize, mutate } = useSWRInfinite<
+    ListEmailsResponse,
+    Error
+  >(getKey, listEmailsFetcher, { onError })
+
+  const lastPage = data?.at(-1)
+  // A page is still loading while fewer pages have arrived than requested.
+  const isLoadingMore = data === undefined || data.length < size
+  return {
+    emails: data?.flatMap((page) => page.items) ?? [],
+    // Until the first page arrives there may be more to show.
+    hasMore: lastPage?.hasMore ?? true,
+    loadMore: () => {
+      if (isLoadingMore || !lastPage?.hasMore) return
+      void setSize(size + 1)
+    },
+    isLoadingMore,
+    // Local edits after the server has already applied them, so no refetch.
+    updateEmails: (update) => {
+      void mutate(
+        (pages) =>
+          pages?.map((page) => ({ ...page, items: update(page.items) })),
+        { revalidate: false }
+      )
+    }
+  }
 }
 
 export interface File {
