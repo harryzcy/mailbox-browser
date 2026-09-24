@@ -52,8 +52,7 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
   const loadFailed = error !== undefined
 
   useEffect(() => {
-    // SWR retries failed loads in the background, so toast once when loading
-    // starts failing rather than on every retry.
+    // Toast once per failure, not on every SWR retry.
     if (loadFailed) {
       toast.error('Failed to load emails')
     }

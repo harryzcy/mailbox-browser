@@ -102,8 +102,6 @@ export function useEmails(
       if (isLoadingMore || !lastPage?.hasMore) return
       void setSize(size + 1)
     },
-    // Set while the latest load has failed; SWR keeps retrying and clears it
-    // once a load succeeds.
     error,
     // Local edits after the server has already applied them, so no refetch.
     updateEmails: (update) => {
