@@ -56,6 +56,8 @@ export default function EmailView() {
 
   const { config } = useConfig()
 
+  const { markAsRead, markAsUnread } = useInboxContext()
+
   const { trigger: triggerCreateEmail } = useCreateEmail()
 
   const startDraft = async (draftID: string, replyEmail?: Email) => {
@@ -172,6 +174,7 @@ export default function EmailView() {
     } else {
       try {
         await readEmail(data.messageID)
+        markAsRead([data.messageID])
       } catch (e) {
         console.error('Failed to mark email as read', e)
         toast.error('Failed to mark email as read')
@@ -186,6 +189,7 @@ export default function EmailView() {
     } else {
       try {
         await unreadEmail(data.messageID)
+        markAsUnread([data.messageID])
       } catch (e) {
         console.error('Failed to mark email as unread', e)
         toast.error('Failed to mark email as unread')
