@@ -19,7 +19,9 @@ export default function EmailList() {
   const {
     hasMore,
     emails,
-    setEmails,
+    removeEmails,
+    markAsRead,
+    markAsUnread,
     year,
     month,
     setLoadMoreEmails,
@@ -63,7 +65,7 @@ export default function EmailList() {
         await trashEmail(email.messageID)
       }
     }
-    setEmails(emails.filter((e) => !selected.includes(e.messageID)))
+    removeEmails(selected)
     setSelected([])
   }
 
@@ -78,17 +80,7 @@ export default function EmailList() {
         toast.error('Failed to mark email as read')
       }
     }
-    setEmails(
-      emails.map((e) => {
-        if (selected.includes(e.messageID)) {
-          return {
-            ...e,
-            unread: false
-          }
-        }
-        return e
-      })
-    )
+    markAsRead(selected)
     setSelected([])
   }
 
@@ -103,17 +95,7 @@ export default function EmailList() {
         toast.error('Failed to mark email as unread')
       }
     }
-    setEmails(
-      emails.map((e) => {
-        if (selected.includes(e.messageID)) {
-          return {
-            ...e,
-            unread: true
-          }
-        }
-        return e
-      })
-    )
+    markAsUnread(selected)
     setSelected([])
   }
 

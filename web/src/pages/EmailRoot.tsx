@@ -20,9 +20,7 @@ export default function EmailRoot(props: EmailRootProps) {
   const inboxContext = useInboxContext()
 
   const removeEmailFromList = (messageID: string) => {
-    inboxContext.setEmails(
-      inboxContext.emails.filter((email) => email.messageID !== messageID)
-    )
+    inboxContext.removeEmails([messageID])
   }
 
   const draftEmailsContext = useContext(DraftEmailsContext)
