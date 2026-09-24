@@ -332,13 +332,13 @@ function EmailBlock(props: EmailBlockProps) {
 
   const [showImages, setShowImages] = useState(config?.imagesAutoLoad ?? false)
 
-  const { markAsRead } = useInboxContext()
+  const { setUnread } = useInboxContext()
   useEffect(() => {
     if (email.unread) {
-      markAsRead(email.messageID)
+      setUnread([email.messageID], false)
     }
-    // Mark-as-read is a one-shot on open. markAsRead is redefined every render
-    // and calls setEmails, so depending on it would re-fire this effect.
+    // Mark-as-read is a one-shot on open. setUnread is redefined every render
+    // and updates the email list, so depending on it would re-fire this effect.
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

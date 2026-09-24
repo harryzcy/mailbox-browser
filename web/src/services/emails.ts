@@ -33,9 +33,7 @@ export interface ListEmailsResponse {
   nextCursor?: string
 }
 
-export async function listEmails(
-  props: ListEmailsProps
-): Promise<ListEmailsResponse> {
+export function listEmailsURL(props: ListEmailsProps): string {
   const { type, year, month, order, pageSize, nextCursor } = props
   const params = new URLSearchParams({
     type
@@ -55,8 +53,13 @@ export async function listEmails(
   if (nextCursor) {
     params.append('nextCursor', nextCursor)
   }
+  return '/web/emails?' + params.toString()
+}
 
-  const response = await fetch('/web/emails?' + params.toString(), {
+export async function listEmails(
+  props: ListEmailsProps
+): Promise<ListEmailsResponse> {
+  const response = await fetch(listEmailsURL(props), {
     method: 'GET'
   })
   return response.json() as Promise<ListEmailsResponse>
