@@ -69,7 +69,6 @@ export interface UseEmailsResult {
   emails: EmailInfo[]
   hasMore: boolean
   loadMore: () => void
-  isLoadingMore: boolean
   updateEmails: (update: (emails: EmailInfo[]) => EmailInfo[]) => void
 }
 
@@ -102,7 +101,6 @@ export function useEmails(
       if (isLoadingMore || !lastPage?.hasMore) return
       void setSize(size + 1)
     },
-    isLoadingMore,
     // Local edits after the server has already applied them, so no refetch.
     updateEmails: (update) => {
       void mutate(
