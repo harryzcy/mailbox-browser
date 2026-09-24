@@ -86,9 +86,8 @@ export class EmailQuoteNode extends DecoratorNode<ReactNode> {
 
   exportJSON(): SerializedEmailQuoteNode {
     return {
-      html: this.__html,
-      type: 'emailquote',
-      version: 1
+      ...super.exportJSON(),
+      html: this.__html
     }
   }
 
