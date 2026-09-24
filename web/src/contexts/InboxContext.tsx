@@ -16,9 +16,9 @@ export interface InboxContext {
   emails: EmailInfo[]
   year: number
   month: number
-  removeEmails: (messageIDs: string[]) => void
-  markAsRead: (messageIDs: string[]) => void
-  markAsUnread: (messageIDs: string[]) => void
+  removeFromList: (messageIDs: string[]) => void
+  markReadInList: (messageIDs: string[]) => void
+  markUnreadInList: (messageIDs: string[]) => void
   scrollYPosition: number
   setScrollYPosition: (yPosition: number) => void
   setLoadMoreEmails: (loadMore: boolean) => void
@@ -68,7 +68,7 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     }
   }, [shouldLoadMoreEmails, loadMore])
 
-  const removeEmails = (messageIDs: string[]) => {
+  const removeFromList = (messageIDs: string[]) => {
     updateEmails((items) =>
       items.filter((email) => !messageIDs.includes(email.messageID))
     )
@@ -84,11 +84,11 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     )
   }
 
-  const markAsRead = (messageIDs: string[]) => {
+  const markReadInList = (messageIDs: string[]) => {
     updateReadState(messageIDs, true)
   }
 
-  const markAsUnread = (messageIDs: string[]) => {
+  const markUnreadInList = (messageIDs: string[]) => {
     updateReadState(messageIDs, false)
   }
 
@@ -118,9 +118,9 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     emails,
     year,
     month,
-    removeEmails,
-    markAsRead,
-    markAsUnread,
+    removeFromList,
+    markReadInList,
+    markUnreadInList,
     scrollYPosition,
     setScrollYPosition,
     setLoadMoreEmails: setShouldLoadMoreEmails,
