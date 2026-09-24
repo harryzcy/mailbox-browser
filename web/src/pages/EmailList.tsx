@@ -116,9 +116,7 @@ export default function EmailList() {
           handleUnread={handleUnread}
           hasPrevious={hasPreviousPage}
           hasNext={true}
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           goPrevious={goPreviousPage}
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           goNext={goNextPage}
         >
           <span className="w-16">

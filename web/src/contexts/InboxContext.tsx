@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router'
 import { toast } from 'sonner'
 
-import { EmailInfo, listEmails } from 'services/emails'
+import { EmailInfo, useEmails } from 'services/emails'
 
 import {
   getCurrentYearMonth,
@@ -22,8 +22,8 @@ export interface InboxContext {
   setScrollYPosition: (yPosition: number) => void
   setLoadMoreEmails: (loadMore: boolean) => void
   hasPreviousPage: boolean
-  goNextPage: () => Promise<void>
-  goPreviousPage: () => Promise<void>
+  goNextPage: () => void
+  goPreviousPage: () => void
 }
 
 export function useInboxContext() {
@@ -35,76 +35,39 @@ interface InboxContextOutletProps {
 }
 
 export function InboxContextOutlet(props: InboxContextOutletProps) {
-  const [hasMore, setHasMore] = useState(true)
-  const [nextCursor, setNextCursor] = useState<string>()
   const [scrollYPosition, setScrollYPosition] = useState(0)
 
   const { year: initialYear, month: initialMonth } = getCurrentYearMonth()
   const [year, setYear] = useState(initialYear)
   const [month, setMonth] = useState(initialMonth)
 
-  const [emails, setEmails] = useState<EmailInfo[]>([])
-
-  const loadEmails = async (input: {
-    year?: number
-    month?: number
-    nextCursor?: string
-  }) => {
-    const { nextCursor: inputNextCursor } = input
-
-    const data = await listEmails({
-      type: props.type,
-      year: input.year ?? year,
-      month: input.month ?? month,
-      order: 'desc',
-      nextCursor: inputNextCursor
-    })
-
-    if (input.year) {
-      setYear(input.year)
-    }
-    if (input.month) {
-      setMonth(input.month)
-    }
-    return data
-  }
-
-  const [shouldLoadMoreEmails, setShouldLoadMoreEmails] = useState(false)
-
-  const loadMoreEmails = async () => {
-    if (!hasMore) return
-    try {
-      const data = await loadEmails({
-        year,
-        month,
-        nextCursor
-      })
-      setEmails([...emails, ...data.items])
-      setHasMore(data.hasMore)
-      setNextCursor(data.nextCursor)
-    } catch (e) {
+  const { emails, hasMore, loadMore, updateEmails } = useEmails(
+    { type: props.type, year, month, order: 'desc' },
+    (e) => {
       console.error('Failed to load emails', e)
       toast.error('Failed to load emails')
     }
-  }
+  )
+
+  const [shouldLoadMoreEmails, setShouldLoadMoreEmails] = useState(false)
 
   useEffect(() => {
+    // loadMore ignores calls while a page is in flight, so this keeps loading
+    // pages for as long as the end of the list stays in view.
     if (shouldLoadMoreEmails) {
-      void loadMoreEmails()
+      loadMore()
     }
-    // loadMoreEmails is redefined every render and calls setEmails/setCount, so
-    // depending on it would re-run this effect on its own output and loop for as
-    // long as shouldLoadMoreEmails stays true. Fire only on the flag changing.
-    // oxlint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldLoadMoreEmails])
+  }, [shouldLoadMoreEmails, loadMore])
 
   const removeEmails = (messageIDs: string[]) => {
-    setEmails(emails.filter((email) => !messageIDs.includes(email.messageID)))
+    updateEmails((items) =>
+      items.filter((email) => !messageIDs.includes(email.messageID))
+    )
   }
 
   const updateReadState = (messageIDs: string[], read: boolean) => {
-    setEmails(
-      emails.map((email) =>
+    updateEmails((items) =>
+      items.map((email) =>
         messageIDs.includes(email.messageID)
           ? { ...email, unread: !read }
           : email
@@ -120,49 +83,25 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     updateReadState(messageIDs, false)
   }
 
-  const goNextPage = async () => {
-    // Order is reversed, next button goes to previous month
-    const { month: newMonth, year: newYear } = getPreviousMonthYear(month, year)
-    try {
-      const data = await loadEmails({
-        year: newYear,
-        month: newMonth
-      })
-      setEmails(data.items)
-      setHasMore(data.hasMore)
-      setNextCursor(data.nextCursor)
-    } catch (e) {
-      console.error('Failed to load emails', e)
-      toast.error('Failed to load emails')
-    }
+  const { year: currentYear, month: currentMonth } = getCurrentYearMonth()
+  const hasPreviousPage =
+    currentYear > year || (currentYear === year && currentMonth > month)
+
+  const goToMonth = (next: { year: number; month: number }) => {
+    setYear(next.year)
+    setMonth(next.month)
   }
 
-  const goPreviousPage = async () => {
+  const goNextPage = () => {
+    // Order is reversed, next button goes to previous month
+    goToMonth(getPreviousMonthYear(month, year))
+  }
+
+  const goPreviousPage = () => {
     if (!hasPreviousPage) return
     // Order is reversed, back button goes to next month
-    const { month: newMonth, year: newYear } = getNextMonthYear(month, year)
-    try {
-      const data = await loadEmails({
-        year: newYear,
-        month: newMonth
-      })
-      setEmails(data.items)
-      setHasMore(data.hasMore)
-      setNextCursor(data.nextCursor)
-    } catch (e) {
-      console.error('Failed to load emails', e)
-      toast.error('Failed to load emails')
-    }
+    goToMonth(getNextMonthYear(month, year))
   }
-
-  const [hasPreviousPage, setHasPreviousPage] = useState(false)
-
-  useEffect(() => {
-    const { year: currentYear, month: currentMonth } = getCurrentYearMonth()
-    setHasPreviousPage(
-      currentYear > year || (currentYear === year && currentMonth > month)
-    )
-  }, [year, month])
 
   const outletContext: InboxContext = {
     hasMore,
@@ -175,7 +114,7 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
     scrollYPosition,
     setScrollYPosition,
     setLoadMoreEmails: setShouldLoadMoreEmails,
-    hasPreviousPage: hasPreviousPage,
+    hasPreviousPage,
     goNextPage,
     goPreviousPage
   }
