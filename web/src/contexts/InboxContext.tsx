@@ -12,6 +12,7 @@ import {
 
 export interface InboxContext {
   hasMore: boolean
+  loadFailed: boolean
   emails: EmailInfo[]
   year: number
   month: number
@@ -41,13 +42,21 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
   const [year, setYear] = useState(initialYear)
   const [month, setMonth] = useState(initialMonth)
 
-  const { emails, hasMore, loadMore, updateEmails } = useEmails(
+  const { emails, hasMore, loadMore, error, updateEmails } = useEmails(
     { type: props.type, year, month, order: 'desc' },
     (e) => {
       console.error('Failed to load emails', e)
-      toast.error('Failed to load emails')
     }
   )
+
+  const loadFailed = error !== undefined
+
+  useEffect(() => {
+    // Toast once per failure, not on every SWR retry.
+    if (loadFailed) {
+      toast.error('Failed to load emails')
+    }
+  }, [loadFailed])
 
   const [shouldLoadMoreEmails, setShouldLoadMoreEmails] = useState(false)
 
@@ -105,6 +114,7 @@ export function InboxContextOutlet(props: InboxContextOutletProps) {
 
   const outletContext: InboxContext = {
     hasMore,
+    loadFailed,
     emails,
     year,
     month,

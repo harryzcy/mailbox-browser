@@ -69,6 +69,7 @@ export interface UseEmailsResult {
   emails: EmailInfo[]
   hasMore: boolean
   loadMore: () => void
+  error: Error | undefined
   updateEmails: (update: (emails: EmailInfo[]) => EmailInfo[]) => void
 }
 
@@ -85,7 +86,7 @@ export function useEmails(
     return listEmailsURL({ ...props, nextCursor: previousPageData.nextCursor })
   }
 
-  const { data, size, setSize, mutate } = useSWRInfinite<
+  const { data, error, size, setSize, mutate } = useSWRInfinite<
     ListEmailsResponse,
     Error
   >(getKey, listEmailsFetcher, { onError })
@@ -101,6 +102,7 @@ export function useEmails(
       if (isLoadingMore || !lastPage?.hasMore) return
       void setSize(size + 1)
     },
+    error,
     // Local edits after the server has already applied them, so no refetch.
     updateEmails: (update) => {
       void mutate(
