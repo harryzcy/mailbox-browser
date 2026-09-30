@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { toast } from 'sonner'
 
 import { DraftEmail, DraftEmailsContext } from 'contexts/DraftEmailContext'
 
-import useThrottled from 'hooks/useThrottled'
+import { useDraftAutosave } from 'hooks/useDraftAutosave'
 
 import { deleteEmail, isLocalDraftID, useSaveEmail } from 'services/emails'
 
@@ -16,48 +16,12 @@ interface FullScreenContentProps {
 export default function FullScreenContent(props: FullScreenContentProps) {
   const draftEmailsContext = useContext(DraftEmailsContext)
 
-  const [isSending, setIsSending] = useState(false)
-  const [draftEmail, setDraftEmail] = useState<DraftEmail | undefined>()
-  const throttledDraftEmail = useThrottled(draftEmail)
+  const { queueSave, cancelSave } = useDraftAutosave()
 
   const { trigger: triggerSaveEmail } = useSaveEmail()
 
-  const saveDraft = async (email: DraftEmail, send = false) => {
-    await triggerSaveEmail({
-      messageID: email.messageID,
-      subject: email.subject,
-      from: email.from,
-      to: email.to,
-      cc: email.cc,
-      bcc: email.bcc,
-      replyTo: email.from,
-      html: email.html,
-      text: email.text,
-      send
-    })
-  }
-
-  useEffect(() => {
-    const save = async () => {
-      if (isSending) return
-      if (!draftEmail) return
-      if (isLocalDraftID(draftEmail.messageID)) return
-      try {
-        await saveDraft(draftEmail)
-      } catch (e) {
-        console.error('Failed to save draft', e)
-      }
-    }
-
-    void save()
-    // Deliberately keyed off the throttled value only: it decides *when* to save,
-    // while the body reads the latest draftEmail to decide *what* to save.
-    // Depending on draftEmail would save on every keystroke and defeat the throttle.
-    // oxlint-disable-next-line react-hooks/exhaustive-deps
-  }, [throttledDraftEmail])
-
   const handleEmailChange = (email: DraftEmail) => {
-    setDraftEmail(email)
+    queueSave(email)
 
     draftEmailsContext.dispatch({
       type: 'update',
@@ -89,14 +53,24 @@ export default function FullScreenContent(props: FullScreenContentProps) {
       return
     }
 
-    setIsSending(true) // prevent saving draft
-    const shouldSend = true // save and send
+    cancelSave()
     try {
-      await saveDraft(email, shouldSend)
+      await triggerSaveEmail({
+        messageID: email.messageID,
+        subject: email.subject,
+        from: email.from,
+        to: email.to,
+        cc: email.cc,
+        bcc: email.bcc,
+        replyTo: email.from,
+        html: email.html,
+        text: email.text,
+        send: true // save and send
+      })
     } catch (e) {
       console.error('Failed to send email', e)
       toast.error('Failed to send email')
-      setIsSending(false)
+      queueSave(email)
       return
     }
 
