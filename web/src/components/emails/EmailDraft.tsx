@@ -131,7 +131,7 @@ export function EmailDraft(props: EmailDraftProps) {
         )
       }
 
-      <div className="flex flex-1 px-2 pt-3">
+      <div className="flex min-h-0 flex-1 px-2 pt-3">
         <RichTextEditor
           initialHtml={email.html || ''}
           handleChange={({ html, text }) => {
@@ -141,6 +141,7 @@ export function EmailDraft(props: EmailDraftProps) {
           handleDelete={() => {
             if (handleDelete) handleDelete()
           }}
+          growWithContent={isReply}
         />
       </div>
     </div>
