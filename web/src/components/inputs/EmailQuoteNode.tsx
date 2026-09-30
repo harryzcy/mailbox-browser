@@ -193,8 +193,8 @@ function quoteText(html: string): string {
   if (lastQuote.html !== html) {
     const { body } = new DOMParser().parseFromString(html, 'text/html')
     const text = tidy(nodeText(body))
-    // quotes saved before the blockquote markup hold only the quoted email
-    const isLegacy = !body.querySelector(':scope > blockquote')
+    // quotes saved before the Gmail markup hold only the quoted email
+    const isLegacy = !body.querySelector(':scope > .gmail_attr')
     lastQuote = { html, text: isLegacy ? prefixLines(text) : text }
   }
   return lastQuote.text
