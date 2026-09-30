@@ -45,6 +45,10 @@ function getContent(editor: LexicalEditor) {
 }
 
 const QUOTE_HTML =
+  '<div class="editor-email-quote gmail_quote"><div class="gmail_attr">On X wrote:<br></div><blockquote class="gmail_quote" type="cite"><p>Quoted <b>line</b></p><p>Second</p></blockquote></div>'
+
+// the format saved before quotes used blockquote
+const LEGACY_QUOTE_HTML =
   '<p class="editor-paragraph">On X wrote:</p><div class="editor-email-quote"><p>Quoted <b>line</b></p><p>Second</p></div>'
 
 function appendParagraph(editor: LexicalEditor, tag?: string) {
@@ -109,8 +113,20 @@ describe('RichTextEditor', () => {
     expect(getContent(getEditor()).html).toBe(html)
   })
 
+  test('exports a quoted email as a blockquote', () => {
+    renderEditor(QUOTE_HTML)
+    expect(getContent(getEditor()).html).toBe(QUOTE_HTML)
+  })
+
   test('quotes the quoted email in the plain text', () => {
     renderEditor(QUOTE_HTML)
+    expect(getContent(getEditor()).text).toBe(
+      'On X wrote:\n\n> Quoted line\n>\n> Second'
+    )
+  })
+
+  test('still loads quotes saved in the legacy format', () => {
+    renderEditor(LEGACY_QUOTE_HTML)
     expect(getContent(getEditor()).text).toBe(
       'On X wrote:\n\n> Quoted line\n>\n> Second'
     )

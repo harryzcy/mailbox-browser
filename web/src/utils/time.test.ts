@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import { getNextMonthYear, getPreviousMonthYear } from 'utils/time'
+import {
+  formatDateFull,
+  getNextMonthYear,
+  getPreviousMonthYear
+} from 'utils/time'
 
 describe('getNextMonthYear', () => {
   it('should return the next month and same year', () => {
@@ -23,5 +27,12 @@ describe('getPreviousMonthYear', () => {
   it('should return December and previous year when month is January', () => {
     const result = getPreviousMonthYear(1, 2024)
     expect(result).toEqual({ month: 12, year: 2023 })
+  })
+})
+
+describe('formatDateFull', () => {
+  it('should format like a Gmail reply header', () => {
+    const date = new Date(2026, 8, 29, 1, 30).toISOString()
+    expect(formatDateFull(date)).toBe('Tue, Sep 29, 2026 at 1:30 AM')
   })
 })
