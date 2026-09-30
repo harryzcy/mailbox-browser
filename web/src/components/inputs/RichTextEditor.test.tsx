@@ -1,3 +1,4 @@
+import { $generateHtmlFromNodes } from '@lexical/html'
 import { act, cleanup, render, screen } from '@testing-library/react'
 import type { LexicalEditor } from 'lexical'
 import {
@@ -35,6 +36,16 @@ function getEditor(): LexicalEditor {
   if (!editor) throw new Error('editor not attached to the content editable')
   return editor
 }
+
+function getContent(editor: LexicalEditor) {
+  return editor.read(() => ({
+    html: $generateHtmlFromNodes(editor, null),
+    text: $getRoot().getTextContent()
+  }))
+}
+
+const QUOTE_HTML =
+  '<p class="editor-paragraph">On X wrote:</p><div class="editor-email-quote"><p>Quoted <b>line</b></p><p>Second</p></div>'
 
 function appendParagraph(editor: LexicalEditor, tag?: string) {
   act(() => {
@@ -86,6 +97,23 @@ describe('RichTextEditor', () => {
 
     expect(button('Undo').disabled).toBe(false)
     expect(button('Redo').disabled).toBe(true)
+  })
+
+  test('keeps a quoted email out of paragraphs across reloads', () => {
+    renderEditor(QUOTE_HTML)
+    const { html } = getContent(getEditor())
+    expect(html).not.toContain('<p class="editor-paragraph"><div')
+    cleanup()
+
+    renderEditor(html)
+    expect(getContent(getEditor()).html).toBe(html)
+  })
+
+  test('quotes the quoted email in the plain text', () => {
+    renderEditor(QUOTE_HTML)
+    expect(getContent(getEditor()).text).toBe(
+      'On X wrote:\n\n> Quoted line\n>\n> Second'
+    )
   })
 
   test('ignores later initialHtml changes so typing is not discarded', () => {
