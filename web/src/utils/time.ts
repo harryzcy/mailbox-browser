@@ -60,18 +60,24 @@ function formatDateLong(date: string, monthDayOnly: boolean): string {
   if (monthDayOnly) return `${month} ${day.toString()}`
 
   const year = dateObj.getFullYear()
+  return `${month} ${day.toString()}, ${year.toString()}, ${formatTime(dateObj)}`
+}
+
+function formatTime(dateObj: Date): string {
   let hour = dateObj.getHours()
   const minutesStr = dateObj.getMinutes().toString().padStart(2, '0')
   const meridian = hour >= 12 ? 'PM' : 'AM'
   hour = hour % 12 || 12 // Convert 0 to 12
-  return `${month} ${day.toString()}, ${year.toString()}, ${hour.toString()}:${minutesStr} ${meridian}`
+  return `${hour.toString()}:${minutesStr} ${meridian}`
 }
 
+// formatDateFull formats a date like Gmail's reply header,
+// e.g. "Tue, Sep 29, 2026 at 1:30 AM"
 export function formatDateFull(date: string): string {
   const dateObj = new Date(date)
   const dayOfWeek = dateObj.toLocaleString('default', { weekday: 'short' })
 
-  return `${dayOfWeek}, ${formatDateLong(date, false)}`
+  return `${dayOfWeek}, ${formatDateLong(date, true)}, ${dateObj.getFullYear().toString()} at ${formatTime(dateObj)}`
 }
 
 export function getNextMonthYear(

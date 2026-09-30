@@ -65,13 +65,8 @@ export class EmailQuoteNode extends DecoratorNode<ReactNode> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   exportDOM(editor: LexicalEditor): DOMExportOutput {
     const div = document.createElement('div')
-    div.className = 'editor-email-quote'
-    let innerHTML = this.__html.trim()
-    if (innerHTML.startsWith(`<div class="editor-email-quote">`)) {
-      innerHTML = innerHTML.replace(`<div class="editor-email-quote">`, '')
-      innerHTML = innerHTML.slice(0, -6) // </div>
-    }
-    div.innerHTML = innerHTML.trim()
+    div.className = 'editor-email-quote gmail_quote'
+    div.innerHTML = this.__html.trim()
     return { element: div }
   }
 
@@ -119,7 +114,7 @@ export function $isEmailQuoteNode(node: LexicalNode): boolean {
 
 function convertEmailQuoteElement(domNode: Node): DOMConversionOutput {
   const node = $createEmailQuoteNode(
-    domNode.firstChild?.parentElement?.outerHTML ?? ''
+    domNode instanceof HTMLElement ? domNode.innerHTML : ''
   )
   return { node }
 }
@@ -170,26 +165,37 @@ function nodeText(node: Node): string {
   const text = Array.from(node.childNodes)
     .map((child) => nodeText(child))
     .join('')
+  if (node.tagName === 'BLOCKQUOTE') return `\n${prefixLines(tidy(text))}\n`
   return BLOCK_TAGS.has(node.tagName) ? `\n${text}\n` : text
+}
+
+function tidy(text: string): string {
+  return text
+    .split('\n')
+    .map((line) => line.trim())
+    .join('\n')
+    .replaceAll(/\n{3,}/gu, '\n\n')
+    .trim()
+}
+
+function prefixLines(text: string): string {
+  return text
+    .split('\n')
+    .map((line) => (line ? `> ${line}` : '>'))
+    .join('\n')
 }
 
 // The quote is rebuilt on every edit, so keep the last conversion.
 let lastQuote = { html: '', text: '' }
 
-// quoteText converts quoted HTML to plain text, with each line prefixed by "> "
+// quoteText converts quoted HTML to plain text, prefixing quoted lines with "> "
 function quoteText(html: string): string {
   if (lastQuote.html !== html) {
     const { body } = new DOMParser().parseFromString(html, 'text/html')
-    const text = nodeText(body)
-      .split('\n')
-      .map((line) => line.trim())
-      .join('\n')
-      .replaceAll(/\n{3,}/gu, '\n\n')
-      .trim()
-      .split('\n')
-      .map((line) => (line ? `> ${line}` : '>'))
-      .join('\n')
-    lastQuote = { html, text }
+    const text = tidy(nodeText(body))
+    // quotes saved before the blockquote markup hold only the quoted email
+    const isLegacy = !body.querySelector(':scope > blockquote')
+    lastQuote = { html, text: isLegacy ? prefixLines(text) : text }
   }
   return lastQuote.text
 }

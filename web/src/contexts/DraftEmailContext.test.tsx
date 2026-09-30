@@ -196,13 +196,18 @@ describe('DraftEmailContext', () => {
         allowedAddresses: ['me@example.com'],
         replyEmail: {
           ...inboxEmail,
+          timeReceived: new Date(2026, 8, 29, 1, 30).toISOString(),
           html: '<html><head><style>p {}</style></head><body lang="en">Content</body></html>'
         }
       })
     })
     const { html } = result.current.emails[0]
-    expect(html).toContain('sender@example.com wrote:')
-    expect(html).toContain('<div class="editor-email-quote">Content</div>')
+    expect(html).toContain(
+      '<div class="gmail_attr">On Tue, Sep 29, 2026 at 1:30 AM sender@example.com wrote:<br></div>'
+    )
+    expect(html).toMatch(
+      /<blockquote class="gmail_quote" type="cite" style="[^"]+">Content<\/blockquote><\/div>$/u
+    )
     expect(html).not.toContain('<style>')
   })
 

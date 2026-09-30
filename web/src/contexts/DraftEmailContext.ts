@@ -274,10 +274,10 @@ const createQuoteHTML = (email: Email): string => {
     .join(', ')
 
   const body = extractEmailBody(html)
+  // Gmail's markup, so mail clients recognize and collapse the quote
   const quoteHTML = `
   <p class="editor-paragraph"><br></p>
-  <p class="editor-paragraph">On ${formatDateFull(time)} ${fromStr} wrote:</p>
-  <div class="editor-email-quote">${body}</div>`
+  <div class="editor-email-quote gmail_quote"><div class="gmail_attr">On ${formatDateFull(time)} ${fromStr} wrote:<br></div><blockquote class="gmail_quote" type="cite" style="margin:0 0 0 0.8ex;border-left:1px solid #ccc;padding-left:1ex">${body}</blockquote></div>`
   return quoteHTML
 }
 
