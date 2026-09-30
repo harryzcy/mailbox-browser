@@ -129,6 +129,7 @@ export interface Email {
   to: string[]
   text: string
   html: string
+  replyTo: string[]
   threadID?: string
 
   // inbox only
@@ -144,7 +145,6 @@ export interface Email {
   timeUpdated: string
   cc: string[]
   bcc: string[]
-  replyTo: string[]
 
   attachments: File[]
   inlines: File[]

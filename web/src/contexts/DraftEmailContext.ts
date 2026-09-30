@@ -124,7 +124,9 @@ export function draftEmailReducer(state: State, action: Action): State {
           action.replyEmail.to,
           action.allowedAddresses
         )
-        newEmail.to = [action.replyEmail.from[0]]
+        // replies go to Reply-To when the sender set one
+        const { replyTo } = action.replyEmail
+        newEmail.to = replyTo?.length ? replyTo : [action.replyEmail.from[0]]
       } else {
         // sent
         newEmail.from = [action.replyEmail.from[0]]
