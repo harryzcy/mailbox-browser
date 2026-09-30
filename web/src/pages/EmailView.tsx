@@ -24,6 +24,7 @@ import { useConfig } from 'services/config'
 import {
   CreateEmailProps,
   Email,
+  deleteEmail,
   generateLocalDraftID,
   isLocalDraftID,
   markEmailAsRead,
@@ -47,7 +48,9 @@ export default function EmailView() {
   const navigate = useNavigate()
 
   const email = useEmail(data.type === 'email' ? data.messageID : null)
-  const { thread } = useThread(data.type === 'thread' ? data.threadID : null)
+  const { thread, mutate: mutateThread } = useThread(
+    data.type === 'thread' ? data.threadID : null
+  )
 
   const goPrevious = () => {}
   const goNext = () => {}
@@ -182,12 +185,42 @@ export default function EmailView() {
     })
   }
 
+  const handleDeleteDraft = async () => {
+    const draftEmail = activeReplyEmail
+    if (!draftEmail) return
+    if (isLocalDraftID(draftEmail.messageID)) {
+      toast.error('Draft is still being created, try again')
+      return
+    }
+    cancelSave()
+    try {
+      await deleteEmail(draftEmail.messageID)
+    } catch (e) {
+      console.error('Failed to delete draft', e)
+      toast.error('Failed to delete draft')
+      queueSave(draftEmail)
+      return
+    }
+
+    dispatchDraftEmail({
+      type: 'remove',
+      messageID: draftEmail.messageID
+    })
+    void mutateThread()
+  }
+
   const handleDelete = async () => {
     if ('threadID' in data) {
       // TODO
       throw new Error('Not yet supported')
     } else {
-      await trashEmail(data.messageID)
+      try {
+        await trashEmail(data.messageID)
+      } catch (e) {
+        console.error('Failed to delete email', e)
+        toast.error('Failed to delete email')
+        return
+      }
     }
     await navigate(-1)
   }
@@ -284,6 +317,9 @@ export default function EmailView() {
                         handleSend={() => {
                           void handleSend()
                         }}
+                        handleDelete={() => {
+                          void handleDeleteDraft()
+                        }}
                       />
                     </div>
                   )}
@@ -314,6 +350,9 @@ export default function EmailView() {
                 handleEmailChange={handleEmailChange}
                 handleSend={() => {
                   void handleSend()
+                }}
+                handleDelete={() => {
+                  void handleDeleteDraft()
                 }}
               />
             )}

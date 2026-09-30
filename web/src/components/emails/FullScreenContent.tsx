@@ -84,7 +84,19 @@ export default function FullScreenContent(props: FullScreenContentProps) {
     const deleteRequest = async () => {
       const email = draftEmailsContext.activeEmail
       if (!email) return
-      await deleteEmail(email.messageID)
+      if (isLocalDraftID(email.messageID)) {
+        toast.error('Draft is still being created, try again')
+        return
+      }
+      cancelSave()
+      try {
+        await deleteEmail(email.messageID)
+      } catch (e) {
+        console.error('Failed to delete draft', e)
+        toast.error('Failed to delete draft')
+        queueSave(email)
+        return
+      }
 
       draftEmailsContext.dispatch({
         type: 'remove',
