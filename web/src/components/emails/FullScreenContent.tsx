@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 import { DraftEmail, DraftEmailsContext } from 'contexts/DraftEmailContext'
 
 import useThrottled from 'hooks/useThrottled'
 
-import { deleteEmail, useSaveEmail } from 'services/emails'
+import { deleteEmail, isLocalDraftID, useSaveEmail } from 'services/emails'
 
 import { EmailDraft } from './EmailDraft'
 
@@ -40,7 +41,12 @@ export default function FullScreenContent(props: FullScreenContentProps) {
     const save = async () => {
       if (isSending) return
       if (!draftEmail) return
-      await saveDraft(draftEmail)
+      if (isLocalDraftID(draftEmail.messageID)) return
+      try {
+        await saveDraft(draftEmail)
+      } catch (e) {
+        console.error('Failed to save draft', e)
+      }
     }
 
     void save()
@@ -78,10 +84,21 @@ export default function FullScreenContent(props: FullScreenContentProps) {
   const handleSend = async () => {
     const email = draftEmailsContext.activeEmail
     if (!email) return
+    if (isLocalDraftID(email.messageID)) {
+      toast.error('Draft is still being created, try again')
+      return
+    }
 
     setIsSending(true) // prevent saving draft
     const shouldSend = true // save and send
-    await saveDraft(email, shouldSend)
+    try {
+      await saveDraft(email, shouldSend)
+    } catch (e) {
+      console.error('Failed to send email', e)
+      toast.error('Failed to send email')
+      setIsSending(false)
+      return
+    }
 
     draftEmailsContext.dispatch({
       type: 'remove',

@@ -24,6 +24,7 @@ import {
   CreateEmailProps,
   Email,
   generateLocalDraftID,
+  isLocalDraftID,
   markEmailAsRead,
   markEmailAsUnread,
   trashEmail,
@@ -76,13 +77,18 @@ export default function EmailView() {
       body.replyEmailID = replyEmail.messageID
     }
 
-    const createdEmail = await triggerCreateEmail(body)
-
-    dispatchDraftEmail({
-      type: 'update',
-      messageID: draftID,
-      email: createdEmail
-    })
+    try {
+      const createdEmail = await triggerCreateEmail(body)
+      dispatchDraftEmail({
+        type: 'created',
+        localID: draftID,
+        messageID: createdEmail.messageID,
+        threadID: createdEmail.threadID
+      })
+    } catch (e) {
+      console.error('Failed to create draft', e)
+      toast.error('Failed to create draft')
+    }
   }
 
   const startReply = async (targetEmail: Email) => {
@@ -95,7 +101,7 @@ export default function EmailView() {
       allowedAddresses: config?.emailAddresses ?? []
     })
 
-    await startDraft(draftID)
+    await startDraft(draftID, targetEmail)
   }
 
   const openReply = (targetEmail: Email) => {
@@ -138,18 +144,28 @@ export default function EmailView() {
   const handleSend = async () => {
     const draftEmail = activeReplyEmail
     if (!draftEmail) return
-    await triggerSaveEmail({
-      messageID: draftEmail.messageID,
-      subject: draftEmail.subject,
-      from: draftEmail.from,
-      to: draftEmail.to,
-      cc: draftEmail.cc,
-      bcc: draftEmail.bcc,
-      replyTo: draftEmail.from,
-      html: draftEmail.html,
-      text: draftEmail.text,
-      send: true // save and send
-    })
+    if (isLocalDraftID(draftEmail.messageID)) {
+      toast.error('Draft is still being created, try again')
+      return
+    }
+    try {
+      await triggerSaveEmail({
+        messageID: draftEmail.messageID,
+        subject: draftEmail.subject,
+        from: draftEmail.from,
+        to: draftEmail.to,
+        cc: draftEmail.cc,
+        bcc: draftEmail.bcc,
+        replyTo: draftEmail.from,
+        html: draftEmail.html,
+        text: draftEmail.text,
+        send: true // save and send
+      })
+    } catch (e) {
+      console.error('Failed to send email', e)
+      toast.error('Failed to send email')
+      return
+    }
 
     dispatchDraftEmail({
       type: 'remove',
