@@ -390,4 +390,39 @@ describe('DraftEmailContext', () => {
     expect(result.current.emails[0].messageID).toBe('id-3')
     expect(result.current.emails[0].subject).toBe('New subject')
   })
+
+  test('Created reply keeps its fields', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper()
+    })
+
+    act(() => {
+      result.current.dispatch({
+        type: 'new-reply',
+        messageID: 'local-1',
+        allowedAddresses: ['me@example.com'],
+        replyEmail: inboxEmail
+      })
+    })
+    act(() => {
+      result.current.dispatch({
+        type: 'created',
+        localID: 'local-1',
+        messageID: 'draft-1',
+        threadID: 'thread-1'
+      })
+    })
+
+    for (const email of [
+      result.current.activeEmail,
+      result.current.emails[0]
+    ]) {
+      expect(email?.messageID).toBe('draft-1')
+      expect(email?.threadID).toBe('thread-1')
+      expect(email?.subject).toBe('Re: Example subject')
+      expect(email?.to).toStrictEqual(['sender@example.com'])
+      expect(email?.from).toStrictEqual(['me@example.com'])
+      expect(email?.replyEmail).toBe(inboxEmail)
+    }
+  })
 })

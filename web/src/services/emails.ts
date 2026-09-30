@@ -242,6 +242,9 @@ export function useCreateEmail(): CreateEmailResult {
         generateText: 'off'
       })
     })
+    if (!response.ok) {
+      throw new Error(`Failed to create email: ${response.status.toString()}`)
+    }
     return response.json() as Promise<Email>
   })
   return {
@@ -284,6 +287,9 @@ export function useSaveEmail(): SaveEmailResult {
         send: arg.send
       })
     })
+    if (!response.ok) {
+      throw new Error(`Failed to save email: ${response.status.toString()}`)
+    }
     return response.json() as Promise<Email>
   })
   return {

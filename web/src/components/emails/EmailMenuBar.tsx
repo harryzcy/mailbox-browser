@@ -7,6 +7,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { clsx } from 'clsx'
 import { useContext, useState } from 'react'
+import { toast } from 'sonner'
 
 import { DraftEmailsContext } from 'contexts/DraftEmailContext'
 
@@ -131,13 +132,17 @@ function ComposeButton() {
       send: false
     }
 
-    const email = await triggerCreateEmail(body)
-
-    dispatchDraftEmail({
-      type: 'update',
-      messageID: draftID,
-      email
-    })
+    try {
+      const email = await triggerCreateEmail(body)
+      dispatchDraftEmail({
+        type: 'created',
+        localID: draftID,
+        messageID: email.messageID
+      })
+    } catch (e) {
+      console.error('Failed to create draft', e)
+      toast.error('Failed to create draft')
+    }
   }
 
   return (

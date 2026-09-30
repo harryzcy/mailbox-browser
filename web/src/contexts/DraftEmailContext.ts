@@ -67,6 +67,14 @@ export type Action =
       messageID: string
     }
   | {
+      // replace a local draft ID with the one created by the server,
+      // keeping everything else in the draft
+      type: 'created'
+      localID: string
+      messageID: string
+      threadID?: string
+    }
+  | {
       // update an email in the working directory
       type: 'update'
       messageID: string // the original messageID of the email to update
@@ -194,6 +202,21 @@ export function draftEmailReducer(state: State, action: Action): State {
           (email) => email.messageID !== action.messageID
         )
       }
+
+    case 'created': {
+      const adopt = (email: DraftEmail): DraftEmail =>
+        email.messageID === action.localID
+          ? {
+              ...email,
+              messageID: action.messageID,
+              threadID: action.threadID ?? email.threadID
+            }
+          : email
+      return {
+        activeEmail: state.activeEmail ? adopt(state.activeEmail) : null,
+        emails: state.emails.map(adopt)
+      }
+    }
 
     case 'update': {
       const updatedEmails = state.emails.map((email) => {
