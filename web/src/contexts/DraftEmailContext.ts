@@ -152,7 +152,7 @@ export function draftEmailReducer(state: State, action: Action): State {
       newEmail.subject = action.forwardEmail.subject.startsWith('Fwd: ')
         ? action.forwardEmail.subject
         : `Fwd: ${action.forwardEmail.subject}`
-      newEmail.html = createQuoteHTML(action.forwardEmail)
+      newEmail.html = createForwardHTML(action.forwardEmail)
       return {
         activeEmail: newEmail,
         emails: [...state.emails, newEmail]
@@ -262,16 +262,22 @@ const extractEmailBody = (html?: string) => {
   return /<body[^>]*>(.*?)<\/body>/isu.exec(html)?.[1] ?? html
 }
 
-const createQuoteHTML = (email: Email): string => {
-  const { html, timeReceived, timeSent, from } = email
-  const time = timeReceived || timeSent
-
-  const fromStr = from
+const formatAddresses = (addresses: string[]): string =>
+  addresses
     .map((raw) => {
       const { name, address } = parseAddress(raw)
       return name ? `${name} &#60;${address}&#62;` : address // &#60; and &#62; are < and > respectively
     })
     .join(', ')
+
+const escapeHTML = (text: string): string =>
+  text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+
+const createQuoteHTML = (email: Email): string => {
+  const { html, timeReceived, timeSent, from } = email
+  const time = timeReceived || timeSent
+
+  const fromStr = formatAddresses(from)
 
   const body = extractEmailBody(html)
   // Gmail's markup, so mail clients recognize and collapse the quote
@@ -279,6 +285,26 @@ const createQuoteHTML = (email: Email): string => {
   <p class="editor-paragraph"><br></p>
   <div class="editor-email-quote gmail_quote"><div class="gmail_attr">On ${formatDateFull(time)} ${fromStr} wrote:<br></div><blockquote class="gmail_quote" type="cite" style="margin:0 0 0 0.8ex;border-left:1px solid #ccc;padding-left:1ex">${body}</blockquote></div>`
   return quoteHTML
+}
+
+const createForwardHTML = (email: Email): string => {
+  const { html, timeReceived, timeSent, from, to, cc, subject } = email
+  const time = timeReceived || timeSent
+
+  // Gmail's forward header; unlike a reply, the body isn't indented
+  const header = [
+    '---------- Forwarded message ---------',
+    `From: ${formatAddresses(from)}`,
+    `Date: ${formatDateFull(time)}`,
+    `Subject: ${escapeHTML(subject)}`,
+    `To: ${formatAddresses(to)}`,
+    ...(cc?.length ? [`Cc: ${formatAddresses(cc)}`] : [])
+  ].join('<br>')
+
+  const body = extractEmailBody(html)
+  return `
+  <p class="editor-paragraph"><br></p>
+  <div class="editor-email-quote gmail_quote"><div class="gmail_attr">${header}<br></div><br>${body}</div>`
 }
 
 const parseAddress = (
