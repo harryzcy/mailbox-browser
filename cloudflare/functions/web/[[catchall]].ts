@@ -23,7 +23,8 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     method: context.request.method
   } as RequestInit
   if (context.request.headers.get('Content-Type') === 'application/json') {
-    data.body = context.request.body
+    data.body = await context.request.arrayBuffer()
+    data.headers = { 'Content-Type': 'application/json' }
   }
 
   const res = await aws.fetch(`${endpoint}/${path}${query}`, data)
