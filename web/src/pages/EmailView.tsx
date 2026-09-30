@@ -17,6 +17,7 @@ import EmailName from 'components/emails/EmailName'
 import { DraftEmail, DraftEmailsContext } from 'contexts/DraftEmailContext'
 import { useInboxContext } from 'contexts/InboxContext'
 
+import { useDraftAutosave } from 'hooks/useDraftAutosave'
 import { useOutsideClick } from 'hooks/useOutsideClick'
 
 import { useConfig } from 'services/config'
@@ -141,6 +142,13 @@ export default function EmailView() {
 
   const { trigger: triggerSaveEmail } = useSaveEmail()
 
+  // also saves prefilled fields once the server assigns an ID
+  const { queueSave, cancelSave } = useDraftAutosave()
+  useEffect(() => {
+    const isReply = activeReplyEmail?.replyEmail ?? activeReplyEmail?.threadID
+    queueSave(activeReplyEmail && isReply ? activeReplyEmail : undefined)
+  }, [activeReplyEmail, queueSave])
+
   const handleSend = async () => {
     const draftEmail = activeReplyEmail
     if (!draftEmail) return
@@ -148,6 +156,7 @@ export default function EmailView() {
       toast.error('Draft is still being created, try again')
       return
     }
+    cancelSave()
     try {
       await triggerSaveEmail({
         messageID: draftEmail.messageID,
@@ -164,6 +173,7 @@ export default function EmailView() {
     } catch (e) {
       console.error('Failed to send email', e)
       toast.error('Failed to send email')
+      queueSave(draftEmail)
       return
     }
 
