@@ -112,6 +112,23 @@ describe('DraftEmailContext', () => {
     expect(result.current.emails[0].from).toStrictEqual(['me@example.com'])
   })
 
+  test('New reply to inbox email with Reply-To', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper()
+    })
+
+    act(() => {
+      result.current.dispatch({
+        type: 'new-reply',
+        messageID: 'example-id',
+        allowedAddresses: ['me@example.com'],
+        replyEmail: { ...inboxEmail, replyTo: ['ticket@example.com'] }
+      })
+    })
+    expect(result.current.emails[0].to).toStrictEqual(['ticket@example.com'])
+    expect(result.current.emails[0].from).toStrictEqual(['me@example.com'])
+  })
+
   test('New reply to sent email', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
       wrapper: createWrapper()
