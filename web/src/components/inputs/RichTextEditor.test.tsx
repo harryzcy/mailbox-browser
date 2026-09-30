@@ -125,6 +125,15 @@ describe('RichTextEditor', () => {
     )
   })
 
+  test('does not indent a forwarded email in the plain text', () => {
+    renderEditor(
+      '<div class="editor-email-quote gmail_quote"><div class="gmail_attr">---------- Forwarded message ---------<br>From: X<br>To: Y<br></div><br><p>Body</p></div>'
+    )
+    expect(getContent(getEditor()).text).toBe(
+      '---------- Forwarded message ---------\nFrom: X\nTo: Y\n\nBody'
+    )
+  })
+
   test('still loads quotes saved in the legacy format', () => {
     renderEditor(LEGACY_QUOTE_HTML)
     expect(getContent(getEditor()).text).toBe(
