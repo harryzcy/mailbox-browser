@@ -211,6 +211,29 @@ describe('DraftEmailContext', () => {
     expect(html).not.toContain('<style>')
   })
 
+  test('New forward includes a forwarded message header', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper()
+    })
+
+    act(() => {
+      result.current.dispatch({
+        type: 'new-forward',
+        messageID: 'example-id',
+        forwardEmail: {
+          ...inboxEmail,
+          timeReceived: new Date(2026, 8, 29, 1, 30).toISOString(),
+          subject: 'Q&A <draft>'
+        }
+      })
+    })
+    const { html } = result.current.emails[0]
+    expect(html).toContain(
+      '<div class="gmail_attr">---------- Forwarded message ---------<br>From: sender@example.com<br>Date: Tue, Sep 29, 2026 at 1:30 AM<br>Subject: Q&amp;A &lt;draft&gt;<br>To: me@example.com<br></div><br>Content</div>'
+    )
+    expect(html).not.toContain('<blockquote')
+  })
+
   test('Open email', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
       wrapper: createWrapper({
