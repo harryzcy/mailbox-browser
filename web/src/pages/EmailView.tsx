@@ -183,6 +183,7 @@ export default function EmailView() {
       type: 'remove',
       messageID: draftEmail.messageID
     })
+    void mutateThread()
   }
 
   const handleDeleteDraft = async () => {
