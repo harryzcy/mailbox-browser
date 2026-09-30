@@ -184,6 +184,28 @@ describe('DraftEmailContext', () => {
     expect(result.current.emails[0].subject).toBe('Fwd: Example subject')
   })
 
+  test('New reply quotes the original body', () => {
+    const { result } = renderHook(() => useContext(DraftEmailsContext), {
+      wrapper: createWrapper()
+    })
+
+    act(() => {
+      result.current.dispatch({
+        type: 'new-reply',
+        messageID: 'example-id',
+        allowedAddresses: ['me@example.com'],
+        replyEmail: {
+          ...inboxEmail,
+          html: '<html><head><style>p {}</style></head><body lang="en">Content</body></html>'
+        }
+      })
+    })
+    const { html } = result.current.emails[0]
+    expect(html).toContain('sender@example.com wrote:')
+    expect(html).toContain('<div class="editor-email-quote">Content</div>')
+    expect(html).not.toContain('<style>')
+  })
+
   test('Open email', () => {
     const { result } = renderHook(() => useContext(DraftEmailsContext), {
       wrapper: createWrapper({
