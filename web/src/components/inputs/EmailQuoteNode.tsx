@@ -39,6 +39,14 @@ export class EmailQuoteNode extends DecoratorNode<ReactNode> {
     return false
   }
 
+  isInline(): false {
+    return false
+  }
+
+  getTextContent(): string {
+    return quoteText(this.getLatest().__html)
+  }
+
   setHTML(html: string): void {
     const self = this.getWritable()
     self.__html = html
@@ -122,4 +130,66 @@ interface EmailQuoteProps {
 
 export function EmailQuote(props: EmailQuoteProps) {
   return <>{parseEmailHTML(props.html)}</>
+}
+
+const BLOCK_TAGS = new Set([
+  'ADDRESS',
+  'BLOCKQUOTE',
+  'DIV',
+  'H1',
+  'H2',
+  'H3',
+  'H4',
+  'H5',
+  'H6',
+  'HR',
+  'LI',
+  'OL',
+  'P',
+  'PRE',
+  'TABLE',
+  'TR',
+  'UL'
+])
+const SKIPPED_TAGS = new Set([
+  'HEAD',
+  'LINK',
+  'META',
+  'SCRIPT',
+  'STYLE',
+  'TITLE'
+])
+
+function nodeText(node: Node): string {
+  if (node.nodeType === Node.TEXT_NODE) {
+    return (node.textContent ?? '').replaceAll(/\s+/gu, ' ')
+  }
+  if (!(node instanceof Element) || SKIPPED_TAGS.has(node.tagName)) return ''
+  if (node.tagName === 'BR') return '\n'
+
+  const text = Array.from(node.childNodes)
+    .map((child) => nodeText(child))
+    .join('')
+  return BLOCK_TAGS.has(node.tagName) ? `\n${text}\n` : text
+}
+
+// The quote is rebuilt on every edit, so keep the last conversion.
+let lastQuote = { html: '', text: '' }
+
+// quoteText converts quoted HTML to plain text, with each line prefixed by "> "
+function quoteText(html: string): string {
+  if (lastQuote.html !== html) {
+    const { body } = new DOMParser().parseFromString(html, 'text/html')
+    const text = nodeText(body)
+      .split('\n')
+      .map((line) => line.trim())
+      .join('\n')
+      .replaceAll(/\n{3,}/gu, '\n\n')
+      .trim()
+      .split('\n')
+      .map((line) => (line ? `> ${line}` : '>'))
+      .join('\n')
+    lastQuote = { html, text }
+  }
+  return lastQuote.text
 }
