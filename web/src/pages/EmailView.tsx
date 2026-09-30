@@ -142,7 +142,6 @@ export default function EmailView() {
 
   const { trigger: triggerSaveEmail } = useSaveEmail()
 
-  // also saves prefilled fields once the server assigns an ID
   const { queueSave, cancelSave } = useDraftAutosave()
   useEffect(() => {
     const isReply = activeReplyEmail?.replyEmail ?? activeReplyEmail?.threadID

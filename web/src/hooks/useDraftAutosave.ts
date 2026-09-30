@@ -33,16 +33,12 @@ export function useDraftAutosave() {
     }).catch((e: unknown) => {
       console.error('Failed to save draft', e)
     })
-    // Deliberately keyed off the throttled value only: it decides *when* to save,
-    // while the body reads the latest draftEmail to decide *what* to save.
-    // Depending on draftEmail would save on every keystroke and defeat the throttle.
+    // the throttled value decides when to save, the latest draft what to save
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [throttledDraftEmail])
 
   return {
-    // queue the latest version of the draft to be saved
     queueSave: setDraftEmail,
-    // drop any pending save, e.g. before sending or discarding the draft
     cancelSave: () => {
       setDraftEmail(undefined)
     }
