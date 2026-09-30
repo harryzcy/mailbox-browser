@@ -14,7 +14,7 @@ export interface Thread {
 }
 
 export function useThread(threadID: string | null) {
-  const { data, error, isLoading } = useSWR<Thread, Error>(
+  const { data, error, isLoading, mutate } = useSWR<Thread, Error>(
     threadID ? `thread-${threadID}` : null,
     async () => {
       if (!threadID) {
@@ -27,5 +27,5 @@ export function useThread(threadID: string | null) {
     }
   )
 
-  return { thread: data, error, isLoading }
+  return { thread: data, error, isLoading, mutate }
 }

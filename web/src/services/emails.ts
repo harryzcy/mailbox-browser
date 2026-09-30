@@ -299,15 +299,21 @@ export function useSaveEmail(): SaveEmailResult {
 }
 
 export async function deleteEmail(messageID: string): Promise<void> {
-  await fetch(`/web/emails/${messageID}`, {
+  const response = await fetch(`/web/emails/${messageID}`, {
     method: 'DELETE'
   })
+  if (!response.ok) {
+    throw new Error(`Failed to delete email: ${response.status.toString()}`)
+  }
 }
 
 export async function trashEmail(messageID: string): Promise<void> {
-  await fetch(`/web/emails/${messageID}/trash`, {
+  const response = await fetch(`/web/emails/${messageID}/trash`, {
     method: 'POST'
   })
+  if (!response.ok) {
+    throw new Error(`Failed to trash email: ${response.status.toString()}`)
+  }
 }
 
 export async function markEmailAsRead(messageID: string): Promise<void> {

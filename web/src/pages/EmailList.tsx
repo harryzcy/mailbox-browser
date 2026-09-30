@@ -59,15 +59,24 @@ export default function EmailList() {
     const emailsToBeDeleted = emails.filter((e) =>
       selected.includes(e.messageID)
     )
+    const deletedIDs: string[] = []
     for (const email of emailsToBeDeleted) {
-      if (email.type === 'draft') {
-        await deleteEmail(email.messageID)
-      } else {
-        await trashEmail(email.messageID)
+      try {
+        if (email.type === 'draft') {
+          await deleteEmail(email.messageID)
+        } else {
+          await trashEmail(email.messageID)
+        }
+        deletedIDs.push(email.messageID)
+      } catch (e) {
+        console.error('Failed to delete email', e)
       }
     }
-    removeFromList(selected)
-    setSelected([])
+    if (deletedIDs.length < emailsToBeDeleted.length) {
+      toast.error('Failed to delete some emails')
+    }
+    removeFromList(deletedIDs)
+    setSelected(selected.filter((id) => !deletedIDs.includes(id)))
   }
 
   const handleRead = async () => {
