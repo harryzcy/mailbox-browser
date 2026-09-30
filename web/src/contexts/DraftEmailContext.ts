@@ -131,6 +131,7 @@ export function draftEmailReducer(state: State, action: Action): State {
         newEmail.to = [action.replyEmail.to[0]]
       }
       newEmail.subject = addPrefix(action.replyEmail.subject, 'Re: ')
+      newEmail.html = createQuoteHTML(action.replyEmail)
 
       return {
         activeEmail: newEmail,
@@ -149,7 +150,7 @@ export function draftEmailReducer(state: State, action: Action): State {
       newEmail.subject = action.forwardEmail.subject.startsWith('Fwd: ')
         ? action.forwardEmail.subject
         : `Fwd: ${action.forwardEmail.subject}`
-      newEmail.html = createForwardHTML(action.forwardEmail)
+      newEmail.html = createQuoteHTML(action.forwardEmail)
       return {
         activeEmail: newEmail,
         emails: [...state.emails, newEmail]
@@ -256,14 +257,10 @@ export const DraftEmailsContext = createContext<{
 
 const extractEmailBody = (html?: string) => {
   if (!html) return ''
-  if (html.includes('<body>')) {
-    const body = /<body>(.*?)<\/body>/gsu.exec(html)?.[1] ?? ''
-    return body
-  }
-  return html
+  return /<body[^>]*>(.*?)<\/body>/isu.exec(html)?.[1] ?? html
 }
 
-const createForwardHTML = (email: Email): string => {
+const createQuoteHTML = (email: Email): string => {
   const { html, timeReceived, timeSent, from } = email
   const time = timeReceived || timeSent
 
@@ -275,11 +272,11 @@ const createForwardHTML = (email: Email): string => {
     .join(', ')
 
   const body = extractEmailBody(html)
-  const forwardHTML = `
+  const quoteHTML = `
   <p class="editor-paragraph"><br></p>
   <p class="editor-paragraph">On ${formatDateFull(time)} ${fromStr} wrote:</p>
   <div class="editor-email-quote">${body}</div>`
-  return forwardHTML
+  return quoteHTML
 }
 
 const parseAddress = (

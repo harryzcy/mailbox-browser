@@ -115,7 +115,7 @@ export default function RichTextEditor(props: RichTextEditorProps) {
             placeholder={<Placeholder />}
           />
           <OnChangePlugin onChange={onChange} ignoreSelectionChange />
-          <AutoFocusPlugin />
+          <AutoFocusPlugin defaultSelection="rootStart" />
           <CodeHighlightPlugin />
           <ListPlugin />
           <LinkPlugin />
