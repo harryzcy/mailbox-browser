@@ -23,7 +23,10 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     method: context.request.method
   } as RequestInit
   if (context.request.headers.get('Content-Type') === 'application/json') {
-    data.body = context.request.body
+    // aws4fetch can only sign a buffered body, not a stream
+    data.body = await context.request.arrayBuffer()
+    // without it, API Gateway treats the body as binary and base64-encodes it
+    data.headers = { 'Content-Type': 'application/json' }
   }
 
   const res = await aws.fetch(`${endpoint}/${path}${query}`, data)
