@@ -13,6 +13,7 @@ import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPl
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { HeadingNode, QuoteNode, RichTextExtension } from '@lexical/rich-text'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
+import { clsx } from 'clsx'
 import { $getRoot, EditorState, LexicalEditor, defineExtension } from 'lexical'
 import { useState } from 'react'
 
@@ -50,6 +51,8 @@ interface RichTextEditorProps {
   handleChange: ({ html, text }: { html: string; text: string }) => void
   handleSend: () => void
   handleDelete: () => void
+  // grow with the content and let the page scroll, instead of scrolling inside
+  growWithContent?: boolean
 }
 
 export default function RichTextEditor(props: RichTextEditorProps) {
@@ -105,7 +108,14 @@ export default function RichTextEditor(props: RichTextEditorProps) {
   return (
     <LexicalExtensionComposer extension={extension} contentEditable={null}>
       <div className="relative flex size-full min-h-48 flex-col rounded text-left leading-5 font-normal md:rounded-md">
-        <div className="relative flex-1 overflow-scroll overscroll-contain">
+        <div
+          className={clsx(
+            'relative flex-1',
+            props.growWithContent
+              ? 'overflow-x-auto'
+              : 'overflow-scroll overscroll-contain'
+          )}
+        >
           <ContentEditable
             className="relative min-h-full resize-none p-3 caret-inherit outline-hidden"
             style={{
