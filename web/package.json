@@ -55,7 +55,7 @@
     "eslint-plugin-better-tailwindcss": "4.9.0",
     "happy-dom": "20.14.6",
     "oxlint": "1.87.0",
-    "oxlint-tsgolint": "7.0.2003",
+    "oxlint-tsgolint": "7.0.2004",
     "prettier": "3.9.10",
     "prettier-plugin-tailwindcss": "0.8.1",
     "typescript": "7.0.2",
