@@ -53,7 +53,7 @@
     "@vitejs/plugin-react": "6.1.2",
     "@vitest/coverage-v8": "5.0.5",
     "eslint-plugin-better-tailwindcss": "4.9.1",
-    "happy-dom": "21.0.1",
+    "happy-dom": "21.0.3",
     "oxlint": "1.88.0",
     "oxlint-tsgolint": "7.0.2004",
     "prettier": "3.9.10",
