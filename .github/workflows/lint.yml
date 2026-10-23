@@ -16,22 +16,22 @@ permissions:
 jobs:
   super-linter:
     name: Super Linter
-    uses: harryzcy/github-actions/.github/workflows/linter.yml@b53d39412a62ade5c6757064576d72f2ea7e41e5 # main
+    uses: harryzcy/github-actions/.github/workflows/linter.yml@35957b2f1b0ab01fdbca00af3adbbbbdcb3fa5c2 # main
 
   go-lint:
     name: Go Lint
-    uses: harryzcy/github-actions/.github/workflows/golangci-lint.yml@b53d39412a62ade5c6757064576d72f2ea7e41e5 # main
+    uses: harryzcy/github-actions/.github/workflows/golangci-lint.yml@35957b2f1b0ab01fdbca00af3adbbbbdcb3fa5c2 # main
     with:
       working-directory: bff
 
   prettier:
     name: Prettier
-    uses: harryzcy/github-actions/.github/workflows/prettier.yml@b53d39412a62ade5c6757064576d72f2ea7e41e5 # main
+    uses: harryzcy/github-actions/.github/workflows/prettier.yml@35957b2f1b0ab01fdbca00af3adbbbbdcb3fa5c2 # main
     with:
       working-directory: web
 
   oxlint:
     name: Oxlint
-    uses: harryzcy/github-actions/.github/workflows/npm-lint.yml@b53d39412a62ade5c6757064576d72f2ea7e41e5 # main
+    uses: harryzcy/github-actions/.github/workflows/npm-lint.yml@35957b2f1b0ab01fdbca00af3adbbbbdcb3fa5c2 # main
     with:
       working-directory: web
