@@ -28,7 +28,7 @@ RUN npm ci && \
   echo "export const browserVersion = \"${BUILD_VERSION}\"" > src/utils/info.ts && \
   npm run build
 
-FROM library/alpine:3.24.2@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6
+FROM library/alpine:3.24.3@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a
 
 RUN addgroup -S bff && adduser -S bff -G bff
 USER bff
