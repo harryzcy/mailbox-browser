@@ -160,18 +160,35 @@ describe('transformCss', () => {
     )
   })
 
-  it('ignores html comment markers', () => {
+  it('ignores html comment markers outside blocks', () => {
     expect(transformCss(host, '<!--\n.a{}\n-->')).toBe(
       '\n.email-sandbox .a{}\n'
     )
-    expect(transformCss(host, ' <!-- .a{content:"-->"} --> ')).toBe(
-      ' .email-sandbox .a{content:"-->"} '
+    expect(transformCss(host, '/* reset */ <!-- .a{} --> <!-- .b{} -->')).toBe(
+      '/* reset */  .email-sandbox .a{}   .email-sandbox .b{} '
     )
   })
 
-  it('drops css that fails to parse', () => {
-    expect(transformCss(host, '.a{color:red')).toBe('')
-    expect(transformCss(host, '.a{color red}')).toBe('')
+  it('keeps html comment markers in blocks, strings and comments', () => {
+    expect(transformCss(host, '/* --> */ .a{content:"-->"} .b{--x:-->}')).toBe(
+      '/* --> */ .email-sandbox .a{content:"-->"} .email-sandbox .b{--x:-->}'
+    )
+  })
+
+  it('recovers from malformed css', () => {
+    expect(transformCss(host, '.a{color:red')).toBe(
+      '.email-sandbox .a{color:red}'
+    )
+    expect(transformCss(host, '.a{color red; margin:0} .b{}')).toBe(
+      '.email-sandbox .a{color red; margin:0} .email-sandbox .b{}'
+    )
+    expect(transformCss(host, '.a{color:red background:blue} .b{}')).toBe(
+      '.email-sandbox .a{color:red; background:blue} .email-sandbox .b{}'
+    )
+  })
+
+  it('drops malformed css too large to recover', () => {
+    expect(transformCss(host, '.a{color:red' + ' '.repeat(8 * 1024))).toBe('')
   })
 
   it('handles long runs of missing semicolons', () => {

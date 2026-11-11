@@ -7,6 +7,7 @@ import parse, {
   domToReact
 } from 'html-react-parser'
 import { type AtRule, type Root, type Rule, parse as parseCss } from 'postcss'
+import safeParseCss from 'postcss-safe-parser'
 
 import { type Email, type File } from 'services/emails'
 
@@ -188,12 +189,8 @@ function transformStyles(host: string, styles: string) {
 // transformCss drops a style block that fails to parse rather than failing
 // the whole email.
 function transformCss(host: string, code: string) {
-  let root: Root
-  try {
-    root = parseCss(stripCommentMarkers(code))
-  } catch {
-    return ''
-  }
+  const root = parseStyles(stripCommentMarkers(code))
+  if (!root) return ''
 
   root.walkRules((rule) => {
     if (!isDocumentRule(rule)) return
@@ -212,14 +209,67 @@ function transformCss(host: string, code: string) {
   return root.toString()
 }
 
+// Recovering from malformed CSS takes quadratic time on long runs of
+// declarations without semicolons, so it's only tried on small blocks.
+const maxRecoverableStyleLength = 8 * 1024
+
+function parseStyles(css: string): Root | null {
+  try {
+    return parseCss(css)
+  } catch {
+    if (css.length > maxRecoverableStyleLength) return null
+  }
+  try {
+    return safeParseCss(css) as Root
+  } catch {
+    return null
+  }
+}
+
 // stripCommentMarkers removes the HTML comment markers emails often wrap their
-// styles in. Browsers ignore them at the edges of a stylesheet, but PostCSS
-// rejects them.
+// styles in. Browsers ignore them outside of blocks, but PostCSS rejects them.
 function stripCommentMarkers(code: string) {
-  let css = code.trim()
-  if (css.startsWith('<!--')) css = css.slice('<!--'.length)
-  if (css.endsWith('-->')) css = css.slice(0, -'-->'.length)
-  return css
+  const parts: string[] = []
+  let start = 0
+  let depth = 0
+  let i = 0
+  while (i < code.length) {
+    const char = code[i]
+    if (char === '\\') {
+      i += 2
+    } else if (char === '/' && code[i + 1] === '*') {
+      const end = code.indexOf('*/', i + 2)
+      i = end === -1 ? code.length : end + 2
+    } else if (char === '"' || char === "'") {
+      i = skipString(code, i)
+    } else if (char === '{' || char === '}') {
+      depth = Math.max(0, depth + (char === '{' ? 1 : -1))
+      i++
+    } else if (depth === 0 && code.startsWith('<!--', i)) {
+      parts.push(code.slice(start, i))
+      i += '<!--'.length
+      start = i
+    } else if (depth === 0 && code.startsWith('-->', i)) {
+      parts.push(code.slice(start, i))
+      i += '-->'.length
+      start = i
+    } else {
+      i++
+    }
+  }
+  parts.push(code.slice(start))
+  return parts.join('')
+}
+
+// skipString returns the index just past the string starting at start. A CSS
+// string ends at its closing quote or an unescaped newline.
+function skipString(code: string, start: number) {
+  const quote = code[start]
+  let i = start + 1
+  while (i < code.length && code[i] !== quote && code[i] !== '\n') {
+    i += code[i] === '\\' ? 2 : 1
+  }
+  return i + 1
 }
 
 // isDocumentRule returns true if the rule's selectors match document
