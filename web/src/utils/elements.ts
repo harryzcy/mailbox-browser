@@ -81,8 +81,7 @@ export const allowedTags = [
 ]
 
 // Tags that should be removed from the document, without logging a warning.
-// React moves <link> and <meta> into the document head, outside the email
-// sandbox, so they're dropped too.
+// React hoists <link> and <meta> out of the sandbox into the document head.
 export const silenceTags = ['title', 'script', 'link', 'meta']
 
 // Attributes that are allowed on all tags.

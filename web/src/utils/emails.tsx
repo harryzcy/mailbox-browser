@@ -138,7 +138,7 @@ export function parseEmailContent(
   }
   // fallback to text if html parsing fails
   return (
-    // Inline styles, since the app's classes don't apply in the email sandbox.
+    // Inline styles, since app classes don't apply in the sandbox.
     <pre
       style={{
         fontFamily: 'inherit',
@@ -174,8 +174,7 @@ function containContentID(files: File[] | undefined, cid: string) {
   return files.some((file) => file.contentID === cid)
 }
 
-// EmailContent parses the email as it renders, so an error boundary around it
-// catches parsing errors.
+// EmailContent parses while rendering, so error boundaries catch failures.
 export function EmailContent(props: {
   email: Email
   disableProxy?: boolean
@@ -191,12 +190,9 @@ function makeProxyURL(host: string, url: string) {
   return `${host}/proxy?l=${encodeURIComponent(url)}`
 }
 
-// RemoteCSS is how CSS loads remote resources: through the proxy, directly, or
-// not at all.
 type RemoteCSS = 'proxy' | 'direct' | 'block'
 
-// makeCSSURL rewrites remote resources in CSS: url() in any case, and the
-// string form of @import.
+// makeCSSURL rewrites remote url() and @import resources in CSS.
 function makeCSSURL(host: string, value: string, remote: RemoteCSS = 'proxy') {
   return value.replaceAll(
     /url\(\s*(['"]?)(.*?)\1\s*\)|(@import\s*)(['"])(.*?)\4/giu,
