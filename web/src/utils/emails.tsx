@@ -1,4 +1,3 @@
-import * as css from '@adobe/css-tools'
 import { isTag, isText } from 'domhandler'
 import parse, {
   DOMNode,
@@ -7,6 +6,7 @@ import parse, {
   Text,
   domToReact
 } from 'html-react-parser'
+import { type AtRule, type Root, type Rule, parse as parseCss } from 'postcss'
 
 import { type Email, type File } from 'services/emails'
 
@@ -185,59 +185,51 @@ function transformStyles(host: string, styles: string) {
   return styleParts.join(';')
 }
 
-// transformCss transforms css to be scoped to the email-sandbox class
+// transformCss scopes an email's CSS to the email-sandbox class and proxies
+// remote URLs. A style block that fails to parse is dropped rather than
+// failing the whole email.
 function transformCss(host: string, code: string) {
-  const obj = css.parse(code, { silent: true })
-
-  const cssRules = transformCssRules(host, obj.stylesheet.rules)
-  obj.stylesheet.rules = cssRules
-  const result = css.stringify(obj, { compress: false })
-
-  return result
-}
-type RuleDeclarations = (
-  css.CssCommentAST | css.CssDeclarationAST | css.CssAtRuleAST
-)[]
-type FontFaceDeclrations = (css.CssCommentAST | css.CssDeclarationAST)[]
-
-function transformCssRules<
-  T extends css.CssAtRuleAST[] | (css.CssAtRuleAST | css.CssDeclarationAST)[]
->(host: string, rules: T): T {
-  const replaceDeclarations = <
-    D extends RuleDeclarations | FontFaceDeclrations
-  >(
-    declarations: D
-  ): D => {
-    return declarations.map((declaration) => {
-      if (declaration.type === css.CssTypes.declaration) {
-        if (isURLProperty(declaration.property)) {
-          declaration.value = makeCSSURL(host, declaration.value)
-        }
-      }
-      return declaration
-    }) as D
+  let root: Root
+  try {
+    // Emails often wrap styles in HTML comment markers, which browsers ignore
+    // at the top level of a stylesheet but PostCSS rejects.
+    root = parseCss(code.replaceAll(/<!--|-->/gu, ''))
+  } catch {
+    return ''
   }
 
-  return rules.map((rule) => {
-    if (rule.type === css.CssTypes.rule) {
-      rule.selectors = rule.selectors.map((selector) => {
-        if (selector.startsWith('@')) {
-          return selector
-        }
-        return selector.includes('.email-sandbox')
-          ? selector
-          : `.email-sandbox ${selector}`
-      })
-      rule.declarations = replaceDeclarations(rule.declarations)
-    } else if (rule.type === css.CssTypes.fontFace) {
-      rule.declarations = replaceDeclarations(rule.declarations)
-    } else if ('rules' in rule) {
-      if (rule.rules) {
-        rule.rules = transformCssRules(host, rule.rules)
-      }
+  root.walkRules((rule) => {
+    if (!isDocumentRule(rule)) return
+    rule.selectors = rule.selectors.map((selector) =>
+      selector.includes('.email-sandbox')
+        ? selector
+        : `.email-sandbox ${selector}`
+    )
+  })
+  root.walkDecls((declaration) => {
+    if (isURLProperty(declaration.prop)) {
+      declaration.value = makeCSSURL(host, declaration.value)
     }
-    return rule
-  }) as T
+  })
+
+  return root.toString()
+}
+
+// isDocumentRule returns true if the rule's selectors match document
+// elements, as opposed to keyframe selectors or rules nested in another rule.
+function isDocumentRule(rule: Rule) {
+  let parent = rule.parent
+  while (parent && parent.type !== 'root') {
+    if (parent.type === 'rule') return false
+    if (
+      parent.type === 'atrule' &&
+      /keyframes$/iu.test((parent as AtRule).name)
+    ) {
+      return false
+    }
+    parent = parent.parent
+  }
+  return true
 }
 
 function makeProxyURL(host: string, url: string) {
@@ -282,5 +274,6 @@ function makeCSSURL(host: string, value: string) {
 }
 
 export const exportedForTesting = {
-  makeCSSURL
+  makeCSSURL,
+  transformCss
 }

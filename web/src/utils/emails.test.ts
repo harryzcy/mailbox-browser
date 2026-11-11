@@ -109,3 +109,71 @@ describe('makeCSSURL', () => {
     expect(result).toBe('linear-gradient(#cc0000, #cc0000)')
   })
 })
+
+const { transformCss } = exportedForTesting
+
+describe('transformCss', () => {
+  const host = 'https://proxy.com'
+
+  it('scopes each selector to the sandbox', () => {
+    expect(transformCss(host, '.a, p > span { color: red }')).toBe(
+      '.email-sandbox .a, .email-sandbox p > span { color: red }'
+    )
+  })
+
+  it('keeps selectors already scoped to the sandbox', () => {
+    expect(transformCss(host, '.email-sandbox .a{}')).toBe(
+      '.email-sandbox .a{}'
+    )
+  })
+
+  it('scopes rules inside at-rules', () => {
+    expect(
+      transformCss(
+        host,
+        '@media (max-width: 600px) { @supports (x: y) { .a{} } }'
+      )
+    ).toBe(
+      '@media (max-width: 600px) { @supports (x: y) { .email-sandbox .a{} } }'
+    )
+  })
+
+  it('leaves keyframe and nested selectors alone', () => {
+    expect(
+      transformCss(
+        host,
+        '@-webkit-keyframes k{from{}to{}} .a{ &:hover{} .b{} }'
+      )
+    ).toBe(
+      '@-webkit-keyframes k{from{}to{}} .email-sandbox .a{ &:hover{} .b{} }'
+    )
+  })
+
+  it('proxies remote urls', () => {
+    expect(
+      transformCss(
+        host,
+        '@font-face{src:url(https://x.com/f.woff)} .a{background-image:url("http://x.com/i.png");color:red}'
+      )
+    ).toBe(
+      '@font-face{src:url(https://proxy.com/proxy?l=https%3A%2F%2Fx.com%2Ff.woff)} .email-sandbox .a{background-image:url(https://proxy.com/proxy?l=http%3A%2F%2Fx.com%2Fi.png);color:red}'
+    )
+  })
+
+  it('ignores html comment markers', () => {
+    expect(transformCss(host, '<!--\n.a{}\n-->')).toBe(
+      '\n.email-sandbox .a{}\n'
+    )
+  })
+
+  it('drops css that fails to parse', () => {
+    expect(transformCss(host, '.a{color:red')).toBe('')
+    expect(transformCss(host, '.a{color red}')).toBe('')
+  })
+
+  it('handles long runs of missing semicolons', () => {
+    const start = performance.now()
+    expect(transformCss(host, 'p{' + 'a:b '.repeat(50000) + '}')).toBe('')
+    expect(performance.now() - start).toBeLessThan(1000)
+  })
+})
