@@ -220,14 +220,22 @@ function isURLProperty(property: string) {
   return watchProperties.includes(property.toLowerCase())
 }
 
+// makeCSSURL proxies remote resources in CSS: url() in any case, and the
+// string form of @import.
 function makeCSSURL(host: string, value: string) {
   return value.replaceAll(
-    /url\( *['"]?(.*?)['"]? *\)/gu,
-    (match, url: string) => {
-      if (url.startsWith('https://') || url.startsWith('http://')) {
-        return `url(${makeProxyURL(host, url)})`
-      }
-      return match
+    /url\(\s*(['"]?)(.*?)\1\s*\)|(@import\s*)(['"])(.*?)\4/giu,
+    (
+      match,
+      _quote: string,
+      url: string | undefined,
+      importRule: string | undefined,
+      _importQuote: string,
+      importURL: string | undefined
+    ) => {
+      const resource = url ?? importURL ?? ''
+      if (!/^\s*https?:\/\//iu.test(resource)) return match
+      return `${importRule ?? ''}url(${makeProxyURL(host, resource)})`
     }
   )
 }

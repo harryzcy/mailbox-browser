@@ -101,23 +101,28 @@ describe('makeCSSURL', () => {
     )
   })
 
+  it('url function in any case', () => {
+    const result = makeCSSURL('https://proxy.com', 'URL(HTTPS://x.com/a.png)')
+    expect(result).toBe(
+      'url(https://proxy.com/proxy?l=HTTPS%3A%2F%2Fx.com%2Fa.png)'
+    )
+  })
+
+  it('import with a string', () => {
+    const result = makeCSSURL(
+      'https://proxy.com',
+      '@import "https://x.com/a.css"; @import url(https://x.com/b.css);'
+    )
+    expect(result).toBe(
+      '@import url(https://proxy.com/proxy?l=https%3A%2F%2Fx.com%2Fa.css); @import url(https://proxy.com/proxy?l=https%3A%2F%2Fx.com%2Fb.css);'
+    )
+  })
+
   it("doesn't match", () => {
     const result = makeCSSURL(
       'https://proxy.com',
       'linear-gradient(#cc0000, #cc0000)'
     )
     expect(result).toBe('linear-gradient(#cc0000, #cc0000)')
-  })
-})
-
-describe('makeCSSURL on style blocks', () => {
-  it('proxies urls anywhere in the stylesheet', () => {
-    const result = makeCSSURL(
-      'https://proxy.com',
-      '@import url(https://x.com/a.css); .a{--bg:url("https://x.com/b.png")} .b{background:var(--bg)}'
-    )
-    expect(result).toBe(
-      '@import url(https://proxy.com/proxy?l=https%3A%2F%2Fx.com%2Fa.css); .a{--bg:url(https://proxy.com/proxy?l=https%3A%2F%2Fx.com%2Fb.png)} .b{background:var(--bg)}'
-    )
   })
 })

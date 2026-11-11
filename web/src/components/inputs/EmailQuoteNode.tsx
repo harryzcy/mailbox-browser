@@ -126,7 +126,11 @@ interface EmailQuoteProps {
 }
 
 export function EmailQuote(props: EmailQuoteProps) {
-  return <EmailSandbox>{parseEmailHTML(props.html)}</EmailSandbox>
+  return (
+    <EmailSandbox className="overflow-x-auto">
+      {parseEmailHTML(props.html)}
+    </EmailSandbox>
+  )
 }
 
 const BLOCK_TAGS = new Set([

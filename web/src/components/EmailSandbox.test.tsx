@@ -22,8 +22,30 @@ describe('EmailSandbox', () => {
       '<style>p{color:red}</style><p>Hello</p>'
     )
     expect(shadowRoot.querySelector('p')?.textContent).toBe('Hello')
-    expect(shadowRoot.querySelector('style')?.textContent).toBe('p{color:red}')
     expect(container.querySelector('p')).toBeNull()
+  })
+
+  test("adds default styles before the email's own", () => {
+    const { shadowRoot } = renderEmail(
+      '<style>img{max-width:none}</style><p>Hello</p>'
+    )
+    const styles = [...shadowRoot.querySelectorAll('style')].map(
+      (style) => style.textContent
+    )
+    expect(styles).toEqual([
+      'img{max-width:100%;height:auto}',
+      'img{max-width:none}'
+    ])
+  })
+
+  test('proxies urls in style blocks', () => {
+    const { shadowRoot } = renderEmail(
+      '<style>@import "https://x.com/a.css"; .a{background:URL(https://x.com/b.png)}</style><p>Hello</p>'
+    )
+    const css = shadowRoot.querySelectorAll('style')[1].textContent
+    expect(css).toMatch(
+      /^@import url\(\S+\/proxy\?l=https%3A%2F%2Fx\.com%2Fa\.css\); \.a\{background:url\(\S+\/proxy\?l=https%3A%2F%2Fx\.com%2Fb\.png\)\}$/u
+    )
   })
 
   test('drops tags React would move into the document head', () => {
