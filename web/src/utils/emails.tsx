@@ -191,9 +191,7 @@ function transformStyles(host: string, styles: string) {
 function transformCss(host: string, code: string) {
   let root: Root
   try {
-    // Emails often wrap styles in HTML comment markers, which browsers ignore
-    // at the top level of a stylesheet but PostCSS rejects.
-    root = parseCss(code.replaceAll(/<!--|-->/gu, ''))
+    root = parseCss(stripCommentMarkers(code))
   } catch {
     return ''
   }
@@ -213,6 +211,16 @@ function transformCss(host: string, code: string) {
   })
 
   return root.toString()
+}
+
+// stripCommentMarkers removes the HTML comment markers emails often wrap their
+// styles in. Browsers ignore them at the edges of a stylesheet, but PostCSS
+// rejects them.
+function stripCommentMarkers(code: string) {
+  let css = code.trim()
+  if (css.startsWith('<!--')) css = css.slice('<!--'.length)
+  if (css.endsWith('-->')) css = css.slice(0, -'-->'.length)
+  return css
 }
 
 // isDocumentRule returns true if the rule's selectors match document

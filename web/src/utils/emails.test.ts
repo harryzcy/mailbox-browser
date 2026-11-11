@@ -164,6 +164,9 @@ describe('transformCss', () => {
     expect(transformCss(host, '<!--\n.a{}\n-->')).toBe(
       '\n.email-sandbox .a{}\n'
     )
+    expect(transformCss(host, ' <!-- .a{content:"-->"} --> ')).toBe(
+      ' .email-sandbox .a{content:"-->"} '
+    )
   })
 
   it('drops css that fails to parse', () => {
