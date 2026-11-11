@@ -118,6 +118,22 @@ describe('makeCSSURL', () => {
     )
   })
 
+  it('blocks remote urls', () => {
+    const result = makeCSSURL(
+      'https://proxy.com',
+      '@import "https://x.com/a.css"; .a{background:url(https://x.com/b.png) no-repeat, url(data:image/png;base64,AA==)}',
+      'block'
+    )
+    expect(result).toBe(
+      '@import none; .a{background:none no-repeat, url(data:image/png;base64,AA==)}'
+    )
+  })
+
+  it('leaves remote urls when loading directly', () => {
+    const value = '.a{background:url(https://x.com/b.png)}'
+    expect(makeCSSURL('https://proxy.com', value, 'direct')).toBe(value)
+  })
+
   it("doesn't match", () => {
     const result = makeCSSURL(
       'https://proxy.com',

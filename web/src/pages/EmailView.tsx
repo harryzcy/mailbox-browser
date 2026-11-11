@@ -37,7 +37,7 @@ import {
 } from 'services/emails'
 import { useThread } from 'services/threads'
 
-import { parseEmailContent, parseEmailName } from 'utils/emails'
+import { EmailContent, parseEmailName } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
 type EmailViewLoaderData =
@@ -496,11 +496,11 @@ function EmailBlock(props: EmailBlockProps) {
             }}
           >
             <EmailSandbox className="mx-auto w-fit max-w-full overflow-x-auto">
-              {parseEmailContent(
-                email,
-                config?.disableProxy ?? false,
-                showImages
-              )}
+              <EmailContent
+                email={email}
+                disableProxy={config?.disableProxy ?? false}
+                loadImage={showImages}
+              />
             </EmailSandbox>
           </ErrorBoundary>
         </div>

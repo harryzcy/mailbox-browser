@@ -43,6 +43,12 @@ export function parseEmailContent(
   if (!email.html) return email.text
 
   const host = `${window.location.protocol}//${window.location.host}`
+  // Remote CSS resources follow the same rules as images.
+  const remoteCSS: RemoteCSS = !loadImage
+    ? 'block'
+    : disableProxy
+      ? 'direct'
+      : 'proxy'
 
   const options: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
@@ -74,7 +80,11 @@ export function parseEmailContent(
 
       // handle inline styles
       if (domNode.attribs.style) {
-        domNode.attribs.style = transformStyles(host, domNode.attribs.style)
+        domNode.attribs.style = makeCSSURL(
+          host,
+          domNode.attribs.style,
+          remoteCSS
+        )
       }
 
       if (domNode.name === 'style') {
@@ -82,7 +92,7 @@ export function parseEmailContent(
           .map((child) => {
             // nodeType 3 is text in domhandler package
             if (child.nodeType !== 3) return null
-            return new Text(makeCSSURL(host, child.data))
+            return new Text(makeCSSURL(host, child.data, remoteCSS))
           })
           .filter((child) => child !== null)
       }
@@ -164,31 +174,14 @@ function containContentID(files: File[] | undefined, cid: string) {
   return files.some((file) => file.contentID === cid)
 }
 
-export function parseEmailHTML(html: string) {
-  const email = { html } as Email
-  return parseEmailContent(email)
-}
-
-function transformStyles(host: string, styles: string) {
-  styles = styles.trim()
-  let styleParts = styles.split(';')
-  styleParts = styleParts.map((part) => {
-    if (part.length === 0) return part
-
-    const split = part.split(':')
-    const property = split[0].trim()
-    const value = split.slice(1).join(':')
-    if (!property || !value) return part
-
-    if (isURLProperty(property)) {
-      const transformedValue = makeCSSURL(host, value)
-      return `${property}:${transformedValue}`
-    }
-
-    return part
-  })
-
-  return styleParts.join(';')
+// EmailContent parses the email as it renders, so an error boundary around it
+// catches parsing errors.
+export function EmailContent(props: {
+  email: Email
+  disableProxy?: boolean
+  loadImage?: boolean
+}) {
+  return parseEmailContent(props.email, props.disableProxy, props.loadImage)
 }
 
 function makeProxyURL(host: string, url: string) {
@@ -198,31 +191,13 @@ function makeProxyURL(host: string, url: string) {
   return `${host}/proxy?l=${encodeURIComponent(url)}`
 }
 
-// isURLProperty returns true if the CSS property may have url function
-function isURLProperty(property: string) {
-  const watchProperties = [
-    'background',
-    'background-image',
-    'border',
-    'border-image',
-    'border-image-source',
-    'content',
-    'cursor',
-    'filter',
-    'list-style',
-    'list-style-image',
-    'mask',
-    'mask-image',
-    'offset-path',
-    'src'
-  ]
+// RemoteCSS is how CSS loads remote resources: through the proxy, directly, or
+// not at all.
+type RemoteCSS = 'proxy' | 'direct' | 'block'
 
-  return watchProperties.includes(property.toLowerCase())
-}
-
-// makeCSSURL proxies remote resources in CSS: url() in any case, and the
+// makeCSSURL rewrites remote resources in CSS: url() in any case, and the
 // string form of @import.
-function makeCSSURL(host: string, value: string) {
+function makeCSSURL(host: string, value: string, remote: RemoteCSS = 'proxy') {
   return value.replaceAll(
     /url\(\s*(['"]?)(.*?)\1\s*\)|(@import\s*)(['"])(.*?)\4/giu,
     (
@@ -234,8 +209,12 @@ function makeCSSURL(host: string, value: string) {
       importURL: string | undefined
     ) => {
       const resource = url ?? importURL ?? ''
-      if (!/^\s*https?:\/\//iu.test(resource)) return match
-      return `${importRule ?? ''}url(${makeProxyURL(host, resource)})`
+      if (remote === 'direct' || !/^\s*https?:\/\//iu.test(resource)) {
+        return match
+      }
+      const replacement =
+        remote === 'block' ? 'none' : `url(${makeProxyURL(host, resource)})`
+      return `${importRule ?? ''}${replacement}`
     }
   )
 }

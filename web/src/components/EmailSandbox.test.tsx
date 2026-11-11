@@ -1,15 +1,29 @@
 import { cleanup, render } from '@testing-library/react'
 import { afterEach, describe, expect, test } from 'vitest'
 
-import { parseEmailHTML } from 'utils/emails'
+import { type Email } from 'services/emails'
+
+import { EmailContent } from 'utils/emails'
 
 import { EmailSandbox } from './EmailSandbox'
 
 afterEach(cleanup)
 
-function renderEmail(html: string) {
+function renderEmail(
+  html: string,
+  {
+    loadImage = true,
+    disableProxy = false
+  }: { loadImage?: boolean; disableProxy?: boolean } = {}
+) {
   const { container } = render(
-    <EmailSandbox>{parseEmailHTML(html)}</EmailSandbox>
+    <EmailSandbox>
+      <EmailContent
+        email={{ html } as Email}
+        loadImage={loadImage}
+        disableProxy={disableProxy}
+      />
+    </EmailSandbox>
   )
   const host = container.firstElementChild?.firstElementChild
   if (!host?.shadowRoot) throw new Error('email not rendered in a shadow root')
@@ -45,6 +59,29 @@ describe('EmailSandbox', () => {
     const css = shadowRoot.querySelectorAll('style')[1].textContent
     expect(css).toMatch(
       /^@import url\(\S+\/proxy\?l=https%3A%2F%2Fx\.com%2Fa\.css\); \.a\{background:url\(\S+\/proxy\?l=https%3A%2F%2Fx\.com%2Fb\.png\)\}$/u
+    )
+  })
+
+  test('blocks remote css resources when images are hidden', () => {
+    const { shadowRoot } = renderEmail(
+      '<style>.a{background:url(https://x.com/a.png)}</style><p style="background:url(https://x.com/b.png)">Hello</p>',
+      { loadImage: false }
+    )
+    expect(shadowRoot.querySelectorAll('style')[1].textContent).toBe(
+      '.a{background:none}'
+    )
+    const inline = shadowRoot.querySelector('p')!.getAttribute('style')
+    expect(inline).toContain('none')
+    expect(inline).not.toContain('x.com')
+  })
+
+  test('loads css resources directly when the proxy is disabled', () => {
+    const { shadowRoot } = renderEmail(
+      '<style>.a{background:url(https://x.com/a.png)}</style><p>Hello</p>',
+      { disableProxy: true }
+    )
+    expect(shadowRoot.querySelectorAll('style')[1].textContent).toBe(
+      '.a{background:url(https://x.com/a.png)}'
     )
   })
 
