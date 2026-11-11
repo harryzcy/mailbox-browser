@@ -193,12 +193,16 @@ function transformCss(host: string, code: string) {
   if (!root) return ''
 
   root.walkRules((rule) => {
-    if (!isDocumentRule(rule)) return
-    rule.selectors = rule.selectors.map((selector) =>
-      selector.includes('.email-sandbox')
+    const context = ruleContext(rule)
+    if (context === 'keyframe') return
+    rule.selectors = rule.selectors.map((selector) => {
+      // A nested selector without & is relative to its already scoped parent,
+      // but one with & is not, as in :not(&).
+      if (context === 'nested' && !selector.includes('&')) return selector
+      return selector.includes('.email-sandbox')
         ? selector
         : `.email-sandbox ${selector}`
-    )
+    })
   })
   root.walkDecls((declaration) => {
     if (isURLProperty(declaration.prop)) {
@@ -272,21 +276,22 @@ function skipString(code: string, start: number) {
   return i + 1
 }
 
-// isDocumentRule returns true if the rule's selectors match document
-// elements, as opposed to keyframe selectors or rules nested in another rule.
-function isDocumentRule(rule: Rule) {
+// ruleContext returns whether a rule holds keyframe selectors, which don't
+// match elements, or is nested in another rule.
+function ruleContext(rule: Rule): 'keyframe' | 'nested' | 'document' {
+  let nested = false
   let parent = rule.parent
   while (parent && parent.type !== 'root') {
-    if (parent.type === 'rule') return false
+    if (parent.type === 'rule') nested = true
     if (
       parent.type === 'atrule' &&
       /keyframes$/iu.test((parent as AtRule).name)
     ) {
-      return false
+      return 'keyframe'
     }
     parent = parent.parent
   }
-  return true
+  return nested ? 'nested' : 'document'
 }
 
 function makeProxyURL(host: string, url: string) {

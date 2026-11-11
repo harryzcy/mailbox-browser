@@ -138,14 +138,17 @@ describe('transformCss', () => {
     )
   })
 
-  it('leaves keyframe and nested selectors alone', () => {
+  it('leaves keyframe and relative nested selectors alone', () => {
     expect(
-      transformCss(
-        host,
-        '@-webkit-keyframes k{from{}to{}} .a{ &:hover{} .b{} }'
-      )
+      transformCss(host, '@-webkit-keyframes k{from{}to{}} .a{ .b{} > .c{} }')
+    ).toBe('@-webkit-keyframes k{from{}to{}} .email-sandbox .a{ .b{} > .c{} }')
+  })
+
+  it('scopes nested selectors that use &', () => {
+    expect(
+      transformCss(host, '.a{ &:hover{} body:has(&){} @media x{ :not(&){} } }')
     ).toBe(
-      '@-webkit-keyframes k{from{}to{}} .email-sandbox .a{ &:hover{} .b{} }'
+      '.email-sandbox .a{ .email-sandbox &:hover{} .email-sandbox body:has(&){} @media x{ .email-sandbox :not(&){} } }'
     )
   })
 
