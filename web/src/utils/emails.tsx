@@ -1,4 +1,3 @@
-import * as css from '@adobe/css-tools'
 import { isTag, isText } from 'domhandler'
 import parse, {
   DOMNode,
@@ -83,7 +82,7 @@ export function parseEmailContent(
           .map((child) => {
             // nodeType 3 is text in domhandler package
             if (child.nodeType !== 3) return null
-            return new Text(transformCss(host, child.data))
+            return new Text(makeCSSURL(host, child.data))
           })
           .filter((child) => child !== null)
       }
@@ -129,7 +128,14 @@ export function parseEmailContent(
   }
   // fallback to text if html parsing fails
   return (
-    <pre className="block w-full font-sans wrap-break-word whitespace-pre-wrap">
+    // Inline styles, since the app's classes don't apply in the email sandbox.
+    <pre
+      style={{
+        fontFamily: 'inherit',
+        overflowWrap: 'break-word',
+        whiteSpace: 'pre-wrap'
+      }}
+    >
       {email.text}
     </pre>
   )
@@ -183,61 +189,6 @@ function transformStyles(host: string, styles: string) {
   })
 
   return styleParts.join(';')
-}
-
-// transformCss transforms css to be scoped to the email-sandbox class
-function transformCss(host: string, code: string) {
-  const obj = css.parse(code, { silent: true })
-
-  const cssRules = transformCssRules(host, obj.stylesheet.rules)
-  obj.stylesheet.rules = cssRules
-  const result = css.stringify(obj, { compress: false })
-
-  return result
-}
-type RuleDeclarations = (
-  css.CssCommentAST | css.CssDeclarationAST | css.CssAtRuleAST
-)[]
-type FontFaceDeclrations = (css.CssCommentAST | css.CssDeclarationAST)[]
-
-function transformCssRules<
-  T extends css.CssAtRuleAST[] | (css.CssAtRuleAST | css.CssDeclarationAST)[]
->(host: string, rules: T): T {
-  const replaceDeclarations = <
-    D extends RuleDeclarations | FontFaceDeclrations
-  >(
-    declarations: D
-  ): D => {
-    return declarations.map((declaration) => {
-      if (declaration.type === css.CssTypes.declaration) {
-        if (isURLProperty(declaration.property)) {
-          declaration.value = makeCSSURL(host, declaration.value)
-        }
-      }
-      return declaration
-    }) as D
-  }
-
-  return rules.map((rule) => {
-    if (rule.type === css.CssTypes.rule) {
-      rule.selectors = rule.selectors.map((selector) => {
-        if (selector.startsWith('@')) {
-          return selector
-        }
-        return selector.includes('.email-sandbox')
-          ? selector
-          : `.email-sandbox ${selector}`
-      })
-      rule.declarations = replaceDeclarations(rule.declarations)
-    } else if (rule.type === css.CssTypes.fontFace) {
-      rule.declarations = replaceDeclarations(rule.declarations)
-    } else if ('rules' in rule) {
-      if (rule.rules) {
-        rule.rules = transformCssRules(host, rule.rules)
-      }
-    }
-    return rule
-  }) as T
 }
 
 function makeProxyURL(host: string, url: string) {

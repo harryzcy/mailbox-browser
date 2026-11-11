@@ -11,6 +11,8 @@ import {
 } from 'lexical'
 import { ReactNode } from 'react'
 
+import { EmailSandbox } from 'components/EmailSandbox'
+
 import { parseEmailHTML } from 'utils/emails'
 
 export class EmailQuoteNode extends DecoratorNode<ReactNode> {
@@ -124,7 +126,7 @@ interface EmailQuoteProps {
 }
 
 export function EmailQuote(props: EmailQuoteProps) {
-  return <>{parseEmailHTML(props.html)}</>
+  return <EmailSandbox>{parseEmailHTML(props.html)}</EmailSandbox>
 }
 
 const BLOCK_TAGS = new Set([
