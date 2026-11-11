@@ -10,6 +10,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Await, useLoaderData, useNavigate } from 'react-router'
 import { toast } from 'sonner'
 
+import { EmailSandbox } from 'components/EmailSandbox'
 import { EmailDraft } from 'components/emails/EmailDraft'
 import EmailMenuBar from 'components/emails/EmailMenuBar'
 import EmailName from 'components/emails/EmailName'
@@ -36,7 +37,7 @@ import {
 } from 'services/emails'
 import { useThread } from 'services/threads'
 
-import { parseEmailContent, parseEmailName } from 'utils/emails'
+import { EmailContent, parseEmailName } from 'utils/emails'
 import { formatDate } from 'utils/time'
 
 type EmailViewLoaderData =
@@ -479,7 +480,7 @@ function EmailBlock(props: EmailBlockProps) {
       <div className="mt-4">
         <div
           className={clsx(
-            'email-sandbox dark:text-neutral-300',
+            'dark:text-neutral-300',
             !email.html && 'whitespace-pre-line'
           )}
         >
@@ -494,13 +495,13 @@ function EmailBlock(props: EmailBlockProps) {
               )
             }}
           >
-            <div className="mx-auto w-fit max-w-full overflow-x-auto">
-              {parseEmailContent(
-                email,
-                config?.disableProxy ?? false,
-                showImages
-              )}
-            </div>
+            <EmailSandbox className="mx-auto w-fit max-w-full overflow-x-auto">
+              <EmailContent
+                email={email}
+                disableProxy={config?.disableProxy ?? false}
+                loadImage={showImages}
+              />
+            </EmailSandbox>
           </ErrorBoundary>
         </div>
       </div>

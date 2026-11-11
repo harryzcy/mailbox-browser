@@ -4,7 +4,6 @@ import { defineConfig } from 'oxlint'
 // Non-Tailwind classes: CSS scoping roots and markers that JS queries by name.
 const CUSTOM_CLASSES = [
   'block-controls',
-  'email-sandbox',
   'link-input',
   'preflight',
   'toaster',
