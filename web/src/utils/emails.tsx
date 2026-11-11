@@ -185,9 +185,8 @@ function transformStyles(host: string, styles: string) {
   return styleParts.join(';')
 }
 
-// transformCss scopes an email's CSS to the email-sandbox class and proxies
-// remote URLs. A style block that fails to parse is dropped rather than
-// failing the whole email.
+// transformCss drops a style block that fails to parse rather than failing
+// the whole email.
 function transformCss(host: string, code: string) {
   let root: Root
   try {
