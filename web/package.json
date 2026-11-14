@@ -54,7 +54,7 @@
     "@vitest/coverage-v8": "5.1.0",
     "eslint-plugin-better-tailwindcss": "4.10.0",
     "happy-dom": "21.0.4",
-    "oxlint": "1.92.0",
+    "oxlint": "1.93.0",
     "oxlint-tsgolint": "7.0.2006",
     "prettier": "3.10.0",
     "prettier-plugin-tailwindcss": "0.8.1",
