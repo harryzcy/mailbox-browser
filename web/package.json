@@ -56,7 +56,7 @@
     "happy-dom": "21.0.4",
     "oxlint": "1.92.0",
     "oxlint-tsgolint": "7.0.2006",
-    "prettier": "3.9.10",
+    "prettier": "3.10.0",
     "prettier-plugin-tailwindcss": "0.8.1",
     "typescript": "7.0.2",
     "vite": "8.3.8",
