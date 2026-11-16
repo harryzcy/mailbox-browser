@@ -10,8 +10,13 @@ import {
   type SerializedLexicalNode
 } from 'lexical'
 import { ReactNode } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 
-import { parseEmailHTML } from 'utils/emails'
+import { EmailSandbox } from 'components/EmailSandbox'
+
+import { type Email } from 'services/emails'
+
+import { EmailContent } from 'utils/emails'
 
 export class EmailQuoteNode extends DecoratorNode<ReactNode> {
   __html: string
@@ -124,7 +129,19 @@ interface EmailQuoteProps {
 }
 
 export function EmailQuote(props: EmailQuoteProps) {
-  return <>{parseEmailHTML(props.html)}</>
+  return (
+    <ErrorBoundary
+      fallback={
+        <p className="text-rose-600 italic dark:text-rose-400">
+          Rendering failed
+        </p>
+      }
+    >
+      <EmailSandbox className="overflow-x-auto">
+        <EmailContent email={{ html: props.html } as Email} />
+      </EmailSandbox>
+    </ErrorBoundary>
+  )
 }
 
 const BLOCK_TAGS = new Set([

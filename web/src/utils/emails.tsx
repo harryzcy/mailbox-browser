@@ -1,4 +1,3 @@
-import * as css from '@adobe/css-tools'
 import { isTag, isText } from 'domhandler'
 import parse, {
   DOMNode,
@@ -44,6 +43,12 @@ export function parseEmailContent(
   if (!email.html) return email.text
 
   const host = `${window.location.protocol}//${window.location.host}`
+  // Remote CSS resources follow the same rules as images.
+  const remoteCSS: RemoteCSS = !loadImage
+    ? 'block'
+    : disableProxy
+      ? 'direct'
+      : 'proxy'
 
   const options: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
@@ -75,7 +80,11 @@ export function parseEmailContent(
 
       // handle inline styles
       if (domNode.attribs.style) {
-        domNode.attribs.style = transformStyles(host, domNode.attribs.style)
+        domNode.attribs.style = makeCSSURL(
+          host,
+          domNode.attribs.style,
+          remoteCSS
+        )
       }
 
       if (domNode.name === 'style') {
@@ -83,7 +92,7 @@ export function parseEmailContent(
           .map((child) => {
             // nodeType 3 is text in domhandler package
             if (child.nodeType !== 3) return null
-            return new Text(transformCss(host, child.data))
+            return new Text(makeCSSURL(host, child.data, remoteCSS))
           })
           .filter((child) => child !== null)
       }
@@ -129,7 +138,14 @@ export function parseEmailContent(
   }
   // fallback to text if html parsing fails
   return (
-    <pre className="block w-full font-sans wrap-break-word whitespace-pre-wrap">
+    // Inline styles, since app classes don't apply in the sandbox.
+    <pre
+      style={{
+        fontFamily: 'inherit',
+        overflowWrap: 'break-word',
+        whiteSpace: 'pre-wrap'
+      }}
+    >
       {email.text}
     </pre>
   )
@@ -158,86 +174,13 @@ function containContentID(files: File[] | undefined, cid: string) {
   return files.some((file) => file.contentID === cid)
 }
 
-export function parseEmailHTML(html: string) {
-  const email = { html } as Email
-  return parseEmailContent(email)
-}
-
-function transformStyles(host: string, styles: string) {
-  styles = styles.trim()
-  let styleParts = styles.split(';')
-  styleParts = styleParts.map((part) => {
-    if (part.length === 0) return part
-
-    const split = part.split(':')
-    const property = split[0].trim()
-    const value = split.slice(1).join(':')
-    if (!property || !value) return part
-
-    if (isURLProperty(property)) {
-      const transformedValue = makeCSSURL(host, value)
-      return `${property}:${transformedValue}`
-    }
-
-    return part
-  })
-
-  return styleParts.join(';')
-}
-
-// transformCss transforms css to be scoped to the email-sandbox class
-function transformCss(host: string, code: string) {
-  const obj = css.parse(code, { silent: true })
-
-  const cssRules = transformCssRules(host, obj.stylesheet.rules)
-  obj.stylesheet.rules = cssRules
-  const result = css.stringify(obj, { compress: false })
-
-  return result
-}
-type RuleDeclarations = (
-  css.CssCommentAST | css.CssDeclarationAST | css.CssAtRuleAST
-)[]
-type FontFaceDeclrations = (css.CssCommentAST | css.CssDeclarationAST)[]
-
-function transformCssRules<
-  T extends css.CssAtRuleAST[] | (css.CssAtRuleAST | css.CssDeclarationAST)[]
->(host: string, rules: T): T {
-  const replaceDeclarations = <
-    D extends RuleDeclarations | FontFaceDeclrations
-  >(
-    declarations: D
-  ): D => {
-    return declarations.map((declaration) => {
-      if (declaration.type === css.CssTypes.declaration) {
-        if (isURLProperty(declaration.property)) {
-          declaration.value = makeCSSURL(host, declaration.value)
-        }
-      }
-      return declaration
-    }) as D
-  }
-
-  return rules.map((rule) => {
-    if (rule.type === css.CssTypes.rule) {
-      rule.selectors = rule.selectors.map((selector) => {
-        if (selector.startsWith('@')) {
-          return selector
-        }
-        return selector.includes('.email-sandbox')
-          ? selector
-          : `.email-sandbox ${selector}`
-      })
-      rule.declarations = replaceDeclarations(rule.declarations)
-    } else if (rule.type === css.CssTypes.fontFace) {
-      rule.declarations = replaceDeclarations(rule.declarations)
-    } else if ('rules' in rule) {
-      if (rule.rules) {
-        rule.rules = transformCssRules(host, rule.rules)
-      }
-    }
-    return rule
-  }) as T
+// EmailContent parses while rendering, so error boundaries catch failures.
+export function EmailContent(props: {
+  email: Email
+  disableProxy?: boolean
+  loadImage?: boolean
+}) {
+  return parseEmailContent(props.email, props.disableProxy, props.loadImage)
 }
 
 function makeProxyURL(host: string, url: string) {
@@ -247,36 +190,27 @@ function makeProxyURL(host: string, url: string) {
   return `${host}/proxy?l=${encodeURIComponent(url)}`
 }
 
-// isURLProperty returns true if the CSS property may have url function
-function isURLProperty(property: string) {
-  const watchProperties = [
-    'background',
-    'background-image',
-    'border',
-    'border-image',
-    'border-image-source',
-    'content',
-    'cursor',
-    'filter',
-    'list-style',
-    'list-style-image',
-    'mask',
-    'mask-image',
-    'offset-path',
-    'src'
-  ]
+type RemoteCSS = 'proxy' | 'direct' | 'block'
 
-  return watchProperties.includes(property.toLowerCase())
-}
-
-function makeCSSURL(host: string, value: string) {
+// makeCSSURL rewrites remote url() and @import resources in CSS.
+function makeCSSURL(host: string, value: string, remote: RemoteCSS = 'proxy') {
   return value.replaceAll(
-    /url\( *['"]?(.*?)['"]? *\)/gu,
-    (match, url: string) => {
-      if (url.startsWith('https://') || url.startsWith('http://')) {
-        return `url(${makeProxyURL(host, url)})`
+    /url\(\s*(['"]?)(.*?)\1\s*\)|(@import\s*)(['"])(.*?)\4/giu,
+    (
+      match,
+      _quote: string,
+      url: string | undefined,
+      importRule: string | undefined,
+      _importQuote: string,
+      importURL: string | undefined
+    ) => {
+      const resource = url ?? importURL ?? ''
+      if (remote === 'direct' || !/^\s*https?:\/\//iu.test(resource)) {
+        return match
       }
-      return match
+      const replacement =
+        remote === 'block' ? 'none' : `url(${makeProxyURL(host, resource)})`
+      return `${importRule ?? ''}${replacement}`
     }
   )
 }
