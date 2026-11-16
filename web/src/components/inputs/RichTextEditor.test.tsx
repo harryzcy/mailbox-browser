@@ -25,13 +25,13 @@ function renderEditor(initialHtml = '') {
 }
 
 function button(label: string): HTMLButtonElement {
-  return screen.getByLabelText(label) as HTMLButtonElement
+  return screen.getByLabelText<HTMLButtonElement>(label)
 }
 
 function getEditor(): LexicalEditor {
-  const element = screen.getByRole('textbox') as HTMLElement & {
-    __lexicalEditor?: LexicalEditor
-  }
+  const element = screen.getByRole<
+    HTMLElement & { __lexicalEditor?: LexicalEditor }
+  >('textbox')
   const editor = element.__lexicalEditor
   if (!editor) throw new Error('editor not attached to the content editable')
   return editor
